@@ -1,8 +1,12 @@
 :root {
-  --bg: #0b0f14;
-  --fg: #e6edf3;
-  --muted: #9da7b3;
-  --acc: #00e5a8;
+  --bg: #221d22;
+  --fg: #ffffff;
+  --muted: rgba(255, 255, 255, 0.5);
+  --acc: #ffbe5c;
+  --card-bg: rgba(255, 255, 255, 0.02);
+  --card-border: rgba(255, 255, 255, 0.15);
+  --pill-bg: rgba(255, 255, 255, 0.1);
+  --pill-border: rgba(255, 255, 255, 0.15);
 }
 
 * {
@@ -29,7 +33,7 @@ a {
 }
 
 h1 {
-  font-size: 32px;
+  font-size: 40px;
   margin: 0 0 12px;
 }
 
@@ -39,8 +43,8 @@ h1 {
 }
 
 pre {
-  background: #11161d;
-  border: 1px solid #19212b;
+  background: var(--pill-bg);
+  border: 1px solid var(--pill-border);
   border-radius: 8px;
   padding: 12px;
   overflow: auto;
@@ -58,10 +62,10 @@ code {
 }
 
 .card {
-  border: 1px solid #19212b;
+  border: 1px solid var(--card-border);
   border-radius: 8px;
   padding: 16px;
-  background: #0d131a;
+  background: var(--card-bg);
 }
 
 .card-standalone {
@@ -89,11 +93,11 @@ code {
   position: fixed;
   top: 12px;
   right: 12px;
-  width: 32px;
-  height: 32px;
-  border: 1px solid #19212b;
-  border-radius: 50%;
-  background: #0d131a;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  background: var(--card-bg);
   display: grid;
   place-items: center;
 }
@@ -129,9 +133,13 @@ details[open] summary {
   gap: 8px;
   padding: 6px 12px;
   border-radius: 999px;
-  border: 1px solid var(--acc);
-  background: #0d131a;
-  color: var(--acc);
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
+  color: var(--muted);
+}
+
+.hero-demo code {
+  color: var(--fg);
 }
 
 .copy-btn {
