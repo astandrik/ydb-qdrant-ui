@@ -1,20 +1,24 @@
 {
-    "name": "ydb-qdrant-ui",
-    "version": "1.0.0",
-    "description": "Static website and documentation for ydb-qdrant",
-    "scripts": {
-        "diagrams:svg": "plantuml -tsvg -o assets ../ydb-qdrant/schemas/*.puml",
-        "diagrams": "npm run diagrams:svg"
-    },
-    "keywords": [
-        "ydb",
-        "qdrant",
-        "documentation",
-        "ui"
-    ],
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "node-plantuml-latest": "^2.4.0"
-    }
+  "name": "temp_app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "16.0.3",
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.3",
+    "typescript": "^5"
+  }
 }
