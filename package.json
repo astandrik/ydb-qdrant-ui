@@ -1,0 +1,21 @@
+{
+  "name": "ydb-qdrant-ui",
+  "version": "1.0.0",
+  "description": "Static website and documentation for ydb-qdrant",
+  "scripts": {
+    "diagrams:svg": "plantuml -tsvg -o assets ../ydb-qdrant/schemas/*.puml",
+    "diagrams": "npm run diagrams:svg"
+  },
+  "keywords": [
+    "ydb",
+    "qdrant",
+    "documentation",
+    "ui"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "node-plantuml-latest": "^2.4.0"
+  }
+}
+
