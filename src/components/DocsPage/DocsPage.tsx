@@ -1,6 +1,5 @@
-import type { MouseEvent } from "react";
 import Image from "next/image";
-import { trackGoal } from "@/shared/utils/metricsManager";
+import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 
 export const DEMO_URL = "http://ydb-qdrant.tech:8080";
 
@@ -34,59 +33,11 @@ export const DocsPageBase = ({
   metricsPageName,
   sections,
 }: DocsPageBaseProps) => {
-  const handleCopy = async (text: string, e: MouseEvent<HTMLButtonElement>) => {
-    const btn = e.currentTarget;
-    const originalText = btn.textContent;
-
-    const trackCopy = (success: boolean) => {
-      trackGoal("demo_url_copy", {
-        page: metricsPageName,
-        area: "hero",
-        success,
-      });
-    };
-
-    const showFeedback = () => {
-      btn.textContent = copySuccessLabel;
-      btn.style.background = "var(--acc)";
-      btn.style.color = "#041013";
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = "transparent";
-        btn.style.color = "var(--acc)";
-      }, 2000);
-    };
-
-    function fallbackCopy(val: string) {
-      try {
-        const ta = document.createElement("textarea");
-        ta.value = val;
-        ta.style.position = "fixed";
-        ta.style.opacity = "0";
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        const ok = document.execCommand("copy");
-        document.body.removeChild(ta);
-        trackCopy(ok);
-        if (ok) showFeedback();
-      } catch {
-        trackCopy(false);
-      }
-    }
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      try {
-        await navigator.clipboard.writeText(text);
-        trackCopy(true);
-        showFeedback();
-      } catch {
-        fallbackCopy(text);
-      }
-    } else {
-      fallbackCopy(text);
-    }
-  };
+  const handleCopy = createCopyToClipboardHandler({
+    page: metricsPageName,
+    area: "hero",
+    successLabel: copySuccessLabel,
+  });
 
   return (
     <main className="wrap">

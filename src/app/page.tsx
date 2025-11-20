@@ -10,7 +10,7 @@ import WhereSection from "@/components/WhereSection";
 import PlansSection from "@/components/PlansSection";
 import GettingStartedSection from "@/components/GettingStartedSection";
 import ApiAtAGlanceSection from "@/components/ApiAtAGlanceSection";
-import { trackGoal } from "@/shared/utils/metricsManager";
+import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 
 export default function Home() {
   const ideDetailsRef = useRef<HTMLDetailsElement>(null);
@@ -38,55 +38,11 @@ export default function Home() {
     }
   }, []);
 
-  const handleCopy = async (text: string, e: MouseEvent<HTMLButtonElement>) => {
-    const btn = e.currentTarget;
-    const originalText = btn.textContent;
-
-    const trackCopy = (success: boolean) => {
-      trackGoal("demo_url_copy", { page: "root", area: "hero", success });
-    };
-
-    const showFeedback = () => {
-      btn.textContent = "Copied!";
-      btn.style.background = "var(--acc)";
-      btn.style.color = "#041013";
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = "transparent";
-        btn.style.color = "var(--acc)";
-      }, 2000);
-    };
-
-    function fallbackCopy(val: string) {
-      try {
-        const ta = document.createElement("textarea");
-        ta.value = val;
-        ta.style.position = "fixed";
-        ta.style.opacity = "0";
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        const ok = document.execCommand("copy");
-        document.body.removeChild(ta);
-        trackCopy(ok);
-        if (ok) showFeedback();
-      } catch {
-        trackCopy(false);
-      }
-    }
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      try {
-        await navigator.clipboard.writeText(text);
-        trackCopy(true);
-        showFeedback();
-      } catch {
-        fallbackCopy(text);
-      }
-    } else {
-      fallbackCopy(text);
-    }
-  };
+  const handleCopy = createCopyToClipboardHandler({
+    page: "root",
+    area: "hero",
+    successLabel: "Copied!",
+  });
 
   return (
     <>
