@@ -1,4 +1,3 @@
-import type { RefObject } from "react";
 import { GettingStartedSectionBase } from "./GettingStartedSection";
 import {
   gettingStartedSectionEnProps,
@@ -12,7 +11,7 @@ export const GettingStartedSectionEn = ({
   return (
     <GettingStartedSectionBase
       ideDetailsRef={ideDetailsRef}
-      {...gettingStartedSectionEnProps(ideDetailsRef)}
+      {...gettingStartedSectionEnProps()}
     />
   );
 };
@@ -23,7 +22,7 @@ export const GettingStartedSectionRu = ({
   return (
     <GettingStartedSectionBase
       ideDetailsRef={ideDetailsRef}
-      {...gettingStartedSectionRuProps(ideDetailsRef)}
+      {...gettingStartedSectionRuProps()}
     />
   );
 };

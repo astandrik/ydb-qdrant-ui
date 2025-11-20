@@ -11,9 +11,10 @@ export type GettingStartedSectionProps = {
   ideDetailsRef: RefObject<HTMLDetailsElement | null>;
 };
 
-export const gettingStartedSectionEnProps = (
-  ideDetailsRef: RefObject<HTMLDetailsElement | null>
-): Omit<GettingStartedSectionBaseProps, "ideDetailsRef"> => {
+export const gettingStartedSectionEnProps = (): Omit<
+  GettingStartedSectionBaseProps,
+  "ideDetailsRef"
+> => {
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Service diagrams (C4 + ER)" },
     { href: "https://ydb.tech/docs/en/", label: "YDB docs (overview)" },
@@ -94,9 +95,10 @@ export const gettingStartedSectionEnProps = (
   };
 };
 
-export const gettingStartedSectionRuProps = (
-  ideDetailsRef: RefObject<HTMLDetailsElement | null>
-): Omit<GettingStartedSectionBaseProps, "ideDetailsRef"> => {
+export const gettingStartedSectionRuProps = (): Omit<
+  GettingStartedSectionBaseProps,
+  "ideDetailsRef"
+> => {
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Диаграммы сервиса (C4 + ER)" },
     {
