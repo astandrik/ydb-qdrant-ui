@@ -31,8 +31,8 @@ export const HeroSectionBase = ({
         <Image
           src="/logo.svg"
           alt={content.logoAlt}
-          width={32}
-          height={32}
+          width={40}
+          height={40}
           style={{ verticalAlign: "middle", marginRight: "8px" }}
           unoptimized
         />{" "}
