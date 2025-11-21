@@ -4,7 +4,7 @@ const GitHubRepoIcon = () => {
   return (
     <a
       id="gh-repo-icon"
-      className="gh-icon"
+      className="gh-icon gh-icon--github"
       href="https://github.com/astandrik/ydb-qdrant"
       aria-label="GitHub repository"
       target="_blank"

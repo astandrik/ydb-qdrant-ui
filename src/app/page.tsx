@@ -4,6 +4,7 @@ import type { MouseEvent } from "react";
 import { useEffect, useRef } from "react";
 import LangSwitcher from "@/components/LangSwitcher";
 import GitHubRepoIcon from "@/components/GitHubRepoIcon";
+import NpmPackageIcon from "@/components/NpmPackageIcon";
 import HeroSection from "@/components/HeroSection";
 import WhySection from "@/components/WhySection";
 import WhereSection from "@/components/WhereSection";
@@ -48,6 +49,7 @@ export default function Home() {
     <>
       <LangSwitcher />
       <GitHubRepoIcon />
+      <NpmPackageIcon />
       <main className="wrap">
         <HeroSection
           onOpenIdeDetails={openIdeDetails}
