@@ -44,17 +44,16 @@ export const GettingStartedSectionBase = ({
     reached25: false,
     reached50: false,
     reached75: false,
-    reached100: false,
   });
 
-  const handleVideoPlay = () => {
+  const handleVideoPlay = useCallback(() => {
     const state = videoProgressRef.current;
 
     if (!state.hasStarted) {
       state.hasStarted = true;
       trackGoal("ide_video_play");
     }
-  };
+  }, []);
 
   const handleVideoTimeUpdate = useCallback(
     (event: SyntheticEvent<HTMLVideoElement>) => {
@@ -84,13 +83,16 @@ export const GettingStartedSectionBase = ({
     []
   );
 
-  const handleVideoEnded = (event: SyntheticEvent<HTMLVideoElement>) => {
-    const { duration } = event.currentTarget;
+  const handleVideoEnded = useCallback(
+    (event: SyntheticEvent<HTMLVideoElement>) => {
+      const { duration } = event.currentTarget;
 
-    if (!duration || Number.isNaN(duration)) return;
+      if (!duration || Number.isNaN(duration)) return;
 
-    trackGoal("ide_video_complete", { duration });
-  };
+      trackGoal("ide_video_complete", { duration });
+    },
+    []
+  );
 
   return (
     <section className="section">
