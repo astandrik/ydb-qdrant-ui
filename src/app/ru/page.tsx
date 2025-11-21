@@ -4,6 +4,7 @@ import type { MouseEvent } from "react";
 import { useEffect, useRef } from "react";
 import LangSwitcher from "@/components/LangSwitcher";
 import GitHubRepoIcon from "@/components/GitHubRepoIcon";
+import NpmPackageIcon from "@/components/NpmPackageIcon";
 import {
   HeroSectionRu,
 } from "@/components/HeroSection";
@@ -50,6 +51,7 @@ export default function HomeRu() {
     <>
       <LangSwitcher />
       <GitHubRepoIcon />
+      <NpmPackageIcon />
       <main className="wrap">
         <HeroSectionRu
           onOpenIdeDetails={openIdeDetails}

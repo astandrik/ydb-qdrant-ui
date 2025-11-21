@@ -27,6 +27,10 @@ export const gettingStartedSectionEnProps = (): Omit<
       href: "https://cloud.yandex.com/en/docs/ydb/",
       label: "YDB Cloud docs",
     },
+    {
+      href: "https://www.npmjs.com/package/ydb-qdrant",
+      label: "npm: ydb-qdrant",
+    },
   ];
 
   const selfHostedBlock: ReactNode = (
@@ -120,6 +124,10 @@ export const gettingStartedSectionRuProps = (): Omit<
     {
       href: "https://cloud.yandex.com/en/docs/ydb/",
       label: "Документация YDB Cloud",
+    },
+    {
+      href: "https://www.npmjs.com/package/ydb-qdrant",
+      label: "npm: ydb-qdrant",
     },
   ];
 

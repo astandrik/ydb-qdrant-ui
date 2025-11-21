@@ -7,7 +7,7 @@ export const whereSectionEnProps: WhereSectionBaseProps = {
     "Prototyping and experiments with vector search on YDB.",
     "Datasets roughly up to 10K–50K vectors per collection.",
     "IDE agents (Roo Code, Cline) expecting a Qdrant API.",
-    "Apps that already use YDB and need a quick vector API.",
+    "Apps that already use YDB and need a quick vector API (HTTP or in‑process via the ydb-qdrant Node.js package).",
   ],
 };
 
@@ -18,7 +18,7 @@ export const whereSectionRuProps: WhereSectionBaseProps = {
     "Для прототипов и экспериментов с векторным поиском на YDB.",
     "Для коллекций примерно до 10K–50K векторов.",
     "Для IDE‑агентов (Roo Code, Cline), ожидающих Qdrant API.",
-    "Для сервисов, которые уже используют YDB и хотят быстро добавить векторный поиск.",
+    "Для сервисов, которые уже используют YDB и хотят быстро добавить векторный поиск (через HTTP или как Node.js‑пакет ydb-qdrant).",
   ],
 };
 

@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: "Qdrant API on YDB",
   description:
     "Qdrant-compatible vector search API on YDB. Single-phase top-k using automatic YDB vector index with table-scan fallback. Self-hosted or hosted demo endpoint for IDEs.",
+  metadataBase: new URL("http://ydb-qdrant.tech"),
   authors: [{ name: "ydb-qdrant" }],
   themeColor: "#0b0f14",
   openGraph: {
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
     description:
       "Qdrant-compatible vector search on YDB: single-phase top-k with automatic vector index; table-scan fallback.",
     type: "website",
+    url: "http://ydb-qdrant.tech/",
     images: [
       {
         url: "/assets/preview.png",

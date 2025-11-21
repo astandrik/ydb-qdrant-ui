@@ -8,6 +8,7 @@ export type HeroContent = {
   lead: string;
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
+  packageCtaLabel: string;
   docsLabel: string;
   demoPrefix: string;
   demoButtonLabel: string;
@@ -52,6 +53,26 @@ export const HeroSectionBase = ({
           }}
         >
           {content.primaryCtaLabel}
+        </a>
+        <a
+          id="hero-pkg-btn"
+          className="btn-primary"
+          href="#package-usage"
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.getElementById("package-usage");
+            if (target) {
+              try {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+              } catch {
+                target.scrollIntoView();
+              }
+            }
+            trackGoal("hero_pkg_click");
+            window.history.replaceState(null, "", "#package-usage");
+          }}
+        >
+          {content.packageCtaLabel}
         </a>
         <a
           id="hero-gh-btn"

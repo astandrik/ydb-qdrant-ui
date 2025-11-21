@@ -26,6 +26,11 @@ export const whySectionEnProps: Omit<WhySectionBaseProps, "title" | "cards"> & {
       body:
         "Per‑tenant isolation via X‑Tenant‑Id header today, with a clear path to IAM/OAuth‑based tenancy in internal deployments.",
     },
+    {
+      title: "Flexible integration",
+      body:
+        "Use either the hosted HTTP endpoint or the ydb-qdrant Node.js package directly inside your backend services.",
+    },
   ],
 };
 
@@ -54,6 +59,11 @@ export const whySectionRuProps: Omit<WhySectionBaseProps, "title" | "cards"> & {
       title: "Путь к безопасной мультитенантности",
       body:
         "Сейчас изоляция по арендаторам через заголовок X‑Tenant‑Id; далее — IAM/OAuth и ACL на коллекции для внутренних сценариев.",
+    },
+    {
+      title: "Гибкая интеграция",
+      body:
+        "Можно использовать как hosted HTTP‑endpoint, так и Node.js‑пакет ydb-qdrant прямо внутри вашего бэкенда.",
     },
   ],
 };
