@@ -1,5 +1,5 @@
 import type { ReactNode, RefObject, SyntheticEvent } from "react";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import Image from "next/image";
 import { trackGoal } from "@/shared/utils/metricsManager";
 
@@ -56,37 +56,33 @@ export const GettingStartedSectionBase = ({
     }
   };
 
-  const handleVideoTimeUpdate = (
-    event: SyntheticEvent<HTMLVideoElement>
-  ) => {
-    const video = event.currentTarget;
-    const { currentTime, duration } = video;
+  const handleVideoTimeUpdate = useCallback(
+    (event: SyntheticEvent<HTMLVideoElement>) => {
+      const video = event.currentTarget;
+      const { currentTime, duration } = video;
 
-    if (!duration || Number.isNaN(duration)) return;
+      if (!duration || Number.isNaN(duration)) return;
 
-    const percent = (currentTime / duration) * 100;
-    const state = videoProgressRef.current;
+      const percent = (currentTime / duration) * 100;
+      const state = videoProgressRef.current;
 
-    if (percent >= 25 && !state.reached25) {
-      state.reached25 = true;
-      trackGoal("ide_video_progress", { percent: 25, currentTime, duration });
-    }
+      if (percent >= 25 && !state.reached25) {
+        state.reached25 = true;
+        trackGoal("ide_video_progress", { percent: 25, currentTime, duration });
+      }
 
-    if (percent >= 50 && !state.reached50) {
-      state.reached50 = true;
-      trackGoal("ide_video_progress", { percent: 50, currentTime, duration });
-    }
+      if (percent >= 50 && !state.reached50) {
+        state.reached50 = true;
+        trackGoal("ide_video_progress", { percent: 50, currentTime, duration });
+      }
 
-    if (percent >= 75 && !state.reached75) {
-      state.reached75 = true;
-      trackGoal("ide_video_progress", { percent: 75, currentTime, duration });
-    }
-
-    if (percent >= 100 && !state.reached100) {
-      state.reached100 = true;
-      trackGoal("ide_video_progress", { percent: 100, currentTime, duration });
-    }
-  };
+      if (percent >= 75 && !state.reached75) {
+        state.reached75 = true;
+        trackGoal("ide_video_progress", { percent: 75, currentTime, duration });
+      }
+    },
+    []
+  );
 
   const handleVideoEnded = (event: SyntheticEvent<HTMLVideoElement>) => {
     const { duration } = event.currentTarget;
