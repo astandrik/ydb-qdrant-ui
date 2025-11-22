@@ -155,33 +155,33 @@ export const GettingStartedSectionBase = ({
       </details>
 
       <div className="grid">
-        <div className="card">
-          <strong>{optionsTitle}</strong>
+        <Card type="container">
+          <Text weight="bold">{optionsTitle}</Text>
           <ul className="muted">
             <li>{optionsSelfHost}</li>
             <li>{optionsHosted}</li>
           </ul>
-        </div>
+        </Card>
 
-        <div className="card">
-          <strong>{docsTitle}</strong>
+        <Card type="container">
+          <Text weight="bold">{docsTitle}</Text>
           <ul className="muted">
             {docsLinks.map((link) => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
                   target={link.href.startsWith("http") ? "_blank" : undefined}
                   rel={link.href.startsWith("http") ? "noopener" : undefined}
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
-        </div>
+        </Card>
       </div>
 
-      <div className="card card-standalone">{selfHostedBlock}</div>
+      <Card type="container" className="card-standalone">{selfHostedBlock}</Card>
     </section>
   );
 };
