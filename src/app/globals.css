@@ -274,3 +274,25 @@ details[open] summary {
   padding: 16px !important;
   background: rgba(255, 255, 255, 0.02) !important;
 }
+
+/* Footer styling */
+.footer-container {
+  margin-top: 80px;
+  padding: 40px 20px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.footer-link {
+  color: var(--acc);
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}

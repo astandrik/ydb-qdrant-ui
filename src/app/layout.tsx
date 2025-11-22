@@ -5,6 +5,7 @@ import "@gravity-ui/uikit/styles/styles.css";
 import "./globals.css";
 import YandexMetrika from "./YandexMetrika";
 import { ThemeProvider } from "@gravity-ui/uikit";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -67,6 +68,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeProvider theme="dark">
           {children}
+          <Footer />
         </ThemeProvider>
         <YandexMetrika />
       </body>
