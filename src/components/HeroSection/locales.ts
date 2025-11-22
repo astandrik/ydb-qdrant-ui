@@ -7,9 +7,9 @@ export const heroSectionEnContent: HeroContent = {
   logoAlt: "YDB Qdrant logo",
   lead:
     "Run a minimal Qdrant‑compatible REST API that stores and searches vectors directly in YDB — no separate vector database cluster.",
-  primaryCtaLabel: "Use hosted endpoint in IDE",
-  secondaryCtaLabel: "View on GitHub",
-  packageCtaLabel: "Use as Node.js package",
+  primaryCtaLabel: "Start Free with Hosted Endpoint",
+  secondaryCtaLabel: "Explore on GitHub",
+  packageCtaLabel: "Install NPM Package",
   docsLabel: "Architecture & diagrams →",
   demoPrefix: "Public demo Qdrant base URL:",
   demoButtonLabel: "Copy",
@@ -22,13 +22,12 @@ export const heroSectionRuContent: HeroContent = {
   logoAlt: "Логотип YDB Qdrant",
   lead:
     "Совместимый с Qdrant REST API с однофазным top‑k поиском на YDB с перестраивающимся векторным индексом.",
-  primaryCtaLabel: "Использовать hosted endpoint в IDE",
-  secondaryCtaLabel: "Открыть на GitHub",
-  packageCtaLabel: "Использовать как Node.js‑пакет",
+  primaryCtaLabel: "Начните бесплатно с готовым endpoint",
+  secondaryCtaLabel: "Изучить на GitHub",
+  packageCtaLabel: "Установить NPM-пакет",
   docsLabel: "Архитектура и диаграммы →",
   demoPrefix: "Публичный demo‑endpoint:",
   demoButtonLabel: "Копировать",
   footnote:
     "Идеально как базовый URL Qdrant для IDE‑агентов (Roo Code, Cline) и RAG‑сервисов на YDB.",
 };
-
