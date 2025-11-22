@@ -119,12 +119,13 @@ export const GettingStartedSectionBase = ({
             onEnded={handleVideoEnded}
             style={{
               width: "100%",
-              maxWidth: "640px",
+              maxWidth: "100%",
               height: "auto",
               border: "1px solid #19212b",
               borderRadius: "8px",
               display: "block",
               margin: "0 auto",
+              aspectRatio: "16 / 9",
             }}
             aria-label={ideConfigImageAlt}
           />
@@ -142,7 +143,7 @@ export const GettingStartedSectionBase = ({
             height={540}
             style={{
               width: "100%",
-              maxWidth: "960px",
+              maxWidth: "100%",
               height: "auto",
               border: "1px solid #19212b",
               borderRadius: "8px",

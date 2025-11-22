@@ -35,7 +35,7 @@ export const HeroSectionBase = ({
           alt={content.logoAlt}
           width={40}
           height={40}
-          style={{ verticalAlign: "middle", marginRight: "8px" }}
+          className="hero-logo"
           unoptimized
         />{" "}
         {content.title}
