@@ -704,7 +704,7 @@ details figure img {
 
 @media (min-width: 640px) {
   .g-dialog {
-    --g-dialog-width: auto;
+    --g-dialog-width: min(95vw, 1200px);
   }
 }
 
