@@ -81,6 +81,16 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
   - Import components directly from their implementation file where possible (`FooSection/FooSection.tsx`), even if an `index.tsx` re-export exists.
   - Favor small, focused components rather than large multi-mode components.
 
+- **UI kit (`@gravity-ui/uikit`)**:
+  - Use Gravity UI Kit components for layout primitives, typography, buttons, and common controls instead of hand-rolled HTML+CSS where possible.
+  - Prefer UIKit layout components and spacing props over custom flexbox/CSS for standard section layout, following existing patterns in `src/components/**`.
+  - Import components directly from `@gravity-ui/uikit` in each file; avoid extra local wrapper abstractions unless there is clear reuse.
+
+- **Icons (`@gravity-ui/icons`)**:
+  - Icons come from `@gravity-ui/icons` and should be chosen to match the semantic meaning in the UI (e.g., navigation, files, globe).
+  - Configure icon size/color via UIKit props or existing CSS utility classes rather than ad-hoc inline styles.
+  - Prefer built-in icons from `@gravity-ui/icons` before adding new custom SVG assets to `public/assets`.
+
 - **Internationalization**:
   - Language-specific pages live under `src/app/en` and `src/app/ru`.
   - Shared UI sections have localized copy in `locales` or `locales.tsx` files in their respective component folders.
