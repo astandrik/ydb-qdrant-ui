@@ -697,29 +697,14 @@ details figure img {
   }
 }
 
-/* Dialog wrapper and sizing */
-.g-modal {
-  padding: 8px !important;
-}
-
-@media (max-width: 640px) {
-  .g-modal {
-    padding: 4px !important;
-  }
-}
-
-.g-dialog__content,
-.g-modal__content {
-  max-width: 90vw !important;
-  width: 90vw !important;
-  margin: 0 auto !important;
+/* Dialog responsive sizing */
+.g-dialog {
+  --g-dialog-width: calc(100vw - 32px);
 }
 
 @media (min-width: 640px) {
-  .g-dialog__content,
-  .g-modal__content {
-    max-width: 800px !important;
-    width: auto !important;
+  .g-dialog {
+    --g-dialog-width: auto;
   }
 }
 
