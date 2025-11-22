@@ -714,10 +714,18 @@ details figure img {
 
 .diagram-dialog-image {
   max-width: 100%;
+  max-height: calc(100vh - 200px);
   height: auto;
   border-radius: 8px;
   border: 1px solid #19212b;
   display: block;
+  width: auto;
+}
+
+@media (min-width: 640px) {
+  .diagram-dialog-image {
+    max-height: calc(100vh - 120px);
+  }
 }
 
 .diagram-dialog-caption {
