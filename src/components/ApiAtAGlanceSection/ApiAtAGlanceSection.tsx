@@ -1,3 +1,4 @@
+import { Card, Text } from "@gravity-ui/uikit";
 import CodeBlock from "@/components/CodeBlock/CodeBlock";
 
 export type ApiAtAGlanceBaseProps = {
@@ -34,18 +35,18 @@ export const ApiAtAGlanceSectionBase = ({
       <h2 className="section-title">{title}</h2>
 
       <div className="grid">
-        <div className="card">
-          <strong>{purposeTitle}</strong>
-          <p className="muted">{purposeBody}</p>
-        </div>
-        <div className="card">
-          <strong>{featuresTitle}</strong>
+        <Card type="container">
+          <Text weight="bold">{purposeTitle}</Text>
+          <Text className="muted">{purposeBody}</Text>
+        </Card>
+        <Card type="container">
+          <Text weight="bold">{featuresTitle}</Text>
           <ul className="muted">
             {features.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-        </div>
+        </Card>
       </div>
 
       <h3>{serverTitle}</h3>
@@ -54,8 +55,7 @@ export const ApiAtAGlanceSectionBase = ({
       <h3 id="package-usage">{packageTitle}</h3>
       <CodeBlock code={packageCodeBlock} language={packageLanguage} />
 
-      <p className="muted">{healthText}</p>
+      <Text className="muted">{healthText}</Text>
     </section>
   );
 };
-
