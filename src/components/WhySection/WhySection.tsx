@@ -17,7 +17,7 @@ export const WhySectionBase = ({ title, cards }: WhySectionBaseProps) => {
       <div className="grid">
         {cards.map((card) => (
           <Card type="container" key={card.title}>
-            <Text weight="bold">{card.title}</Text>
+            <h3 className="card-title">{card.title}</h3>
             <Text className="muted">{card.body}</Text>
           </Card>
         ))}
