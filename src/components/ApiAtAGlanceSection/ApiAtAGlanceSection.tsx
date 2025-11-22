@@ -36,11 +36,11 @@ export const ApiAtAGlanceSectionBase = ({
 
       <div className="grid">
         <Card type="container">
-          <Text weight="bold">{purposeTitle}</Text>
+          <h3 className="card-title">{purposeTitle}</h3>
           <Text className="muted">{purposeBody}</Text>
         </Card>
         <Card type="container">
-          <Text weight="bold">{featuresTitle}</Text>
+          <h3 className="card-title">{featuresTitle}</h3>
           <ul className="muted">
             {features.map((item) => (
               <li key={item}>{item}</li>
