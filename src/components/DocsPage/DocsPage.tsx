@@ -92,6 +92,7 @@ export const DocsPageBase = ({
       <Dialog
         open={selectedFigure !== null}
         onOpenChange={(open) => !open && setSelectedFigure(null)}
+        onClose={() => setSelectedFigure(null)}
         size="l"
         hasCloseButton
       >
