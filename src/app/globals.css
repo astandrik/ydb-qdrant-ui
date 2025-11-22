@@ -228,6 +228,13 @@ details[open] summary {
   margin: 0 0 12px;
 }
 
+.card-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 12px;
+  color: var(--fg);
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
