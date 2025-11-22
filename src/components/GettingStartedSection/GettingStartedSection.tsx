@@ -1,6 +1,7 @@
 import type { ReactNode, RefObject, SyntheticEvent } from "react";
 import { useCallback, useRef } from "react";
 import Image from "next/image";
+import { Card, Link, Text } from "@gravity-ui/uikit";
 import { trackGoal } from "@/shared/utils/metricsManager";
 
 export type DocsLink = {
@@ -184,4 +185,3 @@ export const GettingStartedSectionBase = ({
     </section>
   );
 };
-
