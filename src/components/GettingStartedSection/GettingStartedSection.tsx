@@ -156,7 +156,7 @@ export const GettingStartedSectionBase = ({
 
       <div className="grid">
         <Card type="container">
-          <Text weight="bold">{optionsTitle}</Text>
+          <h3 className="card-title">{optionsTitle}</h3>
           <ul className="muted">
             <li>{optionsSelfHost}</li>
             <li>{optionsHosted}</li>
@@ -164,7 +164,7 @@ export const GettingStartedSectionBase = ({
         </Card>
 
         <Card type="container">
-          <Text weight="bold">{docsTitle}</Text>
+          <h3 className="card-title">{docsTitle}</h3>
           <ul className="muted">
             {docsLinks.map((link) => (
               <li key={link.href}>
