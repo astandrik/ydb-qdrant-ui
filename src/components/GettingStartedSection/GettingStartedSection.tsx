@@ -1,6 +1,7 @@
 import type { ReactNode, RefObject, SyntheticEvent } from "react";
 import { useCallback, useRef } from "react";
 import Image from "next/image";
+import { Card, Link, Text } from "@gravity-ui/uikit";
 import { trackGoal } from "@/shared/utils/metricsManager";
 
 export type DocsLink = {
@@ -154,34 +155,33 @@ export const GettingStartedSectionBase = ({
       </details>
 
       <div className="grid">
-        <div className="card">
-          <strong>{optionsTitle}</strong>
+        <Card type="container">
+          <h3 className="card-title">{optionsTitle}</h3>
           <ul className="muted">
             <li>{optionsSelfHost}</li>
             <li>{optionsHosted}</li>
           </ul>
-        </div>
+        </Card>
 
-        <div className="card">
-          <strong>{docsTitle}</strong>
+        <Card type="container">
+          <h3 className="card-title">{docsTitle}</h3>
           <ul className="muted">
             {docsLinks.map((link) => (
               <li key={link.href}>
-                <a
+                <Link
                   href={link.href}
                   target={link.href.startsWith("http") ? "_blank" : undefined}
                   rel={link.href.startsWith("http") ? "noopener" : undefined}
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
-        </div>
+        </Card>
       </div>
 
-      <div className="card card-standalone">{selfHostedBlock}</div>
+      <Card type="container" className="card-standalone">{selfHostedBlock}</Card>
     </section>
   );
 };
-
