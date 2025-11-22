@@ -58,23 +58,16 @@ export const DocsPageBase = ({
         <section className="section" key={section.title}>
           <h2 className="section-title">{section.title}</h2>
           {section.figures.map((figure) => (
-            <figure style={{ margin: "24px 0" }} key={figure.src}>
+            <figure className="diagram-figure" key={figure.src}>
               <Image
                 src={figure.src}
                 alt={figure.alt}
                 width={960}
                 height={540}
-                style={{
-                  maxWidth: "100%",
-                  height: "auto",
-                  border: "1px solid #19212b",
-                  borderRadius: "8px",
-                  display: "block",
-                  margin: "0 auto",
-                }}
+                className="diagram-image"
                 unoptimized
               />
-              <figcaption className="muted">{figure.caption}</figcaption>
+              <figcaption className="diagram-caption">{figure.caption}</figcaption>
             </figure>
           ))}
         </section>
@@ -82,5 +75,3 @@ export const DocsPageBase = ({
     </main>
   );
 };
-
-
