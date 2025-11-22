@@ -698,14 +698,14 @@ details figure img {
 }
 
 /* Dialog wrapper and sizing */
-:global(.g-dialog) {
+.g-dialog__content {
   max-width: 90vw !important;
   width: 90vw !important;
   margin: 0 auto !important;
 }
 
 @media (min-width: 640px) {
-  :global(.g-dialog) {
+  .g-dialog__content {
     max-width: 800px !important;
     width: auto !important;
   }
