@@ -611,3 +611,40 @@ details figure img {
 .footer-link:active {
   text-decoration: underline;
 }
+
+/* Diagram figure styling */
+.diagram-figure {
+  margin: 20px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 640px) {
+  .diagram-figure {
+    margin: 24px 0;
+  }
+}
+
+.diagram-image {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #19212b;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}
+
+.diagram-caption {
+  color: var(--muted);
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+@media (min-width: 640px) {
+  .diagram-caption {
+    margin: 12px 0 0;
+    font-size: 14px;
+  }
+}
