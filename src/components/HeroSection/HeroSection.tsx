@@ -44,8 +44,7 @@ export const HeroSectionBase = ({
       <div className="hero-actions">
         <Button
           id="hero-ide-btn"
-          view="action"
-          size="m"
+          className="hero-btn-primary"
           onClick={(e) => {
             e.preventDefault();
             onOpenIdeDetails(true);
@@ -57,8 +56,7 @@ export const HeroSectionBase = ({
         </Button>
         <Button
           id="hero-pkg-btn"
-          view="action"
-          size="m"
+          className="hero-btn-primary"
           onClick={(e) => {
             e.preventDefault();
             const target = document.getElementById("package-usage");
@@ -77,8 +75,7 @@ export const HeroSectionBase = ({
         </Button>
         <Button
           id="hero-gh-btn"
-          view="outlined"
-          size="m"
+          className="hero-btn-secondary"
           href="https://github.com/astandrik/ydb-qdrant"
           target="_blank"
           rel="noopener"
