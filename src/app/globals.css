@@ -704,27 +704,31 @@ details figure img {
   flex-direction: column;
   gap: 16px;
   align-items: center;
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (min-width: 640px) {
   .diagram-dialog-content {
     padding: 24px;
+    max-height: 85vh;
   }
 }
 
 .diagram-dialog-image {
+  width: 100%;
   max-width: 100%;
-  max-height: calc(100vh - 200px);
   height: auto;
   border-radius: 8px;
   border: 1px solid #19212b;
   display: block;
-  width: auto;
 }
 
-@media (min-width: 640px) {
+@media (max-width: 640px) {
   .diagram-dialog-image {
-    max-height: calc(100vh - 120px);
+    max-height: 60vh;
+    object-fit: contain;
   }
 }
 
