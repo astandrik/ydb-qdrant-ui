@@ -5,6 +5,7 @@ import "@gravity-ui/uikit/styles/styles.css";
 import "./globals.css";
 import YandexMetrika from "./YandexMetrika";
 import { ThemeProvider } from "@gravity-ui/uikit";
+import { getRootClassName } from "@gravity-ui/uikit/server";
 import Footer from "@/components/Footer";
 
 const geistSans = Geist({
@@ -16,6 +17,8 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const THEME = "dark" as const;
 
 export const metadata: Metadata = {
   title: "Qdrant API on YDB",
@@ -63,10 +66,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const rootClassName = getRootClassName({ theme: THEME });
+
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ThemeProvider theme="dark">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${rootClassName}`}
+      >
+        <ThemeProvider theme={THEME}>
           {children}
           <Footer />
         </ThemeProvider>
