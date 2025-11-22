@@ -612,39 +612,124 @@ details figure img {
   text-decoration: underline;
 }
 
-/* Diagram figure styling */
-.diagram-figure {
-  margin: 20px 0;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+/* Diagrams grid styling */
+.diagrams-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 16px;
 }
 
 @media (min-width: 640px) {
-  .diagram-figure {
-    margin: 24px 0;
+  .diagrams-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
   }
 }
 
-.diagram-image {
-  max-width: 100%;
-  height: auto;
-  border: 1px solid #19212b;
-  border-radius: 8px;
-  display: block;
-  margin: 0 auto;
+@media (min-width: 1024px) {
+  .diagrams-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
 }
 
-.diagram-caption {
+/* Diagram card button styling */
+.diagram-card {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: transparent;
+}
+
+.diagram-card:hover {
+  transform: translateY(-2px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .diagram-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+}
+
+.diagram-card:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Diagram card image wrapper */
+.diagram-card-image-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #19212b;
+  aspect-ratio: 16 / 9;
+  background: #ffffff;
+}
+
+.diagram-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Diagram card caption */
+.diagram-card-caption {
   color: var(--muted);
   margin: 8px 0 0;
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.4;
   word-break: break-word;
+  text-align: left;
 }
 
 @media (min-width: 640px) {
-  .diagram-caption {
-    margin: 12px 0 0;
+  .diagram-card-caption {
+    font-size: 13px;
+    margin: 10px 0 0;
+  }
+}
+
+/* Dialog content styling */
+.diagram-dialog-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+@media (min-width: 640px) {
+  .diagram-dialog-content {
+    padding: 24px;
+  }
+}
+
+.diagram-dialog-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #19212b;
+  display: block;
+}
+
+.diagram-dialog-caption {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+  word-break: break-word;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .diagram-dialog-caption {
     font-size: 14px;
   }
 }
