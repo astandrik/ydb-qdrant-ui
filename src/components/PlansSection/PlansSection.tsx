@@ -1,3 +1,5 @@
+import { Card, Text } from "@gravity-ui/uikit";
+
 export type PlansSectionBaseProps = {
   title: string;
   heading: string;
@@ -13,16 +15,15 @@ export const PlansSectionBase = ({
     <section className="section">
       <h2 className="section-title">{title}</h2>
       <div className="grid">
-        <div className="card">
-          <strong>{heading}</strong>
+        <Card type="container">
+          <h3 className="card-title">{heading}</h3>
           <ul className="muted">
             {items.map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
-        </div>
+        </Card>
       </div>
     </section>
   );
 };
-
