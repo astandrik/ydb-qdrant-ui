@@ -3,8 +3,6 @@
   --fg: #ffffff;
   --muted: rgba(255, 255, 255, 0.5);
   --acc: #ffbe5c;
-  --card-bg: rgba(255, 255, 255, 0.02);
-  --card-border: rgba(255, 255, 255, 0.15);
   --pill-bg: rgba(255, 255, 255, 0.1);
   --pill-border: rgba(255, 255, 255, 0.15);
 }
@@ -35,6 +33,10 @@ a {
 h1 {
   font-size: 40px;
   margin: 0 0 12px;
+}
+
+h3 {
+  margin: 24px 0 12px;
 }
 
 .lead {
@@ -119,13 +121,6 @@ pre[class*="language-"] {
   margin-top: 24px;
 }
 
-.card {
-  border: 1px solid var(--card-border);
-  border-radius: 8px;
-  padding: 16px;
-  background: var(--card-bg);
-}
-
 .card-standalone {
   margin-top: 24px;
 }
@@ -152,9 +147,9 @@ pre[class*="language-"] {
   top: 12px;
   width: 40px;
   height: 40px;
-  border: 1px solid var(--card-border);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 8px;
-  background: var(--card-bg);
+  background: rgba(255, 255, 255, 0.02);
   display: grid;
   place-items: center;
 }
@@ -221,6 +216,7 @@ details[open] summary {
 .hero-footnote {
   margin-top: 4px;
   font-size: 14px;
+  color: var(--muted);
 }
 
 .section {
@@ -237,23 +233,4 @@ details[open] summary {
   flex-wrap: wrap;
   gap: 12px;
   margin: 16px 0 12px;
-}
-
-.btn-primary,
-.btn-secondary {
-  display: inline-block;
-  padding: 10px 18px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.btn-primary {
-  background: var(--acc);
-  color: #041013;
-}
-
-.btn-secondary {
-  border: 1px solid var(--acc);
-  color: var(--acc);
 }
