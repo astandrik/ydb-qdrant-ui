@@ -235,48 +235,35 @@ details[open] summary {
   margin: 16px 0 12px;
 }
 
-/* Gravity UI Button styling overrides */
-.g-button {
+/* Hero buttons styling */
+.hero-btn-primary {
+  background: var(--acc) !important;
+  color: #041013 !important;
+  border: none !important;
   font-weight: 600;
   font-size: 14px;
 }
 
-.g-button[view="action"] {
-  background: var(--acc);
-  color: #041013;
-  border: none;
+.hero-btn-primary:hover {
+  background: #ffb841 !important;
 }
 
-.g-button[view="action"]:hover {
-  background: #ffb841;
+.hero-btn-secondary {
+  border: 1px solid var(--acc) !important;
+  color: var(--acc) !important;
+  background: transparent !important;
+  font-weight: 600;
+  font-size: 14px;
 }
 
-.g-button[view="outlined"] {
-  border: 1px solid var(--acc);
-  color: var(--acc);
-  background: transparent;
-}
-
-.g-button[view="outlined"]:hover {
-  background: rgba(255, 190, 92, 0.1);
+.hero-btn-secondary:hover {
+  background: rgba(255, 190, 92, 0.1) !important;
 }
 
 /* Gravity UI Card styling overrides */
 .g-card {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-.g-card[type="container"] {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.02);
-}
-
-/* Gravity UI Text styling */
-.g-text {
-  font-family: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  background: rgba(255, 255, 255, 0.02) !important;
 }
