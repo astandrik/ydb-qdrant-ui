@@ -1,5 +1,6 @@
 import type { MouseEvent } from "react";
 import Image from "next/image";
+import { Button, Link } from "@gravity-ui/uikit";
 import { trackGoal } from "@/shared/utils/metricsManager";
 
 export type HeroContent = {
@@ -41,10 +42,8 @@ export const HeroSectionBase = ({
       </h1>
       <p className="lead">{content.lead}</p>
       <div className="hero-actions">
-        <a
+        <Button
           id="hero-ide-btn"
-          className="btn-primary"
-          href="#ide-config"
           onClick={(e) => {
             e.preventDefault();
             onOpenIdeDetails(true);
@@ -53,11 +52,9 @@ export const HeroSectionBase = ({
           }}
         >
           {content.primaryCtaLabel}
-        </a>
-        <a
+        </Button>
+        <Button
           id="hero-pkg-btn"
-          className="btn-primary"
-          href="#package-usage"
           onClick={(e) => {
             e.preventDefault();
             const target = document.getElementById("package-usage");
@@ -73,25 +70,24 @@ export const HeroSectionBase = ({
           }}
         >
           {content.packageCtaLabel}
-        </a>
-        <a
+        </Button>
+        <Button
           id="hero-gh-btn"
-          className="btn-secondary"
+          view="outlined"
           href="https://github.com/astandrik/ydb-qdrant"
           target="_blank"
           rel="noopener"
           onClick={() => trackGoal("hero_gh_click")}
         >
           {content.secondaryCtaLabel}
-        </a>
-        <a
+        </Button>
+        <Link
           id="hero-docs-link"
-          className="muted"
           href="/docs/"
           onClick={() => trackGoal("hero_docs_click")}
         >
           {content.docsLabel}
-        </a>
+        </Link>
       </div>
       <p className="hero-demo">
         {content.demoPrefix} <code>http://ydb-qdrant.tech:8080</code>
@@ -103,8 +99,7 @@ export const HeroSectionBase = ({
           {content.demoButtonLabel}
         </button>
       </p>
-      <p className="hero-footnote muted">{content.footnote}</p>
+      <p className="hero-footnote">{content.footnote}</p>
     </section>
   );
 };
-
