@@ -45,9 +45,6 @@ export default function HomeRu() {
       openIdeDetails(false);
     } else if (tab && validTabs.includes(tab)) {
       setActiveTab(tab);
-      if (gettingStartedRef.current) {
-        gettingStartedRef.current.scrollIntoView({ block: "start" });
-      }
     }
   }, []);
 
