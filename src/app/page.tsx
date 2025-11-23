@@ -41,7 +41,9 @@ export default function Home() {
 
     if (ideConfig === "true") {
       openIdeDetails(false);
-    } else if (tab && validTabs.includes(tab)) {
+    }
+
+    if (tab && validTabs.includes(tab)) {
       setActiveTab(tab);
     }
   }, []);
