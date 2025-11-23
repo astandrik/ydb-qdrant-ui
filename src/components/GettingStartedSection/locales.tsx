@@ -18,6 +18,7 @@ export const gettingStartedSectionEnProps = (): Omit<
   GettingStartedSectionBaseProps,
   "sectionRef" | "activeTab" | "onTabChange" | "onCopyDemoUrl"
 > => {
+  const demoUrl = DEMO_URL;
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Service diagrams (C4 + ER)" },
     { href: "https://ydb.tech/docs/en/", label: "YDB docs (overview)" },
@@ -203,7 +204,7 @@ export const gettingStartedSectionRuProps = (): Omit<
       <h3 className="card-title">Самостоятельный хостинг (Node.js)</h3>
       <ol className="muted">
         <li>
-          Клонируйте репозиторий и установи��е зависимости:{" "}
+          Клонируйте репозиторий и установите зависимости:{" "}
           <code>npm install</code>
         </li>
         <li>
@@ -316,7 +317,7 @@ const client = createYdbQdrantClient({
     ideConfigImageAlt: "Скриншот конфигурации IDE-агента",
     ideUnderHoodSummary: "Как это работает под капотом",
     ideUnderHoodImageAlt:
-      "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → YDB векторы + ��ндекс",
+      "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → YDB векторы + индекс",
     optionsTitle: "Варианты",
     optionsSelfHost: "Самостоятельный хостинг: http://localhost:8080/",
     optionsHosted: "Хостируемый demo‑endpoint для IDE:",
