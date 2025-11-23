@@ -1,7 +1,7 @@
 "use client";
 
 import type { MouseEvent } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import LangSwitcher from "@/components/LangSwitcher";
 import GitHubRepoIcon from "@/components/GitHubRepoIcon";
 import NpmPackageIcon from "@/components/NpmPackageIcon";
@@ -14,18 +14,19 @@ import ApiAtAGlanceSection from "@/components/ApiAtAGlanceSection";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 
 export default function Home() {
-  const ideDetailsRef = useRef<HTMLDetailsElement>(null);
+  const [activeTab, setActiveTab] = useState("public-demo");
+  const gettingStartedRef = useRef<HTMLElement>(null);
 
   const openIdeDetails = (scrollSmooth: boolean) => {
-    if (ideDetailsRef.current) {
-      ideDetailsRef.current.open = true;
+    setActiveTab("public-demo");
+    if (gettingStartedRef.current) {
       try {
-        ideDetailsRef.current.scrollIntoView({
+        gettingStartedRef.current.scrollIntoView({
           behavior: scrollSmooth ? "smooth" : "auto",
           block: "start",
         });
       } catch {
-        ideDetailsRef.current.scrollIntoView();
+        gettingStartedRef.current.scrollIntoView();
       }
     }
   };
@@ -60,10 +61,13 @@ export default function Home() {
         <WhySection />
         <WhereSection />
         <PlansSection />
-        <GettingStartedSection ideDetailsRef={ideDetailsRef} />
+        <GettingStartedSection
+          sectionRef={gettingStartedRef}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
         <ApiAtAGlanceSection />
       </main>
     </>
   );
 }
-
