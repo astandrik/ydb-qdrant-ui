@@ -48,7 +48,9 @@ export const HeroSectionBase = ({
             e.preventDefault();
             onOpenIdeDetails(true);
             trackGoal("hero_ide_click");
-            window.history.replaceState(null, "", "#ide-config");
+            const params = new URLSearchParams(window.location.search);
+            params.set("ide-config", "true");
+            window.history.replaceState(null, "", `?${params.toString()}`);
           }}
         >
           {content.primaryCtaLabel}
