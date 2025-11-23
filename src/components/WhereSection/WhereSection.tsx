@@ -3,6 +3,7 @@ import { Card, Text } from "@gravity-ui/uikit";
 export type WhereSectionBaseProps = {
   title: string;
   items: string[];
+  heading?: string;
 };
 
 export const WhereSectionBase = ({

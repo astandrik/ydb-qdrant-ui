@@ -191,7 +191,7 @@ export const gettingStartedSectionRuProps = (): Omit<
     },
     {
       href: "https://ydb.tech/docs/en/dev/vector-indexes",
-      label: "В��кторные индексы (vector_kmeans_tree)",
+      label: "Векторные индексы (vector_kmeans_tree)",
     },
     {
       href: "https://cloud.yandex.com/en/docs/ydb/",
@@ -311,7 +311,7 @@ const client = createYdbQdrantClient({
 
   return {
     title: "Быстрый старт",
-    ideConfigSummary: "Настр��йка в Roo Code/Kilo Code",
+    ideConfigSummary: "Настройка в Roo Code/Kilo Code",
     ideConfigDescription: (
       <p className="muted">
         Публичный demo‑endpoint для IDE: <code>{DEMO_URL}</code> (вставьте в

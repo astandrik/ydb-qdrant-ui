@@ -51,7 +51,7 @@ export const DocsPageBase = ({
   return (
     <main className="wrap">
       <div style={{ marginBottom: 24 }}>
-        <Button href="/" component="a" view="outlined" size="l">
+        <Button href="/" view="outlined" size="l">
           <Icon data={ArrowLeft} />
           {backLinkText}
         </Button>

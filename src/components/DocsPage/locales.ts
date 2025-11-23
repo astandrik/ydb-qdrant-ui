@@ -104,7 +104,7 @@ const sectionsRu: Section[] = [
         src: "/assets/C4-Component-Index-Scheduler.svg",
         alt: "Диаграмма компонентов планировщика индексов",
         caption:
-          "Компоненты план��ровщика индексов: состояние планировщика в памяти, notifyUpsert, requestIndexBuild, логика таймера и пороговый гейт.",
+          "Компоненты планировщика индексов: состояние планировщика в памяти, notifyUpsert, requestIndexBuild, логика таймера и пороговый гейт.",
       },
       {
         src: "/assets/C4-Component-YDB-Integration.svg",

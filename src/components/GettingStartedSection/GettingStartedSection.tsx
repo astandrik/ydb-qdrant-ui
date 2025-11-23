@@ -1,11 +1,9 @@
 import type { MouseEvent, ReactNode, RefObject, SyntheticEvent } from "react";
-import type { RefObject } from "react";
 import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   Card,
   Link,
-  Text,
   TabProvider,
   TabList,
   Tab,
