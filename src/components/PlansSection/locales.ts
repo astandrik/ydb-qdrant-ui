@@ -13,11 +13,10 @@ export const plansSectionEnProps: PlansSectionBaseProps = {
 
 export const plansSectionRuProps: PlansSectionBaseProps = {
   title: "Планы",
-  heading: "Дорожная карта",
   items: [
     "Усиление production‑сценариев с жёсткими SLA и сильной мультитенантной auth/z (IAM/OAuth, ACL на коллекции).",
     "Квоты и rate limiting по арендаторам (коллекции, RPS, размеры payload и батчей) плюс расширенный аудит операций.",
-    "Поддержка больших коллекций (>100K векторов) и частых bulk‑upsert через батч‑операции и тюнинг индексов.",
+    "Поддержка больших коллекций (>100K векто��ов) и частых bulk‑upsert через батч‑операции и тюнинг индексов.",
     "Лучшая поддержка высоконагруженных сценариев с миллионами векторов и более жёсткими требованиями по задержкам.",
     "Расширение покрытия Qdrant API на YDB (фильтры, facets, recommend/discover, batch‑поиск и др. расширенные режимы).",
   ],
