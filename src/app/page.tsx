@@ -78,7 +78,7 @@ export default function Home() {
           activeTab={activeTab}
           onTabChange={handleTabChange}
         />
-        <ApiAtAGlanceSection />
+        <ApiAtAGlanceSection activeTab={activeTab} />
       </main>
     </>
   );
