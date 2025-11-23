@@ -41,7 +41,7 @@ export default function HomeRu() {
     const ideConfig = params.get("ide-config");
     const validTabs = ["public-demo", "self-hosted", "docker", "npm"];
 
-    if (ideConfig === "true") {
+    if (ideConfig === "true" && !tab) {
       openIdeDetails(false);
     }
 
