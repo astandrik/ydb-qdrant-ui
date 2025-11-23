@@ -123,6 +123,47 @@ export const GettingStartedSectionBase = ({
     <section className="section" ref={sectionRef} id="ide-config">
       <h2 className="section-title">{title}</h2>
 
+      <details id="ide-config-diagram" style={{ marginBottom: 24 }}>
+        <summary>{ideUnderHoodSummary}</summary>
+        <figure style={{ margin: "16px 0" }}>
+          <Image
+            src="/assets/diagram.svg"
+            alt={ideUnderHoodImageAlt}
+            width={960}
+            height={540}
+            style={{
+              width: "100%",
+              maxWidth: "100%",
+              height: "auto",
+              border: "1px solid #19212b",
+              borderRadius: "8px",
+              display: "block",
+              margin: "0 auto",
+            }}
+            unoptimized
+          />
+        </figure>
+      </details>
+
+      <div className="grid" style={{ marginBottom: 24 }}>
+        <Card type="container">
+          <h3 className="card-title">{docsTitle}</h3>
+          <ul className="muted">
+            {docsLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={link.href.startsWith("http") ? "noopener" : undefined}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </div>
+
       <TabProvider value={activeTab} onUpdate={onTabChange}>
         <TabList size="l">
           <Tab value="public-demo">{tabPublicDemoTitle}</Tab>
@@ -131,7 +172,7 @@ export const GettingStartedSectionBase = ({
           <Tab value="npm">{tabNpmTitle}</Tab>
         </TabList>
 
-        <div style={{ marginTop: 24, marginBottom: 24 }}>
+        <div style={{ marginTop: 24 }}>
           <TabPanel value="public-demo">
             <Card type="container" className="card-standalone">
               <div style={{ marginBottom: 24, fontSize: 16 }}>
@@ -184,47 +225,6 @@ export const GettingStartedSectionBase = ({
           </TabPanel>
         </div>
       </TabProvider>
-
-      <details id="ide-config-diagram">
-        <summary>{ideUnderHoodSummary}</summary>
-        <figure style={{ margin: "16px 0" }}>
-          <Image
-            src="/assets/diagram.svg"
-            alt={ideUnderHoodImageAlt}
-            width={960}
-            height={540}
-            style={{
-              width: "100%",
-              maxWidth: "100%",
-              height: "auto",
-              border: "1px solid #19212b",
-              borderRadius: "8px",
-              display: "block",
-              margin: "0 auto",
-            }}
-            unoptimized
-          />
-        </figure>
-      </details>
-
-      <div className="grid" style={{ marginTop: 24 }}>
-        <Card type="container">
-          <h3 className="card-title">{docsTitle}</h3>
-          <ul className="muted">
-            {docsLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  target={link.href.startsWith("http") ? "_blank" : undefined}
-                  rel={link.href.startsWith("http") ? "noopener" : undefined}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Card>
-      </div>
     </section>
   );
 };
