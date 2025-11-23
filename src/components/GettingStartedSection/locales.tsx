@@ -1,4 +1,5 @@
 import type { ReactNode, RefObject } from "react";
+import type { MouseEvent } from "react";
 import React from "react";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import type {
