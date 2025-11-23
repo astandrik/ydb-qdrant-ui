@@ -166,16 +166,28 @@ export const GettingStartedSectionBase = ({
 
       <TabProvider value={activeTab} onUpdate={onTabChange}>
         <TabList size="l">
-          <Tab value="public-demo" href="#public-demo">
+          <Tab
+            value="public-demo"
+            href="#public-demo"
+            onClick={(e) => e.preventDefault()}
+          >
             {tabPublicDemoTitle}
           </Tab>
-          <Tab value="self-hosted" href="#self-hosted">
+          <Tab
+            value="self-hosted"
+            href="#self-hosted"
+            onClick={(e) => e.preventDefault()}
+          >
             {tabSelfHostedTitle}
           </Tab>
-          <Tab value="docker" href="#docker">
+          <Tab
+            value="docker"
+            href="#docker"
+            onClick={(e) => e.preventDefault()}
+          >
             {tabDockerTitle}
           </Tab>
-          <Tab value="npm" href="#npm">
+          <Tab value="npm" href="#npm" onClick={(e) => e.preventDefault()}>
             {tabNpmTitle}
           </Tab>
         </TabList>
