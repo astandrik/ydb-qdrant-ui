@@ -120,8 +120,8 @@ export const GettingStartedSectionBase = ({
   );
 
   return (
-    <section className="section" ref={sectionRef} id="ide-config">
-      <details id="ide-config-diagram" style={{ marginBottom: 24 }}>
+    <section className="section">
+      <details id="ide-config-diagram" style={{ marginBottom: 32 }}>
         <summary>{ideUnderHoodSummary}</summary>
         <figure style={{ margin: "16px 0" }}>
           <Image
@@ -143,7 +143,7 @@ export const GettingStartedSectionBase = ({
         </figure>
       </details>
 
-      <div className="grid" style={{ marginBottom: 24 }}>
+      <div className="grid" style={{ marginBottom: 0 }}>
         <Card type="container">
           <h3 className="card-title">{docsTitle}</h3>
           <ul className="muted">
@@ -162,7 +162,12 @@ export const GettingStartedSectionBase = ({
         </Card>
       </div>
 
-      <h2 className="section-title">{title}</h2>
+      <div
+        ref={sectionRef as RefObject<HTMLDivElement>}
+        id="ide-config"
+        style={{ paddingTop: 48 }}
+      >
+        <h2 className="section-title">{title}</h2>
 
       <TabProvider value={activeTab} onUpdate={onTabChange}>
         <TabList size="l">
@@ -265,6 +270,7 @@ export const GettingStartedSectionBase = ({
           </TabPanel>
         </div>
       </TabProvider>
+      </div>
     </section>
   );
 };
