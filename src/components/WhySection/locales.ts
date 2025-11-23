@@ -1,9 +1,6 @@
 import type { WhySectionBaseProps } from "./WhySection";
 
-export const whySectionEnProps: Omit<WhySectionBaseProps, "title" | "cards"> & {
-  title: string;
-  cards: WhySectionBaseProps["cards"];
-} = {
+export const whySectionEnProps: WhySectionBaseProps = {
   title: "Why YDB‑Qdrant",
   cards: [
     {
@@ -32,12 +29,42 @@ export const whySectionEnProps: Omit<WhySectionBaseProps, "title" | "cards"> & {
         "Use either the hosted HTTP endpoint or the ydb-qdrant Node.js package directly inside your backend services.",
     },
   ],
+  comparisonTitle: "Comparison: YDB-Qdrant vs. Standalone Qdrant",
+  comparisonHeaders: {
+    feature: "Feature",
+    ydbQdrant: "YDB-Qdrant",
+    qdrant: "Standalone Qdrant",
+  },
+  comparisonRows: [
+    {
+      feature: "Storage Engine",
+      ydbQdrant: "YDB (Distributed SQL)",
+      qdrant: "RocksDB / In-memory",
+    },
+    {
+      feature: "Consistency",
+      ydbQdrant: "Strong (ACID Serializable)",
+      qdrant: "Eventual / Tunable",
+    },
+    {
+      feature: "Scalability",
+      ydbQdrant: "Horizontal (YDB native)",
+      qdrant: "Sharding (manual/managed)",
+    },
+    {
+      feature: "Query Language",
+      ydbQdrant: "Qdrant API + YQL",
+      qdrant: "Qdrant API (gRPC/REST)",
+    },
+    {
+      feature: "Operational Complexity",
+      ydbQdrant: "Low (Reuse YDB ops)",
+      qdrant: "Medium (Separate cluster)",
+    },
+  ],
 };
 
-export const whySectionRuProps: Omit<WhySectionBaseProps, "title" | "cards"> & {
-  title: string;
-  cards: WhySectionBaseProps["cards"];
-} = {
+export const whySectionRuProps: WhySectionBaseProps = {
   title: "Почему YDB‑Qdrant",
   cards: [
     {
@@ -66,5 +93,37 @@ export const whySectionRuProps: Omit<WhySectionBaseProps, "title" | "cards"> & {
         "Можно использовать как hosted HTTP‑endpoint, так и Node.js‑пакет ydb-qdrant прямо внутри вашего бэкенда.",
     },
   ],
+  comparisonTitle: "Сравнение: YDB-Qdrant vs. Standalone Qdrant",
+  comparisonHeaders: {
+    feature: "Функция",
+    ydbQdrant: "YDB-Qdrant",
+    qdrant: "Standalone Qdrant",
+  },
+  comparisonRows: [
+    {
+      feature: "Движок хранения",
+      ydbQdrant: "YDB (Distributed SQL)",
+      qdrant: "RocksDB / In-memory",
+    },
+    {
+      feature: "Консистентность",
+      ydbQdrant: "Строгая (ACID Serializable)",
+      qdrant: "Eventual / Настраиваемая",
+    },
+    {
+      feature: "Масштабируемость",
+      ydbQdrant: "Горизонтальная (YDB)",
+      qdrant: "Шардирование (ручное/managed)",
+    },
+    {
+      feature: "Язык запросов",
+      ydbQdrant: "Qdrant API + YQL",
+      qdrant: "Qdrant API (gRPC/REST)",
+    },
+    {
+      feature: "Сложность эксплуатации",
+      ydbQdrant: "Низкая (переиспользование YDB)",
+      qdrant: "Средняя (отдельный кластер)",
+    },
+  ],
 };
-
