@@ -121,8 +121,6 @@ export const GettingStartedSectionBase = ({
 
   return (
     <section className="section" ref={sectionRef} id="ide-config">
-      <h2 className="section-title">{title}</h2>
-
       <details id="ide-config-diagram" style={{ marginBottom: 24 }}>
         <summary>{ideUnderHoodSummary}</summary>
         <figure style={{ margin: "16px 0" }}>
@@ -163,6 +161,8 @@ export const GettingStartedSectionBase = ({
           </ul>
         </Card>
       </div>
+
+      <h2 className="section-title">{title}</h2>
 
       <TabProvider value={activeTab} onUpdate={onTabChange}>
         <TabList size="l">
