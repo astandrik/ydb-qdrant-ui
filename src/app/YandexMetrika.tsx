@@ -7,6 +7,12 @@ import {
 } from "@/shared/utils/metricsManager";
 
 const YandexMetrika = () => {
+  // Prevent Yandex Metrika from running in development to avoid "Failed to fetch" errors
+  // caused by ad blockers or network restrictions, and to avoid polluting production data.
+  if (process.env.NODE_ENV !== "production") {
+    return null;
+  }
+
   return (
     <>
       <Script id="yandex-metrika" strategy="afterInteractive">
