@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Script from "next/script";
 import {
   YANDEX_METRIKA_ID,
@@ -7,9 +8,21 @@ import {
 } from "@/shared/utils/metricsManager";
 
 const YandexMetrika = () => {
-  // Prevent Yandex Metrika from running in development to avoid "Failed to fetch" errors
-  // caused by ad blockers or network restrictions, and to avoid polluting production data.
-  if (process.env.NODE_ENV !== "production") {
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    // Prevent Yandex Metrika from running in development or localhost
+    const isProduction = process.env.NODE_ENV === "production";
+    const isLocalhost =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
+
+    if (isProduction && !isLocalhost) {
+      setEnabled(true);
+    }
+  }, []);
+
+  if (!enabled) {
     return null;
   }
 
