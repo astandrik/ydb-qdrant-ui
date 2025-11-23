@@ -22,7 +22,8 @@ export type GettingStartedSectionBaseProps = {
   optionsHosted: ReactNode;
   docsTitle: string;
   docsLinks: DocsLink[];
-  selfHostedBlock: ReactNode;
+  selfHostedNodeBlock: ReactNode;
+  dockerBlock: ReactNode;
 };
 
 export const GettingStartedSectionBase = ({
@@ -38,7 +39,8 @@ export const GettingStartedSectionBase = ({
   optionsHosted,
   docsTitle,
   docsLinks,
-  selfHostedBlock,
+  selfHostedNodeBlock,
+  dockerBlock,
 }: GettingStartedSectionBaseProps) => {
   const videoProgressRef = useRef({
     hasStarted: false,
@@ -182,7 +184,14 @@ export const GettingStartedSectionBase = ({
         </Card>
       </div>
 
-      <Card type="container" className="card-standalone">{selfHostedBlock}</Card>
+      <div id="server-docker" className="grid">
+        <Card type="container" className="card-standalone">
+          {dockerBlock}
+        </Card>
+        <Card type="container" className="card-standalone">
+          {selfHostedNodeBlock}
+        </Card>
+      </div>
     </section>
   );
 };

@@ -100,6 +100,27 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
 - **Yandex Metrika**:
   - Tracking is handled via the `YandexMetrika` component under `src/app/YandexMetrika.tsx`.
   - The verification file `public/yandex_d61301df40d00f05.html` must remain available for Yandex site verification.
+  - Counter ID is defined in `shared/utils/metricsManager.ts` (`YANDEX_METRIKA_ID`).
+- **Custom Yandex Metrika goals** (via `trackGoal` in `shared/utils/metricsManager.ts`):
+  - **Hero CTAs** (`HeroSection`):
+    - `hero_ide_click`: primary “Start Free with Hosted Endpoint” button (opens IDE config section).
+    - `hero_pkg_click`: “Install NPM Package” button (scrolls to package usage).
+    - `hero_docker_click`: “Run server via Docker” button (scrolls to Docker/self-host cards).
+    - `hero_gh_click`: “Explore on GitHub” button (params include `source: "hero_button"`).
+    - `hero_docs_click`: hero docs link to `/docs/`.
+  - **Getting started video & instructions** (`GettingStartedSection`):
+    - `instructions_open`: IDE config `<details>` opened.
+    - `ide_video_play`: video started.
+    - `ide_video_progress`: video reached 25/50/75% (params: `percent`, `currentTime`, `duration`).
+    - `ide_video_complete`: video completed (params: `duration`).
+  - **Header icons**:
+    - `repo_click`: GitHub repo icon click (params include `source: "header_icon"`, `target: "icon"`).
+    - `npm_click`: npm package icon click (param `target: "icon"`).
+  - **GitHub links**:
+    - `github_readme_click`: any click on the main `ydb-qdrant` GitHub README links inside Getting Started cards (params include `source: "getting_started_en" | "getting_started_ru"`).
+    - `github_uikit_click`: click on the `gravity-ui/uikit` link in the footer (param `source: "footer"`).
+  - **Utility events**:
+    - `demo_url_copy`: public demo URL copied (params: `page`, `area`, `success`).
 
 ## Agent-specific guidance
 

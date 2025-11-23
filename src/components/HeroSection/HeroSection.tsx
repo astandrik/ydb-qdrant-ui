@@ -10,6 +10,7 @@ export type HeroContent = {
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
   packageCtaLabel: string;
+  dockerCtaLabel: string;
   docsLabel: string;
   demoPrefix: string;
   demoButtonLabel: string;
@@ -74,12 +75,31 @@ export const HeroSectionBase = ({
           {content.packageCtaLabel}
         </Button>
         <Button
+          id="hero-docker-btn"
+          className="hero-btn-primary"
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.getElementById("server-docker");
+            if (target) {
+              try {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+              } catch {
+                target.scrollIntoView();
+              }
+            }
+            trackGoal("hero_docker_click");
+            window.history.replaceState(null, "", "#server-docker");
+          }}
+        >
+          {content.dockerCtaLabel}
+        </Button>
+        <Button
           id="hero-gh-btn"
           className="hero-btn-secondary"
           href="https://github.com/astandrik/ydb-qdrant"
           target="_blank"
           rel="noopener"
-          onClick={() => trackGoal("hero_gh_click")}
+          onClick={() => trackGoal("hero_gh_click", { source: "hero_button" })}
         >
           {content.secondaryCtaLabel}
         </Button>
