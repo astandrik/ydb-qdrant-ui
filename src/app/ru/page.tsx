@@ -34,13 +34,25 @@ export default function HomeRu() {
   };
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.location.hash === "#ide-config"
-    ) {
+    if (typeof window === "undefined") return;
+
+    const hash = window.location.hash.replace("#", "");
+    const validTabs = ["public-demo", "self-hosted", "docker", "npm"];
+
+    if (hash === "ide-config") {
       openIdeDetails(false);
+    } else if (validTabs.includes(hash)) {
+      setActiveTab(hash);
+      if (gettingStartedRef.current) {
+        gettingStartedRef.current.scrollIntoView({ block: "start" });
+      }
     }
   }, []);
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    window.history.replaceState(null, "", `#${tab}`);
+  };
 
   const handleCopy = createCopyToClipboardHandler({
     page: "ru",
@@ -69,7 +81,7 @@ export default function HomeRu() {
         <GettingStartedSectionRu
           sectionRef={gettingStartedRef}
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
         />
 
         <ApiAtAGlanceSectionRu />
