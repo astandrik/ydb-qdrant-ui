@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Dialog } from "@gravity-ui/uikit";
+import { Dialog, Button, Icon } from "@gravity-ui/uikit";
+import { ArrowLeft } from "@gravity-ui/icons";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 
 export const DEMO_URL = "http://ydb-qdrant.tech:8080";
@@ -26,6 +27,7 @@ export type DocsPageBaseProps = {
   copySuccessLabel: string;
   metricsPageName: string;
   sections: Section[];
+  backLinkText: string;
 };
 
 export const DocsPageBase = ({
@@ -36,6 +38,7 @@ export const DocsPageBase = ({
   copySuccessLabel,
   metricsPageName,
   sections,
+  backLinkText,
 }: DocsPageBaseProps) => {
   const [selectedFigure, setSelectedFigure] = useState<Figure | null>(null);
 
@@ -47,6 +50,12 @@ export const DocsPageBase = ({
 
   return (
     <main className="wrap">
+      <div style={{ marginBottom: 24 }}>
+        <Button href="/" view="outlined" size="l">
+          <Icon data={ArrowLeft} />
+          {backLinkText}
+        </Button>
+      </div>
       <h1>{title}</h1>
       <p className="lead">{lead}</p>
       <p className="hero-demo">

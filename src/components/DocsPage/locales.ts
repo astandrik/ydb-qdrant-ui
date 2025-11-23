@@ -134,6 +134,7 @@ export const docsPageEnProps: DocsPageBaseProps = {
   copySuccessLabel: "Copied!",
   metricsPageName: "docs",
   sections: sectionsEn,
+  backLinkText: "Back to main page",
 };
 
 export const docsPageRuProps: DocsPageBaseProps = {
@@ -144,4 +145,5 @@ export const docsPageRuProps: DocsPageBaseProps = {
   copySuccessLabel: "Скопировано!",
   metricsPageName: "docs",
   sections: sectionsRu,
+  backLinkText: "Назад на главную",
 };

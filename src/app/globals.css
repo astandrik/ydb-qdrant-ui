@@ -559,13 +559,13 @@ details figure img {
 .g-card {
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   border-radius: 8px !important;
-  padding: 12px !important;
+  padding: 8px !important;
   background: rgba(255, 255, 255, 0.02) !important;
 }
 
 @media (min-width: 640px) {
   .g-card {
-    padding: 16px !important;
+    padding: 12px !important;
   }
 }
 

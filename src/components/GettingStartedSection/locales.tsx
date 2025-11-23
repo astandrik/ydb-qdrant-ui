@@ -1,4 +1,5 @@
 import type { ReactNode, RefObject } from "react";
+import type { MouseEvent } from "react";
 import React from "react";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import type {
@@ -9,13 +10,17 @@ import type {
 const DEMO_URL = "http://ydb-qdrant.tech:8080";
 
 export type GettingStartedSectionProps = {
-  ideDetailsRef: RefObject<HTMLDetailsElement | null>;
+  sectionRef: RefObject<HTMLElement | null>;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+  onCopyDemoUrl: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const gettingStartedSectionEnProps = (): Omit<
   GettingStartedSectionBaseProps,
-  "ideDetailsRef"
+  "sectionRef" | "activeTab" | "onTabChange" | "onCopyDemoUrl"
 > => {
+  const demoUrl = DEMO_URL;
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Service diagrams (C4 + ER)" },
     { href: "https://ydb.tech/docs/en/", label: "YDB docs (overview)" },
@@ -100,6 +105,42 @@ export const gettingStartedSectionEnProps = (): Omit<
     </>
   );
 
+  const npmBlock: ReactNode = (
+    <>
+      <h3 className="card-title">Use as Node.js library</h3>
+      <ol className="muted">
+        <li>
+          Install: <code>npm install ydb-qdrant</code>
+        </li>
+        <li>
+          Usage:
+          <pre>
+            <code>
+              {`import { createYdbQdrantClient } from "ydb-qdrant";
+
+const client = createYdbQdrantClient({
+  endpoint: "grpcs://ydb.serverless.yandexcloud.net:2135",
+  database: "/ru-central1/...",
+  token: "..."
+});`}
+            </code>
+          </pre>
+        </li>
+      </ol>
+      <p className="muted">
+        See{" "}
+        <a
+          href="https://www.npmjs.com/package/ydb-qdrant"
+          target="_blank"
+          rel="noopener"
+        >
+          npm package
+        </a>{" "}
+        for more details.
+      </p>
+    </>
+  );
+
   return {
     title: "Getting started",
     ideConfigSummary: "Configure in Roo Code/Kilo Code",
@@ -115,26 +156,25 @@ export const gettingStartedSectionEnProps = (): Omit<
       "Request flow: IDE/Agent → ydb-qdrant (Node.js) → YDB vectors + index",
     optionsTitle: "Options",
     optionsSelfHost: "Self‑host: http://localhost:8080/",
-    optionsHosted: (
-      <>
-        Hosted demo endpoint for IDEs:{" "}
-        <a href={`${DEMO_URL}/`} target="_blank" rel="noopener">
-          {DEMO_URL}/
-        </a>{" "}
-        (copy into IDE/agent as Qdrant base URL)
-      </>
-    ),
+    optionsHosted: "Hosted demo endpoint for IDEs:",
+    demoUrl,
     docsTitle: "Docs",
     docsLinks,
     selfHostedNodeBlock,
     dockerBlock,
+    npmBlock,
+    tabPublicDemoTitle: "Public Demo",
+    tabSelfHostedTitle: "Self-hosted Node",
+    tabDockerTitle: "Docker",
+    tabNpmTitle: "NPM Package",
   };
 };
 
 export const gettingStartedSectionRuProps = (): Omit<
   GettingStartedSectionBaseProps,
-  "ideDetailsRef"
+  "ideDetailsRef" | "activeTab" | "onTabChange" | "sectionRef" | "onCopyDemoUrl"
 > => {
+  const demoUrl = DEMO_URL;
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Диаграммы сервиса (C4 + ER)" },
     {
@@ -233,6 +273,42 @@ export const gettingStartedSectionRuProps = (): Omit<
     </>
   );
 
+  const npmBlock: ReactNode = (
+    <>
+      <h3 className="card-title">Использование как Node.js библиотеки</h3>
+      <ol className="muted">
+        <li>
+          Установка: <code>npm install ydb-qdrant</code>
+        </li>
+        <li>
+          Использование:
+          <pre>
+            <code>
+              {`import { createYdbQdrantClient } from "ydb-qdrant";
+
+const client = createYdbQdrantClient({
+  endpoint: "grpcs://ydb.serverless.yandexcloud.net:2135",
+  database: "/ru-central1/...",
+  token: "..."
+});`}
+            </code>
+          </pre>
+        </li>
+      </ol>
+      <p className="muted">
+        См.{" "}
+        <a
+          href="https://www.npmjs.com/package/ydb-qdrant"
+          target="_blank"
+          rel="noopener"
+        >
+          npm package
+        </a>{" "}
+        для подробностей.
+      </p>
+    </>
+  );
+
   return {
     title: "Быстрый старт",
     ideConfigSummary: "Настройка в Roo Code/Kilo Code",
@@ -248,19 +324,16 @@ export const gettingStartedSectionRuProps = (): Omit<
       "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → YDB векторы + индекс",
     optionsTitle: "Варианты",
     optionsSelfHost: "Самостоятельный хостинг: http://localhost:8080/",
-    optionsHosted: (
-      <>
-        Хостируемый demo‑endpoint для IDE:{" "}
-        <a href={`${DEMO_URL}/`} target="_blank" rel="noopener">
-          {DEMO_URL}/
-        </a>{" "}
-        (скопируйте в IDE/агент как базовый URL Qdrant)
-      </>
-    ),
+    optionsHosted: "Хостируемый demo‑endpoint для IDE:",
+    demoUrl,
     docsTitle: "Документация",
     docsLinks,
     selfHostedNodeBlock,
     dockerBlock,
+    npmBlock,
+    tabPublicDemoTitle: "Публичное демо",
+    tabSelfHostedTitle: "Self-hosted Node",
+    tabDockerTitle: "Docker",
+    tabNpmTitle: "NPM пакет",
   };
 };
-

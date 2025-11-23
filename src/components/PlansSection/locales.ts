@@ -2,7 +2,6 @@ import type { PlansSectionBaseProps } from "./PlansSection";
 
 export const plansSectionEnProps: PlansSectionBaseProps = {
   title: "Plans",
-  heading: "Roadmap",
   items: [
     "Hardening for production workloads with strict SLAs and strong multi‑tenant auth/z (IAM/OAuth, per‑collection ACLs).",
     "Quotas and rate limiting per tenant (collections, RPS, payload and batch sizes) plus richer audit logging.",
@@ -14,7 +13,6 @@ export const plansSectionEnProps: PlansSectionBaseProps = {
 
 export const plansSectionRuProps: PlansSectionBaseProps = {
   title: "Планы",
-  heading: "Дорожная карта",
   items: [
     "Усиление production‑сценариев с жёсткими SLA и сильной мультитенантной auth/z (IAM/OAuth, ACL на коллекции).",
     "Квоты и rate limiting по арендаторам (коллекции, RPS, размеры payload и батчей) плюс расширенный аудит операций.",

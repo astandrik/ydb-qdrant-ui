@@ -9,8 +9,6 @@ export type HeroContent = {
   lead: string;
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
-  packageCtaLabel: string;
-  dockerCtaLabel: string;
   docsLabel: string;
   demoPrefix: string;
   demoButtonLabel: string;
@@ -50,48 +48,12 @@ export const HeroSectionBase = ({
             e.preventDefault();
             onOpenIdeDetails(true);
             trackGoal("hero_ide_click");
-            window.history.replaceState(null, "", "#ide-config");
+            const params = new URLSearchParams(window.location.search);
+            params.set("ide-config", "true");
+            window.history.replaceState(null, "", `?${params.toString()}`);
           }}
         >
           {content.primaryCtaLabel}
-        </Button>
-        <Button
-          id="hero-pkg-btn"
-          className="hero-btn-primary"
-          onClick={(e) => {
-            e.preventDefault();
-            const target = document.getElementById("package-usage");
-            if (target) {
-              try {
-                target.scrollIntoView({ behavior: "smooth", block: "start" });
-              } catch {
-                target.scrollIntoView();
-              }
-            }
-            trackGoal("hero_pkg_click");
-            window.history.replaceState(null, "", "#package-usage");
-          }}
-        >
-          {content.packageCtaLabel}
-        </Button>
-        <Button
-          id="hero-docker-btn"
-          className="hero-btn-primary"
-          onClick={(e) => {
-            e.preventDefault();
-            const target = document.getElementById("server-docker");
-            if (target) {
-              try {
-                target.scrollIntoView({ behavior: "smooth", block: "start" });
-              } catch {
-                target.scrollIntoView();
-              }
-            }
-            trackGoal("hero_docker_click");
-            window.history.replaceState(null, "", "#server-docker");
-          }}
-        >
-          {content.dockerCtaLabel}
         </Button>
         <Button
           id="hero-gh-btn"

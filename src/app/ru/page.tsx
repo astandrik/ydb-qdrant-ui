@@ -1,7 +1,7 @@
 "use client";
 
 import type { MouseEvent } from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import LangSwitcher from "@/components/LangSwitcher";
 import GitHubRepoIcon from "@/components/GitHubRepoIcon";
 import NpmPackageIcon from "@/components/NpmPackageIcon";
@@ -15,31 +15,65 @@ import { ApiAtAGlanceSectionRu } from "@/components/ApiAtAGlanceSection";
 import { GettingStartedSectionRu } from "@/components/GettingStartedSection";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 
+const VALID_TABS = ["public-demo", "self-hosted", "docker", "npm"];
+
+function getInitialTab(): string {
+  if (typeof window === "undefined") {
+    return "public-demo";
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get("tab");
+
+  if (tab && VALID_TABS.includes(tab)) {
+    return tab;
+  }
+
+  return "public-demo";
+}
 export default function HomeRu() {
-  const ideDetailsRef = useRef<HTMLDetailsElement | null>(null);
+  const [activeTab, setActiveTab] = useState(getInitialTab);
+  const gettingStartedRef = useRef<HTMLElement>(null);
 
   const openIdeDetails = (scrollSmooth: boolean) => {
-    if (ideDetailsRef.current) {
-      ideDetailsRef.current.open = true;
+    setActiveTab("public-demo");
+    if (gettingStartedRef.current) {
       try {
-        ideDetailsRef.current.scrollIntoView({
+        gettingStartedRef.current.scrollIntoView({
           behavior: scrollSmooth ? "smooth" : "auto",
           block: "start",
         });
       } catch {
-        ideDetailsRef.current.scrollIntoView();
+        gettingStartedRef.current.scrollIntoView();
       }
     }
   };
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.location.hash === "#ide-config"
-    ) {
-      openIdeDetails(false);
+    if (typeof window === "undefined") return;
+
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get("tab");
+    const ideConfig = params.get("ide-config");
+
+    if (ideConfig === "true" && !tab && gettingStartedRef.current) {
+      try {
+        gettingStartedRef.current.scrollIntoView({
+          behavior: "auto",
+          block: "start",
+        });
+      } catch {
+        gettingStartedRef.current.scrollIntoView();
+      }
     }
   }, []);
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    const params = new URLSearchParams(window.location.search);
+    params.set("tab", tab);
+    window.history.replaceState(null, "", `?${params.toString()}`);
+  };
 
   const handleCopy = createCopyToClipboardHandler({
     page: "ru",
@@ -65,12 +99,17 @@ export default function HomeRu() {
         <WhereSectionRu />
 
         <PlansSectionRu />
-        <GettingStartedSectionRu ideDetailsRef={ideDetailsRef} />
+        <GettingStartedSectionRu
+          sectionRef={gettingStartedRef}
+          activeTab={activeTab}
+          onTabChange={handleTabChange}
+          onCopyDemoUrl={(e: MouseEvent<HTMLButtonElement>) =>
+            handleCopy("http://ydb-qdrant.tech:8080", e)
+          }
+        />
 
-        <ApiAtAGlanceSectionRu />
+        <ApiAtAGlanceSectionRu activeTab={activeTab} />
       </main>
     </>
   );
 }
-
-

@@ -5,12 +5,9 @@ export type HeroSectionPublicProps = Omit<HeroSectionBaseProps, "content">;
 export const heroSectionEnContent: HeroContent = {
   title: "Qdrant API on YDB",
   logoAlt: "YDB Qdrant logo",
-  lead:
-    "Run a minimal Qdrant‑compatible REST API that stores and searches vectors directly in YDB — no separate vector database cluster.",
-  primaryCtaLabel: "Start Free with Hosted Endpoint",
+  lead: "Run a minimal Qdrant‑compatible REST API that stores and searches vectors directly in YDB — no separate vector database cluster.",
+  primaryCtaLabel: "Get Started",
   secondaryCtaLabel: "Explore on GitHub",
-  packageCtaLabel: "Install NPM Package",
-  dockerCtaLabel: "Run server via Docker",
   docsLabel: "Architecture & diagrams →",
   demoPrefix: "Public demo Qdrant base URL:",
   demoButtonLabel: "Copy",
@@ -21,12 +18,9 @@ export const heroSectionEnContent: HeroContent = {
 export const heroSectionRuContent: HeroContent = {
   title: "Qdrant API на YDB",
   logoAlt: "Логотип YDB Qdrant",
-  lead:
-    "Совместимый с Qdrant REST API с однофазным top‑k поиском на YDB с перестраивающимся векторным индексом.",
-  primaryCtaLabel: "Начните бесплатно с готовым endpoint",
+  lead: "Совместимый с Qdrant REST API с однофазным top‑k поиском на YDB с перестраивающимся векторным индексом.",
+  primaryCtaLabel: "Быстрый старт",
   secondaryCtaLabel: "Изучить на GitHub",
-  packageCtaLabel: "Установить NPM-пакет",
-  dockerCtaLabel: "Запустить сервер через Docker",
   docsLabel: "Архитектура и диаграммы →",
   demoPrefix: "Публичный demo‑endpoint:",
   demoButtonLabel: "Копировать",

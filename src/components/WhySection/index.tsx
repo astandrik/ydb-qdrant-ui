@@ -2,14 +2,13 @@ import { WhySectionBase } from "./WhySection";
 import { whySectionEnProps, whySectionRuProps } from "./locales";
 
 export const WhySectionEn = () => (
-  <WhySectionBase title={whySectionEnProps.title} cards={whySectionEnProps.cards} />
+  <WhySectionBase {...whySectionEnProps} />
 );
 
 export const WhySectionRu = () => (
-  <WhySectionBase title={whySectionRuProps.title} cards={whySectionRuProps.cards} />
+  <WhySectionBase {...whySectionRuProps} />
 );
 
 export { WhySectionBase } from "./WhySection";
 
 export default WhySectionEn;
-
