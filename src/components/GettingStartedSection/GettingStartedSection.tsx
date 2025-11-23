@@ -203,9 +203,7 @@ export const GettingStartedSectionBase = ({
         <TabList size="l">
           <Tab
             value="public-demo"
-            href="#public-demo"
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               onTabChange("public-demo");
               trackGoal("tab_public_demo_click");
             }}
@@ -214,9 +212,7 @@ export const GettingStartedSectionBase = ({
           </Tab>
           <Tab
             value="self-hosted"
-            href="#self-hosted"
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               onTabChange("self-hosted");
               trackGoal("tab_self_hosted_click");
             }}
@@ -225,9 +221,7 @@ export const GettingStartedSectionBase = ({
           </Tab>
           <Tab
             value="docker"
-            href="#docker"
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               onTabChange("docker");
               trackGoal("tab_docker_click");
             }}
@@ -236,9 +230,7 @@ export const GettingStartedSectionBase = ({
           </Tab>
           <Tab
             value="npm"
-            href="#npm"
-            onClick={(e) => {
-              e.preventDefault();
+            onClick={() => {
               onTabChange("npm");
               trackGoal("tab_npm_click");
             }}
