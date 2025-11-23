@@ -14,6 +14,7 @@ export const PlansSectionBase = ({
   return (
     <section className="section">
       <h2 className="section-title">{title}</h2>
+      <h3 className="section-title">{heading}</h3>
       <div className="grid">
         <Card type="container">
           <ul className="muted">
