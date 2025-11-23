@@ -21,7 +21,12 @@ export default function HomeRu() {
 
   const openIdeDetails = (scrollSmooth: boolean) => {
     setActiveTab("public-demo");
-    if (gettingStartedRef.current) {
+
+    const params = new URLSearchParams(window.location.search);
+    const tabFromQuery = params.get("tab");
+
+    // Only scroll if no tab is specified in query params
+    if (!tabFromQuery && gettingStartedRef.current) {
       try {
         gettingStartedRef.current.scrollIntoView({
           behavior: scrollSmooth ? "smooth" : "auto",
