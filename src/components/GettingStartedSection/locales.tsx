@@ -203,7 +203,7 @@ export const gettingStartedSectionRuProps = (): Omit<
       <h3 className="card-title">Самостоятельный хостинг (Node.js)</h3>
       <ol className="muted">
         <li>
-          Клонируйте репозиторий и установите зависимости:{" "}
+          Клонируйте репозиторий и установи��е зависимости:{" "}
           <code>npm install</code>
         </li>
         <li>
@@ -316,18 +316,10 @@ const client = createYdbQdrantClient({
     ideConfigImageAlt: "Скриншот конфигурации IDE-агента",
     ideUnderHoodSummary: "Как это работает под капотом",
     ideUnderHoodImageAlt:
-      "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → YDB векторы + индекс",
+      "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → YDB векторы + ��ндекс",
     optionsTitle: "Варианты",
     optionsSelfHost: "Самостоятельный хостинг: http://localhost:8080/",
-    optionsHosted: (
-      <>
-        Хостируемый demo‑endpoint для IDE:{" "}
-        <a href={`${DEMO_URL}/`} target="_blank" rel="noopener">
-          {DEMO_URL}/
-        </a>{" "}
-        (скопируйте в IDE/а��ент как базовый URL Qdrant)
-      </>
-    ),
+    optionsHosted: "Хостируемый demo‑endpoint для IDE:",
     docsTitle: "Документация",
     docsLinks,
     selfHostedNodeBlock,
