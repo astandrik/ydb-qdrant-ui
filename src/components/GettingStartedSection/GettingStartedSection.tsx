@@ -143,9 +143,9 @@ export const GettingStartedSectionBase = ({
         </figure>
       </details>
 
-      <div className="grid" style={{ marginBottom: 0 }}>
+      <div style={{ marginBottom: 0 }}>
+        <h3 className="section-title">{docsTitle}</h3>
         <Card type="container">
-          <h3 className="card-title">{docsTitle}</h3>
           <ul className="muted">
             {docsLinks.map((link) => (
               <li key={link.href}>
