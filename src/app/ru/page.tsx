@@ -86,6 +86,9 @@ export default function HomeRu() {
           sectionRef={gettingStartedRef}
           activeTab={activeTab}
           onTabChange={handleTabChange}
+          onCopyDemoUrl={(e: MouseEvent<HTMLButtonElement>) =>
+            handleCopy("http://ydb-qdrant.tech:8080", e)
+          }
         />
 
         <ApiAtAGlanceSectionRu activeTab={activeTab} />
