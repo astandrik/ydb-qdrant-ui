@@ -56,6 +56,7 @@ export const GettingStartedSectionBase = ({
   optionsTitle,
   optionsSelfHost,
   optionsHosted,
+  demoUrl,
   onCopyDemoUrl,
   docsTitle,
   docsLinks,
