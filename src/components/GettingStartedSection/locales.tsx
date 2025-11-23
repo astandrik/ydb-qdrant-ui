@@ -13,6 +13,7 @@ export type GettingStartedSectionProps = {
   sectionRef: RefObject<HTMLElement | null>;
   activeTab: string;
   onTabChange: (tab: string) => void;
+  onCopyDemoUrl: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const gettingStartedSectionEnProps = (): Omit<
