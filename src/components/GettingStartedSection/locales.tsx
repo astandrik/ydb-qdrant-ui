@@ -153,15 +153,7 @@ const client = createYdbQdrantClient({
       "Request flow: IDE/Agent → ydb-qdrant (Node.js) → YDB vectors + index",
     optionsTitle: "Options",
     optionsSelfHost: "Self‑host: http://localhost:8080/",
-    optionsHosted: (
-      <>
-        Hosted demo endpoint for IDEs:{" "}
-        <a href={`${DEMO_URL}/`} target="_blank" rel="noopener">
-          {DEMO_URL}/
-        </a>{" "}
-        (copy into IDE/agent as Qdrant base URL)
-      </>
-    ),
+    optionsHosted: "Hosted demo endpoint for IDEs:",
     docsTitle: "Docs",
     docsLinks,
     selfHostedNodeBlock,
@@ -325,7 +317,7 @@ const client = createYdbQdrantClient({
     ideUnderHoodSummary: "Как это работает под капотом",
     ideUnderHoodImageAlt:
       "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → YDB векторы + индекс",
-    optionsTitle: "Вар��анты",
+    optionsTitle: "Варианты",
     optionsSelfHost: "Самостоятельный хостинг: http://localhost:8080/",
     optionsHosted: (
       <>
