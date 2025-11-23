@@ -9,12 +9,14 @@ import type {
 const DEMO_URL = "http://ydb-qdrant.tech:8080";
 
 export type GettingStartedSectionProps = {
-  ideDetailsRef: RefObject<HTMLDetailsElement | null>;
+  sectionRef: RefObject<HTMLElement | null>;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
 };
 
 export const gettingStartedSectionEnProps = (): Omit<
   GettingStartedSectionBaseProps,
-  "ideDetailsRef"
+  "sectionRef" | "activeTab" | "onTabChange"
 > => {
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Service diagrams (C4 + ER)" },
@@ -331,7 +333,7 @@ const client = createYdbQdrantClient({
         <a href={`${DEMO_URL}/`} target="_blank" rel="noopener">
           {DEMO_URL}/
         </a>{" "}
-        (скопируйте в IDE/агент как базовый URL Qdrant)
+        (скопируйте в IDE/а��ент как базовый URL Qdrant)
       </>
     ),
     docsTitle: "Документация",
