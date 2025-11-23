@@ -172,6 +172,7 @@ export const GettingStartedSectionBase = ({
             onClick={(e) => {
               e.preventDefault();
               onTabChange("public-demo");
+              trackGoal("tab_public_demo_click");
             }}
           >
             {tabPublicDemoTitle}
@@ -182,6 +183,7 @@ export const GettingStartedSectionBase = ({
             onClick={(e) => {
               e.preventDefault();
               onTabChange("self-hosted");
+              trackGoal("tab_self_hosted_click");
             }}
           >
             {tabSelfHostedTitle}
@@ -192,6 +194,7 @@ export const GettingStartedSectionBase = ({
             onClick={(e) => {
               e.preventDefault();
               onTabChange("docker");
+              trackGoal("tab_docker_click");
             }}
           >
             {tabDockerTitle}
@@ -202,6 +205,7 @@ export const GettingStartedSectionBase = ({
             onClick={(e) => {
               e.preventDefault();
               onTabChange("npm");
+              trackGoal("tab_npm_click");
             }}
           >
             {tabNpmTitle}
