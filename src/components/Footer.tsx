@@ -1,3 +1,7 @@
+"use client";
+
+import { trackGoal } from "@/shared/utils/metricsManager";
+
 export default function Footer() {
   return (
     <footer className="footer-container">
@@ -8,6 +12,9 @@ export default function Footer() {
           target="_blank"
           rel="noopener noreferrer"
           className="footer-link"
+          onClick={() =>
+            trackGoal("github_uikit_click", { source: "footer" })
+          }
         >
           gravity-ui/uikit
         </a>

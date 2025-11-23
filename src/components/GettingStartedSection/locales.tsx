@@ -1,5 +1,6 @@
 import type { ReactNode, RefObject } from "react";
 import React from "react";
+import { trackGoal } from "@/shared/utils/metricsManager";
 import type {
   GettingStartedSectionBaseProps,
   DocsLink,
@@ -33,9 +34,9 @@ export const gettingStartedSectionEnProps = (): Omit<
     },
   ];
 
-  const selfHostedBlock: ReactNode = (
+  const selfHostedNodeBlock: ReactNode = (
     <>
-      <strong>Configure self‑hosted</strong>
+      <h3 className="card-title">Configure self‑hosted (Node.js)</h3>
       <ol className="muted">
         <li>
           Clone and install: <code>npm install</code>
@@ -57,11 +58,41 @@ export const gettingStartedSectionEnProps = (): Omit<
         </li>
       </ol>
       <p className="muted">
-        Details:{" "}
+        Or run as a container (Docker or docker-compose) using the published
+        image <code>ghcr.io/astandrik/ydb-qdrant:latest</code>.
+      </p>
+    </>
+  );
+
+  const dockerBlock: ReactNode = (
+    <>
+      <h3 className="card-title">Run via Docker / docker-compose</h3>
+      <ol className="muted">
+        <li>
+          Pull image:{" "}
+          <code>docker pull ghcr.io/astandrik/ydb-qdrant:latest</code>
+        </li>
+        <li>
+          Run with Docker:{" "}
+          <code>
+            docker run -d --name ydb-qdrant -p 8080:8080
+            ghcr.io/astandrik/ydb-qdrant:latest
+          </code>
+        </li>
+        <li>
+          Or with docker-compose: <code>docker-compose up -d</code> using the
+          sample config from the README.
+        </li>
+      </ol>
+      <p className="muted">
+        Details and full examples:{" "}
         <a
-          href="https://github.com/astandrik/ydb-qdrant"
+          href="https://github.com/astandrik/ydb-qdrant#docker-self-hosted-http-server"
           target="_blank"
           rel="noopener"
+          onClick={() =>
+            trackGoal("github_readme_click", { source: "getting_started_en" })
+          }
         >
           GitHub README
         </a>
@@ -95,7 +126,8 @@ export const gettingStartedSectionEnProps = (): Omit<
     ),
     docsTitle: "Docs",
     docsLinks,
-    selfHostedBlock,
+    selfHostedNodeBlock,
+    dockerBlock,
   };
 };
 
@@ -131,9 +163,9 @@ export const gettingStartedSectionRuProps = (): Omit<
     },
   ];
 
-  const selfHostedBlock: ReactNode = (
+  const selfHostedNodeBlock: ReactNode = (
     <>
-      <strong>Самостоятельный хостинг</strong>
+      <h3 className="card-title">Самостоятельный хостинг (Node.js)</h3>
       <ol className="muted">
         <li>
           Клонируйте репозиторий и установите зависимости:{" "}
@@ -159,11 +191,41 @@ export const gettingStartedSectionRuProps = (): Omit<
         </li>
       </ol>
       <p className="muted">
-        Подробнее:{" "}
+        Также можно запускать как контейнер (Docker или docker-compose) с
+        публичным образом <code>ghcr.io/astandrik/ydb-qdrant:latest</code>.
+      </p>
+    </>
+  );
+
+  const dockerBlock: ReactNode = (
+    <>
+      <h3 className="card-title">Запуск через Docker / docker-compose</h3>
+      <ol className="muted">
+        <li>
+          Скачайте образ:{" "}
+          <code>docker pull ghcr.io/astandrik/ydb-qdrant:latest</code>
+        </li>
+        <li>
+          Запустите через Docker:{" "}
+          <code>
+            docker run -d --name ydb-qdrant -p 8080:8080
+            ghcr.io/astandrik/ydb-qdrant:latest
+          </code>
+        </li>
+        <li>
+          Или через docker-compose: <code>docker-compose up -d</code> с
+          примером конфигурации из README.
+        </li>
+      </ol>
+      <p className="muted">
+        Подробнее и все примеры:{" "}
         <a
-          href="https://github.com/astandrik/ydb-qdrant"
+          href="https://github.com/astandrik/ydb-qdrant#docker-self-hosted-http-server"
           target="_blank"
           rel="noopener"
+          onClick={() =>
+            trackGoal("github_readme_click", { source: "getting_started_ru" })
+          }
         >
           GitHub README
         </a>
@@ -197,7 +259,8 @@ export const gettingStartedSectionRuProps = (): Omit<
     ),
     docsTitle: "Документация",
     docsLinks,
-    selfHostedBlock,
+    selfHostedNodeBlock,
+    dockerBlock,
   };
 };
 
