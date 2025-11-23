@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Dialog, Link, Icon } from "@gravity-ui/uikit";
+import { Dialog, Button, Icon } from "@gravity-ui/uikit";
 import { ArrowLeft } from "@gravity-ui/icons";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 
