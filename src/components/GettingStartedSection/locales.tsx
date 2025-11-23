@@ -176,7 +176,7 @@ const client = createYdbQdrantClient({
 
 export const gettingStartedSectionRuProps = (): Omit<
   GettingStartedSectionBaseProps,
-  "ideDetailsRef" | "activeTab" | "onTabChange" | "sectionRef"
+  "ideDetailsRef" | "activeTab" | "onTabChange" | "sectionRef" | "onCopyDemoUrl"
 > => {
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Диаграммы сервиса (C4 + ER)" },
@@ -325,7 +325,7 @@ const client = createYdbQdrantClient({
     ideUnderHoodSummary: "Как это работает под капотом",
     ideUnderHoodImageAlt:
       "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → YDB векторы + индекс",
-    optionsTitle: "Варианты",
+    optionsTitle: "Вар��анты",
     optionsSelfHost: "Самостоятельный хостинг: http://localhost:8080/",
     optionsHosted: (
       <>
