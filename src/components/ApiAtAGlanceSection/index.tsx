@@ -4,15 +4,28 @@ import {
   apiAtAGlanceSectionRuProps,
 } from "./locales";
 
-export const ApiAtAGlanceSectionEn = () => (
-  <ApiAtAGlanceSectionBase {...apiAtAGlanceSectionEnProps} />
+export type ApiAtAGlanceSectionProps = {
+  activeTab?: string;
+};
+
+export const ApiAtAGlanceSectionEn = ({
+  activeTab,
+}: ApiAtAGlanceSectionProps) => (
+  <ApiAtAGlanceSectionBase
+    {...apiAtAGlanceSectionEnProps}
+    activeTab={activeTab}
+  />
 );
 
-export const ApiAtAGlanceSectionRu = () => (
-  <ApiAtAGlanceSectionBase {...apiAtAGlanceSectionRuProps} />
+export const ApiAtAGlanceSectionRu = ({
+  activeTab,
+}: ApiAtAGlanceSectionProps) => (
+  <ApiAtAGlanceSectionBase
+    {...apiAtAGlanceSectionRuProps}
+    activeTab={activeTab}
+  />
 );
 
 export { ApiAtAGlanceSectionBase } from "./ApiAtAGlanceSection";
 
 export default ApiAtAGlanceSectionEn;
-
