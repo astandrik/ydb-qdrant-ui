@@ -1,7 +1,15 @@
 import type { ReactNode, RefObject, SyntheticEvent } from "react";
 import { useCallback, useRef } from "react";
 import Image from "next/image";
-import { Card, Link, Text } from "@gravity-ui/uikit";
+import {
+  Card,
+  Link,
+  Text,
+  TabProvider,
+  TabList,
+  Tab,
+  TabPanel,
+} from "@gravity-ui/uikit";
 import { trackGoal } from "@/shared/utils/metricsManager";
 
 export type DocsLink = {
@@ -10,7 +18,9 @@ export type DocsLink = {
 };
 
 export type GettingStartedSectionBaseProps = {
-  ideDetailsRef: RefObject<HTMLDetailsElement | null>;
+  sectionRef?: RefObject<HTMLElement | null>;
+  activeTab: string;
+  onTabChange: (tab: string) => void;
   title: string;
   ideConfigSummary: string;
   ideConfigDescription: ReactNode;
@@ -24,10 +34,17 @@ export type GettingStartedSectionBaseProps = {
   docsLinks: DocsLink[];
   selfHostedNodeBlock: ReactNode;
   dockerBlock: ReactNode;
+  npmBlock: ReactNode;
+  tabPublicDemoTitle: string;
+  tabSelfHostedTitle: string;
+  tabDockerTitle: string;
+  tabNpmTitle: string;
 };
 
 export const GettingStartedSectionBase = ({
-  ideDetailsRef,
+  sectionRef,
+  activeTab,
+  onTabChange,
   title,
   ideConfigSummary,
   ideConfigDescription,
@@ -41,6 +58,11 @@ export const GettingStartedSectionBase = ({
   docsLinks,
   selfHostedNodeBlock,
   dockerBlock,
+  npmBlock,
+  tabPublicDemoTitle,
+  tabSelfHostedTitle,
+  tabDockerTitle,
+  tabNpmTitle,
 }: GettingStartedSectionBaseProps) => {
   const videoProgressRef = useRef({
     hasStarted: false,
@@ -98,42 +120,70 @@ export const GettingStartedSectionBase = ({
   );
 
   return (
-    <section className="section">
+    <section className="section" ref={sectionRef} id="ide-config">
       <h2 className="section-title">{title}</h2>
 
-      <details
-        id="ide-config"
-        ref={ideDetailsRef}
-        onToggle={(e) => {
-          if (e.currentTarget.open) trackGoal("instructions_open");
-        }}
-      >
-        <summary>{ideConfigSummary}</summary>
-        <figure style={{ margin: "16px 0" }}>
-          <video
-            src="https://storage.yandexcloud.net/ydb-qdrant/1121.mp4"
-            controls
-            autoPlay
-            muted
-            playsInline
-            onPlay={handleVideoPlay}
-            onTimeUpdate={handleVideoTimeUpdate}
-            onEnded={handleVideoEnded}
-            style={{
-              width: "100%",
-              maxWidth: "100%",
-              height: "auto",
-              border: "1px solid #19212b",
-              borderRadius: "8px",
-              display: "block",
-              margin: "0 auto",
-              aspectRatio: "16 / 9",
-            }}
-            aria-label={ideConfigImageAlt}
-          />
-        </figure>
-        {ideConfigDescription}
-      </details>
+      <TabProvider value={activeTab} onUpdate={onTabChange}>
+        <TabList size="l">
+          <Tab value="public-demo">{tabPublicDemoTitle}</Tab>
+          <Tab value="self-hosted">{tabSelfHostedTitle}</Tab>
+          <Tab value="docker">{tabDockerTitle}</Tab>
+          <Tab value="npm">{tabNpmTitle}</Tab>
+        </TabList>
+
+        <div style={{ marginTop: 24, marginBottom: 24 }}>
+          <TabPanel value="public-demo">
+            <Card type="container" className="card-standalone">
+              <div style={{ marginBottom: 24, fontSize: 16 }}>
+                {optionsHosted}
+              </div>
+              <h3 className="card-title">{ideConfigSummary}</h3>
+              <figure style={{ margin: "16px 0" }}>
+                <video
+                  src="https://storage.yandexcloud.net/ydb-qdrant/1121.mp4"
+                  controls
+                  autoPlay={false}
+                  muted
+                  playsInline
+                  onPlay={handleVideoPlay}
+                  onTimeUpdate={handleVideoTimeUpdate}
+                  onEnded={handleVideoEnded}
+                  style={{
+                    width: "100%",
+                    maxWidth: "100%",
+                    height: "auto",
+                    border: "1px solid #19212b",
+                    borderRadius: "8px",
+                    display: "block",
+                    margin: "0 auto",
+                    aspectRatio: "16 / 9",
+                  }}
+                  aria-label={ideConfigImageAlt}
+                />
+              </figure>
+              {ideConfigDescription}
+            </Card>
+          </TabPanel>
+
+          <TabPanel value="self-hosted">
+            <Card type="container" className="card-standalone">
+              {selfHostedNodeBlock}
+            </Card>
+          </TabPanel>
+
+          <TabPanel value="docker">
+            <Card type="container" className="card-standalone">
+              {dockerBlock}
+            </Card>
+          </TabPanel>
+
+          <TabPanel value="npm">
+            <Card type="container" className="card-standalone">
+              {npmBlock}
+            </Card>
+          </TabPanel>
+        </div>
+      </TabProvider>
 
       <details id="ide-config-diagram">
         <summary>{ideUnderHoodSummary}</summary>
@@ -157,15 +207,7 @@ export const GettingStartedSectionBase = ({
         </figure>
       </details>
 
-      <div className="grid">
-        <Card type="container">
-          <h3 className="card-title">{optionsTitle}</h3>
-          <ul className="muted">
-            <li>{optionsSelfHost}</li>
-            <li>{optionsHosted}</li>
-          </ul>
-        </Card>
-
+      <div className="grid" style={{ marginTop: 24 }}>
         <Card type="container">
           <h3 className="card-title">{docsTitle}</h3>
           <ul className="muted">
@@ -181,15 +223,6 @@ export const GettingStartedSectionBase = ({
               </li>
             ))}
           </ul>
-        </Card>
-      </div>
-
-      <div id="server-docker" className="grid">
-        <Card type="container" className="card-standalone">
-          {dockerBlock}
-        </Card>
-        <Card type="container" className="card-standalone">
-          {selfHostedNodeBlock}
         </Card>
       </div>
     </section>
