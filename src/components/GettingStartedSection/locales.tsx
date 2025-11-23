@@ -192,7 +192,7 @@ export const gettingStartedSectionRuProps = (): Omit<
     },
     {
       href: "https://ydb.tech/docs/en/dev/vector-indexes",
-      label: "Векторные индексы (vector_kmeans_tree)",
+      label: "В��кторные индексы (vector_kmeans_tree)",
     },
     {
       href: "https://cloud.yandex.com/en/docs/ydb/",
@@ -274,9 +274,45 @@ export const gettingStartedSectionRuProps = (): Omit<
     </>
   );
 
+  const npmBlock: ReactNode = (
+    <>
+      <h3 className="card-title">Использование как Node.js библиотеки</h3>
+      <ol className="muted">
+        <li>
+          Установка: <code>npm install ydb-qdrant</code>
+        </li>
+        <li>
+          Использование:
+          <pre>
+            <code>
+              {`import { createYdbQdrantClient } from "ydb-qdrant";
+
+const client = createYdbQdrantClient({
+  endpoint: "grpcs://ydb.serverless.yandexcloud.net:2135",
+  database: "/ru-central1/...",
+  token: "..."
+});`}
+            </code>
+          </pre>
+        </li>
+      </ol>
+      <p className="muted">
+        См.{" "}
+        <a
+          href="https://www.npmjs.com/package/ydb-qdrant"
+          target="_blank"
+          rel="noopener"
+        >
+          npm package
+        </a>{" "}
+        для подробностей.
+      </p>
+    </>
+  );
+
   return {
     title: "Быстрый старт",
-    ideConfigSummary: "Настройка в Roo Code/Kilo Code",
+    ideConfigSummary: "Настр��йка в Roo Code/Kilo Code",
     ideConfigDescription: (
       <p className="muted">
         Публичный demo‑endpoint для IDE: <code>{DEMO_URL}</code> (вставьте в
@@ -302,5 +338,10 @@ export const gettingStartedSectionRuProps = (): Omit<
     docsLinks,
     selfHostedNodeBlock,
     dockerBlock,
+    npmBlock,
+    tabPublicDemoTitle: "Публичное демо",
+    tabSelfHostedTitle: "Self-hosted Node",
+    tabDockerTitle: "Docker",
+    tabNpmTitle: "NPM пакет",
   };
 };
