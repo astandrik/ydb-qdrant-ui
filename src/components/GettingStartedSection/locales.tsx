@@ -172,6 +172,7 @@ export const gettingStartedSectionRuProps = (): Omit<
   GettingStartedSectionBaseProps,
   "ideDetailsRef" | "activeTab" | "onTabChange" | "sectionRef" | "onCopyDemoUrl"
 > => {
+  const demoUrl = DEMO_URL;
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Диаграммы сервиса (C4 + ER)" },
     {
@@ -320,9 +321,9 @@ const client = createYdbQdrantClient({
     ideUnderHoodImageAlt:
       "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → YDB векторы + индекс",
     optionsTitle: "Варианты",
-    optionsSelfHost: "Самостоятельный хостинг: http://localhost:8080/",
+    optionsSelfHost: "Самостоя��ельный хостинг: http://localhost:8080/",
     optionsHosted: "Хостируемый demo‑endpoint для IDE:",
-    docsTitle: "До��ументация",
+    docsTitle: "Документация",
     docsLinks,
     selfHostedNodeBlock,
     dockerBlock,
