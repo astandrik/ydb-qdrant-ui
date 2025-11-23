@@ -70,7 +70,6 @@ export const GettingStartedSectionBase = ({
   tabNpmTitle,
 }: GettingStartedSectionBaseProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [shouldAutoplay, setShouldAutoplay] = useState(false);
   const videoProgressRef = useRef({
     hasStarted: false,
     reached25: false,
