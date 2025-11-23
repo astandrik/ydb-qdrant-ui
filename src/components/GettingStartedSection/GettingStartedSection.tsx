@@ -86,9 +86,11 @@ export const GettingStartedSectionBase = ({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setShouldAutoplay(true);
+            videoElement.play().catch(() => {
+              // Autoplay may fail due to browser policy
+            });
           } else {
-            setShouldAutoplay(false);
+            videoElement.pause();
           }
         });
       },
