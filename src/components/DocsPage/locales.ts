@@ -104,7 +104,7 @@ const sectionsRu: Section[] = [
         src: "/assets/C4-Component-Index-Scheduler.svg",
         alt: "Диаграмма компонентов планировщика индексов",
         caption:
-          "Компоненты планировщика индексов: состояние планировщика в памяти, notifyUpsert, requestIndexBuild, логика таймера и пороговый гейт.",
+          "Компоненты план��ровщика индексов: состояние планировщика в памяти, notifyUpsert, requestIndexBuild, логика таймера и пороговый гейт.",
       },
       {
         src: "/assets/C4-Component-YDB-Integration.svg",
@@ -134,6 +134,7 @@ export const docsPageEnProps: DocsPageBaseProps = {
   copySuccessLabel: "Copied!",
   metricsPageName: "docs",
   sections: sectionsEn,
+  backLinkText: "Back to main page",
 };
 
 export const docsPageRuProps: DocsPageBaseProps = {
@@ -144,4 +145,5 @@ export const docsPageRuProps: DocsPageBaseProps = {
   copySuccessLabel: "Скопировано!",
   metricsPageName: "docs",
   sections: sectionsRu,
+  backLinkText: "Назад на главную",
 };
