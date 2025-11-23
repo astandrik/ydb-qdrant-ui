@@ -166,15 +166,23 @@ export const GettingStartedSectionBase = ({
 
       <TabProvider value={activeTab} onUpdate={onTabChange}>
         <TabList size="l">
-          <Tab value="public-demo">{tabPublicDemoTitle}</Tab>
-          <Tab value="self-hosted">{tabSelfHostedTitle}</Tab>
-          <Tab value="docker">{tabDockerTitle}</Tab>
-          <Tab value="npm">{tabNpmTitle}</Tab>
+          <Tab value="public-demo" href="#public-demo">
+            {tabPublicDemoTitle}
+          </Tab>
+          <Tab value="self-hosted" href="#self-hosted">
+            {tabSelfHostedTitle}
+          </Tab>
+          <Tab value="docker" href="#docker">
+            {tabDockerTitle}
+          </Tab>
+          <Tab value="npm" href="#npm">
+            {tabNpmTitle}
+          </Tab>
         </TabList>
 
         <div style={{ marginTop: 24 }}>
           <TabPanel value="public-demo">
-            <Card type="container" className="card-standalone">
+            <Card type="container" className="card-standalone" id="public-demo">
               <div style={{ marginBottom: 24, fontSize: 16 }}>
                 {optionsHosted}
               </div>
