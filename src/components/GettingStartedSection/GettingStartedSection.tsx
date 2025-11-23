@@ -30,6 +30,7 @@ export type GettingStartedSectionBaseProps = {
   optionsTitle: string;
   optionsSelfHost: ReactNode;
   optionsHosted: ReactNode;
+  demoUrl: string;
   onCopyDemoUrl: (event: MouseEvent<HTMLButtonElement>) => void;
   docsTitle: string;
   docsLinks: DocsLink[];
