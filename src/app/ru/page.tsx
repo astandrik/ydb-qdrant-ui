@@ -84,7 +84,7 @@ export default function HomeRu() {
           onTabChange={handleTabChange}
         />
 
-        <ApiAtAGlanceSectionRu />
+        <ApiAtAGlanceSectionRu activeTab={activeTab} />
       </main>
     </>
   );
