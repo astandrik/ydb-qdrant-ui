@@ -2,6 +2,7 @@ import { Card, Text } from "@gravity-ui/uikit";
 import CodeBlock from "@/components/CodeBlock/CodeBlock";
 
 export type ApiAtAGlanceBaseProps = {
+  activeTab?: string;
   title: string;
   purposeTitle: string;
   purposeBody: string;
@@ -17,6 +18,7 @@ export type ApiAtAGlanceBaseProps = {
 };
 
 export const ApiAtAGlanceSectionBase = ({
+  activeTab,
   title,
   purposeTitle,
   purposeBody,
@@ -30,6 +32,17 @@ export const ApiAtAGlanceSectionBase = ({
   packageLanguage,
   healthText,
 }: ApiAtAGlanceBaseProps) => {
+  const isPublicDemo = activeTab === "public-demo";
+  const isNpm = activeTab === "npm";
+
+  let displayServerCode = serverCodeBlock;
+  if (isPublicDemo) {
+    displayServerCode = displayServerCode.replace(
+      /http:\/\/localhost:8080/g,
+      "http://ydb-qdrant.tech:8080"
+    );
+  }
+
   return (
     <section className="section">
       <h2 className="section-title">{title}</h2>
@@ -49,8 +62,12 @@ export const ApiAtAGlanceSectionBase = ({
         </Card>
       </div>
 
-      <h3>{serverTitle}</h3>
-      <CodeBlock code={serverCodeBlock} language={serverLanguage} />
+      {!isNpm && (
+        <>
+          <h3>{serverTitle}</h3>
+          <CodeBlock code={displayServerCode} language={serverLanguage} />
+        </>
+      )}
 
       <h3 id="package-usage">{packageTitle}</h3>
       <CodeBlock code={packageCodeBlock} language={packageLanguage} />
