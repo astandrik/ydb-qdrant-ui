@@ -38,24 +38,6 @@ a {
   }
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--acc);
-  font-size: 14px;
-  font-weight: 500;
-  transition: opacity 0.2s;
-}
-
-.back-link:hover {
-  opacity: 0.8;
-}
-
-.back-link svg {
-  fill: currentColor;
-}
-
 h1 {
   font-size: 28px;
   margin: 0 0 12px;
