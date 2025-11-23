@@ -169,25 +169,41 @@ export const GettingStartedSectionBase = ({
           <Tab
             value="public-demo"
             href="#public-demo"
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => {
+              e.preventDefault();
+              onTabChange("public-demo");
+            }}
           >
             {tabPublicDemoTitle}
           </Tab>
           <Tab
             value="self-hosted"
             href="#self-hosted"
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => {
+              e.preventDefault();
+              onTabChange("self-hosted");
+            }}
           >
             {tabSelfHostedTitle}
           </Tab>
           <Tab
             value="docker"
             href="#docker"
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => {
+              e.preventDefault();
+              onTabChange("docker");
+            }}
           >
             {tabDockerTitle}
           </Tab>
-          <Tab value="npm" href="#npm" onClick={(e) => e.preventDefault()}>
+          <Tab
+            value="npm"
+            href="#npm"
+            onClick={(e) => {
+              e.preventDefault();
+              onTabChange("npm");
+            }}
+          >
             {tabNpmTitle}
           </Tab>
         </TabList>
