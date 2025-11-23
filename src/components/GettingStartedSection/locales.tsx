@@ -16,7 +16,7 @@ export type GettingStartedSectionProps = {
 
 export const gettingStartedSectionEnProps = (): Omit<
   GettingStartedSectionBaseProps,
-  "sectionRef" | "activeTab" | "onTabChange"
+  "sectionRef" | "activeTab" | "onTabChange" | "onCopyDemoUrl"
 > => {
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Service diagrams (C4 + ER)" },
