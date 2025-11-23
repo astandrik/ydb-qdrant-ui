@@ -15,8 +15,24 @@ import { ApiAtAGlanceSectionRu } from "@/components/ApiAtAGlanceSection";
 import { GettingStartedSectionRu } from "@/components/GettingStartedSection";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 
+const VALID_TABS = ["public-demo", "self-hosted", "docker", "npm"];
+
+function getInitialTab(): string {
+  if (typeof window === "undefined") {
+    return "public-demo";
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get("tab");
+
+  if (tab && VALID_TABS.includes(tab)) {
+    return tab;
+  }
+
+  return "public-demo";
+}
 export default function HomeRu() {
-  const [activeTab, setActiveTab] = useState("public-demo");
+  const [activeTab, setActiveTab] = useState(getInitialTab);
   const gettingStartedRef = useRef<HTMLElement>(null);
 
   const openIdeDetails = (scrollSmooth: boolean) => {
@@ -39,14 +55,16 @@ export default function HomeRu() {
     const params = new URLSearchParams(window.location.search);
     const tab = params.get("tab");
     const ideConfig = params.get("ide-config");
-    const validTabs = ["public-demo", "self-hosted", "docker", "npm"];
 
-    if (ideConfig === "true" && !tab) {
-      openIdeDetails(false);
-    }
-
-    if (tab && validTabs.includes(tab)) {
-      setActiveTab(tab);
+    if (ideConfig === "true" && !tab && gettingStartedRef.current) {
+      try {
+        gettingStartedRef.current.scrollIntoView({
+          behavior: "auto",
+          block: "start",
+        });
+      } catch {
+        gettingStartedRef.current.scrollIntoView();
+      }
     }
   }, []);
 

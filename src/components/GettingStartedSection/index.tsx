@@ -1,4 +1,3 @@
-import type { MouseEvent } from "react";
 import { GettingStartedSectionBase } from "./GettingStartedSection";
 import {
   gettingStartedSectionEnProps,

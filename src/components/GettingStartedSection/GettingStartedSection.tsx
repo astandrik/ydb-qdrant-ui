@@ -26,8 +26,8 @@ export type GettingStartedSectionBaseProps = {
   ideConfigImageAlt: string;
   ideUnderHoodSummary: string;
   ideUnderHoodImageAlt: string;
-  optionsTitle: string;
-  optionsSelfHost: ReactNode;
+  optionsTitle?: string;
+  optionsSelfHost?: ReactNode;
   optionsHosted: ReactNode;
   demoUrl: string;
   onCopyDemoUrl: (event: MouseEvent<HTMLButtonElement>) => void;
@@ -52,8 +52,6 @@ export const GettingStartedSectionBase = ({
   ideConfigImageAlt,
   ideUnderHoodSummary,
   ideUnderHoodImageAlt,
-  optionsTitle,
-  optionsSelfHost,
   optionsHosted,
   demoUrl,
   onCopyDemoUrl,

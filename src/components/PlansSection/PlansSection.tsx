@@ -1,4 +1,4 @@
-import { Card, Text } from "@gravity-ui/uikit";
+import { Card } from "@gravity-ui/uikit";
 
 export type PlansSectionBaseProps = {
   title: string;
