@@ -6,22 +6,30 @@ import {
 } from "./locales";
 
 export const GettingStartedSectionEn = ({
-  ideDetailsRef,
+  sectionRef,
+  activeTab,
+  onTabChange,
 }: GettingStartedSectionProps) => {
   return (
     <GettingStartedSectionBase
-      ideDetailsRef={ideDetailsRef}
+      sectionRef={sectionRef}
+      activeTab={activeTab}
+      onTabChange={onTabChange}
       {...gettingStartedSectionEnProps()}
     />
   );
 };
 
 export const GettingStartedSectionRu = ({
-  ideDetailsRef,
+  sectionRef,
+  activeTab,
+  onTabChange,
 }: GettingStartedSectionProps) => {
   return (
     <GettingStartedSectionBase
-      ideDetailsRef={ideDetailsRef}
+      sectionRef={sectionRef}
+      activeTab={activeTab}
+      onTabChange={onTabChange}
       {...gettingStartedSectionRuProps()}
     />
   );
@@ -33,4 +41,3 @@ export type { GettingStartedSectionProps } from "./locales";
 const GettingStartedSection = GettingStartedSectionEn;
 
 export default GettingStartedSection;
-
