@@ -215,19 +215,19 @@ export const GettingStartedSectionBase = ({
           </TabPanel>
 
           <TabPanel value="self-hosted">
-            <Card type="container" className="card-standalone">
+            <Card type="container" className="card-standalone" id="self-hosted">
               {selfHostedNodeBlock}
             </Card>
           </TabPanel>
 
           <TabPanel value="docker">
-            <Card type="container" className="card-standalone">
+            <Card type="container" className="card-standalone" id="docker">
               {dockerBlock}
             </Card>
           </TabPanel>
 
           <TabPanel value="npm">
-            <Card type="container" className="card-standalone">
+            <Card type="container" className="card-standalone" id="npm">
               {npmBlock}
             </Card>
           </TabPanel>
