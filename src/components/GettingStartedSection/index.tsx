@@ -1,3 +1,4 @@
+import type { MouseEvent } from "react";
 import { GettingStartedSectionBase } from "./GettingStartedSection";
 import {
   gettingStartedSectionEnProps,
@@ -9,12 +10,14 @@ export const GettingStartedSectionEn = ({
   sectionRef,
   activeTab,
   onTabChange,
+  onCopyDemoUrl,
 }: GettingStartedSectionProps) => {
   return (
     <GettingStartedSectionBase
       sectionRef={sectionRef}
       activeTab={activeTab}
       onTabChange={onTabChange}
+      onCopyDemoUrl={onCopyDemoUrl}
       {...gettingStartedSectionEnProps()}
     />
   );
@@ -24,12 +27,14 @@ export const GettingStartedSectionRu = ({
   sectionRef,
   activeTab,
   onTabChange,
+  onCopyDemoUrl,
 }: GettingStartedSectionProps) => {
   return (
     <GettingStartedSectionBase
       sectionRef={sectionRef}
       activeTab={activeTab}
       onTabChange={onTabChange}
+      onCopyDemoUrl={onCopyDemoUrl}
       {...gettingStartedSectionRuProps()}
     />
   );
