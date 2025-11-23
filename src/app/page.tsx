@@ -43,9 +43,6 @@ export default function Home() {
       openIdeDetails(false);
     } else if (tab && validTabs.includes(tab)) {
       setActiveTab(tab);
-      if (gettingStartedRef.current) {
-        gettingStartedRef.current.scrollIntoView({ block: "start" });
-      }
     }
   }, []);
 
