@@ -34,13 +34,15 @@ export default function Home() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const hash = window.location.hash.replace("#", "");
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get("tab");
+    const ideConfig = params.get("ide-config");
     const validTabs = ["public-demo", "self-hosted", "docker", "npm"];
 
-    if (hash === "ide-config") {
+    if (ideConfig === "true") {
       openIdeDetails(false);
-    } else if (validTabs.includes(hash)) {
-      setActiveTab(hash);
+    } else if (tab && validTabs.includes(tab)) {
+      setActiveTab(tab);
       if (gettingStartedRef.current) {
         gettingStartedRef.current.scrollIntoView({ block: "start" });
       }
@@ -49,7 +51,9 @@ export default function Home() {
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
-    window.history.replaceState(null, "", `#${tab}`);
+    const params = new URLSearchParams(window.location.search);
+    params.set("tab", tab);
+    window.history.replaceState(null, "", `?${params.toString()}`);
   };
 
   const handleCopy = createCopyToClipboardHandler({
