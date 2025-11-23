@@ -224,8 +224,15 @@ export const GettingStartedSectionBase = ({
         <div style={{ marginTop: 24 }}>
           <TabPanel value="public-demo">
             <Card type="container" className="card-standalone" id="public-demo">
-              <div style={{ marginBottom: 24, fontSize: 16 }}>
-                {optionsHosted}
+              <div style={{ marginBottom: 24, fontSize: 16 }} className="hero-demo">
+                {optionsHosted} <code>{demoUrl}</code>
+                <button
+                  type="button"
+                  className="copy-btn"
+                  onClick={onCopyDemoUrl}
+                >
+                  Copy
+                </button>
               </div>
               <h3 className="card-title">{ideConfigSummary}</h3>
               <figure style={{ margin: "16px 0" }}>
