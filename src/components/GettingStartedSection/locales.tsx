@@ -100,6 +100,42 @@ export const gettingStartedSectionEnProps = (): Omit<
     </>
   );
 
+  const npmBlock: ReactNode = (
+    <>
+      <h3 className="card-title">Use as Node.js library</h3>
+      <ol className="muted">
+        <li>
+          Install: <code>npm install ydb-qdrant</code>
+        </li>
+        <li>
+          Usage:
+          <pre>
+            <code>
+              {`import { createYdbQdrantClient } from "ydb-qdrant";
+
+const client = createYdbQdrantClient({
+  endpoint: "grpcs://ydb.serverless.yandexcloud.net:2135",
+  database: "/ru-central1/...",
+  token: "..."
+});`}
+            </code>
+          </pre>
+        </li>
+      </ol>
+      <p className="muted">
+        See{" "}
+        <a
+          href="https://www.npmjs.com/package/ydb-qdrant"
+          target="_blank"
+          rel="noopener"
+        >
+          npm package
+        </a>{" "}
+        for more details.
+      </p>
+    </>
+  );
+
   return {
     title: "Getting started",
     ideConfigSummary: "Configure in Roo Code/Kilo Code",
@@ -128,12 +164,17 @@ export const gettingStartedSectionEnProps = (): Omit<
     docsLinks,
     selfHostedNodeBlock,
     dockerBlock,
+    npmBlock,
+    tabPublicDemoTitle: "Public Demo",
+    tabSelfHostedTitle: "Self-hosted Node",
+    tabDockerTitle: "Docker",
+    tabNpmTitle: "NPM Package",
   };
 };
 
 export const gettingStartedSectionRuProps = (): Omit<
   GettingStartedSectionBaseProps,
-  "ideDetailsRef"
+  "ideDetailsRef" | "activeTab" | "onTabChange" | "sectionRef"
 > => {
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Диаграммы сервиса (C4 + ER)" },
@@ -263,4 +304,3 @@ export const gettingStartedSectionRuProps = (): Omit<
     dockerBlock,
   };
 };
-
