@@ -1,4 +1,4 @@
-import type { ReactNode, RefObject, SyntheticEvent } from "react";
+import type { MouseEvent, ReactNode, RefObject, SyntheticEvent } from "react";
 import { useCallback, useRef } from "react";
 import Image from "next/image";
 import {
@@ -30,6 +30,7 @@ export type GettingStartedSectionBaseProps = {
   optionsTitle: string;
   optionsSelfHost: ReactNode;
   optionsHosted: ReactNode;
+  onCopyDemoUrl: (event: MouseEvent<HTMLButtonElement>) => void;
   docsTitle: string;
   docsLinks: DocsLink[];
   selfHostedNodeBlock: ReactNode;
@@ -54,6 +55,7 @@ export const GettingStartedSectionBase = ({
   optionsTitle,
   optionsSelfHost,
   optionsHosted,
+  onCopyDemoUrl,
   docsTitle,
   docsLinks,
   selfHostedNodeBlock,
