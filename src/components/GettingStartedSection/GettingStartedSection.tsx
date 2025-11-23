@@ -1,5 +1,5 @@
 import type { MouseEvent, ReactNode, RefObject, SyntheticEvent } from "react";
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   Card,
@@ -68,12 +68,36 @@ export const GettingStartedSectionBase = ({
   tabDockerTitle,
   tabNpmTitle,
 }: GettingStartedSectionBaseProps) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [shouldAutoplay, setShouldAutoplay] = useState(false);
   const videoProgressRef = useRef({
     hasStarted: false,
     reached25: false,
     reached50: false,
     reached75: false,
   });
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    if (!videoElement) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldAutoplay(true);
+          } else {
+            setShouldAutoplay(false);
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(videoElement);
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleVideoPlay = useCallback(() => {
     const state = videoProgressRef.current;
@@ -227,9 +251,10 @@ export const GettingStartedSectionBase = ({
               <h3 className="card-title">{ideConfigSummary}</h3>
               <figure style={{ margin: "16px 0" }}>
                 <video
+                  ref={videoRef}
                   src="https://storage.yandexcloud.net/ydb-qdrant/1121.mp4"
                   controls
-                  autoPlay={false}
+                  autoPlay={shouldAutoplay}
                   muted
                   playsInline
                   onPlay={handleVideoPlay}
