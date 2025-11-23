@@ -256,7 +256,6 @@ export const GettingStartedSectionBase = ({
                   ref={videoRef}
                   src="https://storage.yandexcloud.net/ydb-qdrant/1121.mp4"
                   controls
-                  autoPlay={shouldAutoplay}
                   muted
                   playsInline
                   onPlay={handleVideoPlay}
