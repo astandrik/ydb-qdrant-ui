@@ -12,10 +12,8 @@ export type VectorDimensionsSectionBaseProps = {
   title: string;
   description: string;
   commercialModelsTitle: string;
-  commercialModelsColumns: { id: string; name: string }[];
   commercialModelsData: ModelRow[];
   openSourceModelsTitle: string;
-  openSourceModelsColumns: { id: string; name: string }[];
   openSourceModelsData: ModelRow[];
   choosingDimensionsTitle: string;
   choosingDimensionsItems: { title: string; description: string }[];
