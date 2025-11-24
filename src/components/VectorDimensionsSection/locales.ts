@@ -4,12 +4,6 @@ export const vectorDimensionsSectionEnProps: VectorDimensionsSectionBaseProps = 
   title: "Recommended Vector Dimensions",
   description: "When creating a collection, you must specify the vector size matching your embedding model. Below are popular models with their dimensions and typical use cases:",
   commercialModelsTitle: "Commercial API Models",
-  commercialModelsColumns: [
-    { id: "provider", name: "Provider" },
-    { id: "model", name: "Model" },
-    { id: "dimensions", name: "Dimensions" },
-    { id: "useCases", name: "Use Cases" },
-  ],
   commercialModelsData: [
     { provider: "OpenAI", model: "text-embedding-3-small", dimensions: "1536 (default, can reduce to 256-1536)", useCases: "RAG, semantic search, general-purpose embeddings" },
     { provider: "OpenAI", model: "text-embedding-3-large", dimensions: "3072 (default, can reduce to 256, 512, 1024, 1536, 3072)", useCases: "High-accuracy RAG, multilingual tasks" },
@@ -25,11 +19,6 @@ export const vectorDimensionsSectionEnProps: VectorDimensionsSectionBaseProps = 
     { provider: "Google", model: "text-multilingual-embedding-002", dimensions: "768", useCases: "Multilingual text embeddings" },
   ],
   openSourceModelsTitle: "Open-Source Models (HuggingFace)",
-  openSourceModelsColumns: [
-    { id: "model", name: "Model" },
-    { id: "dimensions", name: "Dimensions" },
-    { id: "useCases", name: "Use Cases" },
-  ],
   openSourceModelsData: [
     { model: "sentence-transformers/all-MiniLM-L6-v2", dimensions: "384", useCases: "Fast semantic search, low-resource environments" },
     { model: "BAAI/bge-base-en-v1.5", dimensions: "768", useCases: "RAG, retrieval, English text" },
