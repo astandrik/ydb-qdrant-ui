@@ -8,7 +8,9 @@ import {
   TabList,
   Tab,
   TabPanel,
+  Icon,
 } from "@gravity-ui/uikit";
+import { Link as LinkIcon } from "@gravity-ui/icons";
 import { trackGoal } from "@/shared/utils/metricsManager";
 
 export type DocsLink = {
@@ -193,7 +195,24 @@ export const GettingStartedSectionBase = ({
         id="ide-config"
         style={{ paddingTop: 48 }}
       >
-        <h2 className="section-title">{title}</h2>
+        <h2 className="section-title" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          {title}
+          <a
+            href="#ide-config"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              color: "var(--muted)",
+              opacity: 0.5,
+              transition: "opacity 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+            aria-label="Anchor to this section"
+          >
+            <Icon data={LinkIcon} size={20} />
+          </a>
+        </h2>
 
       <TabProvider value={activeTab} onUpdate={onTabChange}>
         <TabList size="l">
