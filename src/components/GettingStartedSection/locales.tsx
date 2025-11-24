@@ -324,7 +324,7 @@ const client = createYdbQdrantClient({
       "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → YDB векторы + индекс",
     optionsTitle: "Варианты",
     optionsSelfHost: "Самостоятельный хостинг: http://localhost:8080/",
-    optionsHosted: "Хостируемый demo‑endpoint для IDE:",
+    optionsHosted: "Публичный demo‑endpoint для IDE:",
     demoUrl,
     docsTitle: "Документация",
     docsLinks,

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Dialog, Button, Icon } from "@gravity-ui/uikit";
 import { ArrowLeft } from "@gravity-ui/icons";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
+import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
 
 export const DEMO_URL = "http://ydb-qdrant.tech:8080";
 
@@ -58,16 +59,13 @@ export const DocsPageBase = ({
       </div>
       <h1>{title}</h1>
       <p className="lead">{lead}</p>
-      <p className="hero-demo">
-        {demoPrefix} <code>{DEMO_URL}</code>
-        <button
-          type="button"
-          className="copy-btn"
-          onClick={(e) => handleCopy(DEMO_URL, e)}
-        >
-          {copyButtonLabel}
-        </button>
-      </p>
+      <DemoEndpointBadge
+        label={demoPrefix}
+        url={DEMO_URL}
+        buttonLabel={copyButtonLabel}
+        onCopy={(e) => handleCopy(DEMO_URL, e)}
+        locale={metricsPageName === "docs-ru" ? "ru" : "en"}
+      />
 
       {sections.map((section) => (
         <section className="section" key={section.title}>
