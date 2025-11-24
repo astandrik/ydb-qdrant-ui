@@ -43,7 +43,7 @@ export const VectorDimensionsSectionBase = ({
         {description}
       </Text>
 
-      <h3 className="section-subtitle" style={{ marginBottom: 16 }}>{commercialModelsTitle}</h3>
+      <h3 style={{ marginBottom: 16 }}>{commercialModelsTitle}</h3>
       <Card type="container" style={{ marginBottom: 32, overflow: "hidden" }}>
         <div style={{ overflowX: "auto" }}>
           <Table
@@ -53,7 +53,7 @@ export const VectorDimensionsSectionBase = ({
         </div>
       </Card>
 
-      <h3 className="section-subtitle" style={{ marginBottom: 16 }}>{openSourceModelsTitle}</h3>
+      <h3 style={{ marginBottom: 16 }}>{openSourceModelsTitle}</h3>
       <Card type="container" style={{ marginBottom: 32, overflow: "hidden" }}>
         <div style={{ overflowX: "auto" }}>
           <Table
