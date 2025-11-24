@@ -1,4 +1,5 @@
-import { Card, Text, Link } from "@gravity-ui/uikit";
+import { Card, Text, Link, Icon } from "@gravity-ui/uikit";
+import { Link as LinkIcon } from "@gravity-ui/icons";
 
 export type ModelRow = {
   provider?: string;
@@ -69,8 +70,25 @@ export const VectorDimensionsSectionBase = ({
   }, {} as Record<string, ModelRow[]>);
 
   return (
-    <section className="section">
-      <h2 className="section-title">{title}</h2>
+    <section className="section" id="recommended-vector-dimensions">
+      <h2 className="section-title" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        {title}
+        <a
+          href="#recommended-vector-dimensions"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            color: "var(--muted)",
+            opacity: 0.5,
+            transition: "opacity 0.2s",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+          onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+          aria-label="Anchor to this section"
+        >
+          <Icon data={LinkIcon} size={20} />
+        </a>
+      </h2>
       <Text className="muted" style={{ display: "block", marginBottom: 32 }}>
         {description}
       </Text>
