@@ -45,18 +45,22 @@ export const VectorDimensionsSectionBase = ({
 
       <h3 className="section-subtitle" style={{ marginBottom: 16 }}>{commercialModelsTitle}</h3>
       <Card type="container" style={{ marginBottom: 32, overflow: "hidden" }}>
-        <Table
-          columns={commercialModelsColumns}
-          data={commercialModelsData}
-        />
+        <div style={{ overflowX: "auto" }}>
+          <Table
+            columns={commercialModelsColumns}
+            data={commercialModelsData}
+          />
+        </div>
       </Card>
 
       <h3 className="section-subtitle" style={{ marginBottom: 16 }}>{openSourceModelsTitle}</h3>
       <Card type="container" style={{ marginBottom: 32, overflow: "hidden" }}>
-        <Table
-          columns={openSourceModelsColumns}
-          data={openSourceModelsData}
-        />
+        <div style={{ overflowX: "auto" }}>
+          <Table
+            columns={openSourceModelsColumns}
+            data={openSourceModelsData}
+          />
+        </div>
       </Card>
 
       <div className="grid">
