@@ -1,5 +1,6 @@
-import { Card, Text, Link, Icon } from "@gravity-ui/uikit";
-import { Link as LinkIcon } from "@gravity-ui/icons";
+import { useMemo } from "react";
+import { Card, Text, Link } from "@gravity-ui/uikit";
+import { SectionTitleWithAnchor } from "../SectionTitleWithAnchor/SectionTitleWithAnchor";
 
 export type ModelRow = {
   provider?: string;
@@ -19,28 +20,43 @@ export type VectorDimensionsSectionBaseProps = {
   choosingDimensionsItems: { title: string; description: string }[];
   referencesTitle: string;
   references: { label: string; href: string }[];
+  dimensionsLabel: string;
+  useCasesLabel: string;
+  anchorAriaLabel: string;
 };
 
-const ModelCard = ({ model, dimensions, useCases }: { model: string, dimensions: string, useCases: string }) => (
-  <Card type="container" className="model-card" style={{ height: "100%", padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
+const ModelCard = ({
+  model,
+  dimensions,
+  useCases,
+  dimensionsLabel,
+  useCasesLabel,
+}: {
+  model: string;
+  dimensions: string;
+  useCases: string;
+  dimensionsLabel: string;
+  useCasesLabel: string;
+}) => (
+  <Card type="container" className="model-card">
     <div>
-      <Text style={{ fontWeight: 600, fontSize: "16px", display: "block", marginBottom: "4px", wordBreak: "break-word" }}>
+      <Text className="model-card__model">
         {model}
       </Text>
     </div>
     <div>
-      <Text color="secondary" style={{ fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.5px", display: "block", marginBottom: "4px" }}>
-        Dimensions
+      <Text color="secondary" className="model-card__label">
+        {dimensionsLabel}
       </Text>
-      <Text style={{ fontSize: "15px", fontFamily: "monospace", background: "rgba(255, 255, 255, 0.1)", padding: "2px 6px", borderRadius: "4px" }}>
+      <Text className="model-card__dimensions">
         {dimensions}
       </Text>
     </div>
     <div>
-      <Text color="secondary" style={{ fontSize: "13px", textTransform: "uppercase", letterSpacing: "0.5px", display: "block", marginBottom: "4px" }}>
-        Use Cases
+      <Text color="secondary" className="model-card__label">
+        {useCasesLabel}
       </Text>
-      <Text style={{ fontSize: "14px", lineHeight: "1.4" }}>
+      <Text className="model-card__use-cases">
         {useCases}
       </Text>
     </div>
@@ -58,35 +74,30 @@ export const VectorDimensionsSectionBase = ({
   choosingDimensionsItems,
   referencesTitle,
   references,
+  dimensionsLabel,
+  useCasesLabel,
+  anchorAriaLabel,
 }: VectorDimensionsSectionBaseProps) => {
   // Group commercial models by provider
-  const commercialGroups = commercialModelsData.reduce((acc, item) => {
-    const provider = item.provider || "Other";
-    if (!acc[provider]) acc[provider] = [];
-    acc[provider].push(item);
-    return acc;
-  }, {} as Record<string, ModelRow[]>);
+  const commercialGroups = useMemo(
+    () =>
+      commercialModelsData.reduce((acc, item) => {
+        const provider = item.provider || "Other";
+        if (!acc[provider]) acc[provider] = [];
+        acc[provider].push(item);
+        return acc;
+      }, {} as Record<string, ModelRow[]>),
+    [commercialModelsData],
+  );
 
   return (
     <section className="section" id="recommended-vector-dimensions">
-      <h2 className="section-title" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        {title}
-        <a
-          href="#recommended-vector-dimensions"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            color: "var(--muted)",
-            opacity: 0.5,
-            transition: "opacity 0.2s",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
-          aria-label="Anchor to this section"
-        >
-          <Icon data={LinkIcon} size={20} />
-        </a>
-      </h2>
+      <SectionTitleWithAnchor
+        title={title}
+        href="#recommended-vector-dimensions"
+        className="section-title"
+        anchorAriaLabel={anchorAriaLabel}
+      />
       <Text className="muted" style={{ display: "block", marginBottom: 32 }}>
         {description}
       </Text>
@@ -103,6 +114,8 @@ export const VectorDimensionsSectionBase = ({
                 model={item.model}
                 dimensions={item.dimensions}
                 useCases={item.useCases}
+                dimensionsLabel={dimensionsLabel}
+                useCasesLabel={useCasesLabel}
               />
             ))}
           </div>
@@ -117,6 +130,8 @@ export const VectorDimensionsSectionBase = ({
             model={item.model}
             dimensions={item.dimensions}
             useCases={item.useCases}
+            dimensionsLabel={dimensionsLabel}
+            useCasesLabel={useCasesLabel}
           />
         ))}
       </div>

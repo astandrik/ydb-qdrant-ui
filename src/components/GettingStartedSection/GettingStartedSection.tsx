@@ -1,16 +1,8 @@
 import type { MouseEvent, ReactNode, RefObject, SyntheticEvent } from "react";
 import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
-import {
-  Card,
-  Link,
-  TabProvider,
-  TabList,
-  Tab,
-  TabPanel,
-  Icon,
-} from "@gravity-ui/uikit";
-import { Link as LinkIcon } from "@gravity-ui/icons";
+import { Card, Link, TabProvider, TabList, Tab, TabPanel } from "@gravity-ui/uikit";
+import { SectionTitleWithAnchor } from "../SectionTitleWithAnchor/SectionTitleWithAnchor";
 import { trackGoal } from "@/shared/utils/metricsManager";
 
 export type DocsLink = {
@@ -195,24 +187,11 @@ export const GettingStartedSectionBase = ({
         id="ide-config"
         style={{ paddingTop: 48 }}
       >
-        <h2 className="section-title" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          {title}
-          <a
-            href="#ide-config"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              color: "var(--muted)",
-              opacity: 0.5,
-              transition: "opacity 0.2s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
-            aria-label="Anchor to this section"
-          >
-            <Icon data={LinkIcon} size={20} />
-          </a>
-        </h2>
+        <SectionTitleWithAnchor
+          title={title}
+          href="#ide-config"
+          className="section-title"
+        />
 
       <TabProvider value={activeTab} onUpdate={onTabChange}>
         <TabList size="l">

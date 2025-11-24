@@ -1,5 +1,5 @@
-import { Card, Text, Table, Icon } from "@gravity-ui/uikit";
-import { Link as LinkIcon } from "@gravity-ui/icons";
+import { Card, Text, Table } from "@gravity-ui/uikit";
+import { SectionTitleWithAnchor } from "../SectionTitleWithAnchor/SectionTitleWithAnchor";
 
 type WhyCard = {
   title: string;
@@ -33,24 +33,11 @@ export const WhySectionBase = ({
 }: WhySectionBaseProps) => {
   return (
     <section className="section" id="why-ydb-qdrant">
-      <h2 className="section-title" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        {title}
-        <a
-          href="#why-ydb-qdrant"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            color: "var(--muted)",
-            opacity: 0.5,
-            transition: "opacity 0.2s",
-          }}
-          onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-          onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
-          aria-label="Anchor to this section"
-        >
-          <Icon data={LinkIcon} size={20} />
-        </a>
-      </h2>
+      <SectionTitleWithAnchor
+        title={title}
+        href="#why-ydb-qdrant"
+        className="section-title"
+      />
       <div className="grid">
         {cards.map((card) => (
           <Card type="container" key={card.title}>
