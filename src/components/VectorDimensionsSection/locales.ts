@@ -287,7 +287,7 @@ export const vectorDimensionsSectionRuProps: VectorDimensionsSectionBaseProps =
       {
         model: "intfloat/e5-mistral-7b-instruct",
         dimensions: "4096",
-        useCases: "Высокомерные векторы для продвинутых RAG‑сценариев",
+        useCases: "Высокоразмерные векторы для продвинутых RAG‑сценариев",
       },
       {
         model: "nomic-ai/nomic-embed-text-v1",
