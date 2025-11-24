@@ -12,6 +12,7 @@ import { WhySectionRu } from "@/components/WhySection";
 import { WhereSectionRu } from "@/components/WhereSection";
 import { PlansSectionRu } from "@/components/PlansSection";
 import { ApiAtAGlanceSectionRu } from "@/components/ApiAtAGlanceSection";
+import { VectorDimensionsSectionRu } from "@/components/VectorDimensionsSection";
 import { GettingStartedSectionRu } from "@/components/GettingStartedSection";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 
@@ -109,6 +110,7 @@ export default function HomeRu() {
         />
 
         <ApiAtAGlanceSectionRu activeTab={activeTab} />
+        <VectorDimensionsSectionRu />
       </main>
     </>
   );

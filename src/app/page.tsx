@@ -11,6 +11,7 @@ import WhereSection from "@/components/WhereSection";
 import PlansSection from "@/components/PlansSection";
 import GettingStartedSection from "@/components/GettingStartedSection";
 import ApiAtAGlanceSection from "@/components/ApiAtAGlanceSection";
+import VectorDimensionsSection from "@/components/VectorDimensionsSection";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 
 const VALID_TABS = ["public-demo", "self-hosted", "docker", "npm"];
@@ -104,6 +105,7 @@ export default function Home() {
           }
         />
         <ApiAtAGlanceSection activeTab={activeTab} />
+        <VectorDimensionsSection />
       </main>
     </>
   );

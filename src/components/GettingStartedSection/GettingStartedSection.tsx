@@ -1,14 +1,8 @@
 import type { MouseEvent, ReactNode, RefObject, SyntheticEvent } from "react";
 import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
-import {
-  Card,
-  Link,
-  TabProvider,
-  TabList,
-  Tab,
-  TabPanel,
-} from "@gravity-ui/uikit";
+import { Card, Link, TabProvider, TabList, Tab, TabPanel } from "@gravity-ui/uikit";
+import { SectionTitleWithAnchor } from "../SectionTitleWithAnchor/SectionTitleWithAnchor";
 import { trackGoal } from "@/shared/utils/metricsManager";
 
 export type DocsLink = {
@@ -193,7 +187,11 @@ export const GettingStartedSectionBase = ({
         id="ide-config"
         style={{ paddingTop: 48 }}
       >
-        <h2 className="section-title">{title}</h2>
+        <SectionTitleWithAnchor
+          title={title}
+          href="#ide-config"
+          className="section-title"
+        />
 
       <TabProvider value={activeTab} onUpdate={onTabChange}>
         <TabList size="l">

@@ -1,4 +1,5 @@
 import { Card, Text, Table } from "@gravity-ui/uikit";
+import { SectionTitleWithAnchor } from "../SectionTitleWithAnchor/SectionTitleWithAnchor";
 
 type WhyCard = {
   title: string;
@@ -31,8 +32,12 @@ export const WhySectionBase = ({
   comparisonHeaders,
 }: WhySectionBaseProps) => {
   return (
-    <section className="section">
-      <h2 className="section-title">{title}</h2>
+    <section className="section" id="why-ydb-qdrant">
+      <SectionTitleWithAnchor
+        title={title}
+        href="#why-ydb-qdrant"
+        className="section-title"
+      />
       <div className="grid">
         {cards.map((card) => (
           <Card type="container" key={card.title}>
