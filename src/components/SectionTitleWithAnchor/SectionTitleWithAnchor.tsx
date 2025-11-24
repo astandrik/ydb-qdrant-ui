@@ -32,5 +32,3 @@ export const SectionTitleWithAnchor = ({
     </h2>
   );
 };
-
-
