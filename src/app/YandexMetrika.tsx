@@ -6,7 +6,13 @@ import {
   getYandexMetrikaInlineScript,
 } from "@/shared/utils/metricsManager";
 
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
+
 const YandexMetrika = () => {
+  if (!IS_PRODUCTION) {
+    return null;
+  }
+
   return (
     <>
       <Script id="yandex-metrika" strategy="afterInteractive">
