@@ -7,20 +7,6 @@ import {
 } from "@/shared/utils/metricsManager";
 
 const YandexMetrika = () => {
-  if (typeof window === "undefined") {
-    return null;
-  }
-
-  // Prevent Yandex Metrika from running in development or localhost
-  const isProduction = process.env.NODE_ENV === "production";
-  const isLocalhost =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
-
-  if (!isProduction || isLocalhost) {
-    return null;
-  }
-
   return (
     <>
       <Script id="yandex-metrika" strategy="afterInteractive">
