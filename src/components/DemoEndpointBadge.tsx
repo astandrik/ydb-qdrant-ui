@@ -2,6 +2,7 @@
 
 import type { MouseEvent, ReactNode } from "react";
 import { ServiceStatus } from "@/components/ServiceStatus";
+import "./DemoEndpointBadge.scss";
 
 export type DemoEndpointBadgeProps = {
   label: ReactNode;
@@ -19,9 +20,9 @@ export function DemoEndpointBadge({
   locale = "en",
 }: DemoEndpointBadgeProps) {
   return (
-    <div className="hero-demo">
-      {label} <code>{url}</code>
-      <button type="button" className="copy-btn" onClick={onCopy}>
+    <div className="demo-badge">
+      {label} <code className="demo-badge__url">{url}</code>
+      <button type="button" className="demo-badge__copy-button" onClick={onCopy}>
         {buttonLabel}
       </button>
       <ServiceStatus locale={locale} />

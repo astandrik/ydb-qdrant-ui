@@ -1,0 +1,58 @@
+// =============================================================================
+// Variables
+// =============================================================================
+
+// CSS Custom Properties (available globally)
+:root {
+  // Colors
+  --bg: #221d22;
+  --fg: #ffffff;
+  --muted: rgba(255, 255, 255, 0.5);
+  --acc: #ffbe5c;
+  --acc-hover: #ffb841;
+  --danger: #ff4d4f;
+
+  // Surfaces
+  --pill-bg: rgba(255, 255, 255, 0.1);
+  --pill-border: rgba(255, 255, 255, 0.15);
+
+  // Prism syntax colors
+  --prism-string: #9be5ff;
+  --prism-function: #ffd28a;
+  --prism-variable: #fba5ff;
+
+  // Spacing
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 24px;
+  --spacing-3xl: 32px;
+  --spacing-4xl: 40px;
+  --spacing-5xl: 48px;
+  --spacing-6xl: 60px;
+  --spacing-7xl: 80px;
+
+  // Border radius
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-full: 999px;
+
+  // Typography
+  --font-sans: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+    'Helvetica Neue', Arial;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+// SCSS Variables for mixins and calculations
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1200px;
+
+// Z-index layers
+$z-fixed: 10;
+$z-modal: 100;
+

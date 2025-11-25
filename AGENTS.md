@@ -29,7 +29,8 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
   - Browser URL: `http://localhost:3000`
 
 - **Primary entry points**:
-  - App layout and global styles: `src/app/layout.tsx`, `src/app/globals.css`.
+  - App layout: `src/app/layout.tsx`.
+  - Global styles entry point: `src/styles/globals.scss`.
   - Default root page: `src/app/page.tsx`.
   - Localized root pages: `src/app/en/page.tsx`, `src/app/ru/page.tsx`.
   - Docs pages: `src/app/docs/page.tsx`, `src/app/ru/docs/page.tsx`.
@@ -73,9 +74,30 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
 
 ## UI and styling conventions
 
-- **Styling**:
-  - Global styles: `src/app/globals.css`.
-  - Page-specific styles: `src/app/page.module.css` and similar CSS modules where present.
+- **Styling (SCSS + BEM)**:
+  - This project uses **SCSS** with **BEM** (Block Element Modifier) naming convention.
+  - Global styles entry point: `src/styles/globals.scss`.
+  - Foundation partials in `src/styles/`:
+    - `_variables.scss`: CSS custom properties and SCSS variables (colors, spacing, radii, breakpoints).
+    - `_mixins.scss`: Breakpoint mixins (`@include sm`, `@include hover`, etc.).
+    - `_base.scss`: Reset, typography, and global element styles.
+    - `_utilities.scss`: Utility classes (`.wrap`, `.grid`, `.section`, `.muted`, `.card-title`).
+    - `_prism.scss`: Syntax highlighting token colors.
+    - `_gravity-overrides.scss`: Gravity UI component overrides.
+  - Component-specific styles live alongside their components (e.g., `HeroSection/HeroSection.scss`).
+  - Each component imports its own SCSS file directly.
+
+- **BEM naming convention**:
+  - Block: Component name (e.g., `.hero`, `.footer`, `.demo-status`).
+  - Element: `__` separator (e.g., `.hero__logo`, `.demo-status__indicator`).
+  - Modifier: `--` separator (e.g., `.hero__button--primary`, `.demo-status--up`).
+  - Use SCSS nesting with `&` for BEM elements and modifiers.
+
+- **Breakpoint mixins** (defined in `_mixins.scss`):
+  - `@include sm { ... }` — min-width: 640px
+  - `@include md { ... }` — min-width: 768px
+  - `@include lg { ... }` — min-width: 1024px
+  - `@include hover { ... }` — hover-capable devices only
 
 - **Components**:
   - Import components directly from their implementation file where possible (`FooSection/FooSection.tsx`), even if an `index.tsx` re-export exists.
@@ -138,5 +160,13 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
 - **When adding features**:
   - Reuse existing patterns in `src/components/**` for layout and locales.
   - Keep user-facing strings centralized in existing `locales` files where applicable.
+
+- **When adding styles**:
+  - Create a component-specific `.scss` file alongside the component (e.g., `MyComponent/MyComponent.scss`).
+  - Import the SCSS file directly in the component: `import "./MyComponent.scss";`.
+  - Use BEM naming: `.my-component`, `.my-component__element`, `.my-component--modifier`.
+  - Use existing CSS variables from `_variables.scss` (e.g., `var(--spacing-md)`, `var(--acc)`).
+  - Use breakpoint mixins from `_mixins.scss` instead of raw media queries.
+  - Prefer utility classes from `_utilities.scss` for common patterns (`.section`, `.grid`, `.muted`).
 
 

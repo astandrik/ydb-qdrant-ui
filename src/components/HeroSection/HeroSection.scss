@@ -1,0 +1,118 @@
+// =============================================================================
+// HeroSection Component
+// Block: .hero
+// =============================================================================
+
+@use '../../styles/mixins' as *;
+
+.hero {
+  margin-bottom: var(--spacing-3xl);
+
+  @include sm {
+    margin-bottom: var(--spacing-4xl);
+  }
+
+  &__logo {
+    width: 32px !important;
+    height: 32px !important;
+    vertical-align: middle;
+    margin-right: var(--spacing-sm);
+    display: inline-block;
+
+    @include sm {
+      width: 40px !important;
+      height: 40px !important;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: var(--spacing-2xl) 0 var(--spacing-lg);
+    align-items: center;
+
+    @include sm {
+      gap: var(--spacing-lg);
+    }
+  }
+
+  &__footnote {
+    margin-top: var(--spacing-sm);
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+
+    @include sm {
+      margin-top: var(--spacing-xs);
+      font-size: 14px;
+    }
+  }
+
+  &__button {
+    &--primary {
+      background: var(--acc) !important;
+      color: #041013 !important;
+      border: none !important;
+      font-weight: 700;
+      font-size: 15px;
+      padding: var(--spacing-md) var(--spacing-xl) !important;
+      height: auto !important;
+      transition: all 0.3s ease !important;
+      box-shadow: 0 4px 12px rgba(255, 190, 92, 0.3) !important;
+      border-radius: var(--radius-md) !important;
+      text-transform: none;
+      letter-spacing: 0.3px;
+
+      &:active {
+        background: var(--acc-hover) !important;
+        box-shadow: 0 6px 16px rgba(255, 190, 92, 0.4) !important;
+        transform: scale(0.98);
+      }
+
+      @include hover {
+        background: var(--acc-hover) !important;
+        box-shadow: 0 6px 20px rgba(255, 190, 92, 0.5) !important;
+        transform: translateY(-2px);
+      }
+
+      @include sm {
+        font-size: 16px;
+        padding: 14px 28px !important;
+      }
+    }
+
+    &--secondary {
+      border: 2px solid var(--acc) !important;
+      color: var(--acc) !important;
+      background: transparent !important;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 10px var(--spacing-xl) !important;
+      height: auto !important;
+      transition: all 0.3s ease !important;
+      border-radius: var(--radius-md) !important;
+      text-transform: none;
+      letter-spacing: 0.3px;
+
+      &:active {
+        background: rgba(255, 190, 92, 0.15) !important;
+        border-color: var(--acc-hover) !important;
+        color: var(--acc-hover) !important;
+        transform: scale(0.98);
+      }
+
+      @include hover {
+        background: rgba(255, 190, 92, 0.15) !important;
+        border-color: var(--acc-hover) !important;
+        color: var(--acc-hover) !important;
+        transform: translateY(-2px);
+      }
+
+      @include sm {
+        font-size: 16px;
+        padding: var(--spacing-md) 28px !important;
+      }
+    }
+  }
+}

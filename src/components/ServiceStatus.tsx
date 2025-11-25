@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { YDB_QDRANT_BASE_URL } from "@/shared/config";
+import "./ServiceStatus.scss";
 
 type ServiceStatusValue = "unknown" | "up" | "down";
 
@@ -63,11 +64,11 @@ export function ServiceStatus({ locale = "en" }: ServiceStatusProps) {
 
   return (
     <span
-      className={`demo-status demo-status--${status}`}
+      className={`service-status service-status--${status}`}
       aria-live="polite"
     >
-      <span className="demo-status-indicator" aria-hidden="true" />
-      <span className="demo-status-text">{label}</span>
+      <span className="service-status__indicator" aria-hidden="true" />
+      <span className="service-status__text">{label}</span>
     </span>
   );
 }

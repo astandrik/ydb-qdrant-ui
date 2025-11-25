@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@gravity-ui/uikit/styles/fonts.css";
 import "@gravity-ui/uikit/styles/styles.css";
-import "./globals.css";
+import "@/styles/globals.scss";
 import YandexMetrika from "./YandexMetrika";
 import { ThemeProvider } from "@gravity-ui/uikit";
 import { getRootClassName } from "@gravity-ui/uikit/server";
@@ -20,13 +20,16 @@ const geistMono = Geist_Mono({
 
 const THEME = "dark" as const;
 
+export const viewport: Viewport = {
+  themeColor: "#0b0f14",
+};
+
 export const metadata: Metadata = {
   title: "Qdrant API on YDB",
   description:
     "Qdrant-compatible vector search API on YDB. Single-phase top-k using automatic YDB vector index with table-scan fallback. Self-hosted or hosted demo endpoint for IDEs.",
   metadataBase: new URL("http://ydb-qdrant.tech"),
   authors: [{ name: "ydb-qdrant" }],
-  themeColor: "#0b0f14",
   openGraph: {
     title: "Qdrant API on YDB",
     description:

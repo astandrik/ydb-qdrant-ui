@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Card, Text, Link } from "@gravity-ui/uikit";
 import { SectionTitleWithAnchor } from "../SectionTitleWithAnchor/SectionTitleWithAnchor";
+import "./VectorDimensionsSection.scss";
 
 export type ModelRow = {
   provider?: string;

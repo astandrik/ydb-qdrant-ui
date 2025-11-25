@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button, Link } from "@gravity-ui/uikit";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
+import "./HeroSection.scss";
 
 export type HeroContent = {
   title: string;
@@ -37,16 +38,16 @@ export const HeroSectionBase = ({
           alt={content.logoAlt}
           width={40}
           height={40}
-          className="hero-logo"
+          className="hero__logo"
           unoptimized
         />{" "}
         {content.title}
       </h1>
       <p className="lead">{content.lead}</p>
-      <div className="hero-actions">
+      <div className="hero__actions">
         <Button
           id="hero-ide-btn"
-          className="hero-btn-primary"
+          className="hero__button--primary"
           onClick={(e) => {
             e.preventDefault();
             onOpenIdeDetails(true);
@@ -60,7 +61,7 @@ export const HeroSectionBase = ({
         </Button>
         <Button
           id="hero-gh-btn"
-          className="hero-btn-secondary"
+          className="hero__button--secondary"
           href="https://github.com/astandrik/ydb-qdrant"
           target="_blank"
           rel="noopener"
@@ -83,7 +84,7 @@ export const HeroSectionBase = ({
         onCopy={onCopyDemoUrl}
         locale={locale}
       />
-      <p className="hero-footnote">{content.footnote}</p>
+      <p className="hero__footnote">{content.footnote}</p>
     </section>
   );
 };

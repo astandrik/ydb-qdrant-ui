@@ -1,0 +1,42 @@
+// =============================================================================
+// Footer Component
+// Block: .footer
+// =============================================================================
+
+@use '../styles/mixins' as *;
+
+.footer {
+  margin-top: var(--spacing-6xl);
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  text-align: center;
+  border-top: 1px solid var(--pill-border);
+
+  @include sm {
+    margin-top: var(--spacing-7xl);
+    padding: var(--spacing-4xl) var(--spacing-xl);
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+
+    @include sm {
+      font-size: 14px;
+    }
+  }
+
+  &__link {
+    color: var(--acc);
+    transition: text-decoration 0.2s;
+
+    @include hover {
+      text-decoration: underline;
+    }
+
+    &:active {
+      text-decoration: underline;
+    }
+  }
+}

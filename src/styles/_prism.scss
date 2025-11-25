@@ -1,0 +1,63 @@
+// =============================================================================
+// Prism Syntax Highlighting
+// =============================================================================
+
+pre[class*='language-'] {
+  background: var(--pill-bg);
+}
+
+.token {
+  &.comment,
+  &.prolog,
+  &.doctype,
+  &.cdata {
+    color: var(--muted);
+  }
+
+  &.punctuation {
+    color: var(--muted);
+  }
+
+  &.property,
+  &.tag,
+  &.boolean,
+  &.number,
+  &.constant,
+  &.symbol,
+  &.deleted {
+    color: var(--acc);
+  }
+
+  &.selector,
+  &.attr-name,
+  &.string,
+  &.char,
+  &.builtin,
+  &.inserted {
+    color: var(--prism-string);
+  }
+
+  &.operator,
+  &.entity,
+  &.url {
+    color: var(--fg);
+  }
+
+  &.atrule,
+  &.attr-value,
+  &.keyword {
+    color: var(--acc);
+  }
+
+  &.function,
+  &.class-name {
+    color: var(--prism-function);
+  }
+
+  &.regex,
+  &.important,
+  &.variable {
+    color: var(--prism-variable);
+  }
+}
+

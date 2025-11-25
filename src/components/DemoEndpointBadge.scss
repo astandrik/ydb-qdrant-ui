@@ -1,0 +1,67 @@
+// =============================================================================
+// DemoEndpointBadge Component
+// Block: .demo-badge
+// =============================================================================
+
+@use '../styles/mixins' as *;
+
+.demo-badge {
+  margin-top: var(--spacing-md);
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--pill-border);
+  background: var(--pill-bg);
+  color: var(--muted);
+  max-width: 100%;
+
+  @include sm {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 14px;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) 14px;
+    flex-wrap: nowrap;
+  }
+
+  &__url {
+    color: var(--fg);
+    word-break: break-word;
+    font-size: 13px;
+    display: block;
+    padding: var(--spacing-xs) 0;
+
+    @include sm {
+      font-size: 14px;
+      display: inline;
+      padding: 0;
+    }
+  }
+
+  &__copy-button {
+    font-size: 11px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-full);
+    border: 1px solid var(--acc);
+    background: transparent;
+    color: var(--acc);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+    align-self: flex-start;
+
+    &:active {
+      background: rgba(255, 190, 92, 0.2);
+    }
+
+    @include sm {
+      font-size: 12px;
+      padding: var(--spacing-xs) 10px;
+      align-self: auto;
+    }
+  }
+}
