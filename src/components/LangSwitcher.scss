@@ -29,29 +29,3 @@
     }
   }
 }
-
-// Legacy class names for backward compatibility
-.lang {
-  position: fixed;
-  top: var(--spacing-sm);
-  left: var(--spacing-sm);
-  color: var(--muted);
-  font-size: 12px;
-  z-index: $z-fixed;
-
-  a {
-    color: var(--acc);
-    margin: 0 2px;
-  }
-
-  @include sm {
-    top: var(--spacing-md);
-    left: var(--spacing-md);
-    font-size: 14px;
-
-    a {
-      margin: 0 var(--spacing-xs);
-    }
-  }
-}
-

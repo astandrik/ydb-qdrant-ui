@@ -5,14 +5,14 @@ const NpmPackageIcon = () => {
   return (
     <a
       id="npm-package-icon"
-      className="gh-icon gh-icon--npm"
+      className="header-icon header-icon--npm"
       href="https://www.npmjs.com/package/ydb-qdrant"
       aria-label="npm package ydb-qdrant"
       target="_blank"
       rel="noopener"
       onClick={() => trackGoal("npm_click", { target: "icon" })}
     >
-      <svg viewBox="0 0 40 16" role="img" aria-hidden="true">
+      <svg className="header-icon__icon" viewBox="0 0 40 16" role="img" aria-hidden="true">
         <rect x="0" y="0" width="40" height="16" rx="3" ry="3" fill="#cb3837" />
         <text
           x="8"

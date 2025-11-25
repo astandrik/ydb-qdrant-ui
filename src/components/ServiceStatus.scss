@@ -22,7 +22,6 @@
     white-space: nowrap;
   }
 
-  // Modifiers
   &--up &__indicator {
     background: var(--acc);
   }
@@ -35,37 +34,3 @@
     }
   }
 }
-
-// Legacy class names for backward compatibility
-.demo-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--muted);
-
-  &--up .demo-status-indicator {
-    background: var(--acc);
-  }
-
-  &--down {
-    color: var(--danger);
-
-    .demo-status-indicator {
-      background: var(--danger);
-    }
-  }
-}
-
-.demo-status-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--muted);
-  flex-shrink: 0;
-}
-
-.demo-status-text {
-  white-space: nowrap;
-}
-
