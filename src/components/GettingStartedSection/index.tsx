@@ -17,6 +17,7 @@ export const GettingStartedSectionEn = ({
       activeTab={activeTab}
       onTabChange={onTabChange}
       onCopyDemoUrl={onCopyDemoUrl}
+      locale="en"
       {...gettingStartedSectionEnProps()}
     />
   );
@@ -34,6 +35,7 @@ export const GettingStartedSectionRu = ({
       activeTab={activeTab}
       onTabChange={onTabChange}
       onCopyDemoUrl={onCopyDemoUrl}
+      locale="ru"
       {...gettingStartedSectionRuProps()}
     />
   );

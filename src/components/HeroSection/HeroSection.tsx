@@ -2,6 +2,7 @@ import type { MouseEvent } from "react";
 import Image from "next/image";
 import { Button, Link } from "@gravity-ui/uikit";
 import { trackGoal } from "@/shared/utils/metricsManager";
+import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
 
 export type HeroContent = {
   title: string;
@@ -19,12 +20,14 @@ export type HeroSectionBaseProps = {
   content: HeroContent;
   onOpenIdeDetails: (scrollSmooth: boolean) => void;
   onCopyDemoUrl: (event: MouseEvent<HTMLButtonElement>) => void;
+  locale?: "en" | "ru";
 };
 
 export const HeroSectionBase = ({
   content,
   onOpenIdeDetails,
   onCopyDemoUrl,
+  locale = "en",
 }: HeroSectionBaseProps) => {
   return (
     <section className="hero">
@@ -73,16 +76,13 @@ export const HeroSectionBase = ({
           {content.docsLabel}
         </Link>
       </div>
-      <p className="hero-demo">
-        {content.demoPrefix} <code>http://ydb-qdrant.tech:8080</code>
-        <button
-          type="button"
-          className="copy-btn"
-          onClick={onCopyDemoUrl}
-        >
-          {content.demoButtonLabel}
-        </button>
-      </p>
+      <DemoEndpointBadge
+        label={content.demoPrefix}
+        url="http://ydb-qdrant.tech:8080"
+        buttonLabel={content.demoButtonLabel}
+        onCopy={onCopyDemoUrl}
+        locale={locale}
+      />
       <p className="hero-footnote">{content.footnote}</p>
     </section>
   );

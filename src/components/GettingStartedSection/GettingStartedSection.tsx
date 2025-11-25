@@ -1,9 +1,17 @@
 import type { MouseEvent, ReactNode, RefObject, SyntheticEvent } from "react";
 import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Card, Link, TabProvider, TabList, Tab, TabPanel } from "@gravity-ui/uikit";
+import {
+  Card,
+  Link,
+  TabProvider,
+  TabList,
+  Tab,
+  TabPanel,
+} from "@gravity-ui/uikit";
 import { SectionTitleWithAnchor } from "../SectionTitleWithAnchor/SectionTitleWithAnchor";
 import { trackGoal } from "@/shared/utils/metricsManager";
+import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
 
 export type DocsLink = {
   href: string;
@@ -14,6 +22,7 @@ export type GettingStartedSectionBaseProps = {
   sectionRef?: RefObject<HTMLElement | null>;
   activeTab: string;
   onTabChange: (tab: string) => void;
+  locale?: "en" | "ru";
   title: string;
   ideConfigSummary: string;
   ideConfigDescription: ReactNode;
@@ -40,6 +49,7 @@ export const GettingStartedSectionBase = ({
   sectionRef,
   activeTab,
   onTabChange,
+  locale = "en",
   title,
   ideConfigSummary,
   ideConfigDescription,
@@ -260,15 +270,14 @@ export const GettingStartedSectionBase = ({
                   aria-label={ideConfigImageAlt}
                 />
               </figure>
-              <div style={{ marginTop: 24, fontSize: 16 }} className="hero-demo">
-                {optionsHosted} <code>{demoUrl}</code>
-                <button
-                  type="button"
-                  className="copy-btn"
-                  onClick={onCopyDemoUrl}
-                >
-                  Copy
-                </button>
+              <div style={{ marginTop: 24, fontSize: 16 }}>
+                <DemoEndpointBadge
+                  label={optionsHosted}
+                  url={demoUrl}
+                  buttonLabel={locale === "ru" ? "Копировать" : "Copy"}
+                  onCopy={onCopyDemoUrl}
+                  locale={locale}
+                />
               </div>
               {ideConfigDescription}
             </Card>

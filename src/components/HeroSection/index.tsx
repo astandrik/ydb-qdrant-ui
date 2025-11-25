@@ -6,11 +6,23 @@ import {
 } from "./locales";
 
 export const HeroSectionEn = (props: HeroSectionPublicProps) => {
-  return <HeroSectionBase {...props} content={heroSectionEnContent} />;
+  return (
+    <HeroSectionBase
+      {...props}
+      content={heroSectionEnContent}
+      locale="en"
+    />
+  );
 };
 
 export const HeroSectionRu = (props: HeroSectionPublicProps) => {
-  return <HeroSectionBase {...props} content={heroSectionRuContent} />;
+  return (
+    <HeroSectionBase
+      {...props}
+      content={heroSectionRuContent}
+      locale="ru"
+    />
+  );
 };
 
 export { HeroSectionBase } from "./HeroSection";
