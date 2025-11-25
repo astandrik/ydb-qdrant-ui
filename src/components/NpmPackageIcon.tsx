@@ -1,4 +1,5 @@
 import { trackGoal } from "@/shared/utils/metricsManager";
+import "./HeaderIcons.scss";
 
 const NpmPackageIcon = () => {
   return (

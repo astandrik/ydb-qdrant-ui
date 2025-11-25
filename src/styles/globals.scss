@@ -1,0 +1,16 @@
+// =============================================================================
+// Global Styles Entry Point
+// =============================================================================
+
+// Foundation
+@use 'variables';
+@use 'base';
+
+// Utilities
+@use 'utilities';
+
+// Syntax highlighting
+@use 'prism';
+
+// Third-party overrides
+@use 'gravity-overrides';

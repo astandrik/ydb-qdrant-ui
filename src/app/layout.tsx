@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "@gravity-ui/uikit/styles/fonts.css";
 import "@gravity-ui/uikit/styles/styles.css";
-import "./globals.css";
+import "@/styles/globals.scss";
 import YandexMetrika from "./YandexMetrika";
 import { ThemeProvider } from "@gravity-ui/uikit";
 import { getRootClassName } from "@gravity-ui/uikit/server";

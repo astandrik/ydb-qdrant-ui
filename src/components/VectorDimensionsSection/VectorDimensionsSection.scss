@@ -1,0 +1,42 @@
+// =============================================================================
+// VectorDimensionsSection / ModelCard Component
+// Block: .model-card
+// =============================================================================
+
+.model-card {
+  height: 100%;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+
+  &__model {
+    font-weight: 600;
+    font-size: 16px;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    word-break: break-word;
+  }
+
+  &__label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  &__dimensions {
+    font-size: 15px;
+    font-family: var(--font-mono);
+    background: var(--g-color-base-background);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+  }
+
+  &__use-cases {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
+

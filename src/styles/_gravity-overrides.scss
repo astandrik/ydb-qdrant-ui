@@ -1,0 +1,27 @@
+// =============================================================================
+// Gravity UI Overrides
+// =============================================================================
+
+@use 'mixins' as *;
+
+// Card component overrides
+.g-card {
+  border: 1px solid var(--pill-border) !important;
+  border-radius: var(--radius-lg) !important;
+  padding: var(--spacing-sm) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+
+  @include sm {
+    padding: var(--spacing-md) !important;
+  }
+}
+
+// Dialog responsive sizing
+.g-dialog {
+  --g-dialog-width: calc(100vw - 32px);
+
+  @include sm {
+    --g-dialog-width: min(95vw, 1200px);
+  }
+}
+

@@ -1,6 +1,7 @@
 "use client";
 
 import { trackGoal } from "@/shared/utils/metricsManager";
+import "./Footer.scss";
 
 export default function Footer() {
   return (

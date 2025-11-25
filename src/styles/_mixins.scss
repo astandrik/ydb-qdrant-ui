@@ -1,0 +1,66 @@
+// =============================================================================
+// Mixins
+// =============================================================================
+
+@use 'variables' as *;
+
+// Breakpoint mixins
+@mixin sm {
+  @media (min-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: $breakpoint-md) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: $breakpoint-lg) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin max-sm {
+  @media (max-width: $breakpoint-sm) {
+    @content;
+  }
+}
+
+// Hover state (only on devices that support hover)
+@mixin hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+// Focus visible
+@mixin focus-visible {
+  &:focus-visible {
+    @content;
+  }
+}
+
+// Truncate text
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Smooth scrolling container
+@mixin smooth-scroll {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+

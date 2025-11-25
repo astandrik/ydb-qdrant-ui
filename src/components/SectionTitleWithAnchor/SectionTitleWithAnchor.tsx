@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Icon } from "@gravity-ui/uikit";
 import { Link as LinkIcon } from "@gravity-ui/icons";
+import "./SectionTitleWithAnchor.scss";
 
 type SectionTitleWithAnchorProps = {
   title: ReactNode;

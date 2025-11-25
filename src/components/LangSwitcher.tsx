@@ -1,3 +1,5 @@
+import "./LangSwitcher.scss";
+
 const LangSwitcher = () => {
   return (
     <div className="lang">

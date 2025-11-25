@@ -1,0 +1,128 @@
+// =============================================================================
+// DocsPage Component
+// Block: .docs-page
+// =============================================================================
+
+@use '../../styles/mixins' as *;
+
+// Diagrams Grid
+.diagrams-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-lg);
+
+  @include sm {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-xl);
+  }
+
+  @include lg {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-2xl);
+  }
+}
+
+// Diagram Card
+.diagram-card {
+  all: unset;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: transparent;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  @include hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  &-image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid #19212b;
+    aspect-ratio: 16 / 9;
+    background: #ffffff;
+  }
+
+  &-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &-caption {
+    color: var(--muted);
+    margin: var(--spacing-sm) 0 0;
+    font-size: 12px;
+    line-height: 1.4;
+    word-break: break-word;
+    text-align: left;
+
+    @include sm {
+      font-size: 13px;
+      margin: 10px 0 0;
+    }
+  }
+}
+
+// Diagram Dialog
+.diagram-dialog {
+  &-content {
+    padding: var(--spacing-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    align-items: center;
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+
+    @include sm {
+      padding: var(--spacing-2xl);
+      max-height: 85vh;
+    }
+  }
+
+  &-image {
+    width: 100%;
+    max-width: 100%;
+    max-height: 70vh;
+    height: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid #19212b;
+    display: block;
+    object-fit: contain;
+
+    @include max-sm {
+      max-height: 60vh;
+    }
+  }
+
+  &-caption {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+    word-break: break-word;
+    margin: 0;
+
+    @include sm {
+      font-size: 14px;
+    }
+  }
+}
+

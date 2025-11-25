@@ -1,0 +1,57 @@
+// =============================================================================
+// LangSwitcher Component
+// Block: .lang-switcher
+// =============================================================================
+
+@use '../styles/mixins' as *;
+@use '../styles/variables' as *;
+
+.lang-switcher {
+  position: fixed;
+  top: var(--spacing-sm);
+  left: var(--spacing-sm);
+  color: var(--muted);
+  font-size: 12px;
+  z-index: $z-fixed;
+
+  @include sm {
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    font-size: 14px;
+  }
+
+  &__link {
+    color: var(--acc);
+    margin: 0 2px;
+
+    @include sm {
+      margin: 0 var(--spacing-xs);
+    }
+  }
+}
+
+// Legacy class names for backward compatibility
+.lang {
+  position: fixed;
+  top: var(--spacing-sm);
+  left: var(--spacing-sm);
+  color: var(--muted);
+  font-size: 12px;
+  z-index: $z-fixed;
+
+  a {
+    color: var(--acc);
+    margin: 0 2px;
+  }
+
+  @include sm {
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+    font-size: 14px;
+
+    a {
+      margin: 0 var(--spacing-xs);
+    }
+  }
+}
+

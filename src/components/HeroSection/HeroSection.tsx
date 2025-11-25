@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button, Link } from "@gravity-ui/uikit";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
+import "./HeroSection.scss";
 
 export type HeroContent = {
   title: string;

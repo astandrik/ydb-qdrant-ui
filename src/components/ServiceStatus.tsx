@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { YDB_QDRANT_BASE_URL } from "@/shared/config";
+import "./ServiceStatus.scss";
 
 type ServiceStatusValue = "unknown" | "up" | "down";
 

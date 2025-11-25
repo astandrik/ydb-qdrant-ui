@@ -1,0 +1,103 @@
+// =============================================================================
+// Base Styles
+// =============================================================================
+
+@use 'mixins' as *;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.5 var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--acc);
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0 0 var(--spacing-md);
+  line-height: 1.3;
+  word-break: break-word;
+
+  @include sm {
+    font-size: 40px;
+  }
+}
+
+h3 {
+  margin: var(--spacing-xl) 0 var(--spacing-md);
+  font-size: 16px;
+
+  @include sm {
+    margin: var(--spacing-2xl) 0 var(--spacing-md);
+    font-size: 18px;
+  }
+}
+
+pre {
+  background: var(--pill-bg);
+  border: 1px solid var(--pill-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  font-size: 13px;
+  line-height: 1.4;
+
+  @include sm {
+    padding: var(--spacing-lg);
+    font-size: 14px;
+  }
+}
+
+code {
+  font-family: var(--font-mono);
+}
+
+details {
+  margin: var(--spacing-md) 0;
+
+  summary {
+    cursor: pointer;
+    color: var(--acc);
+    font-weight: 500;
+    padding: var(--spacing-sm) 0;
+    user-select: none;
+    transition: color 0.2s;
+
+    &:active {
+      color: var(--fg);
+    }
+
+    @include hover {
+      color: var(--fg);
+    }
+  }
+
+  &[open] summary {
+    color: var(--fg);
+  }
+
+  figure {
+    margin: var(--spacing-md) 0 !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    video,
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+}
+

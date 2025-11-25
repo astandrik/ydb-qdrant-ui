@@ -1,0 +1,44 @@
+// =============================================================================
+// SectionTitleWithAnchor Component
+// Block: .section-title-anchor
+// =============================================================================
+
+@use '../../styles/mixins' as *;
+
+.section-title-anchor {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--muted);
+    opacity: 0.5;
+    transition: opacity 0.2s;
+
+    @include hover {
+      opacity: 1;
+    }
+  }
+}
+
+// Legacy class names for backward compatibility
+.section-title-with-anchor {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.section-title-with-anchor-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+  opacity: 0.5;
+  transition: opacity 0.2s;
+
+  @include hover {
+    opacity: 1;
+  }
+}
+

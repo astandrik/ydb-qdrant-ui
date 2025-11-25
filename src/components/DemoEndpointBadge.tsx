@@ -2,6 +2,7 @@
 
 import type { MouseEvent, ReactNode } from "react";
 import { ServiceStatus } from "@/components/ServiceStatus";
+import "./DemoEndpointBadge.scss";
 
 export type DemoEndpointBadgeProps = {
   label: ReactNode;

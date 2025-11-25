@@ -1,0 +1,106 @@
+// =============================================================================
+// Utility Classes
+// =============================================================================
+
+@use 'mixins' as *;
+
+// Layout wrapper
+.wrap {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: var(--spacing-3xl) var(--spacing-lg);
+
+  @include sm {
+    padding: var(--spacing-5xl) var(--spacing-xl);
+  }
+}
+
+// Grid layout
+.grid {
+  display: grid;
+  gap: var(--spacing-md);
+  grid-template-columns: 1fr;
+  margin-top: var(--spacing-xl);
+
+  @include sm {
+    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    margin-top: var(--spacing-2xl);
+  }
+}
+
+// Section container
+.section {
+  margin-top: var(--spacing-3xl);
+
+  @include sm {
+    margin-top: var(--spacing-4xl);
+  }
+}
+
+// Section title
+.section-title {
+  font-size: 18px;
+  margin: 0 0 var(--spacing-md);
+  font-weight: 600;
+
+  @include sm {
+    font-size: 20px;
+  }
+}
+
+// Lead paragraph
+.lead {
+  color: var(--muted);
+  margin: 0 0 var(--spacing-xl);
+  font-size: 15px;
+  line-height: 1.6;
+  word-break: break-word;
+
+  @include sm {
+    margin: 0 0 var(--spacing-2xl);
+    font-size: 16px;
+  }
+}
+
+// Muted text
+.muted {
+  color: var(--muted);
+  word-break: break-word;
+  overflow-wrap: break-word;
+
+  ul,
+  ol {
+    margin: 0;
+    padding-left: var(--spacing-xl);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  li {
+    margin-bottom: var(--spacing-xs);
+  }
+}
+
+// Card standalone
+.card-standalone {
+  margin-top: var(--spacing-xl);
+
+  @include sm {
+    margin-top: var(--spacing-2xl);
+  }
+}
+
+// Card title
+.card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 var(--spacing-md);
+  color: var(--fg);
+  word-break: break-word;
+
+  @include sm {
+    font-size: 16px;
+  }
+}
+

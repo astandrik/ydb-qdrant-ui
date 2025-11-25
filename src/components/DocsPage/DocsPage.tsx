@@ -6,6 +6,7 @@ import { Dialog, Button, Icon } from "@gravity-ui/uikit";
 import { ArrowLeft } from "@gravity-ui/icons";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
+import "./DocsPage.scss";
 
 export const DEMO_URL = "http://ydb-qdrant.tech:8080";
 
