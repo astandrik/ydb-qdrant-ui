@@ -1,7 +1,8 @@
 "use client";
 
 import type { MouseEvent } from "react";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import LangSwitcher from "@/components/LangSwitcher";
 import GitHubRepoIcon from "@/components/GitHubRepoIcon";
 import NpmPackageIcon from "@/components/NpmPackageIcon";
@@ -13,30 +14,36 @@ import GettingStartedSection from "@/components/GettingStartedSection";
 import ApiAtAGlanceSection from "@/components/ApiAtAGlanceSection";
 import VectorDimensionsSection from "@/components/VectorDimensionsSection";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
+import { trackGoal } from "@/shared/utils/metricsManager";
+import {
+  VALID_TABS,
+  TAB_GOAL_NAMES,
+  TAB_VALUES,
+  DEFAULT_TAB,
+  DEMO_URL,
+  type TabValue,
+} from "@/shared/constants";
 
-const VALID_TABS = ["public-demo", "self-hosted", "docker", "npm"];
-
-function getInitialTab(): string {
-  if (typeof window === "undefined") {
-    return "public-demo";
-  }
-
-  const params = new URLSearchParams(window.location.search);
-  const tab = params.get("tab");
-
-  if (tab && VALID_TABS.includes(tab)) {
-    return tab;
-  }
-
-  return "public-demo";
-}
-
-export default function Home() {
-  const [activeTab, setActiveTab] = useState(getInitialTab);
+function HomeContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const gettingStartedRef = useRef<HTMLElement>(null);
 
+  // Derive active tab from URL - single source of truth to avoid hydration mismatch
+  const tabFromUrl = searchParams.get("tab");
+  const activeTab: TabValue =
+    tabFromUrl && VALID_TABS.includes(tabFromUrl as TabValue)
+      ? (tabFromUrl as TabValue)
+      : DEFAULT_TAB;
+
+  const updateTabInUrl = (newTab: TabValue) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", newTab);
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
   const openIdeDetails = (scrollSmooth: boolean) => {
-    setActiveTab("public-demo");
+    updateTabInUrl(TAB_VALUES.PUBLIC_DEMO);
     if (gettingStartedRef.current) {
       try {
         gettingStartedRef.current.scrollIntoView({
@@ -49,14 +56,11 @@ export default function Home() {
     }
   };
 
+  // Handle ide-config scroll on mount
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    const ideConfig = searchParams.get("ide-config");
 
-    const params = new URLSearchParams(window.location.search);
-    const tab = params.get("tab");
-    const ideConfig = params.get("ide-config");
-
-    if (ideConfig === "true" && !tab && gettingStartedRef.current) {
+    if (ideConfig === "true" && !tabFromUrl && gettingStartedRef.current) {
       try {
         gettingStartedRef.current.scrollIntoView({
           behavior: "auto",
@@ -66,13 +70,19 @@ export default function Home() {
         gettingStartedRef.current.scrollIntoView();
       }
     }
-  }, []);
+  }, [searchParams, tabFromUrl]);
 
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    const params = new URLSearchParams(window.location.search);
-    params.set("tab", tab);
-    window.history.replaceState(null, "", `?${params.toString()}`);
+    if (!VALID_TABS.includes(tab as TabValue)) {
+      return;
+    }
+    const validTab = tab as TabValue;
+    updateTabInUrl(validTab);
+
+    const goalName = TAB_GOAL_NAMES[validTab];
+    if (goalName) {
+      trackGoal(goalName);
+    }
   };
 
   const handleCopy = createCopyToClipboardHandler({
@@ -90,7 +100,7 @@ export default function Home() {
         <HeroSection
           onOpenIdeDetails={openIdeDetails}
           onCopyDemoUrl={(e: MouseEvent<HTMLButtonElement>) =>
-            handleCopy("http://ydb-qdrant.tech:8080", e)
+            handleCopy(DEMO_URL, e)
           }
         />
         <WhySection />
@@ -101,12 +111,21 @@ export default function Home() {
           activeTab={activeTab}
           onTabChange={handleTabChange}
           onCopyDemoUrl={(e: MouseEvent<HTMLButtonElement>) =>
-            handleCopy("http://ydb-qdrant.tech:8080", e)
+            handleCopy(DEMO_URL, e)
           }
         />
         <ApiAtAGlanceSection activeTab={activeTab} />
         <VectorDimensionsSection />
       </main>
     </>
+  );
+}
+
+
+export default function Home() {
+  return (
+    <Suspense fallback={null}>
+      <HomeContent />
+    </Suspense>
   );
 }

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Button, Link } from "@gravity-ui/uikit";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
+import { DEMO_URL } from "@/shared/constants";
 import "./HeroSection.scss";
 
 export type HeroContent = {
@@ -79,7 +80,7 @@ export const HeroSectionBase = ({
       </div>
       <DemoEndpointBadge
         label={content.demoPrefix}
-        url="http://ydb-qdrant.tech:8080"
+        url={DEMO_URL}
         buttonLabel={content.demoButtonLabel}
         onCopy={onCopyDemoUrl}
         locale={locale}

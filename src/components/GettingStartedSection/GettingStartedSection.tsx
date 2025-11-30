@@ -12,6 +12,7 @@ import {
 import { SectionTitleWithAnchor } from "../SectionTitleWithAnchor/SectionTitleWithAnchor";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
+import { TAB_VALUES } from "@/shared/constants";
 
 export type DocsLink = {
   href: string;
@@ -209,56 +210,16 @@ export const GettingStartedSectionBase = ({
 
       <TabProvider value={activeTab} onUpdate={onTabChange}>
         <TabList size="l">
-          <Tab
-            value="public-demo"
-            onClick={() => {
-              onTabChange("public-demo");
-              trackGoal("tab_public_demo_click");
-            }}
-          >
-            {tabPublicDemoTitle}
-          </Tab>
-          <Tab
-            value="self-hosted"
-            onClick={() => {
-              onTabChange("self-hosted");
-              trackGoal("tab_self_hosted_click");
-            }}
-          >
-            {tabSelfHostedTitle}
-          </Tab>
-          <Tab
-            value="docker"
-            onClick={() => {
-              onTabChange("docker");
-              trackGoal("tab_docker_click");
-            }}
-          >
-            {tabDockerTitle}
-          </Tab>
-          <Tab
-            value="npm"
-            onClick={() => {
-              onTabChange("npm");
-              trackGoal("tab_npm_click");
-            }}
-          >
-            {tabNpmTitle}
-          </Tab>
-          <Tab
-            value="all-in-one"
-            onClick={() => {
-              onTabChange("all-in-one");
-              trackGoal("tab_all_in_one_click");
-            }}
-          >
-            {tabAllInOneDockerTitle}
-          </Tab>
+          <Tab value={TAB_VALUES.PUBLIC_DEMO}>{tabPublicDemoTitle}</Tab>
+          <Tab value={TAB_VALUES.SELF_HOSTED}>{tabSelfHostedTitle}</Tab>
+          <Tab value={TAB_VALUES.DOCKER}>{tabDockerTitle}</Tab>
+          <Tab value={TAB_VALUES.NPM}>{tabNpmTitle}</Tab>
+          <Tab value={TAB_VALUES.ALL_IN_ONE}>{tabAllInOneDockerTitle}</Tab>
         </TabList>
 
         <div style={{ marginTop: 24 }}>
-          <TabPanel value="public-demo">
-            <Card type="container" className="card-standalone" id="public-demo">
+          <TabPanel value={TAB_VALUES.PUBLIC_DEMO}>
+            <Card type="container" className="card-standalone" id={TAB_VALUES.PUBLIC_DEMO}>
               <h3 className="card-title">{ideConfigSummary}</h3>
               <figure style={{ margin: "16px 0" }}>
                 <video
@@ -296,26 +257,26 @@ export const GettingStartedSectionBase = ({
             </Card>
           </TabPanel>
 
-          <TabPanel value="self-hosted">
-            <Card type="container" className="card-standalone" id="self-hosted">
+          <TabPanel value={TAB_VALUES.SELF_HOSTED}>
+            <Card type="container" className="card-standalone" id={TAB_VALUES.SELF_HOSTED}>
               {selfHostedNodeBlock}
             </Card>
           </TabPanel>
 
-          <TabPanel value="docker">
-            <Card type="container" className="card-standalone" id="docker">
+          <TabPanel value={TAB_VALUES.DOCKER}>
+            <Card type="container" className="card-standalone" id={TAB_VALUES.DOCKER}>
               {dockerBlock}
             </Card>
           </TabPanel>
 
-          <TabPanel value="npm">
-            <Card type="container" className="card-standalone" id="npm">
+          <TabPanel value={TAB_VALUES.NPM}>
+            <Card type="container" className="card-standalone" id={TAB_VALUES.NPM}>
               {npmBlock}
             </Card>
           </TabPanel>
 
-          <TabPanel value="all-in-one">
-            <Card type="container" className="card-standalone" id="all-in-one">
+          <TabPanel value={TAB_VALUES.ALL_IN_ONE}>
+            <Card type="container" className="card-standalone" id={TAB_VALUES.ALL_IN_ONE}>
               {allInOneDockerBlock}
             </Card>
           </TabPanel>
