@@ -3,7 +3,7 @@ import type { PlansSectionBaseProps } from "./PlansSection";
 export const plansSectionEnProps: PlansSectionBaseProps = {
   title: "Plans",
   items: [
-    "Stronger per‑tenant authentication (IAM/OAuth binding, per‑collection ACLs) beyond the existing X‑Tenant‑Id header and forTenant() API.",
+    "Stronger per-tenant authentication (IAM/OAuth binding, per‑collection ACLs) beyond the existing X‑Tenant‑Id header and forTenant() API.",
     "Quotas and rate limiting per tenant (collections, RPS, payload and batch sizes) plus richer audit logging.",
     "Support for larger collections (>100K vectors) and frequent bulk upserts via batch‑upsert and index tuning.",
     "Better support for high‑throughput, multi‑million‑vector search with tighter latency through scaling patterns.",
