@@ -143,7 +143,7 @@ const client = createYdbQdrantClient({
 
   const allInOneDockerBlock: ReactNode = (
     <>
-      <h3 className="card-title">All-in-one local YDB + ydb-qdrant (Docker)</h3>
+      <h3 className="card-title">All-in-One local YDB + ydb-qdrant (Docker)</h3>
       <ol className="muted">
         <li>
           Run a single container with embedded local YDB:
