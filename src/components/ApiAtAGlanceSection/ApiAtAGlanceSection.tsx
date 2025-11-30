@@ -1,6 +1,6 @@
 import { Card, Text } from "@gravity-ui/uikit";
 import CodeBlock from "@/components/CodeBlock/CodeBlock";
-import { DEMO_URL } from "@/shared/constants";
+import { DEMO_URL, TAB_VALUES } from "@/shared/constants";
 
 export type ApiAtAGlanceBaseProps = {
   activeTab?: string;
@@ -33,8 +33,8 @@ export const ApiAtAGlanceSectionBase = ({
   packageLanguage,
   healthText,
 }: ApiAtAGlanceBaseProps) => {
-  const isPublicDemo = activeTab === "public-demo";
-  const isNpm = activeTab === "npm";
+  const isPublicDemo = activeTab === TAB_VALUES.PUBLIC_DEMO;
+  const isNpm = activeTab === TAB_VALUES.NPM;
 
   let displayServerCode = serverCodeBlock;
   if (isPublicDemo) {
