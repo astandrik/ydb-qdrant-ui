@@ -14,8 +14,8 @@ export const plansSectionEnProps: PlansSectionBaseProps = {
 export const plansSectionRuProps: PlansSectionBaseProps = {
   title: "Планы",
   items: [
-    "Усиление аутентификации по арендаторам (IAM/OAuth, ACL на коллекции) поверх уже реализованных X‑Tenant‑Id и forTenant() API.",
-    "Квоты и rate limiting по арендаторам (коллекции, RPS, размеры payload и батчей) плюс расширенный аудит операций.",
+    "Усиление аутентификации по тенантам (IAM/OAuth, ACL на коллекции) поверх уже реализованных X‑Tenant‑Id и forTenant() API.",
+    "Квоты и rate limiting по тенантам (коллекции, RPS, размеры payload и батчей) плюс расширенный аудит операций.",
     "Поддержка больших коллекций (>100K векторов) и частых bulk‑upsert через батч‑операции и тюнинг индексов.",
     "Лучшая поддержка высоконагруженных сценариев с миллионами векторов и более жёсткими требованиями по задержкам.",
     "Расширение покрытия Qdrant API на YDB (фильтры, facets, recommend/discover, batch‑поиск и др. расширенные режимы).",
