@@ -166,7 +166,7 @@ const client = createYdbQdrantClient({
       <p className="muted">
         Ideal for local development without an external YDB cluster. See{" "}
         <a
-          href="https://github.com/astandrik/ydb-qdrant#option-3-all-in-one-local-ydb--ydb-qdrant-docker"
+          href="https://github.com/astandrik/ydb-qdrant#quick-start"
           target="_blank"
           rel="noopener"
           onClick={() =>
@@ -379,7 +379,7 @@ const client = createYdbQdrantClient({
       <p className="muted">
         Идеально для локальной разработки без внешнего кластера YDB. См.{" "}
         <a
-          href="https://github.com/astandrik/ydb-qdrant#option-3-all-in-one-local-ydb--ydb-qdrant-docker"
+          href="https://github.com/astandrik/ydb-qdrant#quick-start"
           target="_blank"
           rel="noopener"
           onClick={() =>
