@@ -141,6 +141,47 @@ const client = createYdbQdrantClient({
     </>
   );
 
+  const allInOneDockerBlock: ReactNode = (
+    <>
+      <h3 className="card-title">All-in-one local YDB + ydb-qdrant (Docker)</h3>
+      <ol className="muted">
+        <li>
+          Run a single container with embedded local YDB:
+          <pre>
+            <code>
+              {`docker run -d --name ydb-qdrant-local \\
+  -p 8080:8080 -p 8765:8765 \\
+  ghcr.io/astandrik/ydb-qdrant-local:latest`}
+            </code>
+          </pre>
+        </li>
+        <li>
+          Ports: <code>8080</code> — ydb-qdrant API, <code>8765</code> — YDB
+          Embedded UI
+        </li>
+        <li>
+          Point client to <code>http://localhost:8080</code>
+        </li>
+      </ol>
+      <p className="muted">
+        Ideal for local development without an external YDB cluster. See{" "}
+        <a
+          href="https://github.com/astandrik/ydb-qdrant#option-3-all-in-one-local-ydb--ydb-qdrant-docker"
+          target="_blank"
+          rel="noopener"
+          onClick={() =>
+            trackGoal("github_readme_click", {
+              source: "getting_started_allinone_en",
+            })
+          }
+        >
+          GitHub README
+        </a>{" "}
+        for details.
+      </p>
+    </>
+  );
+
   return {
     title: "Getting started",
     ideConfigSummary: "Configure in Roo Code/Kilo Code",
@@ -163,10 +204,12 @@ const client = createYdbQdrantClient({
     selfHostedNodeBlock,
     dockerBlock,
     npmBlock,
+    allInOneDockerBlock,
     tabPublicDemoTitle: "Public Demo",
     tabSelfHostedTitle: "Self-hosted Node",
     tabDockerTitle: "Docker",
     tabNpmTitle: "NPM Package",
+    tabAllInOneDockerTitle: "All-in-One Docker",
   };
 };
 
@@ -309,6 +352,49 @@ const client = createYdbQdrantClient({
     </>
   );
 
+  const allInOneDockerBlock: ReactNode = (
+    <>
+      <h3 className="card-title">
+        Всё-в-одном: локальный YDB + ydb-qdrant (Docker)
+      </h3>
+      <ol className="muted">
+        <li>
+          Запустите один контейнер со встроенным локальным YDB:
+          <pre>
+            <code>
+              {`docker run -d --name ydb-qdrant-local \\
+  -p 8080:8080 -p 8765:8765 \\
+  ghcr.io/astandrik/ydb-qdrant-local:latest`}
+            </code>
+          </pre>
+        </li>
+        <li>
+          Порты: <code>8080</code> — API ydb-qdrant, <code>8765</code> — YDB
+          Embedded UI
+        </li>
+        <li>
+          Укажите клиенту базовый URL: <code>http://localhost:8080</code>
+        </li>
+      </ol>
+      <p className="muted">
+        Идеально для локальной разработки без внешнего кластера YDB. См.{" "}
+        <a
+          href="https://github.com/astandrik/ydb-qdrant#option-3-all-in-one-local-ydb--ydb-qdrant-docker"
+          target="_blank"
+          rel="noopener"
+          onClick={() =>
+            trackGoal("github_readme_click", {
+              source: "getting_started_allinone_ru",
+            })
+          }
+        >
+          GitHub README
+        </a>{" "}
+        для подробностей.
+      </p>
+    </>
+  );
+
   return {
     title: "Быстрый старт",
     ideConfigSummary: "Настройка в Roo Code/Kilo Code",
@@ -331,9 +417,11 @@ const client = createYdbQdrantClient({
     selfHostedNodeBlock,
     dockerBlock,
     npmBlock,
+    allInOneDockerBlock,
     tabPublicDemoTitle: "Публичное демо",
     tabSelfHostedTitle: "Self-hosted Node",
     tabDockerTitle: "Docker",
     tabNpmTitle: "NPM пакет",
+    tabAllInOneDockerTitle: "Всё-в-одном Docker",
   };
 };

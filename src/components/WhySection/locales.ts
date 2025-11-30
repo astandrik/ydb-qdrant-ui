@@ -4,6 +4,11 @@ export const whySectionEnProps: WhySectionBaseProps = {
   title: "Why YDB‑Qdrant",
   cards: [
     {
+      title: "Persistent storage",
+      body:
+        "All data is written to YDB's distributed storage and survives restarts. No in‑memory‑only mode — your vectors are safe.",
+    },
+    {
       title: "Transactional & consistent",
       body:
         "Built on YDB's distributed ACID transactions with Serializable isolation, so vectors live next to your source‑of‑truth data.",
@@ -67,6 +72,11 @@ export const whySectionEnProps: WhySectionBaseProps = {
 export const whySectionRuProps: WhySectionBaseProps = {
   title: "Почему YDB‑Qdrant",
   cards: [
+    {
+      title: "Персистентное хранение",
+      body:
+        "Все данные записываются в распределённое хранилище YDB и сохраняются при перезапусках. Никакого in‑memory режима — ваши векторы в безопасности.",
+    },
     {
       title: "Транзакционность и консистентность",
       body:
