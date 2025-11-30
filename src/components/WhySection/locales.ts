@@ -6,7 +6,7 @@ export const whySectionEnProps: WhySectionBaseProps = {
     {
       title: "Persistent storage",
       body:
-        "All data is written to YDB's distributed storage and survives restarts. No in‑memory‑only mode — your vectors are safe.",
+        "All data is written to YDB's distributed storage and survives restarts. No in-memory-only mode — your vectors are safe.",
     },
     {
       title: "Transactional & consistent",
