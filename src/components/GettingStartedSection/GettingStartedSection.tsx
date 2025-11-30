@@ -39,10 +39,12 @@ export type GettingStartedSectionBaseProps = {
   selfHostedNodeBlock: ReactNode;
   dockerBlock: ReactNode;
   npmBlock: ReactNode;
+  allInOneDockerBlock: ReactNode;
   tabPublicDemoTitle: string;
   tabSelfHostedTitle: string;
   tabDockerTitle: string;
   tabNpmTitle: string;
+  tabAllInOneDockerTitle: string;
 };
 
 export const GettingStartedSectionBase = ({
@@ -64,10 +66,12 @@ export const GettingStartedSectionBase = ({
   selfHostedNodeBlock,
   dockerBlock,
   npmBlock,
+  allInOneDockerBlock,
   tabPublicDemoTitle,
   tabSelfHostedTitle,
   tabDockerTitle,
   tabNpmTitle,
+  tabAllInOneDockerTitle,
 }: GettingStartedSectionBaseProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const videoProgressRef = useRef({
@@ -241,6 +245,15 @@ export const GettingStartedSectionBase = ({
           >
             {tabNpmTitle}
           </Tab>
+          <Tab
+            value="all-in-one"
+            onClick={() => {
+              onTabChange("all-in-one");
+              trackGoal("tab_all_in_one_click");
+            }}
+          >
+            {tabAllInOneDockerTitle}
+          </Tab>
         </TabList>
 
         <div style={{ marginTop: 24 }}>
@@ -298,6 +311,12 @@ export const GettingStartedSectionBase = ({
           <TabPanel value="npm">
             <Card type="container" className="card-standalone" id="npm">
               {npmBlock}
+            </Card>
+          </TabPanel>
+
+          <TabPanel value="all-in-one">
+            <Card type="container" className="card-standalone" id="all-in-one">
+              {allInOneDockerBlock}
             </Card>
           </TabPanel>
         </div>

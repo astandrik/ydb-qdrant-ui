@@ -39,6 +39,9 @@ async function main() {
     database: "/ru-central1/b1ge4v9r1l3h1q4njclp/etn01g9tcilcon2mrt3h",
   });
 
+  // Switch tenant dynamically (returns a new client instance)
+  const otherClient = client.forTenant("other-tenant");
+
   await client.createCollection("documents", {
     vectors: {
       size: 1536,
@@ -74,7 +77,7 @@ export const apiAtAGlanceSectionRuProps: ApiAtAGlanceBaseProps = {
   features: [
     "Совместимые с Qdrant эндпоинты",
     "Однофазный top‑k с векторным индексом YDB (авто); фоллбек — скан таблицы",
-    "Разделение данных по арендаторам",
+    "Разделение данных по тенантам",
     "Самохостинг или hosted endpoint для IDE",
     "Программный Node.js‑клиент (createYdbQdrantClient)",
   ],
@@ -103,6 +106,9 @@ async function main() {
     endpoint: "grpcs://lb.etn01g9tcilcon2mrt3h.ydb.mdb.yandexcloud.net:2135",
     database: "/ru-central1/b1ge4v9r1l3h1q4njclp/etn01g9tcilcon2mrt3h",
   });
+
+  // Смена тенанта динамически (возвращает новый экземпляр клиента)
+  const otherClient = client.forTenant("other-tenant");
 
   await client.createCollection("documents", {
     vectors: {

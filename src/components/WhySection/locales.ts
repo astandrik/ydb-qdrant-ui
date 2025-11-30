@@ -4,6 +4,11 @@ export const whySectionEnProps: WhySectionBaseProps = {
   title: "Why YDB‑Qdrant",
   cards: [
     {
+      title: "Persistent storage",
+      body:
+        "All data is written to YDB's distributed storage and survives restarts. No in-memory-only mode — your vectors are safe.",
+    },
+    {
       title: "Transactional & consistent",
       body:
         "Built on YDB's distributed ACID transactions with Serializable isolation, so vectors live next to your source‑of‑truth data.",
@@ -68,6 +73,11 @@ export const whySectionRuProps: WhySectionBaseProps = {
   title: "Почему YDB‑Qdrant",
   cards: [
     {
+      title: "Персистентное хранение",
+      body:
+        "Все данные записываются в распределённое хранилище YDB и сохраняются при перезапусках. Никакого in-memory режима — ваши векторы в безопасности.",
+    },
+    {
       title: "Транзакционность и консистентность",
       body:
         "Сервис опирается на распределённые ACID‑транзакции YDB с изоляцией Serializable, поэтому векторы живут рядом с основными бизнес‑данными.",
@@ -85,7 +95,7 @@ export const whySectionRuProps: WhySectionBaseProps = {
     {
       title: "Путь к безопасной мультитенантности",
       body:
-        "Сейчас изоляция по арендаторам через заголовок X‑Tenant‑Id; далее — IAM/OAuth и ACL на коллекции для внутренних сценариев.",
+        "Сейчас изоляция по тенантам через заголовок X‑Tenant‑Id; далее — IAM/OAuth и ACL на коллекции для внутренних сценариев.",
     },
     {
       title: "Гибкая интеграция",
