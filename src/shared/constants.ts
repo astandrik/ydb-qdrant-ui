@@ -1,4 +1,5 @@
 export const DEMO_URL = "http://ydb-qdrant.tech:8080";
+export const DEMO_URL_HTTPS = "https://ydb-qdrant.tech";
 
 export const TAB_VALUES = {
   PUBLIC_DEMO: "public-demo",

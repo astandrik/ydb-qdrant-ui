@@ -1,7 +1,8 @@
 "use client";
 
 import type { MouseEvent } from "react";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import LangSwitcher from "@/components/LangSwitcher";
 import GitHubRepoIcon from "@/components/GitHubRepoIcon";
 import NpmPackageIcon from "@/components/NpmPackageIcon";
@@ -25,26 +26,26 @@ import {
   type TabValue,
 } from "@/shared/constants";
 
-function getInitialTab(): TabValue {
-  if (typeof window === "undefined") {
-    return DEFAULT_TAB;
-  }
-
-  const params = new URLSearchParams(window.location.search);
-  const tab = params.get("tab");
-
-  if (tab && VALID_TABS.includes(tab as TabValue)) {
-    return tab as TabValue;
-  }
-
-  return DEFAULT_TAB;
-}
-export default function HomeRu() {
-  const [activeTab, setActiveTab] = useState(getInitialTab);
+function HomeRuContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const gettingStartedRef = useRef<HTMLElement>(null);
 
+  // Derive active tab from URL - single source of truth to avoid hydration mismatch
+  const tabFromUrl = searchParams.get("tab");
+  const activeTab: TabValue =
+    tabFromUrl && VALID_TABS.includes(tabFromUrl as TabValue)
+      ? (tabFromUrl as TabValue)
+      : DEFAULT_TAB;
+
+  const updateTabInUrl = (newTab: TabValue) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", newTab);
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
   const openIdeDetails = (scrollSmooth: boolean) => {
-    setActiveTab(TAB_VALUES.PUBLIC_DEMO);
+    updateTabInUrl(TAB_VALUES.PUBLIC_DEMO);
     if (gettingStartedRef.current) {
       try {
         gettingStartedRef.current.scrollIntoView({
@@ -57,14 +58,11 @@ export default function HomeRu() {
     }
   };
 
+  // Handle ide-config scroll on mount
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    const ideConfig = searchParams.get("ide-config");
 
-    const params = new URLSearchParams(window.location.search);
-    const tab = params.get("tab");
-    const ideConfig = params.get("ide-config");
-
-    if (ideConfig === "true" && !tab && gettingStartedRef.current) {
+    if (ideConfig === "true" && !tabFromUrl && gettingStartedRef.current) {
       try {
         gettingStartedRef.current.scrollIntoView({
           behavior: "auto",
@@ -74,17 +72,14 @@ export default function HomeRu() {
         gettingStartedRef.current.scrollIntoView();
       }
     }
-  }, []);
+  }, [searchParams, tabFromUrl]);
 
   const handleTabChange = (tab: string) => {
     if (!VALID_TABS.includes(tab as TabValue)) {
       return;
     }
     const validTab = tab as TabValue;
-    setActiveTab(validTab);
-    const params = new URLSearchParams(window.location.search);
-    params.set("tab", validTab);
-    window.history.replaceState(null, "", `?${params.toString()}`);
+    updateTabInUrl(validTab);
 
     const goalName = TAB_GOAL_NAMES[validTab];
     if (goalName) {
@@ -129,5 +124,13 @@ export default function HomeRu() {
         <VectorDimensionsSectionRu />
       </main>
     </>
+  );
+}
+
+export default function HomeRu() {
+  return (
+    <Suspense fallback={null}>
+      <HomeRuContent />
+    </Suspense>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DEMO_URL } from "@/shared/constants";
+import { DEMO_URL_HTTPS } from "@/shared/constants";
 import "./ServiceStatus.scss";
 
 type ServiceStatusValue = "unknown" | "up" | "down";
@@ -20,7 +20,7 @@ export function ServiceStatus({ locale = "en" }: ServiceStatusProps) {
 
     async function fetchStatus() {
       try {
-        const res = await fetch(`${DEMO_URL}/health`);
+        const res = await fetch(`${DEMO_URL_HTTPS}/health`);
         if (!cancelled) {
           setStatus(res.ok ? "up" : "down");
         }
@@ -72,5 +72,6 @@ export function ServiceStatus({ locale = "en" }: ServiceStatusProps) {
     </span>
   );
 }
+
 
 
