@@ -13,22 +13,29 @@ import GettingStartedSection from "@/components/GettingStartedSection";
 import ApiAtAGlanceSection from "@/components/ApiAtAGlanceSection";
 import VectorDimensionsSection from "@/components/VectorDimensionsSection";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
+import { trackGoal } from "@/shared/utils/metricsManager";
+import {
+  VALID_TABS,
+  TAB_GOAL_NAMES,
+  TAB_VALUES,
+  DEFAULT_TAB,
+  DEMO_URL,
+  type TabValue,
+} from "@/shared/constants";
 
-const VALID_TABS = ["public-demo", "self-hosted", "docker", "npm"];
-
-function getInitialTab(): string {
+function getInitialTab(): TabValue {
   if (typeof window === "undefined") {
-    return "public-demo";
+    return DEFAULT_TAB;
   }
 
   const params = new URLSearchParams(window.location.search);
   const tab = params.get("tab");
 
-  if (tab && VALID_TABS.includes(tab)) {
-    return tab;
+  if (tab && VALID_TABS.includes(tab as TabValue)) {
+    return tab as TabValue;
   }
 
-  return "public-demo";
+  return DEFAULT_TAB;
 }
 
 export default function Home() {
@@ -36,7 +43,7 @@ export default function Home() {
   const gettingStartedRef = useRef<HTMLElement>(null);
 
   const openIdeDetails = (scrollSmooth: boolean) => {
-    setActiveTab("public-demo");
+    setActiveTab(TAB_VALUES.PUBLIC_DEMO);
     if (gettingStartedRef.current) {
       try {
         gettingStartedRef.current.scrollIntoView({
@@ -69,10 +76,19 @@ export default function Home() {
   }, []);
 
   const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
+    if (!VALID_TABS.includes(tab as TabValue)) {
+      return;
+    }
+    const validTab = tab as TabValue;
+    setActiveTab(validTab);
     const params = new URLSearchParams(window.location.search);
-    params.set("tab", tab);
+    params.set("tab", validTab);
     window.history.replaceState(null, "", `?${params.toString()}`);
+
+    const goalName = TAB_GOAL_NAMES[validTab];
+    if (goalName) {
+      trackGoal(goalName);
+    }
   };
 
   const handleCopy = createCopyToClipboardHandler({
@@ -90,7 +106,7 @@ export default function Home() {
         <HeroSection
           onOpenIdeDetails={openIdeDetails}
           onCopyDemoUrl={(e: MouseEvent<HTMLButtonElement>) =>
-            handleCopy("http://ydb-qdrant.tech:8080", e)
+            handleCopy(DEMO_URL, e)
           }
         />
         <WhySection />
@@ -101,7 +117,7 @@ export default function Home() {
           activeTab={activeTab}
           onTabChange={handleTabChange}
           onCopyDemoUrl={(e: MouseEvent<HTMLButtonElement>) =>
-            handleCopy("http://ydb-qdrant.tech:8080", e)
+            handleCopy(DEMO_URL, e)
           }
         />
         <ApiAtAGlanceSection activeTab={activeTab} />

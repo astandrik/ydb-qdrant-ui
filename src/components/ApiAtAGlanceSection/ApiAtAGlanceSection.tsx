@@ -1,5 +1,6 @@
 import { Card, Text } from "@gravity-ui/uikit";
 import CodeBlock from "@/components/CodeBlock/CodeBlock";
+import { DEMO_URL } from "@/shared/constants";
 
 export type ApiAtAGlanceBaseProps = {
   activeTab?: string;
@@ -39,7 +40,7 @@ export const ApiAtAGlanceSectionBase = ({
   if (isPublicDemo) {
     displayServerCode = displayServerCode.replace(
       /http:\/\/localhost:8080/g,
-      "http://ydb-qdrant.tech:8080"
+      DEMO_URL
     );
   }
 

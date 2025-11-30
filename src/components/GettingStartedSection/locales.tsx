@@ -2,12 +2,11 @@ import type { ReactNode, RefObject } from "react";
 import type { MouseEvent } from "react";
 import React from "react";
 import { trackGoal } from "@/shared/utils/metricsManager";
+import { DEMO_URL } from "@/shared/constants";
 import type {
   GettingStartedSectionBaseProps,
   DocsLink,
 } from "./GettingStartedSection";
-
-const DEMO_URL = "http://ydb-qdrant.tech:8080";
 
 export type GettingStartedSectionProps = {
   sectionRef: RefObject<HTMLElement | null>;

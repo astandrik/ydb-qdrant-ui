@@ -209,51 +209,11 @@ export const GettingStartedSectionBase = ({
 
       <TabProvider value={activeTab} onUpdate={onTabChange}>
         <TabList size="l">
-          <Tab
-            value="public-demo"
-            onClick={() => {
-              onTabChange("public-demo");
-              trackGoal("tab_public_demo_click");
-            }}
-          >
-            {tabPublicDemoTitle}
-          </Tab>
-          <Tab
-            value="self-hosted"
-            onClick={() => {
-              onTabChange("self-hosted");
-              trackGoal("tab_self_hosted_click");
-            }}
-          >
-            {tabSelfHostedTitle}
-          </Tab>
-          <Tab
-            value="docker"
-            onClick={() => {
-              onTabChange("docker");
-              trackGoal("tab_docker_click");
-            }}
-          >
-            {tabDockerTitle}
-          </Tab>
-          <Tab
-            value="npm"
-            onClick={() => {
-              onTabChange("npm");
-              trackGoal("tab_npm_click");
-            }}
-          >
-            {tabNpmTitle}
-          </Tab>
-          <Tab
-            value="all-in-one"
-            onClick={() => {
-              onTabChange("all-in-one");
-              trackGoal("tab_all_in_one_click");
-            }}
-          >
-            {tabAllInOneDockerTitle}
-          </Tab>
+          <Tab value="public-demo">{tabPublicDemoTitle}</Tab>
+          <Tab value="self-hosted">{tabSelfHostedTitle}</Tab>
+          <Tab value="docker">{tabDockerTitle}</Tab>
+          <Tab value="npm">{tabNpmTitle}</Tab>
+          <Tab value="all-in-one">{tabAllInOneDockerTitle}</Tab>
         </TabList>
 
         <div style={{ marginTop: 24 }}>
