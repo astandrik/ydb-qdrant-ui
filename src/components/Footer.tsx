@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import "./Footer.scss";
 
@@ -17,7 +18,17 @@ export default function Footer() {
             trackGoal("github_uikit_click", { source: "footer" })
           }
         >
-          gravity-ui/uikit
+          <span>
+            gravity-ui/uikit
+          </span>
+          <Image
+            src="/assets/gravity-ui-favicon.png"
+            alt="Gravity UI"
+            width={18}
+            height={18}
+            className="footer__icon"
+            unoptimized
+          />
         </a>
       </p>
     </footer>

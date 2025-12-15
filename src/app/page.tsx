@@ -1,7 +1,7 @@
 "use client";
 
 import type { MouseEvent } from "react";
-import { Suspense, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import LangSwitcher from "@/components/LangSwitcher";
 import GitHubRepoIcon from "@/components/GitHubRepoIcon";
@@ -24,22 +24,48 @@ import {
   type TabValue,
 } from "@/shared/constants";
 
-function HomeContent() {
+/**
+ * Component that handles URL search params.
+ * Wrapped in Suspense because useSearchParams() requires it in Next.js App Router.
+ */
+function SearchParamsHandler({
+  onParamsReady,
+}: {
+  onParamsReady: (activeTab: TabValue, tabFromUrl: string | null) => void;
+}) {
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const gettingStartedRef = useRef<HTMLElement>(null);
 
-  // Derive active tab from URL - single source of truth to avoid hydration mismatch
   const tabFromUrl = searchParams.get("tab");
   const activeTab: TabValue =
     tabFromUrl && VALID_TABS.includes(tabFromUrl as TabValue)
       ? (tabFromUrl as TabValue)
       : DEFAULT_TAB;
 
+  useEffect(() => {
+    onParamsReady(activeTab, tabFromUrl);
+  }, [activeTab, tabFromUrl, onParamsReady]);
+
+  return null;
+}
+
+function HomeContent() {
+  const router = useRouter();
+  const gettingStartedRef = useRef<HTMLElement>(null);
+  const [activeTab, setActiveTab] = useState<TabValue>(DEFAULT_TAB);
+  const [tabFromUrl, setTabFromUrl] = useState<string | null>(null);
+  const [paramsReady, setParamsReady] = useState(false);
+
+  const handleParamsReady = (tab: TabValue, urlTab: string | null) => {
+    setActiveTab(tab);
+    setTabFromUrl(urlTab);
+    setParamsReady(true);
+  };
+
   const updateTabInUrl = (newTab: TabValue) => {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(window.location.search);
     params.set("tab", newTab);
     router.replace(`?${params.toString()}`, { scroll: false });
+    setActiveTab(newTab);
   };
 
   const openIdeDetails = (scrollSmooth: boolean) => {
@@ -58,7 +84,10 @@ function HomeContent() {
 
   // Handle ide-config scroll on mount
   useEffect(() => {
-    const ideConfig = searchParams.get("ide-config");
+    if (!paramsReady) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const ideConfig = params.get("ide-config");
 
     if (ideConfig === "true" && !tabFromUrl && gettingStartedRef.current) {
       try {
@@ -70,7 +99,7 @@ function HomeContent() {
         gettingStartedRef.current.scrollIntoView();
       }
     }
-  }, [searchParams, tabFromUrl]);
+  }, [paramsReady, tabFromUrl]);
 
   const handleTabChange = (tab: string) => {
     if (!VALID_TABS.includes(tab as TabValue)) {
@@ -93,6 +122,10 @@ function HomeContent() {
 
   return (
     <>
+      {/* SearchParamsHandler is wrapped in Suspense to handle useSearchParams() */}
+      <Suspense fallback={null}>
+        <SearchParamsHandler onParamsReady={handleParamsReady} />
+      </Suspense>
       <LangSwitcher />
       <GitHubRepoIcon />
       <NpmPackageIcon />
@@ -121,11 +154,6 @@ function HomeContent() {
   );
 }
 
-
 export default function Home() {
-  return (
-    <Suspense fallback={null}>
-      <HomeContent />
-    </Suspense>
-  );
+  return <HomeContent />;
 }

@@ -1,3 +1,4 @@
+import { SiNpm } from "@icons-pack/react-simple-icons";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import "./HeaderIcons.scss";
 
@@ -12,22 +13,10 @@ const NpmPackageIcon = () => {
       rel="noopener"
       onClick={() => trackGoal("npm_click", { target: "icon" })}
     >
-      <svg className="header-icon__icon" viewBox="0 0 40 16" role="img" aria-hidden="true">
-        <rect x="0" y="0" width="40" height="16" rx="3" ry="3" fill="#cb3837" />
-        <text
-          x="8"
-          y="11"
-          fontSize="9"
-          fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          fill="#ffffff"
-        >
-          npm
-        </text>
-      </svg>
+      <SiNpm size={18} className="header-icon__icon" />
     </a>
   );
 };
 
 export default NpmPackageIcon;
-
 
