@@ -18,7 +18,7 @@ const sectionsEn: Section[] = [
         src: "/assets/C4_Container.svg",
         alt: "C4 container diagram for YDB-Qdrant service components",
         caption:
-          "C4 container diagram showing service components, repositories, index scheduler, YDB client, and YDB.",
+          "C4 container diagram showing service components, repositories, YDB client, and YDB with one-table layout.",
       },
     ],
   },
@@ -35,13 +35,7 @@ const sectionsEn: Section[] = [
         src: "/assets/C4-Component-Repository-Layer.svg",
         alt: "Component diagram of the repository layer",
         caption:
-          "Repository layer: collections/points repositories, tenant utilities, type/schemas, and schema manager.",
-      },
-      {
-        src: "/assets/C4-Component-Index-Scheduler.svg",
-        alt: "Component diagram of the index scheduler",
-        caption:
-          "Index scheduler components: in-memory scheduler state, notifyUpsert, requestIndexBuild, timer logic, and threshold gate.",
+          "Repository layer: collections/points repositories with one-table layout, tenant utilities, and schema manager.",
       },
       {
         src: "/assets/C4-Component-YDB-Integration.svg",
@@ -57,7 +51,7 @@ const sectionsEn: Section[] = [
       {
         src: "/assets/ER_Diagram.svg",
         alt: "ER diagram of YDB tables used by the service",
-        caption: "ER diagram of the YDB metadata and collection tables.",
+        caption: "ER diagram: qdrant_all_points global table with YDB auto-partitioning, plus collections metadata.",
       },
     ],
   },
@@ -81,7 +75,7 @@ const sectionsRu: Section[] = [
         src: "/assets/C4_Container.svg",
         alt: "Диаграмма контейнеров C4 для компонентов сервиса YDB-Qdrant",
         caption:
-          "Диаграмма контейнеров C4: компоненты сервиса, репозитории, планировщик индексов, YDB-клиент и YDB.",
+          "Диаграмма контейнеров C4: компоненты сервиса, репозитории, YDB-клиент и YDB с one-table layout.",
       },
     ],
   },
@@ -98,13 +92,7 @@ const sectionsRu: Section[] = [
         src: "/assets/C4-Component-Repository-Layer.svg",
         alt: "Диаграмма компонентов слоя репозиториев",
         caption:
-          "Слой репозиториев: репозитории коллекций и точек, утилиты по тенантам, типы/схемы и менеджер схем.",
-      },
-      {
-        src: "/assets/C4-Component-Index-Scheduler.svg",
-        alt: "Диаграмма компонентов планировщика индексов",
-        caption:
-          "Компоненты планировщика индексов: состояние планировщика в памяти, notifyUpsert, requestIndexBuild, логика таймера и пороговый гейт.",
+          "Слой репозиториев: репозитории коллекций и точек с однотабличным хранением, утилиты по тенантам и менеджер схем.",
       },
       {
         src: "/assets/C4-Component-YDB-Integration.svg",
@@ -120,7 +108,7 @@ const sectionsRu: Section[] = [
       {
         src: "/assets/ER_Diagram.svg",
         alt: "ER-диаграмма таблиц YDB, используемых сервисом",
-        caption: "ER-диаграмма таблиц метаданных и коллекций YDB.",
+        caption: "ER-диаграмма: глобальная таблица qdrant_all_points с YDB auto-partitioning и метаданные коллекций.",
       },
     ],
   },

@@ -16,7 +16,7 @@ export const whySectionEnProps: WhySectionBaseProps = {
     {
       title: "Single data platform",
       body:
-        "Store business rows, events, and vector embeddings together in YDB and query everything with one YQL engine.",
+        "Store business rows, events, and vector embeddings together — queries use YQL, vectors stored directly in YDB.",
     },
     {
       title: "Reliability & operations",
@@ -24,9 +24,9 @@ export const whySectionEnProps: WhySectionBaseProps = {
         "Reuse YDB's multi‑AZ setups, backup/restore, and disaster recovery instead of operating a separate Qdrant cluster.",
     },
     {
-      title: "Secure tenancy path",
+      title: "Self-healing collections",
       body:
-        "Per‑tenant isolation via X‑Tenant‑Id header today, with a clear path to IAM/OAuth‑based tenancy in internal deployments.",
+        "Collections auto-recreate if dropped. The service tracks last access time per collection for tenant lifecycle management.",
     },
     {
       title: "Flexible integration",
@@ -58,7 +58,7 @@ export const whySectionEnProps: WhySectionBaseProps = {
     },
     {
       feature: "Query Language",
-      ydbQdrant: "Qdrant API + YQL",
+      ydbQdrant: "Qdrant REST API (YQL internal)",
       qdrant: "Qdrant API (gRPC/REST)",
     },
     {
@@ -85,7 +85,7 @@ export const whySectionRuProps: WhySectionBaseProps = {
     {
       title: "Единая платформа данных",
       body:
-        "Строки, события и векторы хранятся в одной базе YDB, запросы пишутся на YQL, без отдельного движка векторной БД.",
+        "Строки, события и векторы хранятся в одной базе YDB — запросы пишутся на YQL, векторы хранятся прямо в YDB.",
     },
     {
       title: "Надёжность и эксплуатация",
@@ -93,9 +93,9 @@ export const whySectionRuProps: WhySectionBaseProps = {
         "Используйте multi‑AZ, backup/restore и disaster recovery YDB вместо самостоятельной эксплуатации кластера Qdrant.",
     },
     {
-      title: "Путь к безопасной мультитенантности",
+      title: "Самовосстанавливающиеся коллекции",
       body:
-        "Сейчас изоляция по тенантам через заголовок X‑Tenant‑Id; далее — IAM/OAuth и ACL на коллекции для внутренних сценариев.",
+        "Коллекции автоматически пересоздаются при удалении. Сервис отслеживает время последнего доступа к коллекции для управления жизненным циклом тенантов.",
     },
     {
       title: "Гибкая интеграция",
@@ -127,7 +127,7 @@ export const whySectionRuProps: WhySectionBaseProps = {
     },
     {
       feature: "Язык запросов",
-      ydbQdrant: "Qdrant API + YQL",
+      ydbQdrant: "Qdrant REST API (YQL внутри)",
       qdrant: "Qdrant API (gRPC/REST)",
     },
     {

@@ -117,10 +117,11 @@ export const gettingStartedSectionEnProps = (): Omit<
             <code>
               {`import { createYdbQdrantClient } from "ydb-qdrant";
 
-const client = createYdbQdrantClient({
+const client = await createYdbQdrantClient({
   endpoint: "grpcs://ydb.serverless.yandexcloud.net:2135",
   database: "/ru-central1/...",
-  token: "..."
+  defaultTenant: "myapp",
+  // Auth via YDB_*_CREDENTIALS env vars
 });`}
             </code>
           </pre>
@@ -328,10 +329,11 @@ export const gettingStartedSectionRuProps = (): Omit<
             <code>
               {`import { createYdbQdrantClient } from "ydb-qdrant";
 
-const client = createYdbQdrantClient({
+const client = await createYdbQdrantClient({
   endpoint: "grpcs://ydb.serverless.yandexcloud.net:2135",
   database: "/ru-central1/...",
-  token: "..."
+  defaultTenant: "myapp",
+  // Аутентификация через YDB_*_CREDENTIALS env vars
 });`}
             </code>
           </pre>

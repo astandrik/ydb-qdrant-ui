@@ -19,9 +19,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run ESLint
         run: npm run lint
@@ -40,7 +41,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run TypeScript type check
         run: npx tsc --noEmit
@@ -57,10 +58,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build project
         run: npm run build
-
