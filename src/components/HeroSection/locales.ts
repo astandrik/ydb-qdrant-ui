@@ -5,7 +5,7 @@ export type HeroSectionPublicProps = Omit<HeroSectionBaseProps, "content">;
 export const heroSectionEnContent: HeroContent = {
   title: "Qdrant API on YDB",
   logoAlt: "YDB Qdrant logo",
-  lead: "Run a minimal Qdrant‑compatible REST API that stores and searches vectors directly in YDB — no separate vector database cluster.",
+  lead: "Qdrant‑compatible REST API service for storing and searching vectors in YDB with exact or approximate KNN search — no separate vector database cluster.",
   primaryCtaLabel: "Get Started",
   secondaryCtaLabel: "Explore on GitHub",
   docsLabel: "Architecture & diagrams →",
@@ -18,7 +18,7 @@ export const heroSectionEnContent: HeroContent = {
 export const heroSectionRuContent: HeroContent = {
   title: "Qdrant API на YDB",
   logoAlt: "Логотип YDB Qdrant",
-  lead: "Совместимый с Qdrant REST API с однофазным top‑k поиском на YDB с перестраивающимся векторным индексом.",
+  lead: "Qdrant‑совместимый REST API сервис для хранения и поиска векторов в YDB с точным или приближённым KNN‑поиском — векторы хранятся прямо в YDB.",
   primaryCtaLabel: "Быстрый старт",
   secondaryCtaLabel: "Изучить на GitHub",
   docsLabel: "Архитектура и диаграммы →",
