@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Button, Link } from "@gravity-ui/uikit";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
-import { NpmVersionBadge } from "@/components/NpmVersionBadge";
 import { DEMO_URL } from "@/shared/constants";
 import "./HeroSection.scss";
 
@@ -86,7 +85,6 @@ export const HeroSectionBase = ({
         onCopy={onCopyDemoUrl}
         locale={locale}
       />
-      <NpmVersionBadge locale={locale} />
       <p className="hero__footnote">{content.footnote}</p>
     </section>
   );

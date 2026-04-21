@@ -13,6 +13,7 @@ import { SectionTitleWithAnchor } from "../SectionTitleWithAnchor/SectionTitleWi
 import { trackGoal } from "@/shared/utils/metricsManager";
 import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
 import { TAB_VALUES } from "@/shared/constants";
+import "./GettingStartedSection.scss";
 
 export type DocsLink = {
   href: string;
@@ -208,80 +209,101 @@ export const GettingStartedSectionBase = ({
           className="section-title"
         />
 
-      <TabProvider value={activeTab} onUpdate={onTabChange}>
-        <TabList size="l">
-          <Tab value={TAB_VALUES.PUBLIC_DEMO}>{tabPublicDemoTitle}</Tab>
-          <Tab value={TAB_VALUES.SELF_HOSTED}>{tabSelfHostedTitle}</Tab>
-          <Tab value={TAB_VALUES.DOCKER}>{tabDockerTitle}</Tab>
-          <Tab value={TAB_VALUES.NPM}>{tabNpmTitle}</Tab>
-          <Tab value={TAB_VALUES.ALL_IN_ONE}>{tabAllInOneDockerTitle}</Tab>
-        </TabList>
+      <div className="ide-config__container">
+        <TabProvider value={activeTab} onUpdate={onTabChange}>
+          <div className="ide-config__tabs">
+            <div className="ide-config__tab-list">
+              <TabList size="l">
+                <Tab value={TAB_VALUES.PUBLIC_DEMO}>
+                  <span className="ide-config__tab-arrow">›</span>
+                  {tabPublicDemoTitle}
+                </Tab>
+                <Tab value={TAB_VALUES.SELF_HOSTED}>
+                  <span className="ide-config__tab-arrow">›</span>
+                  {tabSelfHostedTitle}
+                </Tab>
+                <Tab value={TAB_VALUES.DOCKER}>
+                  <span className="ide-config__tab-arrow">›</span>
+                  {tabDockerTitle}
+                </Tab>
+                <Tab value={TAB_VALUES.NPM}>
+                  <span className="ide-config__tab-arrow">›</span>
+                  {tabNpmTitle}
+                </Tab>
+                <Tab value={TAB_VALUES.ALL_IN_ONE}>
+                  <span className="ide-config__tab-arrow">›</span>
+                  {tabAllInOneDockerTitle}
+                </Tab>
+              </TabList>
+            </div>
 
-        <div style={{ marginTop: 24 }}>
-          <TabPanel value={TAB_VALUES.PUBLIC_DEMO}>
-            <Card type="container" className="card-standalone" id={TAB_VALUES.PUBLIC_DEMO}>
-              <h3 className="card-title">{ideConfigSummary}</h3>
-              <figure style={{ margin: "16px 0" }}>
-                <video
-                  ref={videoRef}
-                  src="https://storage.yandexcloud.net/ydb-qdrant/1121.mp4"
-                  controls
-                  muted
-                  playsInline
-                  onPlay={handleVideoPlay}
-                  onTimeUpdate={handleVideoTimeUpdate}
-                  onEnded={handleVideoEnded}
-                  style={{
-                    width: "100%",
-                    maxWidth: "100%",
-                    height: "auto",
-                    border: "1px solid #19212b",
-                    borderRadius: "8px",
-                    display: "block",
-                    margin: "0 auto",
-                    aspectRatio: "16 / 9",
-                  }}
-                  aria-label={ideConfigImageAlt}
-                />
-              </figure>
-              <div style={{ marginTop: 24, fontSize: 16 }}>
-                <DemoEndpointBadge
-                  label={optionsHosted}
-                  url={demoUrl}
-                  buttonLabel={locale === "ru" ? "Копировать" : "Copy"}
-                  onCopy={onCopyDemoUrl}
-                  locale={locale}
-                />
-              </div>
-              {ideConfigDescription}
-            </Card>
-          </TabPanel>
+            <div className="ide-config__tab-panels">
+              <TabPanel value={TAB_VALUES.PUBLIC_DEMO}>
+                <div id={TAB_VALUES.PUBLIC_DEMO} className="ide-config__panel-content">
+                  <h3 className="card-title">{ideConfigSummary}</h3>
+                  <figure style={{ margin: "16px 0" }}>
+                    <video
+                      ref={videoRef}
+                      src="https://storage.yandexcloud.net/ydb-qdrant/1121.mp4"
+                      controls
+                      muted
+                      playsInline
+                      onPlay={handleVideoPlay}
+                      onTimeUpdate={handleVideoTimeUpdate}
+                      onEnded={handleVideoEnded}
+                      style={{
+                        width: "100%",
+                        maxWidth: "100%",
+                        height: "auto",
+                        border: "1px solid #19212b",
+                        borderRadius: "8px",
+                        display: "block",
+                        margin: "0 auto",
+                        aspectRatio: "16 / 9",
+                      }}
+                      aria-label={ideConfigImageAlt}
+                    />
+                  </figure>
+                  <div style={{ marginTop: 24, fontSize: 16 }}>
+                    <DemoEndpointBadge
+                      label={optionsHosted}
+                      url={demoUrl}
+                      buttonLabel={locale === "ru" ? "Копировать" : "Copy"}
+                      onCopy={onCopyDemoUrl}
+                      locale={locale}
+                    />
+                  </div>
+                  {ideConfigDescription}
+                </div>
+              </TabPanel>
 
-          <TabPanel value={TAB_VALUES.SELF_HOSTED}>
-            <Card type="container" className="card-standalone" id={TAB_VALUES.SELF_HOSTED}>
-              {selfHostedNodeBlock}
-            </Card>
-          </TabPanel>
+              <TabPanel value={TAB_VALUES.SELF_HOSTED}>
+                <div id={TAB_VALUES.SELF_HOSTED} className="ide-config__panel-content">
+                  {selfHostedNodeBlock}
+                </div>
+              </TabPanel>
 
-          <TabPanel value={TAB_VALUES.DOCKER}>
-            <Card type="container" className="card-standalone" id={TAB_VALUES.DOCKER}>
-              {dockerBlock}
-            </Card>
-          </TabPanel>
+              <TabPanel value={TAB_VALUES.DOCKER}>
+                <div id={TAB_VALUES.DOCKER} className="ide-config__panel-content">
+                  {dockerBlock}
+                </div>
+              </TabPanel>
 
-          <TabPanel value={TAB_VALUES.NPM}>
-            <Card type="container" className="card-standalone" id={TAB_VALUES.NPM}>
-              {npmBlock}
-            </Card>
-          </TabPanel>
+              <TabPanel value={TAB_VALUES.NPM}>
+                <div id={TAB_VALUES.NPM} className="ide-config__panel-content">
+                  {npmBlock}
+                </div>
+              </TabPanel>
 
-          <TabPanel value={TAB_VALUES.ALL_IN_ONE}>
-            <Card type="container" className="card-standalone" id={TAB_VALUES.ALL_IN_ONE}>
-              {allInOneDockerBlock}
-            </Card>
-          </TabPanel>
-        </div>
-      </TabProvider>
+              <TabPanel value={TAB_VALUES.ALL_IN_ONE}>
+                <div id={TAB_VALUES.ALL_IN_ONE} className="ide-config__panel-content">
+                  {allInOneDockerBlock}
+                </div>
+              </TabPanel>
+            </div>
+          </div>
+        </TabProvider>
+      </div>
       </div>
     </section>
   );

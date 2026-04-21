@@ -41,6 +41,19 @@
     }
   }
 
+  &__version {
+    color: var(--acc);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+
+    @include sm {
+      font-size: 13px;
+    }
+  }
+
   &--github {
     right: var(--spacing-sm);
 
@@ -54,6 +67,30 @@
 
     @include sm {
       right: 60px;
+    }
+  }
+
+  &--npm-pill {
+    width: auto;
+    padding: 0 var(--spacing-sm) 0 var(--spacing-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    text-decoration: none;
+    background: var(--pill-bg);
+
+    &:hover {
+      background: rgba(255, 190, 92, 0.12);
+      border-color: var(--acc);
+
+      .header-icon__version {
+        color: var(--acc-hover);
+      }
+    }
+
+    @include sm {
+      padding: 0 var(--spacing-md) 0 var(--spacing-sm);
+      gap: var(--spacing-sm);
     }
   }
 }
