@@ -1,5 +1,6 @@
 import { Card, Text, Table } from "@gravity-ui/uikit";
 import { SectionTitleWithAnchor } from "../SectionTitleWithAnchor/SectionTitleWithAnchor";
+import "./WhySection.scss";
 
 type WhyCard = {
   title: string;
@@ -50,16 +51,37 @@ export const WhySectionBase = ({
       <h3 className="section-title" style={{ marginTop: 48 }}>
         {comparisonTitle}
       </h3>
-      <div style={{ overflowX: "auto" }}>
-        <Table
-          columns={[
-            { id: "feature", name: comparisonHeaders.feature },
-            { id: "ydbQdrant", name: comparisonHeaders.ydbQdrant },
-            { id: "qdrant", name: comparisonHeaders.qdrant },
-          ]}
-          data={comparisonRows}
-          edgePadding={false}
-        />
+      <div className="why-section__table-card">
+        <div style={{ overflowX: "auto" }}>
+          <Table
+            className="why-section__table"
+            width="max"
+            columns={[
+              {
+                id: "feature",
+                name: comparisonHeaders.feature,
+                className: "why-section__col-feature",
+                width: "34%"
+              },
+              {
+                id: "ydbQdrant",
+                name: comparisonHeaders.ydbQdrant,
+                className: "why-section__col-highlight",
+                width: "33%"
+              },
+              {
+                id: "qdrant",
+                name: comparisonHeaders.qdrant,
+                className: "why-section__col-regular",
+                width: "33%"
+              },
+            ]}
+            data={comparisonRows}
+            edgePadding={true}
+            wordWrap={true}
+            verticalAlign="middle"
+          />
+        </div>
       </div>
     </section>
   );
