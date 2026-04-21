@@ -1,0 +1,34 @@
+@startuml C4_Component_API_Server
+title Component Diagram: REST API Server
+
+skinparam backgroundColor #F8FAFC
+skinparam shadowing false
+skinparam package {
+  BorderColor #0891B2
+  BackgroundColor #ECFEFF
+}
+skinparam rectangle {
+  BorderColor #0891B2
+  BackgroundColor #FFFFFF
+  FontColor #0F172A
+}
+
+package "Express app" {
+  rectangle "buildServer()\nJSON parser, routes, errors" as app
+  rectangle "Request Logger\nmethod, URL, tenant, latency" as logger
+  rectangle "Collections Router\nPUT/GET/DELETE /:collection\nPUT /:collection/index no-op" as collections
+  rectangle "Points Router\nupsert, retrieve, search, query\ndelete by IDs or pathSegments.*" as points
+  rectangle "Request Identity\napi-key, X-Tenant-Id\nderive userUid and signing key" as identity
+}
+
+rectangle "CollectionService\nmetadata and last access" as collectionService
+rectangle "PointsService\nlimit alias, score_threshold\nquery vector extraction" as pointsService
+
+app --> logger : middleware
+logger --> collections
+logger --> points
+collections --> identity
+points --> identity
+collections --> collectionService
+points --> pointsService
+@enduml

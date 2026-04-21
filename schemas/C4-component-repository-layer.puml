@@ -1,0 +1,36 @@
+@startuml C4_Component_Repository_Layer
+title Component Diagram: Repository Layer
+
+skinparam backgroundColor #F8FAFC
+skinparam shadowing false
+skinparam package {
+  BorderColor #16A34A
+  BackgroundColor #F0FDF4
+}
+skinparam rectangle {
+  BorderColor #16A34A
+  BackgroundColor #FFFFFF
+  FontColor #0F172A
+}
+skinparam database {
+  BorderColor #4F46E5
+  BackgroundColor #EEF2FF
+}
+
+package "Repository layer" {
+  rectangle "Collections Repo\nqdr__collections metadata\nlast_accessed_at throttling" as collectionsRepo
+  rectangle "Points Repo\npointsRepo.one-table\nexact top-k over embedding" as pointsRepo
+  rectangle "Path Segment Helpers\npathSegments.* search/query\nlookup-driven deletes" as pathHelpers
+  rectangle "Payload Signing\nHMAC with api-key\npayload_sign verification" as payloadSign
+  rectangle "Tenant Utilities\nsanitize names\napi-key/userUid namespace" as tenantUtils
+}
+
+database "YDB Tables\n\nqdr__collections\nqdrant_all_points\nqdrant_points_by_file\n\ncollection, point_id, embedding\npayload, payload_sign, path_prefix" as ydbTables
+
+collectionsRepo --> ydbTables : metadata reads/writes
+pointsRepo --> ydbTables : point operations
+pointsRepo --> pathHelpers
+pointsRepo --> payloadSign
+collectionsRepo --> tenantUtils
+pointsRepo --> tenantUtils
+@enduml

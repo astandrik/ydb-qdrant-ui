@@ -26,7 +26,7 @@ export const gettingStartedSectionEnProps = (): Omit<
     { href: "https://ydb.tech/docs/en/yql/reference/", label: "YQL reference" },
     {
       href: "https://ydb.tech/docs/en/concepts/vector_search",
-      label: "Vector search (approximate)",
+      label: "YDB vector search concepts",
     },
     {
       href: "https://cloud.yandex.com/en/docs/ydb/",
@@ -46,7 +46,8 @@ export const gettingStartedSectionEnProps = (): Omit<
           Clone and install: <code>npm install</code>
         </li>
         <li>
-          Set env: <code>YDB_ENDPOINT</code>, <code>YDB_DATABASE</code>
+          Set env: <code>YDB_QDRANT_ENDPOINT</code>,{" "}
+          <code>YDB_QDRANT_DATABASE</code>
         </li>
         <li>
           Auth via env: <code>YDB_SERVICE_ACCOUNT_KEY_FILE_CREDENTIALS</code> |{" "}
@@ -77,11 +78,18 @@ export const gettingStartedSectionEnProps = (): Omit<
           <code>docker pull ghcr.io/astandrik/ydb-qdrant:latest</code>
         </li>
         <li>
-          Run with Docker:{" "}
-          <code>
-            docker run -d --name ydb-qdrant -p 8080:8080
-            ghcr.io/astandrik/ydb-qdrant:latest
-          </code>
+          Run with Docker:
+          <pre>
+            <code>
+              {`docker run -d --name ydb-qdrant \\
+  -p 8080:8080 \\
+  -e YDB_QDRANT_ENDPOINT=grpcs://ydb.serverless.yandexcloud.net:2135 \\
+  -e YDB_QDRANT_DATABASE=/ru-central1/<cloud>/<db> \\
+  -e YDB_SERVICE_ACCOUNT_KEY_FILE_CREDENTIALS=/sa-key.json \\
+  -v /abs/path/sa-key.json:/sa-key.json:ro \\
+  ghcr.io/astandrik/ydb-qdrant:latest`}
+            </code>
+          </pre>
         </li>
         <li>
           Or with docker-compose: <code>docker-compose up -d</code> using the
@@ -118,9 +126,9 @@ export const gettingStartedSectionEnProps = (): Omit<
               {`import { createYdbQdrantClient } from "ydb-qdrant";
 
 const client = await createYdbQdrantClient({
+  apiKey: "my-stable-namespace-key",
   endpoint: "grpcs://ydb.serverless.yandexcloud.net:2135",
   database: "/ru-central1/...",
-  defaultTenant: "myapp",
   // Auth via YDB_*_CREDENTIALS env vars
 });`}
             </code>
@@ -188,13 +196,14 @@ const client = await createYdbQdrantClient({
     ideConfigDescription: (
       <p className="muted">
         Public demo Qdrant base URL for IDEs: <code>{DEMO_URL}</code> (paste
-        into your IDE/agent as the Qdrant base URL).
+        into your IDE/agent as the Qdrant base URL). Use <code>api-key</code>{" "}
+        for stable isolation.
       </p>
     ),
     ideConfigImageAlt: "IDE agent configuration screenshot",
     ideUnderHoodSummary: "How it works under the hood",
     ideUnderHoodImageAlt:
-      "Request flow: IDE/Agent → ydb-qdrant (Node.js) → YDB vectors + index",
+      "Request flow: IDE/Agent → ydb-qdrant (Node.js) → YDB global points table",
     optionsTitle: "Options",
     optionsSelfHost: "Self‑host: http://localhost:8080/",
     optionsHosted: "Hosted demo endpoint for IDEs:",
@@ -230,11 +239,7 @@ export const gettingStartedSectionRuProps = (): Omit<
     },
     {
       href: "https://ydb.tech/docs/en/concepts/vector_search",
-      label: "Векторный поиск (приближённый)",
-    },
-    {
-      href: "https://ydb.tech/docs/en/dev/vector-indexes",
-      label: "Векторные индексы (vector_kmeans_tree)",
+      label: "Векторный поиск в YDB",
     },
     {
       href: "https://cloud.yandex.com/en/docs/ydb/",
@@ -255,8 +260,8 @@ export const gettingStartedSectionRuProps = (): Omit<
           <code>npm install</code>
         </li>
         <li>
-          Укажите переменные окружения: <code>YDB_ENDPOINT</code>,{" "}
-          <code>YDB_DATABASE</code>
+          Укажите переменные окружения: <code>YDB_QDRANT_ENDPOINT</code>,{" "}
+          <code>YDB_QDRANT_DATABASE</code>
         </li>
         <li>
           Настройте аутентификацию через переменные окружения:{" "}
@@ -289,11 +294,18 @@ export const gettingStartedSectionRuProps = (): Omit<
           <code>docker pull ghcr.io/astandrik/ydb-qdrant:latest</code>
         </li>
         <li>
-          Запустите через Docker:{" "}
-          <code>
-            docker run -d --name ydb-qdrant -p 8080:8080
-            ghcr.io/astandrik/ydb-qdrant:latest
-          </code>
+          Запустите через Docker:
+          <pre>
+            <code>
+              {`docker run -d --name ydb-qdrant \\
+  -p 8080:8080 \\
+  -e YDB_QDRANT_ENDPOINT=grpcs://ydb.serverless.yandexcloud.net:2135 \\
+  -e YDB_QDRANT_DATABASE=/ru-central1/<cloud>/<db> \\
+  -e YDB_SERVICE_ACCOUNT_KEY_FILE_CREDENTIALS=/sa-key.json \\
+  -v /abs/path/sa-key.json:/sa-key.json:ro \\
+  ghcr.io/astandrik/ydb-qdrant:latest`}
+            </code>
+          </pre>
         </li>
         <li>
           Или через docker-compose: <code>docker-compose up -d</code> с
@@ -330,9 +342,9 @@ export const gettingStartedSectionRuProps = (): Omit<
               {`import { createYdbQdrantClient } from "ydb-qdrant";
 
 const client = await createYdbQdrantClient({
+  apiKey: "my-stable-namespace-key",
   endpoint: "grpcs://ydb.serverless.yandexcloud.net:2135",
   database: "/ru-central1/...",
-  defaultTenant: "myapp",
   // Аутентификация через YDB_*_CREDENTIALS env vars
 });`}
             </code>
@@ -402,13 +414,14 @@ const client = await createYdbQdrantClient({
     ideConfigDescription: (
       <p className="muted">
         Публичный demo‑endpoint для IDE: <code>{DEMO_URL}</code> (вставьте в
-        IDE/агент как базовый URL Qdrant).
+        IDE/агент как базовый URL Qdrant). Используйте <code>api-key</code>{" "}
+        для стабильной изоляции.
       </p>
     ),
     ideConfigImageAlt: "Скриншот конфигурации IDE-агента",
     ideUnderHoodSummary: "Как это работает под капотом",
     ideUnderHoodImageAlt:
-      "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → YDB векторы + индекс",
+      "Поток запросов: IDE/Agent → ydb-qdrant (Node.js) → глобальная таблица точек в YDB",
     optionsTitle: "Варианты",
     optionsSelfHost: "Самостоятельный хостинг: http://localhost:8080/",
     optionsHosted: "Публичный demo‑endpoint для IDE:",

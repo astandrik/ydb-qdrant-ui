@@ -1,0 +1,130 @@
+@use "../../styles/mixins" as *;
+
+.ide-config__container {
+  margin-top: var(--spacing-lg);
+  border: 1px solid var(--pill-border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.02);
+  overflow: hidden;
+}
+
+.ide-config__tabs {
+  display: flex;
+  flex-direction: column;
+
+  @include md {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+.ide-config__tab-list {
+  flex-shrink: 0;
+
+  @include md {
+    width: 240px;
+    border-right: 1px solid var(--pill-border);
+    background: transparent;
+
+    .g-tab-list {
+      flex-direction: column;
+      align-items: stretch;
+      flex-wrap: nowrap;
+      
+      // Override gravity UI horizontal borders and scroll
+      box-shadow: none !important;
+      overflow: visible !important;
+      padding: var(--spacing-sm) 0;
+      gap: var(--spacing-xs);
+    }
+
+    .g-tab {
+      width: 100%;
+      height: auto;
+      min-height: 44px;
+      padding: 0;
+      border: none !important; // override gravity UI borders
+      border-radius: 0;
+      transition: background 0.15s ease, color 0.15s ease;
+      background: transparent;
+    }
+
+    .g-tab:not(:last-child) {
+      margin-inline-end: 0 !important;
+    }
+
+    .g-tab__content {
+      width: 100%;
+      padding: var(--spacing-sm) var(--spacing-xl);
+      justify-content: flex-start;
+      align-items: center;
+      
+      // Override the gravity UI focus outline to not look broken with our custom shapes
+      outline: none !important;
+    }
+
+    .g-tab__title {
+      color: var(--muted);
+      white-space: normal;
+      overflow: visible;
+      text-overflow: clip;
+      text-align: left;
+      font-size: 14px;
+      line-height: 1.4;
+      transition: color 0.15s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    // Custom arrow icon inside the tab
+    .ide-config__tab-arrow {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      margin-right: var(--spacing-sm);
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    @include hover {
+      .g-tab:not(.g-tab_active):hover {
+        background: rgba(255, 255, 255, 0.03);
+
+        .g-tab__title {
+          color: var(--fg);
+        }
+      }
+    }
+
+    .g-tab_active {
+      background: rgba(255, 190, 92, 0.05);
+
+      .g-tab__title {
+        color: var(--acc);
+      }
+
+      .ide-config__tab-arrow {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    // Focus states
+    .g-tab:focus-visible {
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+}
+
+.ide-config__tab-panels {
+  flex: 1;
+  min-width: 0;
+}
+
+.ide-config__panel-content {
+  padding: var(--spacing-xl);
+
+  @include md {
+    padding: var(--spacing-3xl);
+  }
+}

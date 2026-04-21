@@ -1,0 +1,25 @@
+@startuml C4_Component_Index_Compatibility
+title Component Diagram: Index Compatibility Endpoint
+
+skinparam backgroundColor #F8FAFC
+skinparam shadowing false
+skinparam rectangle {
+  BorderColor #64748B
+  BackgroundColor #FFFFFF
+  FontColor #0F172A
+}
+
+rectangle "Client / Tool\nmay call PUT /collections/:collection/index" as client
+rectangle "Collections Router\naccepts index request" as router
+rectangle "CollectionService.putCollectionIndex\nchecks collection metadata" as service
+rectangle "Response\n{ operation_id: 0, status: \"completed\" }" as response
+
+client --> router : Qdrant compatibility call
+router --> service : no-op compatibility path
+service --> response : acknowledged
+
+note bottom of service
+  Current runtime does not build or schedule vector indexes.
+  Search is driven by the global one-table layout and exact top-k over embedding.
+end note
+@enduml

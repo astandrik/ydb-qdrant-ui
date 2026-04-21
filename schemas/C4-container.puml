@@ -1,0 +1,37 @@
+@startuml C4_Container
+title Container Diagram: YDB Qdrant
+
+skinparam backgroundColor #F8FAFC
+skinparam shadowing false
+skinparam package {
+  BorderColor #2563EB
+  BackgroundColor #EFF6FF
+  FontColor #0F172A
+}
+skinparam rectangle {
+  BorderColor #2563EB
+  BackgroundColor #FFFFFF
+  FontColor #0F172A
+}
+skinparam database {
+  BorderColor #4F46E5
+  BackgroundColor #EEF2FF
+  FontColor #0F172A
+}
+
+package "ydb-qdrant service / package" {
+  rectangle "REST API Server\nNode.js, Express\n/collections and /points routes" as rest
+  rectangle "Package API\ncreateYdbQdrantClient\nrequires apiKey or userUid" as pkg
+  rectangle "Service Layer\nCollectionService, PointsService\nvalidation, normalization, scoring" as services
+  rectangle "Repository Layer\none-table implementation\nupsert, search, delete, retrieve" as repos
+  rectangle "YDB Client\nydb-sdk sessions and credentials" as client
+}
+
+database "YDB\nDistributed SQL storage\n\nqdr__collections\nqdrant_all_points\nqdrant_points_by_file\n\nExact top-k over embedding\nAuto-partitioned points table" as ydb
+
+rest --> services : route handlers
+pkg --> services : method calls
+services --> repos : business operations
+repos --> client : withSession()
+client --> ydb : YQL / gRPC
+@enduml
