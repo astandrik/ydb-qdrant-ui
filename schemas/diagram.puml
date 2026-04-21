@@ -1,0 +1,31 @@
+@startuml diagram
+title Qdrant-compatible flow on YDB
+
+skinparam backgroundColor #F8FAFC
+skinparam shadowing false
+skinparam rectangle {
+  BorderColor #2563EB
+  BackgroundColor #FFFFFF
+  FontColor #0F172A
+}
+skinparam database {
+  BorderColor #4F46E5
+  BackgroundColor #EEF2FF
+  FontColor #0F172A
+}
+
+actor "IDE / App\nQdrant client\napi-key recommended\noptional X-Tenant-Id" as app
+rectangle "ydb-qdrant\n\nExpress REST API\ncreateYdbQdrantClient\ncollections, points, search/query\npathSegments.* filters" as service
+database "YDB\n\nqdr__collections\nqdrant_all_points\nqdrant_points_by_file" as ydb
+
+app --> service : Qdrant REST
+service --> ydb : YQL / SDK
+
+rectangle "Search\n\nKnn::CosineDistance / Dot / Euclid / Manhattan" as search
+rectangle "Isolation\n\napi-key -> derived userUid\noptional tenant suffix" as isolation
+rectangle "Scale\n\nmillion-vector collections\nwith tuned capacity" as scale
+
+service ..> search
+service ..> isolation
+ydb ..> scale
+@enduml

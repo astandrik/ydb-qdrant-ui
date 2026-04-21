@@ -51,7 +51,8 @@ const sectionsEn: Section[] = [
       {
         src: "/assets/ER_Diagram.svg",
         alt: "ER diagram of YDB tables used by the service",
-        caption: "ER diagram: qdrant_all_points global table with YDB auto-partitioning, plus collections metadata.",
+        caption:
+          "ER diagram: qdr__collections metadata, qdrant_all_points global table, and qdrant_points_by_file path lookup.",
       },
     ],
   },
@@ -108,7 +109,8 @@ const sectionsRu: Section[] = [
       {
         src: "/assets/ER_Diagram.svg",
         alt: "ER-диаграмма таблиц YDB, используемых сервисом",
-        caption: "ER-диаграмма: глобальная таблица qdrant_all_points с YDB auto-partitioning и метаданные коллекций.",
+        caption:
+          "ER-диаграмма: метаданные qdr__collections, глобальная таблица qdrant_all_points и path lookup qdrant_points_by_file.",
       },
     ],
   },

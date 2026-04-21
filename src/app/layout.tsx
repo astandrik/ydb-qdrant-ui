@@ -27,13 +27,13 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Qdrant API on YDB",
   description:
-    "Qdrant-compatible vector search API on YDB. Single-phase top-k using automatic YDB vector index with table-scan fallback. Self-hosted or hosted demo endpoint for IDEs.",
+    "Qdrant-compatible vector search API on YDB. Exact top-k search over a global one-table layout for HTTP, Node.js library, and million-vector collection scenarios.",
   metadataBase: new URL("http://ydb-qdrant.tech"),
   authors: [{ name: "ydb-qdrant" }],
   openGraph: {
     title: "Qdrant API on YDB",
     description:
-      "Qdrant-compatible vector search on YDB: single-phase top-k with automatic vector index; table-scan fallback.",
+      "Qdrant-compatible vector search on YDB with exact top-k search, HTTP server mode, Node.js library mode, and million-vector collections.",
     type: "website",
     url: "http://ydb-qdrant.tech/",
     images: [
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Qdrant API on YDB",
     description:
-      "Qdrant-compatible vector search on YDB: single-phase top-k with automatic vector index; table-scan fallback.",
+      "Qdrant-compatible vector search on YDB with exact top-k search, HTTP server mode, Node.js library mode, and million-vector collections.",
     images: ["/assets/preview.png"],
   },
   robots: {

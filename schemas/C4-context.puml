@@ -1,0 +1,29 @@
+@startuml C4_Context
+title System Context: YDB Qdrant-compatible Service
+
+skinparam backgroundColor #F8FAFC
+skinparam shadowing false
+skinparam rectangle {
+  BorderColor #2563EB
+  BackgroundColor #FFFFFF
+  FontColor #0F172A
+}
+skinparam database {
+  BorderColor #4F46E5
+  BackgroundColor #EEF2FF
+  FontColor #0F172A
+}
+
+actor "IDE / RAG App\nRoo Code, Cline,\nor backend service" as user
+rectangle "ydb-qdrant\n\nQdrant-compatible REST API\nNode.js library entrypoint\nExact top-k search\napi-key / userUid isolation" as ydbq
+database "YDB\n\nqdr__collections\nqdrant_all_points\nqdrant_points_by_file" as ydb
+
+user --> ydbq : Qdrant REST
+ydbq --> ydb : YQL / SDK
+
+note bottom of ydbq
+  Public demo or self-hosted deployment.
+  Supports million-vector collections when
+  capacity and latency are sized for the workload.
+end note
+@enduml

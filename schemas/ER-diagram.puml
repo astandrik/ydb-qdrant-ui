@@ -1,0 +1,59 @@
+@startuml ER_Diagram
+title Entity Relationship Diagram for YDB-Qdrant Service\nPhysical Data Model - Current One-table Layout
+
+hide circle
+skinparam backgroundColor #F8FAFC
+skinparam linetype ortho
+skinparam class {
+  BackgroundColor #E8F4F8
+  BorderColor #0F172A
+  ArrowColor #2563EB
+}
+
+entity "qdr__collections" as collections <<Metadata Table>> {
+  * collection : Utf8 <<PK>>
+  --
+  table_name : Utf8
+  vector_dimension : Uint32
+  distance : Utf8 {Cosine|Euclid|Dot|Manhattan}
+  vector_type : Utf8 {float}
+  created_at : Timestamp
+  last_accessed_at : Timestamp
+  user_uid : Optional<Utf8>
+}
+
+entity "qdrant_all_points" as points <<Global Points Table>> {
+  * collection : Utf8 <<PK>>
+  * point_id : Utf8 <<PK>>
+  --
+  embedding : Bytes (binary float vector)
+  payload : JsonDocument
+  payload_sign : Utf8
+  path_prefix : Optional<Utf8>
+  ....
+  Auto-partitioning by load and size
+}
+
+entity "qdrant_points_by_file" as pointsByFile <<Path Lookup Table>> {
+  * collection : Utf8 <<PK>>
+  * file_path : Utf8 <<PK>>
+  * point_id : Utf8 <<PK>>
+  --
+  Used by pathSegments.* deletes
+}
+
+collections ||--o{ points : "collection namespace"
+points ||--o{ pointsByFile : "path lookup rows"
+
+note right of points
+  Search:
+  - exact top-k over embedding
+  - distance function selected by collection metric
+  - no vector index scheduler in current runtime
+end note
+
+note bottom of collections
+  Existing deployments must use the current schema.
+  Missing required columns require manual migration.
+end note
+@enduml

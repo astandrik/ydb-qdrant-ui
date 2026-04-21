@@ -6,7 +6,7 @@ export const whySectionEnProps: WhySectionBaseProps = {
     {
       title: "Persistent storage",
       body:
-        "All data is written to YDB's distributed storage and survives restarts. No in-memory-only mode — your vectors are safe.",
+        "Data is written to YDB's distributed storage. The all-in-one local image can keep embedded YDB data across restarts when configured with a mounted volume.",
     },
     {
       title: "Transactional & consistent",
@@ -24,9 +24,9 @@ export const whySectionEnProps: WhySectionBaseProps = {
         "Reuse YDB's multi‑AZ setups, backup/restore, and disaster recovery instead of operating a separate Qdrant cluster.",
     },
     {
-      title: "Self-healing collections",
+      title: "One-table storage model",
       body:
-        "Collections auto-recreate if dropped. The service tracks last access time per collection for tenant lifecycle management.",
+        "Collection metadata lives in qdr__collections, points live in qdrant_all_points, and the service tracks last access time per collection.",
     },
     {
       title: "Flexible integration",
@@ -75,7 +75,7 @@ export const whySectionRuProps: WhySectionBaseProps = {
     {
       title: "Персистентное хранение",
       body:
-        "Все данные записываются в распределённое хранилище YDB и сохраняются при перезапусках. Никакого in-memory режима — ваши векторы в безопасности.",
+        "Данные записываются в распределённое хранилище YDB. Локальный all-in-one образ может сохранять данные embedded YDB между рестартами при подключённом volume.",
     },
     {
       title: "Транзакционность и консистентность",
@@ -93,9 +93,9 @@ export const whySectionRuProps: WhySectionBaseProps = {
         "Используйте multi‑AZ, backup/restore и disaster recovery YDB вместо самостоятельной эксплуатации кластера Qdrant.",
     },
     {
-      title: "Самовосстанавливающиеся коллекции",
+      title: "One-table модель хранения",
       body:
-        "Коллекции автоматически пересоздаются при удалении. Сервис отслеживает время последнего доступа к коллекции для управления жизненным циклом тенантов.",
+        "Метаданные коллекций хранятся в qdr__collections, точки — в qdrant_all_points; сервис отслеживает время последнего доступа к коллекции.",
     },
     {
       title: "Гибкая интеграция",

@@ -1,0 +1,35 @@
+@startuml C4_Component_YDB_Integration
+title Component Diagram: YDB Integration
+
+skinparam backgroundColor #F8FAFC
+skinparam shadowing false
+skinparam rectangle {
+  BorderColor #7C3AED
+  BackgroundColor #FFFFFF
+  FontColor #0F172A
+}
+skinparam database {
+  BorderColor #4F46E5
+  BackgroundColor #EEF2FF
+}
+
+rectangle "Environment Config\nYDB_QDRANT_ENDPOINT\nYDB_QDRANT_DATABASE\nYDB_*_CREDENTIALS" as env
+rectangle "YDB Driver\nreadyOrThrow()\nwithSession()\nrefresh on session errors" as driver
+rectangle "Schema Guards\nensureMetaTable()\nensureGlobalPointsTable()\nensurePointsByFileTable()" as schema
+rectangle "Vector Helpers\nKnn::ToBinaryStringFloat\nbinary embedding params" as vectorHelpers
+rectangle "Request Timeouts\nsearch/upsert/session limits" as timeouts
+database "YDB\n\nqdr__collections\nqdrant_all_points\nqdrant_points_by_file" as ydb
+
+env --> driver : connection and auth
+driver --> schema : describe/create/validate
+driver --> ydb : sessions
+schema --> ydb : current schema only
+vectorHelpers --> ydb : typed query params
+timeouts --> driver : bounded operations
+
+note bottom of schema
+  Metadata table must already use the current schema.
+  Global points and path lookup tables are validated;
+  missing required columns require manual migration.
+end note
+@enduml

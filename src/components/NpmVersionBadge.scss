@@ -1,0 +1,21 @@
+.npm-version {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--pill-border);
+  border-radius: var(--radius-md);
+  color: var(--acc);
+  background: var(--pill-bg);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    color: var(--acc-hover);
+    text-decoration: underline;
+  }
+}
