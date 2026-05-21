@@ -4,8 +4,8 @@ import "@gravity-ui/uikit/styles/fonts.css";
 import "@gravity-ui/uikit/styles/styles.css";
 import "@/styles/globals.scss";
 import YandexMetrika from "./YandexMetrika";
-import { ThemeProvider } from "@gravity-ui/uikit";
 import { getRootClassName } from "@gravity-ui/uikit/server";
+import { Providers } from "./Providers";
 import Footer from "@/components/Footer";
 
 const geistSans = Geist({
@@ -76,10 +76,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${rootClassName}`}
       >
-        <ThemeProvider theme={THEME}>
+        <Providers>
           {children}
           <Footer />
-        </ThemeProvider>
+        </Providers>
         <YandexMetrika />
       </body>
     </html>

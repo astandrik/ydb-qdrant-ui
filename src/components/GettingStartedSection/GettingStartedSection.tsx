@@ -38,6 +38,8 @@ export type GettingStartedSectionBaseProps = {
   onCopyDemoUrl: (event: MouseEvent<HTMLButtonElement>) => void;
   docsTitle: string;
   docsLinks: DocsLink[];
+  localYdbExamplesTitle?: string;
+  localYdbExamplesLinks?: DocsLink[];
   selfHostedNodeBlock: ReactNode;
   dockerBlock: ReactNode;
   npmBlock: ReactNode;
@@ -65,6 +67,8 @@ export const GettingStartedSectionBase = ({
   onCopyDemoUrl,
   docsTitle,
   docsLinks,
+  localYdbExamplesTitle,
+  localYdbExamplesLinks = [],
   selfHostedNodeBlock,
   dockerBlock,
   npmBlock,
@@ -196,6 +200,30 @@ export const GettingStartedSectionBase = ({
             ))}
           </ul>
         </Card>
+        {localYdbExamplesLinks.length > 0 && (
+          <div style={{ marginTop: 24 }}>
+            <h3 className="section-title">{localYdbExamplesTitle}</h3>
+            <Card type="container">
+              <ul className="muted">
+                {localYdbExamplesLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      target={
+                        link.href.startsWith("http") ? "_blank" : undefined
+                      }
+                      rel={
+                        link.href.startsWith("http") ? "noopener" : undefined
+                      }
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          </div>
+        )}
       </div>
 
       <div

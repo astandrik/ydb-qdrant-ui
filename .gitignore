@@ -51,6 +51,7 @@ lerna-debug.log*
 .env.production.local
 
 # sensitive files
+private/
 *.key
 *.pem
 *.p12

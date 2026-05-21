@@ -23,6 +23,10 @@ export const gettingStartedSectionEnProps = (): Omit<
   const docsLinks: DocsLink[] = [
     { href: "/docs/", label: "Service diagrams (C4 + ER)" },
     { href: "https://ydb.tech/docs/en/", label: "YDB docs (overview)" },
+    {
+      href: "https://github.com/astandrik/local-ydb-toolkit",
+      label: "local-ydb-toolkit on GitHub",
+    },
     { href: "https://ydb.tech/docs/en/yql/reference/", label: "YQL reference" },
     {
       href: "https://ydb.tech/docs/en/concepts/vector_search",
@@ -35,6 +39,16 @@ export const gettingStartedSectionEnProps = (): Omit<
     {
       href: "https://www.npmjs.com/package/ydb-qdrant",
       label: "npm: ydb-qdrant",
+    },
+  ];
+  const localYdbExamplesLinks: DocsLink[] = [
+    {
+      href: "https://pets.ydb-qdrant.tech/",
+      label: "Codex Pets",
+    },
+    {
+      href: "https://gravity-ai.ydb-qdrant.tech/",
+      label: "Gravity AI",
     },
   ];
 
@@ -185,7 +199,15 @@ const client = await createYdbQdrantClient({
         >
           GitHub README
         </a>{" "}
-        for details.
+        for details. The related{" "}
+        <a
+          href="https://github.com/astandrik/local-ydb-toolkit"
+          target="_blank"
+          rel="noopener"
+        >
+          local-ydb-toolkit on GitHub
+        </a>{" "}
+        captures the reusable local YDB workflow.
       </p>
     </>
   );
@@ -210,6 +232,8 @@ const client = await createYdbQdrantClient({
     demoUrl,
     docsTitle: "Docs",
     docsLinks,
+    localYdbExamplesTitle: "Projects using local-ydb",
+    localYdbExamplesLinks,
     selfHostedNodeBlock,
     dockerBlock,
     npmBlock,
@@ -234,6 +258,10 @@ export const gettingStartedSectionRuProps = (): Omit<
       label: "Документация YDB (обзор)",
     },
     {
+      href: "https://github.com/astandrik/local-ydb-toolkit",
+      label: "local-ydb-toolkit на GitHub",
+    },
+    {
       href: "https://ydb.tech/docs/en/yql/reference/",
       label: "Справочник YQL",
     },
@@ -248,6 +276,16 @@ export const gettingStartedSectionRuProps = (): Omit<
     {
       href: "https://www.npmjs.com/package/ydb-qdrant",
       label: "npm: ydb-qdrant",
+    },
+  ];
+  const localYdbExamplesLinks: DocsLink[] = [
+    {
+      href: "https://pets.ydb-qdrant.tech/",
+      label: "Codex Pets",
+    },
+    {
+      href: "https://gravity-ai.ydb-qdrant.tech/",
+      label: "Gravity AI",
     },
   ];
 
@@ -403,7 +441,15 @@ const client = await createYdbQdrantClient({
         >
           GitHub README
         </a>{" "}
-        для подробностей.
+        для подробностей. Связанный{" "}
+        <a
+          href="https://github.com/astandrik/local-ydb-toolkit"
+          target="_blank"
+          rel="noopener"
+        >
+          local-ydb-toolkit на GitHub
+        </a>{" "}
+        фиксирует переиспользуемый workflow для локального YDB.
       </p>
     </>
   );
@@ -428,6 +474,8 @@ const client = await createYdbQdrantClient({
     demoUrl,
     docsTitle: "Документация",
     docsLinks,
+    localYdbExamplesTitle: "Проекты на local-ydb",
+    localYdbExamplesLinks,
     selfHostedNodeBlock,
     dockerBlock,
     npmBlock,
