@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Code Indexer Status",
   description:
     "Public endpoint status links for YDB Qdrant Code Indexer.",
+  alternates: {
+    canonical: "/code-indexer/status/",
+  },
 };
 
 export default function CodeIndexerStatusPage() {

@@ -13,6 +13,7 @@ export type HeroContent = {
   primaryCtaLabel: string;
   secondaryCtaLabel: string;
   docsLabel: string;
+  codeIndexerLabel: string;
   demoPrefix: string;
   demoButtonLabel: string;
   footnote: string;
@@ -76,6 +77,13 @@ export const HeroSectionBase = ({
           onClick={() => trackGoal("hero_docs_click")}
         >
           {content.docsLabel}
+        </Link>
+        <Link
+          id="hero-code-indexer-link"
+          href="/code-indexer/"
+          onClick={() => trackGoal("hero_code_indexer_click")}
+        >
+          {content.codeIndexerLabel}
         </Link>
       </div>
       <DemoEndpointBadge

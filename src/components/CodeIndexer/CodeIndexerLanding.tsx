@@ -19,6 +19,29 @@ export const CODE_INDEXER_INSTALL_URL =
   "https://github.com/apps/ydb-qdrant-code-indexer/installations/new";
 export const CODE_INDEXER_DASHBOARD_PATH = "/code-indexer/dashboard/";
 
+type CodeIndexerHomePromoContent = {
+  eyebrow: string;
+  title: string;
+  body: string;
+  cta: string;
+};
+
+export const codeIndexerHomePromoEn: CodeIndexerHomePromoContent = {
+  eyebrow: "New hosted app",
+  title: "YDB Qdrant Code Indexer",
+  body:
+    "Index GitHub repositories into YDB-backed Qdrant-compatible storage and give coding agents searchable project memory through hosted MCP.",
+  cta: "Open Code Indexer",
+};
+
+export const codeIndexerHomePromoRu: CodeIndexerHomePromoContent = {
+  eyebrow: "Новый hosted app",
+  title: "YDB Qdrant Code Indexer",
+  body:
+    "Индексируйте GitHub-репозитории в Qdrant-совместимое хранилище на YDB и давайте coding agents проектную память через hosted MCP.",
+  cta: "Открыть Code Indexer",
+};
+
 export function buildCodeIndexerLoginUrl(returnPath = CODE_INDEXER_DASHBOARD_PATH) {
   return `${CODE_INDEXER_BACKEND_URL}/github/oauth/start?return_to=${encodeURIComponent(
     returnPath
@@ -73,19 +96,20 @@ const trustItems: Feature[] = [
   },
 ];
 
-export function CodeIndexerHomePromo() {
+export function CodeIndexerHomePromo({
+  content = codeIndexerHomePromoEn,
+}: {
+  content?: CodeIndexerHomePromoContent;
+}) {
   return (
     <section className="code-indexer-promo" aria-labelledby="code-indexer-promo-title">
       <div>
-        <p className="code-indexer-promo__eyebrow">New hosted app</p>
-        <h2 id="code-indexer-promo-title">YDB Qdrant Code Indexer</h2>
-        <p>
-          Index GitHub repositories into YDB-backed Qdrant-compatible storage
-          and give coding agents searchable project memory through hosted MCP.
-        </p>
+        <p className="code-indexer-promo__eyebrow">{content.eyebrow}</p>
+        <h2 id="code-indexer-promo-title">{content.title}</h2>
+        <p>{content.body}</p>
       </div>
       <Button href="/code-indexer/" size="l" view="outlined">
-        Open Code Indexer
+        {content.cta}
         <Icon data={ArrowRight} size={16} />
       </Button>
     </section>

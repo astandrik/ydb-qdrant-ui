@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Code Indexer Privacy",
   description:
     "Stored data and deletion behavior for YDB Qdrant Code Indexer.",
+  alternates: {
+    canonical: "/code-indexer/privacy/",
+  },
 };
 
 export default function CodeIndexerPrivacyPage() {

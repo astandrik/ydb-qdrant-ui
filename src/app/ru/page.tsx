@@ -15,6 +15,10 @@ import { PlansSectionRu } from "@/components/PlansSection";
 import { ApiAtAGlanceSectionRu } from "@/components/ApiAtAGlanceSection";
 import { VectorDimensionsSectionRu } from "@/components/VectorDimensionsSection";
 import { GettingStartedSectionRu } from "@/components/GettingStartedSection";
+import {
+  CodeIndexerHomePromo,
+  codeIndexerHomePromoRu,
+} from "@/components/CodeIndexer/CodeIndexerLanding";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import {
@@ -138,6 +142,7 @@ function HomeRuContent() {
             handleCopy(DEMO_URL, e)
           }
         />
+        <CodeIndexerHomePromo content={codeIndexerHomePromoRu} />
 
         <WhySectionRu />
 
