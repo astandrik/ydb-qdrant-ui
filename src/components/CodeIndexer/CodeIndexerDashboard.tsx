@@ -22,6 +22,13 @@ import {
 } from "./CodeIndexerLanding";
 import "./CodeIndexer.scss";
 
+const MCP_AGENT_USAGE_PROMPT = `Use ydb-qdrant-code-indexer as searchable project memory for indexed GitHub repositories.
+If owner/repo is unknown, call list_repositories.
+In a local checkout, infer owner/repo from git remote, then call list_repository_indexes.
+Use the default branch index for general repository questions.
+For pull requests, pass prNumber to search_code.
+Call search_code with concise natural-language or code-oriented queries before answering repository-specific questions.`;
+
 type GitHubUser = {
   githubUserId: string;
   login: string;
@@ -41,11 +48,18 @@ type ActiveJob = {
   currentPath?: string;
   finishedAt?: string;
   jobId: string;
+  jobKind:
+    | "full-index"
+    | "incremental-push"
+    | "delete-repo-index"
+    | "pr-index"
+    | "delete-pr-index";
   lastError?: string;
   message?: string;
   phase: string;
   processedChunks: number;
   processedFiles: number;
+  prNumber?: number;
   startedAt?: string;
   status: "pending" | "running" | "completed" | "failed";
   totalChunks?: number;
@@ -57,6 +71,7 @@ type QueuedIndexingJob = Pick<ActiveJob, "jobId" | "phase" | "status">;
 
 type Repository = {
   activeJob?: ActiveJob;
+  activeJobs?: ActiveJob[];
   chunkCount?: number;
   defaultBranch: string;
   installationId: string;
@@ -180,16 +195,33 @@ function statusLabel(status: RepositoryStatus) {
 }
 
 function activeJobLabel(job: ActiveJob) {
+  let target = "Default branch reindex";
+  if (job.jobKind === "pr-index") {
+    target =
+      job.prNumber === undefined
+        ? "Pull request index"
+        : `Pull request #${job.prNumber} index`;
+  } else if (job.jobKind === "delete-pr-index") {
+    target =
+      job.prNumber === undefined
+        ? "Pull request cleanup"
+        : `Pull request #${job.prNumber} cleanup`;
+  } else if (job.jobKind === "incremental-push") {
+    target = "Default branch update";
+  } else if (job.jobKind === "delete-repo-index") {
+    target = "Repository cleanup";
+  }
+
   if (job.status === "pending") {
-    return "Queued";
+    return `${target} queued`;
   }
   if (job.status === "completed") {
-    return "Completed";
+    return `${target} completed`;
   }
   if (job.status === "failed") {
-    return "Failed";
+    return `${target} failed`;
   }
-  return job.phase.replaceAll("_", " ");
+  return `${target} · ${job.phase.replaceAll("_", " ")}`;
 }
 
 function formatProgressCount(processed: number, total?: number) {
@@ -244,6 +276,22 @@ function isJobStale(job: ActiveJob) {
   return Date.now() - updatedAt > 5 * 60 * 1000;
 }
 
+function repositoryActiveJobs(repository: Repository) {
+  if (repository.activeJobs && repository.activeJobs.length > 0) {
+    return repository.activeJobs;
+  }
+  return repository.activeJob ? [repository.activeJob] : [];
+}
+
+function hasActiveDefaultBranchJob(repository: Repository) {
+  return repositoryActiveJobs(repository).some(
+    (job) =>
+      job.jobKind === "full-index" ||
+      job.jobKind === "incremental-push" ||
+      job.jobKind === "delete-repo-index"
+  );
+}
+
 export function CodeIndexerDashboard() {
   const [authState, setAuthState] = useState<AuthState>("checking");
   const [user, setUser] = useState<GitHubUser | null>(null);
@@ -290,7 +338,7 @@ export function CodeIndexerDashboard() {
               next.has(repository.repoId) &&
               repository.status !== "queued" &&
               repository.status !== "indexing" &&
-              !repository.activeJob
+              !hasActiveDefaultBranchJob(repository)
             ) {
               next.delete(repository.repoId);
             }
@@ -355,7 +403,7 @@ export function CodeIndexerDashboard() {
 
   const hasActiveIndexingJob = repositories.some(
     (repository) =>
-      Boolean(repository.activeJob) ||
+      repositoryActiveJobs(repository).length > 0 ||
       repository.status === "queued" ||
       repository.status === "indexing"
   );
@@ -645,123 +693,130 @@ export function CodeIndexerDashboard() {
                   Indexing is active. Repository status refreshes automatically.
                 </p>
               )}
-              {repositories.map((repository) => (
-                <article
-                  className="code-indexer-dashboard__repo"
-                  key={repository.repoId}
-                >
-                  <div className="code-indexer-dashboard__repo-main">
-                    <div>
-                      <h3>
-                        {repository.owner}/{repository.repo}
-                      </h3>
-                      <p>
-                        Branch {repository.defaultBranch} · SHA{" "}
-                        {shortSha(repository.lastIndexedSha)}
-                      </p>
-                    </div>
-                    <span
-                      className={`code-indexer-dashboard__status code-indexer-dashboard__status--${repository.status}`}
-                    >
-                      <Icon data={statusIcon(repository.status)} size={16} />
-                      {statusLabel(repository.status)}
-                    </span>
-                  </div>
-                  <dl className="code-indexer-dashboard__repo-meta">
-                    <div>
-                      <dt>Chunks</dt>
-                      <dd>{repository.chunkCount ?? 0}</dd>
-                    </div>
-                    <div>
-                      <dt>Last indexed</dt>
-                      <dd>{formatDate(repository.lastIndexedAt)}</dd>
-                    </div>
-                    {repository.lastError && (
+              {repositories.map((repository) => {
+                const activeJobs = repositoryActiveJobs(repository);
+                const defaultBranchJobActive =
+                  hasActiveDefaultBranchJob(repository);
+                return (
+                  <article
+                    className="code-indexer-dashboard__repo"
+                    key={repository.repoId}
+                  >
+                    <div className="code-indexer-dashboard__repo-main">
                       <div>
-                        <dt>Error</dt>
-                        <dd>{repository.lastError}</dd>
+                        <h3>
+                          {repository.owner}/{repository.repo}
+                        </h3>
+                        <p>
+                          Default branch {repository.defaultBranch} · SHA{" "}
+                          {shortSha(repository.lastIndexedSha)}
+                        </p>
+                      </div>
+                      <span
+                        className={`code-indexer-dashboard__status code-indexer-dashboard__status--${repository.status}`}
+                      >
+                        <Icon data={statusIcon(repository.status)} size={16} />
+                        {statusLabel(repository.status)}
+                      </span>
+                    </div>
+                    <dl className="code-indexer-dashboard__repo-meta">
+                      <div>
+                        <dt>Default branch chunks</dt>
+                        <dd>{repository.chunkCount ?? 0}</dd>
+                      </div>
+                      <div>
+                        <dt>Default branch indexed</dt>
+                        <dd>{formatDate(repository.lastIndexedAt)}</dd>
+                      </div>
+                      {repository.lastError && (
+                        <div>
+                          <dt>Default branch error</dt>
+                          <dd>{repository.lastError}</dd>
+                        </div>
+                      )}
+                    </dl>
+                    {activeJobs.length > 0 && (
+                      <div className="code-indexer-dashboard__job-list">
+                        {activeJobs.map((job) => (
+                          <div className="code-indexer-progress" key={job.jobId}>
+                            <div className="code-indexer-progress__heading">
+                              <strong>{activeJobLabel(job)}</strong>
+                              <span>{job.jobId}</span>
+                            </div>
+                            <div
+                              className="code-indexer-progress__bar"
+                              aria-label="Indexing progress"
+                            >
+                              <span
+                                className="code-indexer-progress__bar-fill"
+                                style={{
+                                  width: `${progressPercent(job)}%`,
+                                }}
+                              />
+                            </div>
+                            <div className="code-indexer-progress__meta">
+                              <span>
+                                Files{" "}
+                                {formatProgressCount(
+                                  job.processedFiles,
+                                  job.totalFiles
+                                )}
+                              </span>
+                              <span>
+                                Chunks{" "}
+                                {formatProgressCount(
+                                  job.processedChunks,
+                                  job.totalChunks
+                                )}
+                              </span>
+                              <span>
+                                Elapsed{" "}
+                                {formatElapsed(job.startedAt ?? job.createdAt)}
+                              </span>
+                            </div>
+                            {job.currentPath && (
+                              <p className="code-indexer-progress__path">
+                                {job.currentPath}
+                              </p>
+                            )}
+                            {job.message && (
+                              <p className="code-indexer-progress__message">
+                                {job.message}
+                              </p>
+                            )}
+                            {isJobStale(job) && (
+                              <p className="code-indexer-progress__warning">
+                                No progress update for more than 5 minutes.
+                              </p>
+                            )}
+                            {job.lastError && (
+                              <p className="code-indexer-progress__error">
+                                {job.lastError}
+                              </p>
+                            )}
+                          </div>
+                        ))}
                       </div>
                     )}
-                  </dl>
-                  {repository.activeJob && (
-                    <div className="code-indexer-progress">
-                      <div className="code-indexer-progress__heading">
-                        <strong>{activeJobLabel(repository.activeJob)}</strong>
-                        <span>{repository.activeJob.jobId}</span>
-                      </div>
-                      <div
-                        className="code-indexer-progress__bar"
-                        aria-label="Indexing progress"
-                      >
-                        <span
-                          className="code-indexer-progress__bar-fill"
-                          style={{
-                            width: `${progressPercent(repository.activeJob)}%`,
-                          }}
-                        />
-                      </div>
-                      <div className="code-indexer-progress__meta">
-                        <span>
-                          Files{" "}
-                          {formatProgressCount(
-                            repository.activeJob.processedFiles,
-                            repository.activeJob.totalFiles
-                          )}
-                        </span>
-                        <span>
-                          Chunks{" "}
-                          {formatProgressCount(
-                            repository.activeJob.processedChunks,
-                            repository.activeJob.totalChunks
-                          )}
-                        </span>
-                        <span>
-                          Elapsed{" "}
-                          {formatElapsed(
-                            repository.activeJob.startedAt ??
-                              repository.activeJob.createdAt
-                          )}
-                        </span>
-                      </div>
-                      {repository.activeJob.currentPath && (
-                        <p className="code-indexer-progress__path">
-                          {repository.activeJob.currentPath}
-                        </p>
-                      )}
-                      {repository.activeJob.message && (
-                        <p className="code-indexer-progress__message">
-                          {repository.activeJob.message}
-                        </p>
-                      )}
-                      {isJobStale(repository.activeJob) && (
-                        <p className="code-indexer-progress__warning">
-                          No progress update for more than 5 minutes.
-                        </p>
-                      )}
-                      {repository.activeJob.lastError && (
-                        <p className="code-indexer-progress__error">
-                          {repository.activeJob.lastError}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  <Button
-                    onClick={() => void handleReindex(repository.repoId)}
-                    view="outlined"
-                    disabled={
-                      repository.status === "deleted" ||
-                      repository.status === "queued" ||
-                      repository.status === "indexing" ||
-                      reindexingRepoIds.has(repository.repoId)
-                    }
-                  >
-                    <Icon data={ArrowRotateRight} size={16} />
-                    {reindexingRepoIds.has(repository.repoId)
-                      ? "Reindex queued"
-                      : "Reindex"}
-                  </Button>
-                </article>
-              ))}
+                    <Button
+                      onClick={() => void handleReindex(repository.repoId)}
+                      view="outlined"
+                      disabled={
+                        repository.status === "deleted" ||
+                        repository.status === "queued" ||
+                        repository.status === "indexing" ||
+                        defaultBranchJobActive ||
+                        reindexingRepoIds.has(repository.repoId)
+                      }
+                    >
+                      <Icon data={ArrowRotateRight} size={16} />
+                      {reindexingRepoIds.has(repository.repoId)
+                        ? "Reindex queued"
+                        : "Reindex default branch"}
+                    </Button>
+                  </article>
+                );
+              })}
             </div>
           )}
         </div>
@@ -846,6 +901,23 @@ export function CodeIndexerDashboard() {
               <Icon data={Copy} size={16} />
               Copy config
             </Button>
+            <div className="code-indexer-dashboard__agent-prompt">
+              <h3>Agent prompt</h3>
+              <p>
+                Add this to your agent instructions if the MCP client does not
+                show server instructions clearly.
+              </p>
+              <pre>{MCP_AGENT_USAGE_PROMPT}</pre>
+              <Button
+                onClick={() =>
+                  void copyText(MCP_AGENT_USAGE_PROMPT, "Agent prompt copied.")
+                }
+                view="outlined"
+              >
+                <Icon data={Copy} size={16} />
+                Copy prompt
+              </Button>
+            </div>
           </section>
 
           <section className="code-indexer-dashboard__panel code-indexer-dashboard__panel--danger">
