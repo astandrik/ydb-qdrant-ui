@@ -63,6 +63,9 @@ type CreatedToken = {
 };
 
 type AuthState = "checking" | "authenticated" | "unauthenticated";
+type LoadRepositoriesOptions = {
+  silent?: boolean;
+};
 
 class DashboardApiError extends Error {
   readonly status: number;
@@ -167,25 +170,55 @@ export function CodeIndexerDashboard() {
   const [tokenName, setTokenName] = useState("Local coding agent");
   const [loading, setLoading] = useState(true);
   const [repositoriesLoading, setRepositoriesLoading] = useState(false);
+  const [reindexingRepoIds, setReindexingRepoIds] = useState<Set<string>>(
+    () => new Set()
+  );
   const [actionMessage, setActionMessage] = useState("");
   const [error, setError] = useState("");
 
-  const loadRepositories = useCallback(async (installationId: string) => {
-    if (!installationId) {
-      setRepositories([]);
-      return;
-    }
-    setRepositoriesLoading(true);
-    try {
-      const data = await apiRequest<{
-        repositories: Repository[];
-        status: "ok";
-      }>(`/api/repositories?installationId=${encodeURIComponent(installationId)}`);
-      setRepositories(data.repositories);
-    } finally {
-      setRepositoriesLoading(false);
-    }
-  }, []);
+  const loadRepositories = useCallback(
+    async (
+      installationId: string,
+      options: LoadRepositoriesOptions = {}
+    ) => {
+      if (!installationId) {
+        setRepositories([]);
+        return;
+      }
+      if (!options.silent) {
+        setRepositoriesLoading(true);
+      }
+      try {
+        const data = await apiRequest<{
+          repositories: Repository[];
+          status: "ok";
+        }>(
+          `/api/repositories?installationId=${encodeURIComponent(
+            installationId
+          )}`
+        );
+        setRepositories(data.repositories);
+        setReindexingRepoIds((current) => {
+          const next = new Set(current);
+          for (const repository of data.repositories) {
+            if (
+              next.has(repository.repoId) &&
+              repository.status !== "queued" &&
+              repository.status !== "indexing"
+            ) {
+              next.delete(repository.repoId);
+            }
+          }
+          return next;
+        });
+      } finally {
+        if (!options.silent) {
+          setRepositoriesLoading(false);
+        }
+      }
+    },
+    []
+  );
 
   const loadTokens = useCallback(async () => {
     const data = await apiRequest<{ status: "ok"; tokens: ApiToken[] }>("/api/tokens");
@@ -234,6 +267,29 @@ export function CodeIndexerDashboard() {
     void initialize();
   }, [initialize]);
 
+  const hasActiveIndexingJob = repositories.some(
+    (repository) =>
+      repository.status === "queued" || repository.status === "indexing"
+  );
+  const shouldPollRepositories =
+    authState === "authenticated" &&
+    Boolean(selectedInstallationId) &&
+    (hasActiveIndexingJob || reindexingRepoIds.size > 0);
+
+  useEffect(() => {
+    if (!shouldPollRepositories) {
+      return undefined;
+    }
+    const intervalId = window.setInterval(() => {
+      void loadRepositories(selectedInstallationId, { silent: true }).catch(
+        (err: unknown) => {
+          setError(err instanceof Error ? err.message : String(err));
+        }
+      );
+    }, 3000);
+    return () => window.clearInterval(intervalId);
+  }, [loadRepositories, selectedInstallationId, shouldPollRepositories]);
+
   const tokenForConfig = createdToken?.plaintextToken ?? "<token>";
   const mcpConfig = useMemo(
     () =>
@@ -266,6 +322,7 @@ export function CodeIndexerDashboard() {
     setSelectedInstallationId(installationId);
     setError("");
     setActionMessage("");
+    setReindexingRepoIds(new Set());
     try {
       await loadRepositories(installationId);
     } catch (err: unknown) {
@@ -296,13 +353,26 @@ export function CodeIndexerDashboard() {
   const handleReindex = async (repoId: string) => {
     setError("");
     setActionMessage("");
+    setReindexingRepoIds((current) => new Set(current).add(repoId));
+    setRepositories((current) =>
+      current.map((repository) =>
+        repository.repoId === repoId
+          ? { ...repository, status: "queued" }
+          : repository
+      )
+    );
     try {
       await apiRequest<null>(`/api/repositories/${encodeURIComponent(repoId)}/reindex`, {
         method: "POST",
       });
-      setActionMessage("Reindex job queued.");
-      await loadRepositories(selectedInstallationId);
+      setActionMessage("Reindex job queued. Refreshing status automatically.");
+      await loadRepositories(selectedInstallationId, { silent: true });
     } catch (err: unknown) {
+      setReindexingRepoIds((current) => {
+        const next = new Set(current);
+        next.delete(repoId);
+        return next;
+      });
       setError(err instanceof Error ? err.message : String(err));
     }
   };
@@ -477,6 +547,11 @@ export function CodeIndexerDashboard() {
             </div>
           ) : (
             <div className="code-indexer-dashboard__repo-list">
+              {shouldPollRepositories && (
+                <p className="code-indexer-dashboard__polling">
+                  Indexing is active. Repository status refreshes automatically.
+                </p>
+              )}
               {repositories.map((repository) => (
                 <article
                   className="code-indexer-dashboard__repo"
@@ -518,10 +593,17 @@ export function CodeIndexerDashboard() {
                   <Button
                     onClick={() => void handleReindex(repository.repoId)}
                     view="outlined"
-                    disabled={repository.status === "deleted"}
+                    disabled={
+                      repository.status === "deleted" ||
+                      repository.status === "queued" ||
+                      repository.status === "indexing" ||
+                      reindexingRepoIds.has(repository.repoId)
+                    }
                   >
                     <Icon data={ArrowRotateRight} size={16} />
-                    Reindex
+                    {reindexingRepoIds.has(repository.repoId)
+                      ? "Reindex queued"
+                      : "Reindex"}
                   </Button>
                 </article>
               ))}
