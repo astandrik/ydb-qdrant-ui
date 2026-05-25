@@ -36,7 +36,27 @@ type Installation = {
 
 type RepositoryStatus = "queued" | "indexing" | "ready" | "failed" | "deleted";
 
+type ActiveJob = {
+  createdAt: string;
+  currentPath?: string;
+  finishedAt?: string;
+  jobId: string;
+  lastError?: string;
+  message?: string;
+  phase: string;
+  processedChunks: number;
+  processedFiles: number;
+  startedAt?: string;
+  status: "pending" | "running" | "completed" | "failed";
+  totalChunks?: number;
+  totalFiles?: number;
+  updatedAt: string;
+};
+
+type QueuedIndexingJob = Pick<ActiveJob, "jobId" | "phase" | "status">;
+
 type Repository = {
+  activeJob?: ActiveJob;
   chunkCount?: number;
   defaultBranch: string;
   installationId: string;
@@ -159,6 +179,71 @@ function statusLabel(status: RepositoryStatus) {
   return "Deleted";
 }
 
+function activeJobLabel(job: ActiveJob) {
+  if (job.status === "pending") {
+    return "Queued";
+  }
+  if (job.status === "completed") {
+    return "Completed";
+  }
+  if (job.status === "failed") {
+    return "Failed";
+  }
+  return job.phase.replaceAll("_", " ");
+}
+
+function formatProgressCount(processed: number, total?: number) {
+  return `${processed}/${total ?? "?"}`;
+}
+
+function progressPercent(job: ActiveJob) {
+  let total = 0;
+  let processed = 0;
+  if (job.totalFiles && job.totalFiles > 0) {
+    total = job.totalFiles;
+    processed = job.processedFiles;
+  } else if (job.totalChunks && job.totalChunks > 0) {
+    total = job.totalChunks;
+    processed = job.processedChunks;
+  }
+
+  if (job.status === "completed") {
+    return 100;
+  }
+  if (total <= 0) {
+    return job.status === "running" ? 12 : 0;
+  }
+  return Math.max(2, Math.min(100, Math.round((processed / total) * 100)));
+}
+
+function formatElapsed(startedAt?: string) {
+  if (!startedAt) {
+    return "unknown";
+  }
+  const started = Date.parse(startedAt);
+  if (Number.isNaN(started)) {
+    return "unknown";
+  }
+  const seconds = Math.max(0, Math.floor((Date.now() - started) / 1000));
+  if (seconds < 60) {
+    return `${seconds}s`;
+  }
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) {
+    return `${minutes}m ${seconds % 60}s`;
+  }
+  const hours = Math.floor(minutes / 60);
+  return `${hours}h ${minutes % 60}m`;
+}
+
+function isJobStale(job: ActiveJob) {
+  const updatedAt = Date.parse(job.updatedAt);
+  if (Number.isNaN(updatedAt)) {
+    return false;
+  }
+  return Date.now() - updatedAt > 5 * 60 * 1000;
+}
+
 export function CodeIndexerDashboard() {
   const [authState, setAuthState] = useState<AuthState>("checking");
   const [user, setUser] = useState<GitHubUser | null>(null);
@@ -204,7 +289,8 @@ export function CodeIndexerDashboard() {
             if (
               next.has(repository.repoId) &&
               repository.status !== "queued" &&
-              repository.status !== "indexing"
+              repository.status !== "indexing" &&
+              !repository.activeJob
             ) {
               next.delete(repository.repoId);
             }
@@ -269,7 +355,9 @@ export function CodeIndexerDashboard() {
 
   const hasActiveIndexingJob = repositories.some(
     (repository) =>
-      repository.status === "queued" || repository.status === "indexing"
+      Boolean(repository.activeJob) ||
+      repository.status === "queued" ||
+      repository.status === "indexing"
   );
   const shouldPollRepositories =
     authState === "authenticated" &&
@@ -362,10 +450,15 @@ export function CodeIndexerDashboard() {
       )
     );
     try {
-      await apiRequest<null>(`/api/repositories/${encodeURIComponent(repoId)}/reindex`, {
+      const data = await apiRequest<{
+        job: QueuedIndexingJob;
+        status: "ok";
+      }>(`/api/repositories/${encodeURIComponent(repoId)}/reindex`, {
         method: "POST",
       });
-      setActionMessage("Reindex job queued. Refreshing status automatically.");
+      setActionMessage(
+        `Reindex job ${data.job.jobId} queued. Refreshing status automatically.`
+      );
       await loadRepositories(selectedInstallationId, { silent: true });
     } catch (err: unknown) {
       setReindexingRepoIds((current) => {
@@ -590,6 +683,68 @@ export function CodeIndexerDashboard() {
                       </div>
                     )}
                   </dl>
+                  {repository.activeJob && (
+                    <div className="code-indexer-progress">
+                      <div className="code-indexer-progress__heading">
+                        <strong>{activeJobLabel(repository.activeJob)}</strong>
+                        <span>{repository.activeJob.jobId}</span>
+                      </div>
+                      <div
+                        className="code-indexer-progress__bar"
+                        aria-label="Indexing progress"
+                      >
+                        <span
+                          className="code-indexer-progress__bar-fill"
+                          style={{
+                            width: `${progressPercent(repository.activeJob)}%`,
+                          }}
+                        />
+                      </div>
+                      <div className="code-indexer-progress__meta">
+                        <span>
+                          Files{" "}
+                          {formatProgressCount(
+                            repository.activeJob.processedFiles,
+                            repository.activeJob.totalFiles
+                          )}
+                        </span>
+                        <span>
+                          Chunks{" "}
+                          {formatProgressCount(
+                            repository.activeJob.processedChunks,
+                            repository.activeJob.totalChunks
+                          )}
+                        </span>
+                        <span>
+                          Elapsed{" "}
+                          {formatElapsed(
+                            repository.activeJob.startedAt ??
+                              repository.activeJob.createdAt
+                          )}
+                        </span>
+                      </div>
+                      {repository.activeJob.currentPath && (
+                        <p className="code-indexer-progress__path">
+                          {repository.activeJob.currentPath}
+                        </p>
+                      )}
+                      {repository.activeJob.message && (
+                        <p className="code-indexer-progress__message">
+                          {repository.activeJob.message}
+                        </p>
+                      )}
+                      {isJobStale(repository.activeJob) && (
+                        <p className="code-indexer-progress__warning">
+                          No progress update for more than 5 minutes.
+                        </p>
+                      )}
+                      {repository.activeJob.lastError && (
+                        <p className="code-indexer-progress__error">
+                          {repository.activeJob.lastError}
+                        </p>
+                      )}
+                    </div>
+                  )}
                   <Button
                     onClick={() => void handleReindex(repository.repoId)}
                     view="outlined"
