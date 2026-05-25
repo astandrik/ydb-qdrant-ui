@@ -16,6 +16,30 @@
     padding: var(--spacing-4xl) var(--spacing-xl);
   }
 
+  &__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    justify-content: center;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  &__nav-link {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 13px;
+    text-decoration: none;
+
+    @include hover {
+      color: var(--acc);
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: var(--acc);
+      text-decoration: underline;
+    }
+  }
+
   &__text {
     margin: 0;
     font-size: 12px;
