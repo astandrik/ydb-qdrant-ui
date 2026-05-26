@@ -14,6 +14,12 @@ import PlansSection from "@/components/PlansSection";
 import GettingStartedSection from "@/components/GettingStartedSection";
 import ApiAtAGlanceSection from "@/components/ApiAtAGlanceSection";
 import VectorDimensionsSection from "@/components/VectorDimensionsSection";
+import { AskAIPanel } from "@/components/AskAI";
+import {
+  ASK_AI_HOME_EN,
+  ASK_AI_PRODUCT_ID,
+  ASK_AI_PRODUCT_NAME,
+} from "@/components/AskAI/ask-ai-content";
 import { CodeIndexerHomePromo } from "@/components/CodeIndexer/CodeIndexerLanding";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 import { trackGoal } from "@/shared/utils/metricsManager";
@@ -156,6 +162,17 @@ function HomeContent() {
           }
         />
         <CodeIndexerHomePromo />
+        <section className="section">
+          <AskAIPanel
+            productName={ASK_AI_PRODUCT_NAME}
+            productId={ASK_AI_PRODUCT_ID}
+            label={ASK_AI_HOME_EN.label}
+            helperText={ASK_AI_HOME_EN.helperText}
+            prompt={ASK_AI_HOME_EN.prompt}
+            page={ASK_AI_HOME_EN.page}
+            promptVariant={ASK_AI_HOME_EN.promptVariant}
+          />
+        </section>
         <WhySection />
         <WhereSection />
         <LimitationsSection />

@@ -2,13 +2,6 @@ import type { MouseEvent } from "react";
 import Image from "next/image";
 import { Button, Link } from "@gravity-ui/uikit";
 import { trackGoal } from "@/shared/utils/metricsManager";
-import { AskAIPanel } from "@/components/AskAI";
-import {
-  ASK_AI_HOME_EN,
-  ASK_AI_HOME_RU,
-  ASK_AI_PRODUCT_ID,
-  ASK_AI_PRODUCT_NAME,
-} from "@/components/AskAI/ask-ai-content";
 import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
 import { DEMO_URL } from "@/shared/constants";
 import "./HeroSection.scss";
@@ -39,8 +32,6 @@ export const HeroSectionBase = ({
   onCopyDemoUrl,
   locale = "en",
 }: HeroSectionBaseProps) => {
-  const askAIContent = locale === "ru" ? ASK_AI_HOME_RU : ASK_AI_HOME_EN;
-
   return (
     <section className="hero">
       <h1>
@@ -95,16 +86,6 @@ export const HeroSectionBase = ({
           {content.codeIndexerLabel}
         </Link>
       </div>
-      <AskAIPanel
-        productName={ASK_AI_PRODUCT_NAME}
-        productId={ASK_AI_PRODUCT_ID}
-        label={askAIContent.label}
-        helperText={askAIContent.helperText}
-        prompt={askAIContent.prompt}
-        page={askAIContent.page}
-        promptVariant={askAIContent.promptVariant}
-        className="hero__ask-ai"
-      />
       <DemoEndpointBadge
         label={content.demoPrefix}
         url={DEMO_URL}
