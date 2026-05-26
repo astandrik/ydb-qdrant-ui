@@ -11,10 +11,17 @@ import {
 } from "@/components/HeroSection";
 import { WhySectionRu } from "@/components/WhySection";
 import { WhereSectionRu } from "@/components/WhereSection";
+import { LimitationsSectionRu } from "@/components/LimitationsSection";
 import { PlansSectionRu } from "@/components/PlansSection";
 import { ApiAtAGlanceSectionRu } from "@/components/ApiAtAGlanceSection";
 import { VectorDimensionsSectionRu } from "@/components/VectorDimensionsSection";
 import { GettingStartedSectionRu } from "@/components/GettingStartedSection";
+import { AskAIPanel } from "@/components/AskAI";
+import {
+  ASK_AI_HOME_RU,
+  ASK_AI_PRODUCT_ID,
+  ASK_AI_PRODUCT_NAME,
+} from "@/components/AskAI/ask-ai-content";
 import {
   CodeIndexerHomePromo,
   codeIndexerHomePromoRu,
@@ -143,10 +150,24 @@ function HomeRuContent() {
           }
         />
         <CodeIndexerHomePromo content={codeIndexerHomePromoRu} />
+        <section className="section">
+          <AskAIPanel
+            productName={ASK_AI_PRODUCT_NAME}
+            productId={ASK_AI_PRODUCT_ID}
+            label={ASK_AI_HOME_RU.label}
+            helperText={ASK_AI_HOME_RU.helperText}
+            providerAriaLabelTemplate={ASK_AI_HOME_RU.providerAriaLabelTemplate}
+            prompt={ASK_AI_HOME_RU.prompt}
+            page={ASK_AI_HOME_RU.page}
+            promptVariant={ASK_AI_HOME_RU.promptVariant}
+          />
+        </section>
 
         <WhySectionRu />
 
         <WhereSectionRu />
+
+        <LimitationsSectionRu />
 
         <PlansSectionRu />
         <GettingStartedSectionRu

@@ -169,7 +169,7 @@
   display: grid;
   gap: var(--spacing-lg);
   align-items: center;
-  margin: var(--spacing-4xl) 0;
+  margin: var(--spacing-4xl) 0 var(--spacing-lg);
   padding: var(--spacing-2xl);
   border: 1px solid rgba(155, 229, 255, 0.2);
   border-radius: var(--radius-lg);
@@ -197,6 +197,10 @@
     font-weight: 700;
     text-transform: uppercase;
   }
+}
+
+.code-indexer-promo + .section {
+  margin-top: var(--spacing-lg);
 }
 
 .code-indexer-dashboard {

@@ -9,10 +9,17 @@ import NpmPackageIcon from "@/components/NpmPackageIcon";
 import HeroSection from "@/components/HeroSection";
 import WhySection from "@/components/WhySection";
 import WhereSection from "@/components/WhereSection";
+import LimitationsSection from "@/components/LimitationsSection";
 import PlansSection from "@/components/PlansSection";
 import GettingStartedSection from "@/components/GettingStartedSection";
 import ApiAtAGlanceSection from "@/components/ApiAtAGlanceSection";
 import VectorDimensionsSection from "@/components/VectorDimensionsSection";
+import { AskAIPanel } from "@/components/AskAI";
+import {
+  ASK_AI_HOME_EN,
+  ASK_AI_PRODUCT_ID,
+  ASK_AI_PRODUCT_NAME,
+} from "@/components/AskAI/ask-ai-content";
 import { CodeIndexerHomePromo } from "@/components/CodeIndexer/CodeIndexerLanding";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 import { trackGoal } from "@/shared/utils/metricsManager";
@@ -24,6 +31,32 @@ import {
   DEMO_URL,
   type TabValue,
 } from "@/shared/constants";
+
+const YDB_QDRANT_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "YDB-Qdrant",
+  url: "https://ydb-qdrant.tech/",
+  description:
+    "Qdrant-compatible vector search API on YDB. Exact top-k search over a global one-table layout for HTTP, Node.js library, and million-vector collection scenarios.",
+  codeRepository: "https://github.com/astandrik/ydb-qdrant",
+  applicationCategory: "DeveloperApplication",
+};
+
+const JSON_LD_ESCAPE_MAP = {
+  "&": "\\u0026",
+  "<": "\\u003c",
+  ">": "\\u003e",
+} as const;
+
+function serializeJsonLd(data: unknown) {
+  return JSON.stringify(data).replace(
+    /[&<>]/g,
+    (char) => JSON_LD_ESCAPE_MAP[char as keyof typeof JSON_LD_ESCAPE_MAP],
+  );
+}
+
+const YDB_QDRANT_JSON_LD_SCRIPT = serializeJsonLd(YDB_QDRANT_JSON_LD);
 
 /**
  * Component that handles URL search params.
@@ -127,6 +160,7 @@ function HomeContent() {
       <Suspense fallback={null}>
         <SearchParamsHandler onParamsReady={handleParamsReady} />
       </Suspense>
+      <script type="application/ld+json">{YDB_QDRANT_JSON_LD_SCRIPT}</script>
       <LangSwitcher />
       <GitHubRepoIcon />
       <NpmPackageIcon />
@@ -138,8 +172,21 @@ function HomeContent() {
           }
         />
         <CodeIndexerHomePromo />
+        <section className="section">
+          <AskAIPanel
+            productName={ASK_AI_PRODUCT_NAME}
+            productId={ASK_AI_PRODUCT_ID}
+            label={ASK_AI_HOME_EN.label}
+            helperText={ASK_AI_HOME_EN.helperText}
+            providerAriaLabelTemplate={ASK_AI_HOME_EN.providerAriaLabelTemplate}
+            prompt={ASK_AI_HOME_EN.prompt}
+            page={ASK_AI_HOME_EN.page}
+            promptVariant={ASK_AI_HOME_EN.promptVariant}
+          />
+        </section>
         <WhySection />
         <WhereSection />
+        <LimitationsSection />
         <PlansSection />
         <GettingStartedSection
           sectionRef={gettingStartedRef}

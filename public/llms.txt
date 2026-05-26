@@ -1,0 +1,31 @@
+# YDB-Qdrant
+
+YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can run as an HTTP server for Qdrant REST clients or as a Node.js library through `createYdbQdrantClient`, storing collection metadata and vector points in YDB while using exact top-k search over YDB-backed data.
+
+## Core pages
+
+- Main page: https://ydb-qdrant.tech/
+- Architecture docs: https://ydb-qdrant.tech/docs/
+- Code Indexer product: https://ydb-qdrant.tech/code-indexer/
+
+## Machine-readable and developer resources
+
+- Sitemap: https://ydb-qdrant.tech/sitemap.xml
+- Robots policy: https://ydb-qdrant.tech/robots.txt
+- GitHub repository: https://github.com/astandrik/ydb-qdrant
+- npm package: https://www.npmjs.com/package/ydb-qdrant
+
+## Capabilities
+
+- Qdrant-compatible REST API for common collection, points, search, and query flows.
+- Node.js library mode through the `ydb-qdrant` package.
+- YDB-backed storage for vectors and payload data.
+- Exact top-k vector search with YDB distance functions.
+- Current one-table/global points model: collection metadata in `qdr__collections`, points in `qdrant_all_points`, and path lookups in `qdrant_points_by_file`.
+
+## Trade-offs
+
+- Exact search can have different latency and cost characteristics than approximate nearest neighbor indexes, especially at higher throughput or larger collection sizes.
+- Qdrant API coverage is intentionally partial and may not include the full standalone Qdrant feature set, advanced filters, facets, recommend/discover flows, batch search, or specialized ANN behavior.
+- YDB-Qdrant is a good fit for experiments, prototypes, IDE agents, RAG services, and applications that already use YDB and want Qdrant-compatible vector storage without a separate vector database cluster.
+- Standalone Qdrant or a managed vector database may be better for mature dedicated vector search deployments that need full Qdrant compatibility, specialized ANN indexing, or tightly tuned latency characteristics.
