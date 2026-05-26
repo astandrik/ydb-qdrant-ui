@@ -13,7 +13,7 @@ import {
 import {
   buildCodeIndexerLoginUrl,
   CODE_INDEXER_BACKEND_URL,
-} from "./CodeIndexerLanding";
+} from "./constants";
 import {
   formatDate,
   parseJsonBody,

@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { Button, Icon } from "@gravity-ui/uikit";
 import type { IconData } from "@gravity-ui/uikit";
@@ -12,19 +10,12 @@ import {
   ShieldCheck,
   Terminal,
 } from "@gravity-ui/icons";
-import { AskAIPanel } from "@/components/AskAI";
+import { CODE_INDEXER_BACKEND_URL } from "./constants";
 import {
-  ASK_AI_CODE_INDEXER,
-  ASK_AI_CODE_INDEXER_PRODUCT_ID,
-  ASK_AI_CODE_INDEXER_PRODUCT_NAME,
-} from "@/components/AskAI/ask-ai-content";
-import { trackGoal } from "@/shared/utils/metricsManager";
+  CodeIndexerAskAI,
+  CodeIndexerHeroActions,
+} from "./CodeIndexerLandingClient";
 import "./CodeIndexer.scss";
-
-export const CODE_INDEXER_BACKEND_URL = "https://code-indexer.ydb-qdrant.tech";
-export const CODE_INDEXER_INSTALL_URL =
-  "https://github.com/apps/ydb-qdrant-code-indexer/installations/new";
-export const CODE_INDEXER_DASHBOARD_PATH = "/code-indexer/dashboard/";
 
 type CodeIndexerHomePromoContent = {
   eyebrow: string;
@@ -48,12 +39,6 @@ export const codeIndexerHomePromoRu: CodeIndexerHomePromoContent = {
     "Индексируйте GitHub-репозитории в Qdrant-совместимое хранилище на YDB и давайте coding agents проектную память через hosted MCP.",
   cta: "Открыть Code Indexer",
 };
-
-export function buildCodeIndexerLoginUrl(returnPath = CODE_INDEXER_DASHBOARD_PATH) {
-  return `${CODE_INDEXER_BACKEND_URL}/github/oauth/start?return_to=${encodeURIComponent(
-    returnPath
-  )}`;
-}
 
 const CODE_INDEXER_MCP_CONFIG_SNIPPET = JSON.stringify(
   {
@@ -156,37 +141,6 @@ const faqItems = [
   },
 ] as const;
 
-function trackCodeIndexerFunnel(goal: string, source: string) {
-  trackGoal(goal, {
-    product: ASK_AI_CODE_INDEXER_PRODUCT_ID,
-    page: ASK_AI_CODE_INDEXER.page,
-    source,
-  });
-}
-
-function CodeIndexerAskAI({
-  className,
-  contextId,
-}: {
-  className?: string;
-  contextId: string;
-}) {
-  return (
-    <AskAIPanel
-      productName={ASK_AI_CODE_INDEXER_PRODUCT_NAME}
-      productId={ASK_AI_CODE_INDEXER_PRODUCT_ID}
-      label={ASK_AI_CODE_INDEXER.label}
-      helperText={ASK_AI_CODE_INDEXER.helperText}
-      providerAriaLabelTemplate={ASK_AI_CODE_INDEXER.providerAriaLabelTemplate}
-      prompt={ASK_AI_CODE_INDEXER.prompt}
-      page={ASK_AI_CODE_INDEXER.page}
-      promptVariant={ASK_AI_CODE_INDEXER.promptVariant}
-      contextId={contextId}
-      className={className}
-    />
-  );
-}
-
 export function CodeIndexerHomePromo({
   content = codeIndexerHomePromoEn,
 }: {
@@ -219,35 +173,8 @@ export function CodeIndexerLanding() {
             Qdrant-compatible storage, and give your coding agents searchable
             project memory.
           </p>
-          <div className="code-indexer__actions">
-            <Button
-              href={CODE_INDEXER_INSTALL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              size="xl"
-              view="action"
-              onClick={() =>
-                trackCodeIndexerFunnel("github_app_install_click", "hero")
-              }
-            >
-              Install GitHub App
-              <Icon data={ArrowRight} size={18} />
-            </Button>
-            <Button
-              href={buildCodeIndexerLoginUrl()}
-              size="xl"
-              view="outlined"
-              onClick={() =>
-                trackCodeIndexerFunnel("dashboard_oauth_start", "hero")
-              }
-            >
-              Open dashboard
-            </Button>
-          </div>
-          <CodeIndexerAskAI
-            className="code-indexer__ask-ai code-indexer__ask-ai--hero"
-            contextId="hero"
-          />
+          <CodeIndexerHeroActions />
+          <CodeIndexerAskAI contextId="hero" />
         </div>
         <div className="code-indexer__hero-visual" aria-hidden="true">
           <Image
@@ -291,10 +218,7 @@ export function CodeIndexerLanding() {
       </section>
 
       <section className="code-indexer__section code-indexer__section--compact">
-        <CodeIndexerAskAI
-          className="code-indexer__ask-ai code-indexer__ask-ai--secondary"
-          contextId="how_it_works"
-        />
+        <CodeIndexerAskAI contextId="how_it_works" />
       </section>
 
       <section className="code-indexer__section" aria-labelledby="code-indexer-trust">

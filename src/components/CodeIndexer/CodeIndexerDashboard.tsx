@@ -18,9 +18,11 @@ import type { IconData } from "@gravity-ui/uikit";
 import {
   buildCodeIndexerLoginUrl,
   CODE_INDEXER_BACKEND_URL,
+  CODE_INDEXER_DASHBOARD_PATH,
   CODE_INDEXER_INSTALL_URL,
-} from "./CodeIndexerLanding";
+} from "./constants";
 import { trackGoal } from "@/shared/utils/metricsManager";
+import { ASK_AI_CODE_INDEXER_PRODUCT_ID } from "@/components/AskAI/ask-ai-content";
 import {
   formatDate,
   parseJsonBody,
@@ -39,8 +41,8 @@ Call search_code with concise natural-language or code-oriented queries before a
 
 function trackCodeIndexerDashboardGoal(goal: string, source: string) {
   trackGoal(goal, {
-    product: "code-indexer",
-    page: "/code-indexer/dashboard/",
+    product: ASK_AI_CODE_INDEXER_PRODUCT_ID,
+    page: CODE_INDEXER_DASHBOARD_PATH,
     source,
   });
 }
