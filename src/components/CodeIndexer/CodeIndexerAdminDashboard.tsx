@@ -185,6 +185,7 @@ function buildAdminQuery(params: {
 
 export function CodeIndexerAdminDashboard() {
   const adminRequestId = useRef(0);
+  const adminRefreshInFlight = useRef(false);
   const [authState, setAuthState] = useState<AuthState>("checking");
   const [user, setUser] = useState<GitHubUser | null>(null);
   const [overview, setOverview] = useState<AdminOverview | null>(null);
@@ -278,7 +279,13 @@ export function CodeIndexerAdminDashboard() {
       return undefined;
     }
     const intervalId = window.setInterval(() => {
-      void loadAdminData(true);
+      if (adminRefreshInFlight.current) {
+        return;
+      }
+      adminRefreshInFlight.current = true;
+      void loadAdminData(true).finally(() => {
+        adminRefreshInFlight.current = false;
+      });
     }, 5000);
     return () => window.clearInterval(intervalId);
   }, [authState, loadAdminData, overview]);

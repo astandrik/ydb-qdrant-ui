@@ -257,6 +257,8 @@ function hasActiveDefaultBranchJob(repository: Repository) {
 export function CodeIndexerDashboard() {
   const repositoriesRequestId = useRef(0);
   const repositoriesLoadingRequestId = useRef(0);
+  const repositoriesPollInFlight = useRef(false);
+  const selectedInstallationIdRef = useRef("");
   const [authState, setAuthState] = useState<AuthState>("checking");
   const [user, setUser] = useState<GitHubUser | null>(null);
   const [installations, setInstallations] = useState<Installation[]>([]);
@@ -276,6 +278,8 @@ export function CodeIndexerDashboard() {
   const resetSession = useCallback((message = "") => {
     repositoriesRequestId.current += 1;
     repositoriesLoadingRequestId.current = 0;
+    repositoriesPollInFlight.current = false;
+    selectedInstallationIdRef.current = "";
     setAuthState("unauthenticated");
     setUser(null);
     setInstallations([]);
@@ -381,6 +385,7 @@ export function CodeIndexerDashboard() {
 
       setUser(me.user);
       setInstallations(installationsData.installations);
+      selectedInstallationIdRef.current = firstInstallationId;
       setSelectedInstallationId(firstInstallationId);
       setAuthState("authenticated");
       if (firstInstallationId) {
@@ -420,18 +425,28 @@ export function CodeIndexerDashboard() {
       return undefined;
     }
     const intervalId = window.setInterval(() => {
-      void loadRepositories(selectedInstallationId, { silent: true }).catch(
-        (err: unknown) => {
+      if (repositoriesPollInFlight.current) {
+        return;
+      }
+      const installationId = selectedInstallationIdRef.current;
+      if (!installationId) {
+        return;
+      }
+      repositoriesPollInFlight.current = true;
+      void loadRepositories(installationId, { silent: true })
+        .catch((err: unknown) => {
           if (isUnauthorizedError(err)) {
             resetSession("Session expired. Sign in again.");
             return;
           }
           setError(err instanceof Error ? err.message : String(err));
-        }
-      );
+        })
+        .finally(() => {
+          repositoriesPollInFlight.current = false;
+        });
     }, 3000);
     return () => window.clearInterval(intervalId);
-  }, [loadRepositories, resetSession, selectedInstallationId, shouldPollRepositories]);
+  }, [loadRepositories, resetSession, shouldPollRepositories]);
 
   const tokenForConfig = createdToken?.plaintextToken ?? "<token>";
   const mcpConfig = useMemo(
@@ -473,9 +488,11 @@ export function CodeIndexerDashboard() {
     event: ChangeEvent<HTMLSelectElement>
   ) => {
     const installationId = event.target.value;
+    selectedInstallationIdRef.current = installationId;
     setSelectedInstallationId(installationId);
     setError("");
     setActionMessage("");
+    setRepositories([]);
     setReindexingRepoIds(new Set());
     try {
       await loadRepositories(installationId);
@@ -541,7 +558,10 @@ export function CodeIndexerDashboard() {
     }
 
     try {
-      await loadRepositories(selectedInstallationId, { silent: true });
+      const installationId = selectedInstallationIdRef.current;
+      if (installationId) {
+        await loadRepositories(installationId, { silent: true });
+      }
     } catch (err: unknown) {
       if (isUnauthorizedError(err)) {
         resetSession("Session expired. Sign in again.");
