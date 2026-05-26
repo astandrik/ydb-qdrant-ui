@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useCallback, useId, useMemo } from "react";
 import {
   SiClaude,
   SiGooglegemini,
@@ -41,16 +41,17 @@ export function AskAIPanel({
   promptVariant,
   className,
 }: AskAIPanelProps) {
+  const titleId = useId();
   const links = useMemo(() => buildAskAIProviderLinks(prompt), [prompt]);
 
-  function trackClick(provider: AskAIProviderId) {
+  const trackClick = useCallback((provider: AskAIProviderId) => {
     trackGoal("ask_ai_click", {
       product: productId,
       page,
       provider,
       prompt_variant: promptVariant,
     });
-  }
+  }, [page, productId, promptVariant]);
 
   return (
     <Card
@@ -59,10 +60,12 @@ export function AskAIPanel({
     >
       <div className="ask-ai-panel__content">
         <div className="ask-ai-panel__body">
-          <h2 className="ask-ai-panel__title">{label}</h2>
+          <h2 className="ask-ai-panel__title" id={titleId}>
+            {label}
+          </h2>
           <p className="ask-ai-panel__helper">{helperText}</p>
         </div>
-        <ul className="ask-ai-panel__links" aria-label={label}>
+        <ul className="ask-ai-panel__links" aria-labelledby={titleId}>
           {links.map((link) => {
             const provider = ASK_AI_PROVIDERS_BY_ID.get(link.id);
 
