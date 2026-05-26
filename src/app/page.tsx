@@ -9,6 +9,7 @@ import NpmPackageIcon from "@/components/NpmPackageIcon";
 import HeroSection from "@/components/HeroSection";
 import WhySection from "@/components/WhySection";
 import WhereSection from "@/components/WhereSection";
+import LimitationsSection from "@/components/LimitationsSection";
 import PlansSection from "@/components/PlansSection";
 import GettingStartedSection from "@/components/GettingStartedSection";
 import ApiAtAGlanceSection from "@/components/ApiAtAGlanceSection";
@@ -24,6 +25,17 @@ import {
   DEMO_URL,
   type TabValue,
 } from "@/shared/constants";
+
+const YDB_QDRANT_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "YDB-Qdrant",
+  url: "https://ydb-qdrant.tech/",
+  description:
+    "Qdrant-compatible vector search API on YDB. Exact top-k search over a global one-table layout for HTTP, Node.js library, and million-vector collection scenarios.",
+  codeRepository: "https://github.com/astandrik/ydb-qdrant",
+  applicationCategory: "DeveloperApplication",
+};
 
 /**
  * Component that handles URL search params.
@@ -127,6 +139,12 @@ function HomeContent() {
       <Suspense fallback={null}>
         <SearchParamsHandler onParamsReady={handleParamsReady} />
       </Suspense>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(YDB_QDRANT_JSON_LD),
+        }}
+      />
       <LangSwitcher />
       <GitHubRepoIcon />
       <NpmPackageIcon />
@@ -140,6 +158,7 @@ function HomeContent() {
         <CodeIndexerHomePromo />
         <WhySection />
         <WhereSection />
+        <LimitationsSection />
         <PlansSection />
         <GettingStartedSection
           sectionRef={gettingStartedRef}

@@ -1,4 +1,8 @@
 import type { Section, DocsPageBaseProps } from "./DocsPage";
+import {
+  ASK_AI_DOCS_EN,
+  ASK_AI_DOCS_RU,
+} from "@/components/AskAI/ask-ai-content";
 
 const sectionsEn: Section[] = [
   {
@@ -119,6 +123,7 @@ const sectionsRu: Section[] = [
 export const docsPageEnProps: DocsPageBaseProps = {
   title: "Architecture diagrams",
   lead: "Pre‑rendered diagrams generated from the PlantUML sources in schemas/ via npm run diagrams.",
+  askAI: ASK_AI_DOCS_EN,
   demoPrefix: "Public demo Qdrant base URL:",
   copyButtonLabel: "Copy",
   copySuccessLabel: "Copied!",
@@ -130,6 +135,7 @@ export const docsPageEnProps: DocsPageBaseProps = {
 export const docsPageRuProps: DocsPageBaseProps = {
   title: "Диаграммы архитектуры",
   lead: "Предварительно отрисованные диаграммы, сгенерированные из PlantUML-схем в каталоге schemas/ через npm run diagrams.",
+  askAI: ASK_AI_DOCS_RU,
   demoPrefix: "Публичный demo-endpoint Qdrant:",
   copyButtonLabel: "Копировать",
   copySuccessLabel: "Скопировано!",

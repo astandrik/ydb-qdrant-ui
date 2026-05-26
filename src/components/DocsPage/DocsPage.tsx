@@ -4,6 +4,11 @@ import Image from "next/image";
 import { useState } from "react";
 import { Dialog, Button, Icon } from "@gravity-ui/uikit";
 import { ArrowLeft } from "@gravity-ui/icons";
+import { AskAIPanel } from "@/components/AskAI";
+import {
+  ASK_AI_PRODUCT_ID,
+  ASK_AI_PRODUCT_NAME,
+} from "@/components/AskAI/ask-ai-content";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 import { DemoEndpointBadge } from "@/components/DemoEndpointBadge";
 import { DEMO_URL } from "@/shared/constants";
@@ -23,6 +28,13 @@ export type Section = {
 export type DocsPageBaseProps = {
   title: string;
   lead: string;
+  askAI: {
+    label: string;
+    helperText: string;
+    page: string;
+    promptVariant: string;
+    prompt: string;
+  };
   demoPrefix: string;
   copyButtonLabel: string;
   copySuccessLabel: string;
@@ -34,6 +46,7 @@ export type DocsPageBaseProps = {
 export const DocsPageBase = ({
   title,
   lead,
+  askAI,
   demoPrefix,
   copyButtonLabel,
   copySuccessLabel,
@@ -65,6 +78,16 @@ export const DocsPageBase = ({
         buttonLabel={copyButtonLabel}
         onCopy={(e) => handleCopy(DEMO_URL, e)}
         locale={metricsPageName === "docs-ru" ? "ru" : "en"}
+      />
+      <AskAIPanel
+        productName={ASK_AI_PRODUCT_NAME}
+        productId={ASK_AI_PRODUCT_ID}
+        label={askAI.label}
+        helperText={askAI.helperText}
+        prompt={askAI.prompt}
+        page={askAI.page}
+        promptVariant={askAI.promptVariant}
+        className="docs-page__ask-ai"
       />
 
       {sections.map((section) => (

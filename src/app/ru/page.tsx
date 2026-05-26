@@ -11,6 +11,7 @@ import {
 } from "@/components/HeroSection";
 import { WhySectionRu } from "@/components/WhySection";
 import { WhereSectionRu } from "@/components/WhereSection";
+import { LimitationsSectionRu } from "@/components/LimitationsSection";
 import { PlansSectionRu } from "@/components/PlansSection";
 import { ApiAtAGlanceSectionRu } from "@/components/ApiAtAGlanceSection";
 import { VectorDimensionsSectionRu } from "@/components/VectorDimensionsSection";
@@ -147,6 +148,8 @@ function HomeRuContent() {
         <WhySectionRu />
 
         <WhereSectionRu />
+
+        <LimitationsSectionRu />
 
         <PlansSectionRu />
         <GettingStartedSectionRu

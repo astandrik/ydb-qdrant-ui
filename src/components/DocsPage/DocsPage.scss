@@ -5,6 +5,10 @@
 
 @use '../../styles/mixins' as *;
 
+.docs-page__ask-ai {
+  margin-top: var(--spacing-lg);
+}
+
 // Diagrams Grid
 .diagrams-grid {
   display: grid;
@@ -125,4 +129,3 @@
     }
   }
 }
-
