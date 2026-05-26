@@ -28,6 +28,7 @@ type AskAIPanelProps = {
   page: string;
   promptVariant: string;
   className?: string;
+  contextId?: string;
 };
 
 export function AskAIPanel({
@@ -40,6 +41,7 @@ export function AskAIPanel({
   page,
   promptVariant,
   className,
+  contextId,
 }: AskAIPanelProps) {
   const titleId = useId();
   const links = useMemo(() => buildAskAIProviderLinks(prompt), [prompt]);
@@ -50,8 +52,9 @@ export function AskAIPanel({
       page,
       provider,
       prompt_variant: promptVariant,
+      ...(contextId ? { context_id: contextId } : {}),
     });
-  }, [page, productId, promptVariant]);
+  }, [contextId, page, productId, promptVariant]);
 
   return (
     <Card

@@ -10,12 +10,12 @@ import {
   ShieldCheck,
   Terminal,
 } from "@gravity-ui/icons";
+import { CODE_INDEXER_BACKEND_URL } from "./constants";
+import {
+  CodeIndexerAskAI,
+  CodeIndexerHeroActions,
+} from "./CodeIndexerLandingClient";
 import "./CodeIndexer.scss";
-
-export const CODE_INDEXER_BACKEND_URL = "https://code-indexer.ydb-qdrant.tech";
-export const CODE_INDEXER_INSTALL_URL =
-  "https://github.com/apps/ydb-qdrant-code-indexer/installations/new";
-export const CODE_INDEXER_DASHBOARD_PATH = "/code-indexer/dashboard/";
 
 type CodeIndexerHomePromoContent = {
   eyebrow: string;
@@ -40,11 +40,20 @@ export const codeIndexerHomePromoRu: CodeIndexerHomePromoContent = {
   cta: "Открыть Code Indexer",
 };
 
-export function buildCodeIndexerLoginUrl(returnPath = CODE_INDEXER_DASHBOARD_PATH) {
-  return `${CODE_INDEXER_BACKEND_URL}/github/oauth/start?return_to=${encodeURIComponent(
-    returnPath
-  )}`;
-}
+const CODE_INDEXER_MCP_CONFIG_SNIPPET = JSON.stringify(
+  {
+    mcpServers: {
+      "ydb-qdrant-code-indexer": {
+        headers: {
+          Authorization: "Bearer <token>",
+        },
+        url: `${CODE_INDEXER_BACKEND_URL}/mcp`,
+      },
+    },
+  },
+  null,
+  2
+);
 
 type Feature = {
   description: string;
@@ -94,6 +103,44 @@ const trustItems: Feature[] = [
   },
 ];
 
+const faqItems = [
+  {
+    answer:
+      "The app stores GitHub account, installation, and repository metadata, plus code snippets selected by repository permissions and indexing configuration.",
+    question: "What repository data is indexed?",
+  },
+  {
+    answer:
+      "Repository access follows the repositories selected during GitHub App installation and the current beta policy. Treat a repository as available only after it appears ready in the dashboard.",
+    question: "Are private repositories supported?",
+  },
+  {
+    answer:
+      "Code chunks, embeddings, GitHub metadata, and search payloads are stored in YDB-backed Qdrant-compatible collections.",
+    question: "Where are embeddings stored?",
+  },
+  {
+    answer:
+      "Open the dashboard, find the MCP token, and revoke it. Tokens are stored as hashes, and revoked tokens stop future hosted MCP searches.",
+    question: "How do I revoke an MCP token?",
+  },
+  {
+    answer:
+      "Uninstall the GitHub App or remove repository access to delete indexed collections for removed repositories. The dashboard delete-data action removes eligible user-linked data.",
+    question: "How do I remove a repository index?",
+  },
+  {
+    answer:
+      "The public beta limits repository count, indexed chunks, and daily searches. Exact limits are enforced by the hosted service and may change during beta.",
+    question: "What are public beta quotas?",
+  },
+  {
+    answer:
+      "Use an MCP client that can call a remote MCP endpoint with Bearer-token headers. Specific client support is intentionally not claimed until it is verified.",
+    question: "Which agents can connect over MCP?",
+  },
+] as const;
+
 export function CodeIndexerHomePromo({
   content = codeIndexerHomePromoEn,
 }: {
@@ -126,21 +173,8 @@ export function CodeIndexerLanding() {
             Qdrant-compatible storage, and give your coding agents searchable
             project memory.
           </p>
-          <div className="code-indexer__actions">
-            <Button
-              href={CODE_INDEXER_INSTALL_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              size="xl"
-              view="action"
-            >
-              Install GitHub App
-              <Icon data={ArrowRight} size={18} />
-            </Button>
-            <Button href={buildCodeIndexerLoginUrl()} size="xl" view="outlined">
-              Open dashboard
-            </Button>
-          </div>
+          <CodeIndexerHeroActions />
+          <CodeIndexerAskAI contextId="hero" />
         </div>
         <div className="code-indexer__hero-visual" aria-hidden="true">
           <Image
@@ -183,6 +217,10 @@ export function CodeIndexerLanding() {
         </div>
       </section>
 
+      <section className="code-indexer__section code-indexer__section--compact">
+        <CodeIndexerAskAI contextId="how_it_works" />
+      </section>
+
       <section className="code-indexer__section" aria-labelledby="code-indexer-trust">
         <div className="code-indexer__section-heading">
           <p className="code-indexer__eyebrow">Public beta shape</p>
@@ -194,6 +232,48 @@ export function CodeIndexerLanding() {
               <Icon data={feature.icon} size={22} />
               <h3>{feature.title}</h3>
               <p>{feature.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="code-indexer__section" aria-labelledby="code-indexer-mcp">
+        <div className="code-indexer__section-heading">
+          <p className="code-indexer__eyebrow">Connect your coding agent</p>
+          <h2 id="code-indexer-mcp">Use hosted MCP as repository memory</h2>
+          <p>
+            Create a token in the dashboard, add it as a Bearer token, and point
+            your MCP client at the hosted endpoint.
+          </p>
+        </div>
+        <div className="code-indexer__setup-grid">
+          <article className="code-indexer__setup-card">
+            <h3>Generic MCP config</h3>
+            <pre className="code-indexer__config-snippet">
+              {CODE_INDEXER_MCP_CONFIG_SNIPPET}
+            </pre>
+          </article>
+          <article className="code-indexer__setup-card">
+            <h3>Agent prompt</h3>
+            <p>
+              Ask the agent to use <code>list_repositories</code>, inspect
+              repository indexes, and call <code>search_code</code> before
+              answering repository-specific questions.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="code-indexer__section" aria-labelledby="code-indexer-faq">
+        <div className="code-indexer__section-heading">
+          <p className="code-indexer__eyebrow">FAQ</p>
+          <h2 id="code-indexer-faq">Evaluate before installing</h2>
+        </div>
+        <div className="code-indexer__faq-grid">
+          {faqItems.map((item) => (
+            <article className="code-indexer__faq" key={item.question}>
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
             </article>
           ))}
         </div>

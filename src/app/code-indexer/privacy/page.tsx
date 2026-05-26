@@ -35,6 +35,15 @@ export default function CodeIndexerPrivacyPage() {
           ],
           title: "Deletion behavior",
         },
+        {
+          items: [
+            "MCP/API tokens are shown once, stored as hashes, and used only through the hosted backend.",
+            "Repository access is limited by the repositories selected during GitHub App installation.",
+            "Public beta quotas limit repository count, indexed chunks, and daily searches to control hosted-service cost and abuse risk.",
+            "If a repository, token, or deletion case is unclear in the dashboard, open a support issue for manual follow-up.",
+          ],
+          title: "Security and privacy",
+        },
       ]}
     />
   );

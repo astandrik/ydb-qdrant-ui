@@ -126,13 +126,26 @@
     gap: var(--spacing-md);
   }
 
+  &__ask-ai {
+    margin-top: var(--spacing-2xl);
+  }
+
   &__section {
     margin-top: var(--spacing-6xl);
+
+    &--compact {
+      margin-top: var(--spacing-2xl);
+    }
   }
 
   &__section-heading {
     max-width: 700px;
     margin-bottom: var(--spacing-2xl);
+
+    p:not(.code-indexer__eyebrow) {
+      color: rgba(255, 255, 255, 0.64);
+      line-height: 1.6;
+    }
   }
 
   &__feature-grid {
@@ -162,6 +175,62 @@
       color: rgba(255, 255, 255, 0.62);
       line-height: 1.6;
     }
+  }
+
+  &__setup-grid,
+  &__faq-grid {
+    display: grid;
+    gap: var(--spacing-lg);
+
+    @include md {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__setup-card,
+  &__faq {
+    padding: var(--spacing-2xl);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.04);
+
+    p {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.62);
+      line-height: 1.6;
+    }
+  }
+
+  &__setup-card {
+    code {
+      color: #e9f7ff;
+      font-family: var(--font-mono);
+      font-size: 0.92em;
+    }
+  }
+
+  &__config-snippet {
+    width: 100%;
+    margin: 0;
+    padding: var(--spacing-lg);
+    overflow-x: auto;
+    border: 1px solid rgba(155, 229, 255, 0.22);
+    border-radius: var(--radius-md);
+    background: rgba(0, 0, 0, 0.28);
+    color: #e9f7ff;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  &__faq-grid {
+    @include lg {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  &__faq {
+    min-height: 172px;
   }
 }
 
