@@ -105,6 +105,8 @@ function AskAIProviderIcon({ provider }: { provider: AskAIProviderId }) {
       return <SiGooglegemini aria-hidden="true" size={22} />;
     case "grok":
       return <SiX aria-hidden="true" size={22} />;
+    default:
+      return null;
   }
 }
 
