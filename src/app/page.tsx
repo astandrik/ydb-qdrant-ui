@@ -43,7 +43,20 @@ const YDB_QDRANT_JSON_LD = {
   applicationCategory: "DeveloperApplication",
 };
 
-const YDB_QDRANT_JSON_LD_SCRIPT = JSON.stringify(YDB_QDRANT_JSON_LD);
+const JSON_LD_ESCAPE_MAP = {
+  "&": "\\u0026",
+  "<": "\\u003c",
+  ">": "\\u003e",
+} as const;
+
+function serializeJsonLd(data: unknown) {
+  return JSON.stringify(data).replace(
+    /[&<>]/g,
+    (char) => JSON_LD_ESCAPE_MAP[char as keyof typeof JSON_LD_ESCAPE_MAP],
+  );
+}
+
+const YDB_QDRANT_JSON_LD_SCRIPT = serializeJsonLd(YDB_QDRANT_JSON_LD);
 
 /**
  * Component that handles URL search params.
