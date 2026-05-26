@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Button, Icon } from "@gravity-ui/uikit";
 import type { IconData } from "@gravity-ui/uikit";
@@ -10,6 +12,13 @@ import {
   ShieldCheck,
   Terminal,
 } from "@gravity-ui/icons";
+import { AskAIPanel } from "@/components/AskAI";
+import {
+  ASK_AI_CODE_INDEXER,
+  ASK_AI_CODE_INDEXER_PRODUCT_ID,
+  ASK_AI_CODE_INDEXER_PRODUCT_NAME,
+} from "@/components/AskAI/ask-ai-content";
+import { trackGoal } from "@/shared/utils/metricsManager";
 import "./CodeIndexer.scss";
 
 export const CODE_INDEXER_BACKEND_URL = "https://code-indexer.ydb-qdrant.tech";
@@ -45,6 +54,21 @@ export function buildCodeIndexerLoginUrl(returnPath = CODE_INDEXER_DASHBOARD_PAT
     returnPath
   )}`;
 }
+
+const CODE_INDEXER_MCP_CONFIG_SNIPPET = JSON.stringify(
+  {
+    mcpServers: {
+      "ydb-qdrant-code-indexer": {
+        headers: {
+          Authorization: "Bearer <token>",
+        },
+        url: `${CODE_INDEXER_BACKEND_URL}/mcp`,
+      },
+    },
+  },
+  null,
+  2
+);
 
 type Feature = {
   description: string;
@@ -94,6 +118,75 @@ const trustItems: Feature[] = [
   },
 ];
 
+const faqItems = [
+  {
+    answer:
+      "The app stores GitHub account, installation, and repository metadata, plus code snippets selected by repository permissions and indexing configuration.",
+    question: "What repository data is indexed?",
+  },
+  {
+    answer:
+      "Repository access follows the repositories selected during GitHub App installation and the current beta policy. Treat a repository as available only after it appears ready in the dashboard.",
+    question: "Are private repositories supported?",
+  },
+  {
+    answer:
+      "Code chunks, embeddings, GitHub metadata, and search payloads are stored in YDB-backed Qdrant-compatible collections.",
+    question: "Where are embeddings stored?",
+  },
+  {
+    answer:
+      "Open the dashboard, find the MCP token, and revoke it. Tokens are stored as hashes, and revoked tokens stop future hosted MCP searches.",
+    question: "How do I revoke an MCP token?",
+  },
+  {
+    answer:
+      "Uninstall the GitHub App or remove repository access to delete indexed collections for removed repositories. The dashboard delete-data action removes eligible user-linked data.",
+    question: "How do I remove a repository index?",
+  },
+  {
+    answer:
+      "The public beta limits repository count, indexed chunks, and daily searches. Exact limits are enforced by the hosted service and may change during beta.",
+    question: "What are public beta quotas?",
+  },
+  {
+    answer:
+      "Use an MCP client that can call a remote MCP endpoint with Bearer-token headers. Specific client support is intentionally not claimed until it is verified.",
+    question: "Which agents can connect over MCP?",
+  },
+] as const;
+
+function trackCodeIndexerFunnel(goal: string, source: string) {
+  trackGoal(goal, {
+    product: ASK_AI_CODE_INDEXER_PRODUCT_ID,
+    page: ASK_AI_CODE_INDEXER.page,
+    source,
+  });
+}
+
+function CodeIndexerAskAI({
+  className,
+  contextId,
+}: {
+  className?: string;
+  contextId: string;
+}) {
+  return (
+    <AskAIPanel
+      productName={ASK_AI_CODE_INDEXER_PRODUCT_NAME}
+      productId={ASK_AI_CODE_INDEXER_PRODUCT_ID}
+      label={ASK_AI_CODE_INDEXER.label}
+      helperText={ASK_AI_CODE_INDEXER.helperText}
+      providerAriaLabelTemplate={ASK_AI_CODE_INDEXER.providerAriaLabelTemplate}
+      prompt={ASK_AI_CODE_INDEXER.prompt}
+      page={ASK_AI_CODE_INDEXER.page}
+      promptVariant={ASK_AI_CODE_INDEXER.promptVariant}
+      contextId={contextId}
+      className={className}
+    />
+  );
+}
+
 export function CodeIndexerHomePromo({
   content = codeIndexerHomePromoEn,
 }: {
@@ -133,14 +226,28 @@ export function CodeIndexerLanding() {
               rel="noopener noreferrer"
               size="xl"
               view="action"
+              onClick={() =>
+                trackCodeIndexerFunnel("github_app_install_click", "hero")
+              }
             >
               Install GitHub App
               <Icon data={ArrowRight} size={18} />
             </Button>
-            <Button href={buildCodeIndexerLoginUrl()} size="xl" view="outlined">
+            <Button
+              href={buildCodeIndexerLoginUrl()}
+              size="xl"
+              view="outlined"
+              onClick={() =>
+                trackCodeIndexerFunnel("dashboard_oauth_start", "hero")
+              }
+            >
               Open dashboard
             </Button>
           </div>
+          <CodeIndexerAskAI
+            className="code-indexer__ask-ai code-indexer__ask-ai--hero"
+            contextId="hero"
+          />
         </div>
         <div className="code-indexer__hero-visual" aria-hidden="true">
           <Image
@@ -183,6 +290,13 @@ export function CodeIndexerLanding() {
         </div>
       </section>
 
+      <section className="code-indexer__section code-indexer__section--compact">
+        <CodeIndexerAskAI
+          className="code-indexer__ask-ai code-indexer__ask-ai--secondary"
+          contextId="how_it_works"
+        />
+      </section>
+
       <section className="code-indexer__section" aria-labelledby="code-indexer-trust">
         <div className="code-indexer__section-heading">
           <p className="code-indexer__eyebrow">Public beta shape</p>
@@ -194,6 +308,48 @@ export function CodeIndexerLanding() {
               <Icon data={feature.icon} size={22} />
               <h3>{feature.title}</h3>
               <p>{feature.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="code-indexer__section" aria-labelledby="code-indexer-mcp">
+        <div className="code-indexer__section-heading">
+          <p className="code-indexer__eyebrow">Connect your coding agent</p>
+          <h2 id="code-indexer-mcp">Use hosted MCP as repository memory</h2>
+          <p>
+            Create a token in the dashboard, add it as a Bearer token, and point
+            your MCP client at the hosted endpoint.
+          </p>
+        </div>
+        <div className="code-indexer__setup-grid">
+          <article className="code-indexer__setup-card">
+            <h3>Generic MCP config</h3>
+            <pre className="code-indexer__config-snippet">
+              {CODE_INDEXER_MCP_CONFIG_SNIPPET}
+            </pre>
+          </article>
+          <article className="code-indexer__setup-card">
+            <h3>Agent prompt</h3>
+            <p>
+              Ask the agent to use <code>list_repositories</code>, inspect
+              repository indexes, and call <code>search_code</code> before
+              answering repository-specific questions.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="code-indexer__section" aria-labelledby="code-indexer-faq">
+        <div className="code-indexer__section-heading">
+          <p className="code-indexer__eyebrow">FAQ</p>
+          <h2 id="code-indexer-faq">Evaluate before installing</h2>
+        </div>
+        <div className="code-indexer__faq-grid">
+          {faqItems.map((item) => (
+            <article className="code-indexer__faq" key={item.question}>
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
             </article>
           ))}
         </div>

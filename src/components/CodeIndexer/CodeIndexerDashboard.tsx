@@ -20,6 +20,7 @@ import {
   CODE_INDEXER_BACKEND_URL,
   CODE_INDEXER_INSTALL_URL,
 } from "./CodeIndexerLanding";
+import { trackGoal } from "@/shared/utils/metricsManager";
 import {
   formatDate,
   parseJsonBody,
@@ -35,6 +36,14 @@ In a local checkout, infer owner/repo from git remote, then call list_repository
 Use the default branch index for general repository questions.
 For pull requests, pass prNumber to search_code.
 Call search_code with concise natural-language or code-oriented queries before answering repository-specific questions.`;
+
+function trackCodeIndexerDashboardGoal(goal: string, source: string) {
+  trackGoal(goal, {
+    product: "code-indexer",
+    page: "/code-indexer/dashboard/",
+    source,
+  });
+}
 
 type GitHubUser = {
   githubUserId: string;
@@ -533,6 +542,7 @@ export function CodeIndexerDashboard() {
       );
       setCreatedToken(data.token);
       setActionMessage(tokenCreatedMessage);
+      trackCodeIndexerDashboardGoal("mcp_token_created", "dashboard");
     } catch (err: unknown) {
       if (isUnauthorizedError(err)) {
         resetSession("Session expired. Sign in again.");
@@ -693,7 +703,17 @@ export function CodeIndexerDashboard() {
             </div>
           )}
           <div className="code-indexer__actions">
-            <Button href={buildCodeIndexerLoginUrl()} size="xl" view="action">
+            <Button
+              href={buildCodeIndexerLoginUrl()}
+              size="xl"
+              view="action"
+              onClick={() =>
+                trackCodeIndexerDashboardGoal(
+                  "dashboard_oauth_start",
+                  "sign_in_panel"
+                )
+              }
+            >
               Sign in
             </Button>
             <Button
@@ -702,6 +722,12 @@ export function CodeIndexerDashboard() {
               rel="noopener noreferrer"
               size="xl"
               view="outlined"
+              onClick={() =>
+                trackCodeIndexerDashboardGoal(
+                  "github_app_install_click",
+                  "sign_in_panel"
+                )
+              }
             >
               Install GitHub App
             </Button>
@@ -744,6 +770,12 @@ export function CodeIndexerDashboard() {
             href={CODE_INDEXER_INSTALL_URL}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() =>
+              trackCodeIndexerDashboardGoal(
+                "github_app_install_click",
+                "dashboard_header"
+              )
+            }
           >
             Install on more repositories
           </Button>
@@ -801,6 +833,12 @@ export function CodeIndexerDashboard() {
                 target="_blank"
                 rel="noopener noreferrer"
                 view="outlined"
+                onClick={() =>
+                  trackCodeIndexerDashboardGoal(
+                    "github_app_install_click",
+                    "empty_repositories"
+                  )
+                }
               >
                 Select repositories
               </Button>
