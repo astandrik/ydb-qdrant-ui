@@ -256,6 +256,7 @@ function hasActiveDefaultBranchJob(repository: Repository) {
 
 export function CodeIndexerDashboard() {
   const repositoriesRequestId = useRef(0);
+  const repositoriesLoadingRequestId = useRef(0);
   const [authState, setAuthState] = useState<AuthState>("checking");
   const [user, setUser] = useState<GitHubUser | null>(null);
   const [installations, setInstallations] = useState<Installation[]>([]);
@@ -274,6 +275,7 @@ export function CodeIndexerDashboard() {
 
   const resetSession = useCallback((message = "") => {
     repositoriesRequestId.current += 1;
+    repositoriesLoadingRequestId.current = 0;
     setAuthState("unauthenticated");
     setUser(null);
     setInstallations([]);
@@ -294,12 +296,15 @@ export function CodeIndexerDashboard() {
     ) => {
       if (!installationId) {
         repositoriesRequestId.current += 1;
+        repositoriesLoadingRequestId.current = 0;
         setRepositories([]);
+        setRepositoriesLoading(false);
         return;
       }
       const requestId = repositoriesRequestId.current + 1;
       repositoriesRequestId.current = requestId;
       if (!options.silent) {
+        repositoriesLoadingRequestId.current = requestId;
         setRepositoriesLoading(true);
       }
       try {
@@ -316,15 +321,22 @@ export function CodeIndexerDashboard() {
         }
         setRepositories(data.repositories);
         setReindexingRepoIds((current) => {
+          const repositoriesById = new Map(
+            data.repositories.map((repository) => [
+              repository.repoId,
+              repository,
+            ])
+          );
           const next = new Set(current);
-          for (const repository of data.repositories) {
+          for (const repoId of Array.from(next)) {
+            const repository = repositoriesById.get(repoId);
             if (
-              next.has(repository.repoId) &&
+              !repository ||
               repository.status !== "queued" &&
-              repository.status !== "indexing" &&
-              !hasActiveDefaultBranchJob(repository)
+                repository.status !== "indexing" &&
+                !hasActiveDefaultBranchJob(repository)
             ) {
-              next.delete(repository.repoId);
+              next.delete(repoId);
             }
           }
           return next;
@@ -334,7 +346,10 @@ export function CodeIndexerDashboard() {
           throw err;
         }
       } finally {
-        if (!options.silent && requestId === repositoriesRequestId.current) {
+        if (
+          !options.silent &&
+          requestId === repositoriesLoadingRequestId.current
+        ) {
           setRepositoriesLoading(false);
         }
       }
@@ -501,13 +516,6 @@ export function CodeIndexerDashboard() {
     setError("");
     setActionMessage("");
     setReindexingRepoIds((current) => new Set(current).add(repoId));
-    setRepositories((current) =>
-      current.map((repository) =>
-        repository.repoId === repoId
-          ? { ...repository, status: "queued" }
-          : repository
-      )
-    );
     try {
       const data = await apiRequest<{
         job: QueuedIndexingJob;
