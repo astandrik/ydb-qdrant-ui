@@ -258,6 +258,7 @@ export function CodeIndexerDashboard() {
   const repositoriesRequestId = useRef(0);
   const repositoriesLoadingRequestId = useRef(0);
   const repositoriesPollInFlight = useRef(false);
+  const repositoriesPollErrorRef = useRef("");
   const selectedInstallationIdRef = useRef("");
   const [authState, setAuthState] = useState<AuthState>("checking");
   const [user, setUser] = useState<GitHubUser | null>(null);
@@ -279,6 +280,7 @@ export function CodeIndexerDashboard() {
     repositoriesRequestId.current += 1;
     repositoriesLoadingRequestId.current = 0;
     repositoriesPollInFlight.current = false;
+    repositoriesPollErrorRef.current = "";
     selectedInstallationIdRef.current = "";
     setAuthState("unauthenticated");
     setUser(null);
@@ -434,12 +436,22 @@ export function CodeIndexerDashboard() {
       }
       repositoriesPollInFlight.current = true;
       void loadRepositories(installationId, { silent: true })
+        .then(() => {
+          const pollingError = repositoriesPollErrorRef.current;
+          if (!pollingError) {
+            return;
+          }
+          repositoriesPollErrorRef.current = "";
+          setError((current) => (current === pollingError ? "" : current));
+        })
         .catch((err: unknown) => {
           if (isUnauthorizedError(err)) {
             resetSession("Session expired. Sign in again.");
             return;
           }
-          setError(err instanceof Error ? err.message : String(err));
+          const message = err instanceof Error ? err.message : String(err);
+          repositoriesPollErrorRef.current = message;
+          setError(message);
         })
         .finally(() => {
           repositoriesPollInFlight.current = false;
@@ -509,6 +521,8 @@ export function CodeIndexerDashboard() {
     event.preventDefault();
     setError("");
     setActionMessage("");
+    const tokenCreatedMessage =
+      "Token created. Copy it now; it will not be shown again.";
     try {
       const data = await apiRequest<{ status: "ok"; token: CreatedToken }>(
         "/api/tokens",
@@ -518,14 +532,26 @@ export function CodeIndexerDashboard() {
         }
       );
       setCreatedToken(data.token);
-      setActionMessage("Token created. Copy it now; it will not be shown again.");
-      await loadTokens();
+      setActionMessage(tokenCreatedMessage);
     } catch (err: unknown) {
       if (isUnauthorizedError(err)) {
         resetSession("Session expired. Sign in again.");
         return;
       }
       setError(err instanceof Error ? err.message : String(err));
+      return;
+    }
+
+    try {
+      await loadTokens();
+    } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        resetSession("Session expired. Sign in again.");
+        return;
+      }
+      setActionMessage(
+        `${tokenCreatedMessage} Token list could not refresh; reload the dashboard to update it.`
+      );
     }
   };
 
@@ -572,18 +598,31 @@ export function CodeIndexerDashboard() {
   const handleRevokeToken = async (tokenId: string) => {
     setError("");
     setActionMessage("");
+    const tokenRevokedMessage = "Token revoked.";
     try {
       await apiRequest<null>(`/api/tokens/${encodeURIComponent(tokenId)}`, {
         method: "DELETE",
       });
-      setActionMessage("Token revoked.");
-      await loadTokens();
+      setActionMessage(tokenRevokedMessage);
     } catch (err: unknown) {
       if (isUnauthorizedError(err)) {
         resetSession("Session expired. Sign in again.");
         return;
       }
       setError(err instanceof Error ? err.message : String(err));
+      return;
+    }
+
+    try {
+      await loadTokens();
+    } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        resetSession("Session expired. Sign in again.");
+        return;
+      }
+      setActionMessage(
+        `${tokenRevokedMessage} Token list could not refresh; reload the dashboard to update it.`
+      );
     }
   };
 
