@@ -526,7 +526,6 @@ export function CodeIndexerDashboard() {
       setActionMessage(
         `Reindex job ${data.job.jobId} queued. Refreshing status automatically.`
       );
-      await loadRepositories(selectedInstallationId, { silent: true });
     } catch (err: unknown) {
       if (isUnauthorizedError(err)) {
         resetSession("Session expired. Sign in again.");
@@ -538,6 +537,15 @@ export function CodeIndexerDashboard() {
         return next;
       });
       setError(err instanceof Error ? err.message : String(err));
+      return;
+    }
+
+    try {
+      await loadRepositories(selectedInstallationId, { silent: true });
+    } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        resetSession("Session expired. Sign in again.");
+      }
     }
   };
 
