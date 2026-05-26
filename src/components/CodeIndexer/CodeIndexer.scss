@@ -201,10 +201,6 @@
 
 .code-indexer-promo + .section {
   margin-top: var(--spacing-lg);
-
-  @include sm {
-    margin-top: var(--spacing-lg);
-  }
 }
 
 .code-indexer-dashboard {

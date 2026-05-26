@@ -62,31 +62,32 @@ export function AskAIPanel({
           <h2 className="ask-ai-panel__title">{label}</h2>
           <p className="ask-ai-panel__helper">{helperText}</p>
         </div>
-        <div className="ask-ai-panel__links" aria-label={label}>
+        <ul className="ask-ai-panel__links" aria-label={label}>
           {links.map((link) => {
             const provider = ASK_AI_PROVIDERS_BY_ID.get(link.id);
 
             return (
-              <a
-                key={link.id}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`ask-ai-panel__link ask-ai-panel__link--${provider?.tone ?? "white"}`}
-                aria-label={formatProviderAriaLabel(
-                  providerAriaLabelTemplate,
-                  link.label,
-                  productName,
-                )}
-                title={link.label}
-                onClick={() => trackClick(link.id)}
-              >
-                <AskAIProviderIcon provider={link.id} />
-                <span className="ask-ai-panel__link-text">{link.label}</span>
-              </a>
+              <li className="ask-ai-panel__link-item" key={link.id}>
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`ask-ai-panel__link ask-ai-panel__link--${provider?.tone ?? "white"}`}
+                  aria-label={formatProviderAriaLabel(
+                    providerAriaLabelTemplate,
+                    link.label,
+                    productName,
+                  )}
+                  title={link.label}
+                  onClick={() => trackClick(link.id)}
+                >
+                  <AskAIProviderIcon provider={link.id} />
+                  <span className="ask-ai-panel__link-text">{link.label}</span>
+                </a>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
     </Card>
   );
