@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import { Button, Icon, TextInput } from "@gravity-ui/uikit";
 import {
@@ -20,6 +20,13 @@ import {
   CODE_INDEXER_BACKEND_URL,
   CODE_INDEXER_INSTALL_URL,
 } from "./CodeIndexerLanding";
+import {
+  formatDate,
+  parseJsonBody,
+  progressPercent,
+  readApiError,
+  shortSha,
+} from "./utils";
 import "./CodeIndexer.scss";
 
 const MCP_AGENT_USAGE_PROMPT = `Use ydb-qdrant-code-indexer as searchable project memory for indexed GitHub repositories.
@@ -97,7 +104,7 @@ type CreatedToken = {
   tokenId: string;
 };
 
-type AuthState = "checking" | "authenticated" | "unauthenticated";
+type AuthState = "checking" | "authenticated" | "error" | "unauthenticated";
 type LoadRepositoriesOptions = {
   silent?: boolean;
 };
@@ -112,17 +119,6 @@ class DashboardApiError extends Error {
   }
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function readApiError(value: unknown): string {
-  if (isRecord(value) && typeof value.error === "string") {
-    return value.error;
-  }
-  return "request failed";
-}
-
 async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers);
   if (options.body && !headers.has("content-type")) {
@@ -135,34 +131,16 @@ async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T
     headers,
   });
   const text = await response.text();
-  const body: unknown = text ? JSON.parse(text) : null;
+  const body = parseJsonBody(text);
 
   if (!response.ok) {
-    throw new DashboardApiError(response.status, readApiError(body));
+    throw new DashboardApiError(
+      response.status,
+      readApiError(body, response.statusText || "request failed")
+    );
   }
 
   return body as T;
-}
-
-function formatDate(value?: string) {
-  if (!value) {
-    return "Never";
-  }
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-  return date.toLocaleString("en-US", {
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
-
-function shortSha(value?: string) {
-  return value ? value.slice(0, 12) : "n/a";
 }
 
 function statusIcon(status: RepositoryStatus): IconData {
@@ -228,26 +206,6 @@ function formatProgressCount(processed: number, total?: number) {
   return `${processed}/${total ?? "?"}`;
 }
 
-function progressPercent(job: ActiveJob) {
-  let total = 0;
-  let processed = 0;
-  if (job.totalFiles && job.totalFiles > 0) {
-    total = job.totalFiles;
-    processed = job.processedFiles;
-  } else if (job.totalChunks && job.totalChunks > 0) {
-    total = job.totalChunks;
-    processed = job.processedChunks;
-  }
-
-  if (job.status === "completed") {
-    return 100;
-  }
-  if (total <= 0) {
-    return job.status === "running" ? 12 : 0;
-  }
-  return Math.max(2, Math.min(100, Math.round((processed / total) * 100)));
-}
-
 function formatElapsed(startedAt?: string) {
   if (!startedAt) {
     return "unknown";
@@ -293,6 +251,7 @@ function hasActiveDefaultBranchJob(repository: Repository) {
 }
 
 export function CodeIndexerDashboard() {
+  const repositoriesRequestId = useRef(0);
   const [authState, setAuthState] = useState<AuthState>("checking");
   const [user, setUser] = useState<GitHubUser | null>(null);
   const [installations, setInstallations] = useState<Installation[]>([]);
@@ -315,9 +274,12 @@ export function CodeIndexerDashboard() {
       options: LoadRepositoriesOptions = {}
     ) => {
       if (!installationId) {
+        repositoriesRequestId.current += 1;
         setRepositories([]);
         return;
       }
+      const requestId = repositoriesRequestId.current + 1;
+      repositoriesRequestId.current = requestId;
       if (!options.silent) {
         setRepositoriesLoading(true);
       }
@@ -330,6 +292,9 @@ export function CodeIndexerDashboard() {
             installationId
           )}`
         );
+        if (requestId !== repositoriesRequestId.current) {
+          return;
+        }
         setRepositories(data.repositories);
         setReindexingRepoIds((current) => {
           const next = new Set(current);
@@ -345,8 +310,12 @@ export function CodeIndexerDashboard() {
           }
           return next;
         });
+      } catch (err: unknown) {
+        if (requestId === repositoriesRequestId.current) {
+          throw err;
+        }
       } finally {
-        if (!options.silent) {
+        if (!options.silent && requestId === repositoriesRequestId.current) {
           setRepositoriesLoading(false);
         }
       }
@@ -389,7 +358,7 @@ export function CodeIndexerDashboard() {
       if (err instanceof DashboardApiError && err.status === 401) {
         setAuthState("unauthenticated");
       } else {
-        setAuthState("unauthenticated");
+        setAuthState("error");
         setError(err instanceof Error ? err.message : String(err));
       }
     } finally {
@@ -419,6 +388,13 @@ export function CodeIndexerDashboard() {
     const intervalId = window.setInterval(() => {
       void loadRepositories(selectedInstallationId, { silent: true }).catch(
         (err: unknown) => {
+          if (err instanceof DashboardApiError && err.status === 401) {
+            setAuthState("unauthenticated");
+            setRepositories([]);
+            setReindexingRepoIds(new Set());
+            setError("Session expired. Sign in again.");
+            return;
+          }
           setError(err instanceof Error ? err.message : String(err));
         }
       );
@@ -447,8 +423,19 @@ export function CodeIndexerDashboard() {
   );
 
   const copyText = async (value: string, message: string) => {
-    await navigator.clipboard.writeText(value);
-    setActionMessage(message);
+    setError("");
+    if (!navigator.clipboard?.writeText) {
+      setActionMessage("");
+      setError("Clipboard copy is unavailable in this browser context.");
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(value);
+      setActionMessage(message);
+    } catch {
+      setActionMessage("");
+      setError("Could not copy to clipboard. Select and copy the text manually.");
+    }
   };
 
   const handleInstallationChange = async (
@@ -594,6 +581,14 @@ export function CodeIndexerDashboard() {
             Authorize the GitHub App to view repositories you installed it on,
             then manage indexing status and hosted MCP tokens here.
           </p>
+          {error && (
+            <div
+              className="code-indexer-dashboard__notice code-indexer-dashboard__notice--error"
+              role="status"
+            >
+              {error}
+            </div>
+          )}
           <div className="code-indexer__actions">
             <Button href={buildCodeIndexerLoginUrl()} size="xl" view="action">
               Sign in
@@ -601,13 +596,30 @@ export function CodeIndexerDashboard() {
             <Button
               href={CODE_INDEXER_INSTALL_URL}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               size="xl"
               view="outlined"
             >
               Install GitHub App
             </Button>
           </div>
+        </section>
+      </main>
+    );
+  }
+
+  if (authState === "error") {
+    return (
+      <main className="code-indexer code-indexer-dashboard">
+        <section className="code-indexer-dashboard__panel">
+          <p className="code-indexer__eyebrow">Dashboard</p>
+          <h1>Dashboard unavailable</h1>
+          <p className="code-indexer__lead">
+            {error || "The Code Indexer backend did not return dashboard data."}
+          </p>
+          <Button onClick={() => void initialize()} size="xl" view="outlined">
+            Try again
+          </Button>
         </section>
       </main>
     );
@@ -625,7 +637,11 @@ export function CodeIndexerDashboard() {
           </p>
         </div>
         <div className="code-indexer-dashboard__header-actions">
-          <Button href={CODE_INDEXER_INSTALL_URL} target="_blank" rel="noopener">
+          <Button
+            href={CODE_INDEXER_INSTALL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Install on more repositories
           </Button>
           <Button onClick={handleLogout} view="outlined">
@@ -680,7 +696,7 @@ export function CodeIndexerDashboard() {
               <Button
                 href={CODE_INDEXER_INSTALL_URL}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 view="outlined"
               >
                 Select repositories

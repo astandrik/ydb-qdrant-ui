@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ChangeEvent } from "react";
 import { Button, Icon, TextInput } from "@gravity-ui/uikit";
 import {
@@ -14,9 +14,17 @@ import {
   buildCodeIndexerLoginUrl,
   CODE_INDEXER_BACKEND_URL,
 } from "./CodeIndexerLanding";
+import {
+  formatDate,
+  parseJsonBody,
+  progressPercent,
+  readApiError,
+  shortSha,
+} from "./utils";
 import "./CodeIndexer.scss";
 
 const ADMIN_RETURN_PATH = "/code-indexer/admin/";
+const ADMIN_SEARCH_DEBOUNCE_MS = 300;
 
 type GitHubUser = {
   githubUserId: string;
@@ -83,7 +91,12 @@ type AdminOverview = {
   };
 };
 
-type AuthState = "checking" | "authenticated" | "forbidden" | "unauthenticated";
+type AuthState =
+  | "checking"
+  | "authenticated"
+  | "error"
+  | "forbidden"
+  | "unauthenticated";
 
 class AdminApiError extends Error {
   readonly status: number;
@@ -95,48 +108,19 @@ class AdminApiError extends Error {
   }
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function readApiError(value: unknown) {
-  if (isRecord(value) && typeof value.error === "string") {
-    return value.error;
-  }
-  return "request failed";
-}
-
 async function adminApiRequest<T>(path: string): Promise<T> {
   const response = await fetch(`${CODE_INDEXER_BACKEND_URL}${path}`, {
     credentials: "include",
   });
   const text = await response.text();
-  const body: unknown = text ? JSON.parse(text) : null;
+  const body = parseJsonBody(text);
   if (!response.ok) {
-    throw new AdminApiError(response.status, readApiError(body));
+    throw new AdminApiError(
+      response.status,
+      readApiError(body, response.statusText || "request failed")
+    );
   }
   return body as T;
-}
-
-function formatDate(value?: string) {
-  if (!value) {
-    return "Never";
-  }
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return value;
-  }
-  return date.toLocaleString("en-US", {
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
-
-function shortSha(value?: string) {
-  return value ? value.slice(0, 12) : "n/a";
 }
 
 function formatNumber(value: number) {
@@ -157,22 +141,6 @@ function formatJobTarget(job: AdminJob) {
     return "Repository cleanup";
   }
   return "Default reindex";
-}
-
-function progressPercent(job: AdminJob) {
-  if (job.status === "completed") {
-    return 100;
-  }
-  const total =
-    job.totalFiles && job.totalFiles > 0 ? job.totalFiles : job.totalChunks ?? 0;
-  const processed =
-    job.totalFiles && job.totalFiles > 0
-      ? job.processedFiles
-      : job.processedChunks;
-  if (total <= 0) {
-    return job.status === "running" ? 12 : 0;
-  }
-  return Math.max(2, Math.min(100, Math.round((processed / total) * 100)));
 }
 
 function jobStatusIcon(status: AdminJob["status"]) {
@@ -216,6 +184,7 @@ function buildAdminQuery(params: {
 }
 
 export function CodeIndexerAdminDashboard() {
+  const adminRequestId = useRef(0);
   const [authState, setAuthState] = useState<AuthState>("checking");
   const [user, setUser] = useState<GitHubUser | null>(null);
   const [overview, setOverview] = useState<AdminOverview | null>(null);
@@ -227,8 +196,11 @@ export function CodeIndexerAdminDashboard() {
   const [repositoryStatus, setRepositoryStatus] = useState("");
   const [jobStatus, setJobStatus] = useState("");
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
 
   const loadAdminData = useCallback(async (silent = false) => {
+    const requestId = adminRequestId.current + 1;
+    adminRequestId.current = requestId;
     if (silent) {
       setRefreshing(true);
     } else {
@@ -238,12 +210,12 @@ export function CodeIndexerAdminDashboard() {
     try {
       const repositoryQuery = buildAdminQuery({
         limit: 500,
-        q: query.trim(),
+        q: debouncedQuery.trim(),
         status: repositoryStatus,
       });
       const jobQuery = buildAdminQuery({
         limit: 200,
-        q: query.trim(),
+        q: debouncedQuery.trim(),
         status: jobStatus,
       });
       const [overviewData, repositoriesData, jobsData] = await Promise.all([
@@ -261,29 +233,45 @@ export function CodeIndexerAdminDashboard() {
         ),
       ]);
 
+      if (requestId !== adminRequestId.current) {
+        return;
+      }
       setAuthState("authenticated");
       setUser(overviewData.user);
       setOverview(overviewData.overview);
       setRepositories(repositoriesData.repositories);
       setJobs(jobsData.jobs);
     } catch (err: unknown) {
+      if (requestId !== adminRequestId.current) {
+        return;
+      }
       if (err instanceof AdminApiError && err.status === 401) {
         setAuthState("unauthenticated");
       } else if (err instanceof AdminApiError && err.status === 403) {
         setAuthState("forbidden");
         setError(err.message);
       } else {
+        setAuthState((current) => (current === "checking" ? "error" : current));
         setError(err instanceof Error ? err.message : String(err));
       }
     } finally {
-      setLoading(false);
-      setRefreshing(false);
+      if (requestId === adminRequestId.current) {
+        setLoading(false);
+        setRefreshing(false);
+      }
     }
-  }, [jobStatus, query, repositoryStatus]);
+  }, [debouncedQuery, jobStatus, repositoryStatus]);
 
   useEffect(() => {
     void loadAdminData();
   }, [loadAdminData]);
+
+  useEffect(() => {
+    const timeoutId = window.setTimeout(() => {
+      setDebouncedQuery(query);
+    }, ADMIN_SEARCH_DEBOUNCE_MS);
+    return () => window.clearTimeout(timeoutId);
+  }, [query]);
 
   useEffect(() => {
     if (authState !== "authenticated" || !overview || overview.totals.activeJobs === 0) {
@@ -348,6 +336,23 @@ export function CodeIndexerAdminDashboard() {
           </p>
           <Button href="/code-indexer/dashboard/" view="outlined">
             Open user dashboard
+          </Button>
+        </section>
+      </main>
+    );
+  }
+
+  if (authState === "error") {
+    return (
+      <main className="code-indexer code-indexer-dashboard code-indexer-admin">
+        <section className="code-indexer-dashboard__panel">
+          <p className="code-indexer__eyebrow">Admin</p>
+          <h1>Admin dashboard unavailable</h1>
+          <p className="code-indexer__lead">
+            {error || "The Code Indexer backend did not return admin data."}
+          </p>
+          <Button onClick={() => void loadAdminData()} size="xl" view="outlined">
+            Try again
           </Button>
         </section>
       </main>

@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import { Button, Icon } from "@gravity-ui/uikit";
 import type { IconData } from "@gravity-ui/uikit";
@@ -132,7 +130,7 @@ export function CodeIndexerLanding() {
             <Button
               href={CODE_INDEXER_INSTALL_URL}
               target="_blank"
-              rel="noopener"
+              rel="noopener noreferrer"
               size="xl"
               view="action"
             >
@@ -190,7 +188,7 @@ export function CodeIndexerLanding() {
           <p className="code-indexer__eyebrow">Public beta shape</p>
           <h2 id="code-indexer-trust">Built for narrow access and cost control</h2>
         </div>
-        <div className="code-indexer__feature-grid code-indexer__feature-grid--compact">
+        <div className="code-indexer__feature-grid">
           {trustItems.map((feature) => (
             <article className="code-indexer__feature" key={feature.title}>
               <Icon data={feature.icon} size={22} />

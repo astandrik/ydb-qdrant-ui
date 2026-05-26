@@ -43,7 +43,9 @@ export function CodeIndexerInfoPage({
             <Button
               href={action.href}
               key={action.href}
-              rel={action.href.startsWith("http") ? "noopener" : undefined}
+              rel={
+                action.href.startsWith("http") ? "noopener noreferrer" : undefined
+              }
               size="l"
               target={action.href.startsWith("http") ? "_blank" : undefined}
               view="action"
