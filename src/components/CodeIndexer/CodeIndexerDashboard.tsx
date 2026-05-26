@@ -119,6 +119,10 @@ class DashboardApiError extends Error {
   }
 }
 
+function isUnauthorizedError(err: unknown) {
+  return err instanceof DashboardApiError && err.status === 401;
+}
+
 async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers);
   if (options.body && !headers.has("content-type")) {
@@ -268,6 +272,21 @@ export function CodeIndexerDashboard() {
   const [actionMessage, setActionMessage] = useState("");
   const [error, setError] = useState("");
 
+  const resetSession = useCallback((message = "") => {
+    repositoriesRequestId.current += 1;
+    setAuthState("unauthenticated");
+    setUser(null);
+    setInstallations([]);
+    setSelectedInstallationId("");
+    setRepositories([]);
+    setTokens([]);
+    setCreatedToken(null);
+    setReindexingRepoIds(new Set());
+    setActionMessage("");
+    setRepositoriesLoading(false);
+    setError(message);
+  }, []);
+
   const loadRepositories = useCallback(
     async (
       installationId: string,
@@ -355,8 +374,8 @@ export function CodeIndexerDashboard() {
         setRepositories([]);
       }
     } catch (err: unknown) {
-      if (err instanceof DashboardApiError && err.status === 401) {
-        setAuthState("unauthenticated");
+      if (isUnauthorizedError(err)) {
+        resetSession();
       } else {
         setAuthState("error");
         setError(err instanceof Error ? err.message : String(err));
@@ -364,7 +383,7 @@ export function CodeIndexerDashboard() {
     } finally {
       setLoading(false);
     }
-  }, [loadRepositories, loadTokens]);
+  }, [loadRepositories, loadTokens, resetSession]);
 
   useEffect(() => {
     void initialize();
@@ -388,11 +407,8 @@ export function CodeIndexerDashboard() {
     const intervalId = window.setInterval(() => {
       void loadRepositories(selectedInstallationId, { silent: true }).catch(
         (err: unknown) => {
-          if (err instanceof DashboardApiError && err.status === 401) {
-            setAuthState("unauthenticated");
-            setRepositories([]);
-            setReindexingRepoIds(new Set());
-            setError("Session expired. Sign in again.");
+          if (isUnauthorizedError(err)) {
+            resetSession("Session expired. Sign in again.");
             return;
           }
           setError(err instanceof Error ? err.message : String(err));
@@ -400,7 +416,7 @@ export function CodeIndexerDashboard() {
       );
     }, 3000);
     return () => window.clearInterval(intervalId);
-  }, [loadRepositories, selectedInstallationId, shouldPollRepositories]);
+  }, [loadRepositories, resetSession, selectedInstallationId, shouldPollRepositories]);
 
   const tokenForConfig = createdToken?.plaintextToken ?? "<token>";
   const mcpConfig = useMemo(
@@ -449,6 +465,10 @@ export function CodeIndexerDashboard() {
     try {
       await loadRepositories(installationId);
     } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        resetSession("Session expired. Sign in again.");
+        return;
+      }
       setError(err instanceof Error ? err.message : String(err));
     }
   };
@@ -469,6 +489,10 @@ export function CodeIndexerDashboard() {
       setActionMessage("Token created. Copy it now; it will not be shown again.");
       await loadTokens();
     } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        resetSession("Session expired. Sign in again.");
+        return;
+      }
       setError(err instanceof Error ? err.message : String(err));
     }
   };
@@ -496,6 +520,10 @@ export function CodeIndexerDashboard() {
       );
       await loadRepositories(selectedInstallationId, { silent: true });
     } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        resetSession("Session expired. Sign in again.");
+        return;
+      }
       setReindexingRepoIds((current) => {
         const next = new Set(current);
         next.delete(repoId);
@@ -515,6 +543,10 @@ export function CodeIndexerDashboard() {
       setActionMessage("Token revoked.");
       await loadTokens();
     } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        resetSession("Session expired. Sign in again.");
+        return;
+      }
       setError(err instanceof Error ? err.message : String(err));
     }
   };
@@ -523,11 +555,7 @@ export function CodeIndexerDashboard() {
     setError("");
     try {
       await apiRequest<null>("/api/logout", { method: "POST" });
-      setAuthState("unauthenticated");
-      setUser(null);
-      setInstallations([]);
-      setRepositories([]);
-      setTokens([]);
+      resetSession();
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err));
     }
@@ -549,12 +577,12 @@ export function CodeIndexerDashboard() {
         deletedRepositories: number;
         status: "ok";
       }>("/api/privacy/delete-my-data", { method: "POST" });
-      setAuthState("unauthenticated");
-      setUser(null);
-      setInstallations([]);
-      setRepositories([]);
-      setTokens([]);
+      resetSession();
     } catch (err: unknown) {
+      if (isUnauthorizedError(err)) {
+        resetSession("Session expired. Sign in again.");
+        return;
+      }
       setError(err instanceof Error ? err.message : String(err));
     }
   };
