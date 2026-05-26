@@ -13,6 +13,7 @@ import PlansSection from "@/components/PlansSection";
 import GettingStartedSection from "@/components/GettingStartedSection";
 import ApiAtAGlanceSection from "@/components/ApiAtAGlanceSection";
 import VectorDimensionsSection from "@/components/VectorDimensionsSection";
+import { CodeIndexerHomePromo } from "@/components/CodeIndexer/CodeIndexerLanding";
 import { createCopyToClipboardHandler } from "@/shared/utils/copyToClipboard";
 import { trackGoal } from "@/shared/utils/metricsManager";
 import {
@@ -136,6 +137,7 @@ function HomeContent() {
             handleCopy(DEMO_URL, e)
           }
         />
+        <CodeIndexerHomePromo />
         <WhySection />
         <WhereSection />
         <PlansSection />

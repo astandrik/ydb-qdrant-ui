@@ -28,14 +28,14 @@ export const metadata: Metadata = {
   title: "Qdrant API on YDB",
   description:
     "Qdrant-compatible vector search API on YDB. Exact top-k search over a global one-table layout for HTTP, Node.js library, and million-vector collection scenarios.",
-  metadataBase: new URL("http://ydb-qdrant.tech"),
+  metadataBase: new URL("https://ydb-qdrant.tech"),
   authors: [{ name: "ydb-qdrant" }],
   openGraph: {
     title: "Qdrant API on YDB",
     description:
       "Qdrant-compatible vector search on YDB with exact top-k search, HTTP server mode, Node.js library mode, and million-vector collections.",
     type: "website",
-    url: "http://ydb-qdrant.tech/",
+    url: "https://ydb-qdrant.tech/",
     images: [
       {
         url: "/assets/preview.png",

@@ -9,6 +9,7 @@ export const heroSectionEnContent: HeroContent = {
   primaryCtaLabel: "Get Started",
   secondaryCtaLabel: "Explore on GitHub",
   docsLabel: "Architecture & diagrams →",
+  codeIndexerLabel: "Code Indexer →",
   demoPrefix: "Public demo Qdrant base URL:",
   demoButtonLabel: "Copy",
   footnote:
@@ -22,6 +23,7 @@ export const heroSectionRuContent: HeroContent = {
   primaryCtaLabel: "Быстрый старт",
   secondaryCtaLabel: "Изучить на GitHub",
   docsLabel: "Архитектура и диаграммы →",
+  codeIndexerLabel: "Code Indexer →",
   demoPrefix: "Публичный demo‑endpoint:",
   demoButtonLabel: "Копировать",
   footnote:
