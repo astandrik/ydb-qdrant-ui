@@ -8,6 +8,7 @@ export const ASK_AI_PROMPT =
 export const ASK_AI_HOME_EN = {
   label: "Ask AI about YDB-Qdrant",
   helperText: "Open an AI assistant with a technical evaluation prompt.",
+  providerAriaLabelTemplate: "Ask {provider} about {product}",
   page: "/",
   promptVariant: ASK_AI_PROMPT_VARIANT,
   prompt: ASK_AI_PROMPT,
@@ -16,6 +17,7 @@ export const ASK_AI_HOME_EN = {
 export const ASK_AI_HOME_RU = {
   label: "Спросить AI про YDB-Qdrant",
   helperText: "Откройте AI-ассистента с техническим prompt для оценки.",
+  providerAriaLabelTemplate: "Спросить {provider} про {product}",
   page: "/ru/",
   promptVariant: ASK_AI_PROMPT_VARIANT,
   prompt: ASK_AI_PROMPT,
@@ -24,6 +26,7 @@ export const ASK_AI_HOME_RU = {
 export const ASK_AI_DOCS_EN = {
   label: "Ask AI about YDB-Qdrant",
   helperText: "Open an AI assistant with a technical evaluation prompt.",
+  providerAriaLabelTemplate: "Ask {provider} about {product}",
   page: "/docs/",
   promptVariant: ASK_AI_PROMPT_VARIANT,
   prompt: ASK_AI_PROMPT,
@@ -32,6 +35,7 @@ export const ASK_AI_DOCS_EN = {
 export const ASK_AI_DOCS_RU = {
   label: "Спросить AI про YDB-Qdrant",
   helperText: "Откройте AI-ассистента с техническим prompt для оценки.",
+  providerAriaLabelTemplate: "Спросить {provider} про {product}",
   page: "/ru/docs/",
   promptVariant: ASK_AI_PROMPT_VARIANT,
   prompt: ASK_AI_PROMPT,

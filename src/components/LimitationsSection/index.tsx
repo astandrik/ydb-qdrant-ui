@@ -12,4 +12,6 @@ export const LimitationsSectionRu = () => (
   <LimitationsSectionBase {...limitationsSectionRuProps} />
 );
 
+export { LimitationsSectionBase } from "./LimitationsSection";
+
 export default LimitationsSectionEn;

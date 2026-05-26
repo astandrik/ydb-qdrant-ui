@@ -156,6 +156,7 @@ function HomeRuContent() {
             productId={ASK_AI_PRODUCT_ID}
             label={ASK_AI_HOME_RU.label}
             helperText={ASK_AI_HOME_RU.helperText}
+            providerAriaLabelTemplate={ASK_AI_HOME_RU.providerAriaLabelTemplate}
             prompt={ASK_AI_HOME_RU.prompt}
             page={ASK_AI_HOME_RU.page}
             promptVariant={ASK_AI_HOME_RU.promptVariant}

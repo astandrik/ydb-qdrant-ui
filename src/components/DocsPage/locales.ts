@@ -139,7 +139,7 @@ export const docsPageRuProps: DocsPageBaseProps = {
   demoPrefix: "Публичный demo-endpoint Qdrant:",
   copyButtonLabel: "Копировать",
   copySuccessLabel: "Скопировано!",
-  metricsPageName: "docs",
+  metricsPageName: "docs-ru",
   sections: sectionsRu,
   backLinkText: "Назад на главную",
 };

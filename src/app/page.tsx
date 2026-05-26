@@ -43,6 +43,8 @@ const YDB_QDRANT_JSON_LD = {
   applicationCategory: "DeveloperApplication",
 };
 
+const YDB_QDRANT_JSON_LD_SCRIPT = JSON.stringify(YDB_QDRANT_JSON_LD);
+
 /**
  * Component that handles URL search params.
  * Wrapped in Suspense because useSearchParams() requires it in Next.js App Router.
@@ -145,12 +147,7 @@ function HomeContent() {
       <Suspense fallback={null}>
         <SearchParamsHandler onParamsReady={handleParamsReady} />
       </Suspense>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(YDB_QDRANT_JSON_LD),
-        }}
-      />
+      <script type="application/ld+json">{YDB_QDRANT_JSON_LD_SCRIPT}</script>
       <LangSwitcher />
       <GitHubRepoIcon />
       <NpmPackageIcon />
@@ -168,6 +165,7 @@ function HomeContent() {
             productId={ASK_AI_PRODUCT_ID}
             label={ASK_AI_HOME_EN.label}
             helperText={ASK_AI_HOME_EN.helperText}
+            providerAriaLabelTemplate={ASK_AI_HOME_EN.providerAriaLabelTemplate}
             prompt={ASK_AI_HOME_EN.prompt}
             page={ASK_AI_HOME_EN.page}
             promptVariant={ASK_AI_HOME_EN.promptVariant}

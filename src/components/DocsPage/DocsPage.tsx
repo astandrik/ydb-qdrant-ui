@@ -31,6 +31,7 @@ export type DocsPageBaseProps = {
   askAI: {
     label: string;
     helperText: string;
+    providerAriaLabelTemplate: string;
     page: string;
     promptVariant: string;
     prompt: string;
@@ -84,6 +85,7 @@ export const DocsPageBase = ({
         productId={ASK_AI_PRODUCT_ID}
         label={askAI.label}
         helperText={askAI.helperText}
+        providerAriaLabelTemplate={askAI.providerAriaLabelTemplate}
         prompt={askAI.prompt}
         page={askAI.page}
         promptVariant={askAI.promptVariant}

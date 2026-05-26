@@ -53,6 +53,13 @@ export const ASK_AI_PROVIDERS: AskAIProvider[] = [
   },
 ];
 
+export const ASK_AI_PROVIDERS_BY_ID: ReadonlyMap<
+  AskAIProviderId,
+  AskAIProvider
+> = new Map(
+  ASK_AI_PROVIDERS.map((provider) => [provider.id, provider] as const),
+);
+
 export function buildAskAIProviderLinks(
   prompt: string,
 ): AskAIProviderLink[] {

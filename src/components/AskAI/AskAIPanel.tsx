@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import {
   SiClaude,
   SiGooglegemini,
@@ -11,7 +12,7 @@ import { Card } from "@gravity-ui/uikit";
 
 import { trackGoal } from "@/shared/utils/metricsManager";
 import {
-  ASK_AI_PROVIDERS,
+  ASK_AI_PROVIDERS_BY_ID,
   buildAskAIProviderLinks,
   type AskAIProviderId,
 } from "@/components/AskAI/ask-ai-links";
@@ -22,6 +23,7 @@ type AskAIPanelProps = {
   productId: string;
   label: string;
   helperText: string;
+  providerAriaLabelTemplate: string;
   prompt: string;
   page: string;
   promptVariant: string;
@@ -33,15 +35,13 @@ export function AskAIPanel({
   productId,
   label,
   helperText,
+  providerAriaLabelTemplate,
   prompt,
   page,
   promptVariant,
   className,
 }: AskAIPanelProps) {
-  const links = buildAskAIProviderLinks(prompt);
-  const providersById = new Map(
-    ASK_AI_PROVIDERS.map((provider) => [provider.id, provider]),
-  );
+  const links = useMemo(() => buildAskAIProviderLinks(prompt), [prompt]);
 
   function trackClick(provider: AskAIProviderId) {
     trackGoal("ask_ai_click", {
@@ -64,7 +64,7 @@ export function AskAIPanel({
         </div>
         <div className="ask-ai-panel__links" aria-label={label}>
           {links.map((link) => {
-            const provider = providersById.get(link.id);
+            const provider = ASK_AI_PROVIDERS_BY_ID.get(link.id);
 
             return (
               <a
@@ -73,7 +73,11 @@ export function AskAIPanel({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`ask-ai-panel__link ask-ai-panel__link--${provider?.tone ?? "white"}`}
-                aria-label={`Ask ${link.label} about ${productName}`}
+                aria-label={formatProviderAriaLabel(
+                  providerAriaLabelTemplate,
+                  link.label,
+                  productName,
+                )}
                 title={link.label}
                 onClick={() => trackClick(link.id)}
               >
@@ -101,4 +105,14 @@ function AskAIProviderIcon({ provider }: { provider: AskAIProviderId }) {
     case "grok":
       return <SiX aria-hidden="true" size={22} />;
   }
+}
+
+function formatProviderAriaLabel(
+  template: string,
+  providerLabel: string,
+  productName: string,
+) {
+  return template
+    .replace("{provider}", providerLabel)
+    .replace("{product}", productName);
 }
