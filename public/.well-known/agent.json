@@ -20,6 +20,7 @@
   "llms": "https://ydb-qdrant.tech/llms.txt",
   "llms_full": "https://ydb-qdrant.tech/llms-full.txt",
   "auth": "https://ydb-qdrant.tech/docs/auth/",
+  "pricing": "https://ydb-qdrant.tech/pricing/",
   "support": "https://ydb-qdrant.tech/code-indexer/support/",
   "repository": "https://github.com/astandrik/ydb-qdrant",
   "package": "https://www.npmjs.com/package/ydb-qdrant",
@@ -55,8 +56,16 @@
       "url": "https://ydb-qdrant.tech/openapi.json"
     },
     {
+      "name": "OpenAPI discovery page",
+      "url": "https://ydb-qdrant.tech/docs/openapi/"
+    },
+    {
       "name": "Auth and scoped access",
       "url": "https://ydb-qdrant.tech/docs/auth/"
+    },
+    {
+      "name": "Pricing",
+      "url": "https://ydb-qdrant.tech/pricing/"
     },
     {
       "name": "Webhooks and events",
@@ -65,6 +74,10 @@
     {
       "name": "Code Indexer MCP",
       "url": "https://ydb-qdrant.tech/code-indexer/"
+    },
+    {
+      "name": "MCP discovery page",
+      "url": "https://ydb-qdrant.tech/docs/mcp/"
     }
   ]
 }

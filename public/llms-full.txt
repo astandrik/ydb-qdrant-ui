@@ -6,9 +6,12 @@ YDB-Qdrant is a Qdrant-compatible vector search API and Node.js library backed b
 
 - [Product](https://ydb-qdrant.tech/)
 - [Developer hub](https://ydb-qdrant.tech/developers/)
+- [Pricing](https://ydb-qdrant.tech/pricing/)
 - [OpenAPI](https://ydb-qdrant.tech/openapi.json)
+- [OpenAPI discovery page](https://ydb-qdrant.tech/docs/openapi/)
 - [REST API docs](https://ydb-qdrant.tech/docs/api/)
 - [Auth and scoped access](https://ydb-qdrant.tech/docs/auth/)
+- [MCP discovery page](https://ydb-qdrant.tech/docs/mcp/)
 - [Webhooks and events](https://ydb-qdrant.tech/docs/webhooks/)
 - [Architecture diagrams](https://ydb-qdrant.tech/docs/)
 - [GitHub source](https://github.com/astandrik/ydb-qdrant)
@@ -44,6 +47,12 @@ Supported endpoints:
 - `POST /collections/{collection}/points/query`
 - `POST /collections/{collection}/points/delete`
 
+Error responses:
+
+- All API error responses use `application/json`.
+- The compatible shape is `{ "status": "error", "error": string, "code": string, "message": string, "resolution": string, "request_id": string }`.
+- Agents should use `code`, `resolution`, and `request_id` for recovery and support workflows.
+
 ## MCP summary
 
 YDB Qdrant Code Indexer provides hosted Streamable HTTP MCP at:
@@ -73,7 +82,18 @@ MCP auth:
 
 - [YDB-Qdrant vs standalone Qdrant](https://ydb-qdrant.tech/compare/qdrant/)
 - [Vector search platform comparison](https://ydb-qdrant.tech/compare/vector-search-platforms/)
+- [YDB-Qdrant vs Databricks Vector Search](https://ydb-qdrant.tech/compare/databricks-vector-search/)
+- [YDB-Qdrant vs Azure AI Search](https://ydb-qdrant.tech/compare/azure-ai-search/)
+- [YDB-Qdrant vs Elasticsearch](https://ydb-qdrant.tech/compare/elasticsearch/)
 - [Semantic search on YDB guide](https://ydb-qdrant.tech/guides/semantic-search-ydb/)
+- [Best vector search for YDB-backed apps](https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/)
+
+## Pricing summary
+
+- Package and self-hosted server: USD 0 YDB-Qdrant license fee under Apache-2.0.
+- User infrastructure: users pay their own YDB, compute, storage, network, backup, and monitoring costs.
+- Code Indexer public beta: USD 0 while beta access is available, with repository, chunk, and daily search quotas.
+- No paid hosted SLA or enterprise plan is published today.
 
 ## Examples
 

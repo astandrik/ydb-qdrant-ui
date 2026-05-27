@@ -19,6 +19,9 @@ export default function Footer() {
           <a href="/docs/auth/" className="footer__nav-link">
             Auth
           </a>
+          <a href="/pricing/" className="footer__nav-link">
+            Pricing
+          </a>
           <a href="/.well-known/mcp/server-card.json" className="footer__nav-link">
             MCP
           </a>

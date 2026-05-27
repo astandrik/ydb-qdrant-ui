@@ -48,6 +48,18 @@
           "type": "text/html"
         },
         {
+          "href": "https://ydb-qdrant.tech/pricing/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/docs/openapi/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/docs/mcp/",
+          "type": "text/html"
+        },
+        {
           "href": "https://ydb-qdrant.tech/docs/api/",
           "type": "text/html"
         },

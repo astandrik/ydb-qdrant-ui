@@ -122,6 +122,24 @@ X-Tenant-Id: optional-workspace`}</pre>
           ],
         },
         {
+          title: "JSON error responses",
+          body: (
+            <pre>{`{
+  "status": "error",
+  "error": "collection not found",
+  "code": "COLLECTION_NOT_FOUND",
+  "message": "collection not found",
+  "resolution": "Create the collection first, or check the collection name, api-key, and X-Tenant-Id namespace.",
+  "request_id": "req-123"
+}`}</pre>
+          ),
+          items: [
+            "Every API error response is application/json rather than an HTML error page.",
+            "The error field remains a string for Qdrant-compatible clients.",
+            "Agents can use code, message, resolution, and request_id for recovery and support workflows.",
+          ],
+        },
+        {
           title: "Example",
           body: (
             <pre>{`curl -X PUT http://localhost:8080/collections/documents \\

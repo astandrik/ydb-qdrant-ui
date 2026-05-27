@@ -30,3 +30,18 @@ Endpoints:
 - `POST /collections/{collection}/points/delete`: delete by ids, empty filter, or supported `pathSegments.N` filters.
 
 Response envelopes use Qdrant-style `{ "status": "ok", "result": ..., "time": number, "usage": null }`.
+
+Error responses use JSON, not HTML:
+
+```json
+{
+  "status": "error",
+  "error": "collection not found",
+  "code": "COLLECTION_NOT_FOUND",
+  "message": "collection not found",
+  "resolution": "Create the collection first, or check the collection name, api-key, and X-Tenant-Id namespace.",
+  "request_id": "req-123"
+}
+```
+
+The `error` field remains a string for Qdrant-compatible clients. Agents should use `code`, `message`, `resolution`, and `request_id` for recovery and support workflows.

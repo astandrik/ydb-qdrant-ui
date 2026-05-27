@@ -6,9 +6,12 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 
 - [Main page](https://ydb-qdrant.tech/)
 - [Developer hub](https://ydb-qdrant.tech/developers/)
+- [Pricing](https://ydb-qdrant.tech/pricing/)
 - [Architecture docs](https://ydb-qdrant.tech/docs/)
 - [REST API reference](https://ydb-qdrant.tech/docs/api/)
+- [OpenAPI discovery page](https://ydb-qdrant.tech/docs/openapi/)
 - [Auth and scoped access](https://ydb-qdrant.tech/docs/auth/)
+- [MCP discovery page](https://ydb-qdrant.tech/docs/mcp/)
 - [Webhooks and events](https://ydb-qdrant.tech/docs/webhooks/)
 - [Code Indexer product](https://ydb-qdrant.tech/code-indexer/)
 
@@ -21,7 +24,10 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 - [MCP manifest](https://ydb-qdrant.tech/.well-known/mcp.json)
 - [Full AI-readable index](https://ydb-qdrant.tech/llms-full.txt)
 - [Markdown home mirror](https://ydb-qdrant.tech/index.md)
+- [Markdown pricing mirror](https://ydb-qdrant.tech/pricing.md)
 - [Markdown auth mirror](https://ydb-qdrant.tech/auth.md)
+- [Markdown OpenAPI page](https://ydb-qdrant.tech/docs/openapi.md)
+- [Markdown MCP page](https://ydb-qdrant.tech/docs/mcp.md)
 - [Sitemap](https://ydb-qdrant.tech/sitemap.xml)
 - [Robots policy](https://ydb-qdrant.tech/robots.txt)
 - [GitHub repository](https://github.com/astandrik/ydb-qdrant)
@@ -30,6 +36,7 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 ## REST capabilities
 
 - Qdrant-compatible REST API for collection create/get/delete, point retrieve/upsert, point search/query, point delete, and index compatibility calls.
+- Structured JSON error responses include `status`, `error`, `code`, `message`, `resolution`, and `request_id`.
 - Authentication by `api-key` header; the key derives a stable namespace. Optional `X-Tenant-Id` adds a tenant suffix inside the same key namespace.
 - Node.js library mode through the `ydb-qdrant` package.
 - YDB-backed storage for vectors and payload data.
@@ -54,7 +61,18 @@ YDB Qdrant Code Indexer is a hosted GitHub App for coding agents. It indexes sel
 
 - [YDB-Qdrant vs standalone Qdrant](https://ydb-qdrant.tech/compare/qdrant/)
 - [YDB-Qdrant and managed vector search platforms](https://ydb-qdrant.tech/compare/vector-search-platforms/)
+- [YDB-Qdrant vs Databricks Vector Search](https://ydb-qdrant.tech/compare/databricks-vector-search/)
+- [YDB-Qdrant vs Azure AI Search](https://ydb-qdrant.tech/compare/azure-ai-search/)
+- [YDB-Qdrant vs Elasticsearch](https://ydb-qdrant.tech/compare/elasticsearch/)
 - [Semantic search on YDB with YDB-Qdrant](https://ydb-qdrant.tech/guides/semantic-search-ydb/)
+- [Best vector search for YDB-backed apps](https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/)
+
+## Pricing
+
+- The `ydb-qdrant` package and self-hosted server are Apache-2.0 and free to use.
+- Users pay their own YDB, compute, storage, network, backup, and monitoring costs.
+- YDB Qdrant Code Indexer is a free public beta with repository, chunk, and daily search quotas.
+- No paid hosted SLA or enterprise plan is published today.
 
 ## Trade-offs
 
