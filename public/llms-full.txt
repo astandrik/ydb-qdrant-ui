@@ -50,8 +50,9 @@ Supported endpoints:
 Error responses:
 
 - All API error responses use `application/json`.
-- The compatible shape is `{ "status": "error", "error": string, "code": string, "message": string, "resolution": string, "request_id": string }`.
+- The compatible shape is `{ "status": "error", "error": string, "code": string, "message": string, "resolution": string, "request_id": string, "details"?: object }`.
 - Agents should use `code`, `resolution`, and `request_id` for recovery and support workflows.
+- Validation errors may include `details.fieldErrors` and `details.formErrors`.
 
 ## MCP summary
 

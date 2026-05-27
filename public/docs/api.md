@@ -44,4 +44,4 @@ Error responses use JSON, not HTML:
 }
 ```
 
-The `error` field remains a string for Qdrant-compatible clients. Agents should use `code`, `message`, `resolution`, and `request_id` for recovery and support workflows.
+The `error` field remains a string for Qdrant-compatible clients. Agents should use `code`, `message`, `resolution`, and `request_id` for recovery and support workflows. Validation errors may include a `details` object with `fieldErrors` and `formErrors`.

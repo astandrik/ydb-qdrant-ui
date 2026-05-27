@@ -154,6 +154,10 @@ assert(
   "ErrorResponse.error must remain a string",
 );
 assert(
+  openapi.components?.schemas?.ErrorResponse?.properties?.details?.type === "object",
+  "ErrorResponse.details must document optional structured validation details",
+);
+assert(
   openapi.components?.schemas?.ErrorResponse?.properties?.code?.enum?.includes(
     "COLLECTION_NOT_FOUND",
   ),

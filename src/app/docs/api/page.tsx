@@ -137,6 +137,7 @@ X-Tenant-Id: optional-workspace`}</pre>
             "Every API error response is application/json rather than an HTML error page.",
             "The error field remains a string for Qdrant-compatible clients.",
             "Agents can use code, message, resolution, and request_id for recovery and support workflows.",
+            "Validation errors may include a details object with fieldErrors and formErrors.",
           ],
         },
         {

@@ -4,6 +4,8 @@ Canonical OpenAPI URL: https://ydb-qdrant.tech/openapi.json
 
 YDB-Qdrant publishes an OpenAPI 3.1 specification for its Qdrant-compatible REST subset.
 
+Error responses keep `error` as a string for Qdrant-compatible clients and add `code`, `message`, `resolution`, and `request_id` for agents. Validation errors may also include optional `details.fieldErrors` and `details.formErrors`.
+
 ## Covered operations
 
 - `GET /health`
