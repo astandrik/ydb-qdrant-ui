@@ -153,16 +153,12 @@ X-Tenant-Id: optional-workspace`}</pre>
 curl -i -X POST https://ydb-qdrant.tech/collections/__bad_json/points/upsert \\
   -H 'Content-Type: application/json' \\
   -H 'api-key: demo-key' \\
-  --data '{bad json'
-
-curl -i https://ydb-qdrant.tech/api/__unknown_probe
-
-curl -i https://ydb-qdrant.tech/v1/__unknown_probe`}</pre>
+  --data '{bad json'`}</pre>
           ),
           items: [
             "Missing collections return COLLECTION_NOT_FOUND.",
             "Invalid JSON returns VALIDATION_ERROR.",
-            "Unknown API-like HTTPS routes return NOT_FOUND JSON after the production proxy forwards them to the backend.",
+            "Use the documented OpenAPI paths for agent probes.",
           ],
         },
         {

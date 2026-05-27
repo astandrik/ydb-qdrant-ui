@@ -323,8 +323,15 @@ for (const relativePath of [
 ]) {
   const content = readFileSync(resolveRoot(relativePath), "utf8");
   assert(
-    !/^curl .*http:\/\/ydb-qdrant\.tech:8080/m.test(content),
+    !/^\s*curl .*http:\/\/ydb-qdrant\.tech:8080/m.test(content),
     `${relativePath} must use HTTPS for public authenticated curl examples`,
+  );
+}
+for (const relativePath of ["src/app/docs/api/page.tsx", "public/docs/api.md"]) {
+  const content = readFileSync(resolveRoot(relativePath), "utf8");
+  assert(
+    !content.includes("/api/__unknown_probe") && !content.includes("/v1/__unknown_probe"),
+    `${relativePath} must not advertise undocumented /api or /v1 probes`,
   );
 }
 for (const expected of [
