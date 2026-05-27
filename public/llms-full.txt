@@ -26,7 +26,7 @@ YDB-Qdrant is a Qdrant-compatible vector search API and Node.js library backed b
 Base URLs:
 
 - Public HTTPS API routes: `https://ydb-qdrant.tech` for `/health`, `/collections/...`, and `/collections/.../points/...`; `/` serves the static site.
-- Public demo Qdrant base URL: `http://ydb-qdrant.tech:8080`
+- Public demo Qdrant base URL: `http://ydb-qdrant.tech:8080` (HTTP-only; use only with non-sensitive demo credentials)
 - Self-hosted default: `http://localhost:8080`
 
 Authentication:

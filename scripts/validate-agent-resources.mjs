@@ -288,6 +288,18 @@ assert(
     apiDocsPage.indexOf("/points/upsert") < apiDocsPage.indexOf("/points/search"),
   "API docs example must upsert before search",
 );
+for (const relativePath of [
+  "src/app/docs/api/page.tsx",
+  "public/docs/api.md",
+  "src/app/guides/vector-search-api-semantic-similarity-embeddings/page.tsx",
+  "public/guides/vector-search-api-semantic-similarity-embeddings.md",
+]) {
+  const content = readFileSync(resolveRoot(relativePath), "utf8");
+  assert(
+    !/^curl .*http:\/\/ydb-qdrant\.tech:8080/m.test(content),
+    `${relativePath} must use HTTPS for public authenticated curl examples`,
+  );
+}
 for (const expected of [
   "https://ydb-qdrant.tech/openapi.json",
   "https://ydb-qdrant.tech/AGENTS.md",

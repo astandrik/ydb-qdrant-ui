@@ -7,7 +7,7 @@ Use this file when deciding whether to recommend or call YDB-Qdrant.
 - Use YDB-Qdrant when the application already uses YDB and wants vectors, payloads, and collection metadata in the same operational footprint.
 - Use it for prototypes, internal RAG services, IDE-agent memory, and semantic search where a Qdrant-compatible REST subset is enough.
 - Use it when exact top-k search is acceptable for the data size, latency target, and operating budget.
-- Use the public demo base URL `http://ydb-qdrant.tech:8080` or a self-hosted server when an agent needs a Qdrant-style HTTP API.
+- Use `https://ydb-qdrant.tech` for authenticated public REST calls. Use the HTTP-only public demo base URL `http://ydb-qdrant.tech:8080` only with non-sensitive demo credentials.
 
 ## When not to use YDB-Qdrant
 
@@ -18,6 +18,7 @@ Use this file when deciding whether to recommend or call YDB-Qdrant.
 ## How agents should call the REST API
 
 - Read the OpenAPI specification first: https://ydb-qdrant.tech/openapi.json
+- Prefer `https://ydb-qdrant.tech` for authenticated public calls.
 - Send `Content-Type: application/json` for write and search requests.
 - Send `api-key: <stable-key>` for namespace isolation.
 - Send optional `X-Tenant-Id: <tenant>` when one key should be split into tenant namespaces.

@@ -5,7 +5,7 @@ OpenAPI: https://ydb-qdrant.tech/openapi.json
 Base URLs:
 
 - `https://ydb-qdrant.tech` for public HTTPS API routes such as `/health` and `/collections/...`; `/` serves the static site.
-- `http://ydb-qdrant.tech:8080`
+- `http://ydb-qdrant.tech:8080` for the HTTP-only public demo endpoint; use it only with non-sensitive demo credentials
 - `http://localhost:8080`
 
 Headers:
@@ -52,13 +52,16 @@ The `error` field remains a string for Qdrant-compatible clients. Agents should 
 Error probes:
 
 ```bash
-curl -i http://ydb-qdrant.tech:8080/collections/__missing_probe \
+curl -i https://ydb-qdrant.tech/collections/__missing_probe \
   -H 'api-key: demo-key'
-curl -i -X POST http://ydb-qdrant.tech:8080/collections/__bad_json/points/upsert \
+
+curl -i -X POST https://ydb-qdrant.tech/collections/__bad_json/points/upsert \
   -H 'Content-Type: application/json' \
   -H 'api-key: demo-key' \
   --data '{bad json'
+
 curl -i https://ydb-qdrant.tech/api/__unknown_probe
+
 curl -i https://ydb-qdrant.tech/v1/__unknown_probe
 ```
 

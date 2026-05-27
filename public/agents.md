@@ -19,7 +19,7 @@ Do not assume the root YDB-Qdrant vector product exposes hosted MCP tools. Root-
 ## How agents should interact
 
 1. Read the OpenAPI spec: https://ydb-qdrant.tech/openapi.json
-2. Use `http://ydb-qdrant.tech:8080` for the public demo Qdrant-compatible base URL, or `https://ydb-qdrant.tech` for HTTPS routes such as `/health` and `/collections/...`.
+2. Use `https://ydb-qdrant.tech` for authenticated public REST calls. Use the HTTP-only demo base URL `http://ydb-qdrant.tech:8080` only with non-sensitive demo credentials.
 3. Send `Content-Type: application/json` for write and search requests.
 4. Send `api-key: <stable-key>` for namespace isolation and optional `X-Tenant-Id: <tenant>` for tenant suffixing.
 5. Create or confirm a collection before point writes and searches.

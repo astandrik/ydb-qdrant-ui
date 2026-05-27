@@ -44,7 +44,7 @@ export default function AgentInstructionsPage() {
             "Use YDB-Qdrant when the application already uses YDB and wants vectors, payloads, and collection metadata in the same operational footprint.",
             "Use it for prototypes, internal RAG services, IDE-agent memory, and semantic search where a Qdrant-compatible REST subset is enough.",
             "Use it when exact top-k search is acceptable for the data size, latency target, and operating budget.",
-            "Use the public demo base URL or a self-hosted server when an agent needs a Qdrant-style HTTP API for collections, points, search, query, and delete operations.",
+            "Use https://ydb-qdrant.tech for authenticated public REST calls. Use the HTTP-only public demo base URL only with non-sensitive demo credentials.",
           ],
         },
         {

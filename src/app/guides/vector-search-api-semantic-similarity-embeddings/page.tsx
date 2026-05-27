@@ -58,17 +58,17 @@ export default function VectorSearchApiSemanticSimilarityGuidePage() {
         {
           title: "Example API sequence",
           body: (
-            <pre>{`curl -X PUT http://ydb-qdrant.tech:8080/collections/docs \\
+            <pre>{`curl -X PUT https://ydb-qdrant.tech/collections/docs \\
   -H 'Content-Type: application/json' \\
   -H 'api-key: demo-key' \\
   -d '{"vectors":{"size":3,"distance":"Cosine","data_type":"float"}}'
 
-curl -X POST http://ydb-qdrant.tech:8080/collections/docs/points/upsert \\
+curl -X POST https://ydb-qdrant.tech/collections/docs/points/upsert \\
   -H 'Content-Type: application/json' \\
   -H 'api-key: demo-key' \\
   -d '{"points":[{"id":"doc-1","vector":[0.1,0.2,0.3],"payload":{"title":"Intro"}}]}'
 
-curl -X POST http://ydb-qdrant.tech:8080/collections/docs/points/search \\
+curl -X POST https://ydb-qdrant.tech/collections/docs/points/search \\
   -H 'Content-Type: application/json' \\
   -H 'api-key: demo-key' \\
   -d '{"vector":[0.1,0.2,0.3],"limit":5,"with_payload":true}'`}</pre>

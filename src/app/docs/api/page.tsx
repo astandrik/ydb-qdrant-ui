@@ -45,6 +45,8 @@ export default function ApiDocsPage() {
                 <code>http://ydb-qdrant.tech:8080</code> for the public demo
                 Qdrant base URL, or{" "}
                 <code>http://localhost:8080</code> for a self-hosted server.
+                Use the public HTTP demo endpoint only with non-sensitive demo
+                credentials.
               </p>
               <pre>{`Content-Type: application/json
 api-key: my-stable-namespace-key
@@ -145,13 +147,16 @@ X-Tenant-Id: optional-workspace`}</pre>
         {
           title: "Error probes for agents",
           body: (
-            <pre>{`curl -i http://ydb-qdrant.tech:8080/collections/__missing_probe \\
+            <pre>{`curl -i https://ydb-qdrant.tech/collections/__missing_probe \\
   -H 'api-key: demo-key'
-curl -i -X POST http://ydb-qdrant.tech:8080/collections/__bad_json/points/upsert \\
+
+curl -i -X POST https://ydb-qdrant.tech/collections/__bad_json/points/upsert \\
   -H 'Content-Type: application/json' \\
   -H 'api-key: demo-key' \\
   --data '{bad json'
+
 curl -i https://ydb-qdrant.tech/api/__unknown_probe
+
 curl -i https://ydb-qdrant.tech/v1/__unknown_probe`}</pre>
           ),
           items: [
