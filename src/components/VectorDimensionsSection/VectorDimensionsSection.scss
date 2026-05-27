@@ -18,6 +18,11 @@
     word-break: break-word;
   }
 
+  &__model-link {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
   &__label {
     font-size: 13px;
     text-transform: uppercase;
@@ -39,4 +44,3 @@
     line-height: 1.4;
   }
 }
-
