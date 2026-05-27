@@ -44,8 +44,29 @@ const YDB_QDRANT_JSON_LD = {
     "https://github.com/astandrik/ydb-qdrant",
     "https://www.npmjs.com/package/ydb-qdrant",
     "https://ydb-qdrant.tech/openapi.json",
+    "https://ydb-qdrant.tech/pricing/",
     "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
   ],
+  offers: {
+    "@type": "OfferCatalog",
+    name: "YDB-Qdrant pricing",
+    itemListElement: [
+      {
+        "@type": "Offer",
+        name: "YDB-Qdrant package and self-hosted server",
+        price: "0",
+        priceCurrency: "USD",
+        url: "https://ydb-qdrant.tech/pricing/",
+      },
+      {
+        "@type": "Offer",
+        name: "YDB Qdrant Code Indexer public beta",
+        price: "0",
+        priceCurrency: "USD",
+        url: "https://ydb-qdrant.tech/code-indexer/",
+      },
+    ],
+  },
   applicationCategory: "DeveloperApplication",
 };
 

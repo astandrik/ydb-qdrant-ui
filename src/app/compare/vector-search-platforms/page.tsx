@@ -79,6 +79,23 @@ export default function CompareVectorSearchPlatformsPage() {
             </a>,
           ],
         },
+        {
+          title: "Focused comparisons",
+          items: [
+            <a href="/compare/databricks-vector-search/" key="databricks">
+              YDB-Qdrant vs Databricks Vector Search
+            </a>,
+            <a href="/compare/azure-ai-search/" key="azure">
+              YDB-Qdrant vs Azure AI Search
+            </a>,
+            <a href="/compare/elasticsearch/" key="elasticsearch">
+              YDB-Qdrant vs Elasticsearch
+            </a>,
+            <a href="/guides/best-vector-search-for-ydb/" key="best-ydb">
+              Best vector search for YDB-backed apps
+            </a>,
+          ],
+        },
       ]}
     />
   );

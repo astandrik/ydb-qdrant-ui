@@ -30,23 +30,37 @@ const requiredFiles = [
   "public/.well-known/mcp/server-card.json",
   "public/.well-known/mcp.json",
   "public/auth.md",
+  "public/pricing.md",
   "public/index.md",
   "public/llms-full.txt",
   "public/docs/llms.txt",
   "public/developers.md",
   "public/docs/api.md",
   "public/docs/auth.md",
+  "public/docs/openapi.md",
+  "public/docs/mcp.md",
   "public/docs/webhooks.md",
   "public/compare/qdrant.md",
   "public/compare/vector-search-platforms.md",
+  "public/compare/databricks-vector-search.md",
+  "public/compare/azure-ai-search.md",
+  "public/compare/elasticsearch.md",
   "public/guides/semantic-search-ydb.md",
+  "public/guides/best-vector-search-for-ydb.md",
   "src/app/developers/page.tsx",
+  "src/app/pricing/page.tsx",
   "src/app/docs/api/page.tsx",
   "src/app/docs/auth/page.tsx",
+  "src/app/docs/openapi/page.tsx",
+  "src/app/docs/mcp/page.tsx",
   "src/app/docs/webhooks/page.tsx",
   "src/app/compare/qdrant/page.tsx",
   "src/app/compare/vector-search-platforms/page.tsx",
+  "src/app/compare/databricks-vector-search/page.tsx",
+  "src/app/compare/azure-ai-search/page.tsx",
+  "src/app/compare/elasticsearch/page.tsx",
   "src/app/guides/semantic-search-ydb/page.tsx",
+  "src/app/guides/best-vector-search-for-ydb/page.tsx",
 ];
 
 for (const file of requiredFiles) {
@@ -129,6 +143,22 @@ assert(
     ),
   "RetrievedPoint.vector must document the current null-vector projection",
 );
+assert(
+  openapi.components?.schemas?.ErrorResponse?.required?.includes("code") &&
+    openapi.components?.schemas?.ErrorResponse?.required?.includes("resolution") &&
+    openapi.components?.schemas?.ErrorResponse?.required?.includes("request_id"),
+  "ErrorResponse must expose code, resolution, and request_id",
+);
+assert(
+  openapi.components?.schemas?.ErrorResponse?.properties?.error?.type === "string",
+  "ErrorResponse.error must remain a string",
+);
+assert(
+  openapi.components?.schemas?.ErrorResponse?.properties?.code?.enum?.includes(
+    "COLLECTION_NOT_FOUND",
+  ),
+  "ErrorResponse.code must include COLLECTION_NOT_FOUND",
+);
 
 const agent = readJson("public/.well-known/agent.json");
 assert(agent.name === "YDB-Qdrant", "Agent discovery must name YDB-Qdrant");
@@ -140,6 +170,10 @@ assert(
   agent.mcp?.server_card ===
     "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
   "Agent discovery must link the MCP server card",
+);
+assert(
+  agent.pricing === "https://ydb-qdrant.tech/pricing/",
+  "Agent discovery must link pricing",
 );
 
 const apiCatalog = readJson("public/.well-known/api-catalog");
@@ -153,6 +187,12 @@ assert(
     (item) => item.href === "https://ydb-qdrant.tech/openapi.json",
   ),
   "API catalog linkset must include OpenAPI item entries",
+);
+assert(
+  apiCatalog.linkset?.[0]?.["service-doc"]?.some(
+    (item) => item.href === "https://ydb-qdrant.tech/pricing/",
+  ),
+  "API catalog service-doc must include pricing",
 );
 
 const mcpCard = readJson("public/.well-known/mcp/server-card.json");
@@ -207,10 +247,17 @@ assert(
 );
 for (const expected of [
   "https://ydb-qdrant.tech/openapi.json",
+  "https://ydb-qdrant.tech/pricing/",
   "https://ydb-qdrant.tech/docs/api/",
+  "https://ydb-qdrant.tech/docs/openapi/",
   "https://ydb-qdrant.tech/docs/auth/",
+  "https://ydb-qdrant.tech/docs/mcp/",
   "https://ydb-qdrant.tech/docs/webhooks/",
   "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
+  "https://ydb-qdrant.tech/compare/databricks-vector-search/",
+  "https://ydb-qdrant.tech/compare/azure-ai-search/",
+  "https://ydb-qdrant.tech/compare/elasticsearch/",
+  "https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/",
 ]) {
   assert(llms.includes(expected), `llms.txt missing ${expected}`);
 }

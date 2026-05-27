@@ -6,10 +6,14 @@ Key links:
 
 - Product: https://ydb-qdrant.tech/
 - Developer hub: https://ydb-qdrant.tech/developers/
+- Pricing: https://ydb-qdrant.tech/pricing/
 - OpenAPI: https://ydb-qdrant.tech/openapi.json
+- OpenAPI discovery page: https://ydb-qdrant.tech/docs/openapi/
 - API docs: https://ydb-qdrant.tech/docs/api/
 - Auth docs: https://ydb-qdrant.tech/docs/auth/
+- MCP discovery page: https://ydb-qdrant.tech/docs/mcp/
 - MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json
+- Best vector search for YDB-backed apps: https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/
 - GitHub: https://github.com/astandrik/ydb-qdrant
 - npm: https://www.npmjs.com/package/ydb-qdrant
 

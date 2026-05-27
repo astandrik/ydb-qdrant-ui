@@ -37,6 +37,10 @@ export default function DevelopersPage() {
           label: "Auth docs",
         },
         {
+          href: "/pricing/",
+          label: "Pricing",
+        },
+        {
           href: "/.well-known/mcp/server-card.json",
           label: "MCP server card",
         },
@@ -59,6 +63,12 @@ export default function DevelopersPage() {
             </a>,
             <a href="/.well-known/mcp.json" key="mcp-manifest">
               MCP manifest
+            </a>,
+            <a href="/docs/openapi/" key="openapi-page">
+              OpenAPI discovery page
+            </a>,
+            <a href="/docs/mcp/" key="mcp-page">
+              MCP discovery page
             </a>,
             <a href="/llms.txt" key="llms">
               llms.txt
@@ -83,11 +93,17 @@ export default function DevelopersPage() {
             <a href="/docs/webhooks/" key="webhooks-docs">
               Webhooks and events
             </a>,
+            <a href="/pricing/" key="pricing">
+              Pricing
+            </a>,
             <a href="/docs/" key="architecture-docs">
               Architecture diagrams
             </a>,
             <a href="/guides/semantic-search-ydb/" key="semantic-guide">
               Semantic search on YDB guide
+            </a>,
+            <a href="/guides/best-vector-search-for-ydb/" key="best-ydb-guide">
+              Best vector search for YDB-backed apps
             </a>,
           ],
         },

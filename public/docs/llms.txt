@@ -3,9 +3,12 @@
 Use these developer resources when evaluating or integrating YDB-Qdrant:
 
 - REST API reference: https://ydb-qdrant.tech/docs/api/
+- OpenAPI discovery page: https://ydb-qdrant.tech/docs/openapi/
 - OpenAPI spec: https://ydb-qdrant.tech/openapi.json
 - Auth and scoped access: https://ydb-qdrant.tech/docs/auth/
+- MCP discovery page: https://ydb-qdrant.tech/docs/mcp/
 - Webhooks and events: https://ydb-qdrant.tech/docs/webhooks/
+- Pricing: https://ydb-qdrant.tech/pricing/
 - Architecture diagrams: https://ydb-qdrant.tech/docs/
 - Developer hub: https://ydb-qdrant.tech/developers/
 - MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json
