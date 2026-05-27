@@ -65,7 +65,7 @@ export default function OpenApiDocsPage() {
             "Service identity and health endpoints.",
             "Collection create, get, delete, and payload-index compatibility calls.",
             "Point retrieve, upsert, search, query, and delete endpoints.",
-            "api-key header auth, optional X-Tenant-Id namespacing, and structured JSON errors.",
+            "api-key header auth, optional X-Tenant-Id namespacing, optional Idempotency-Key for mutations, and structured JSON errors.",
           ],
         },
         {

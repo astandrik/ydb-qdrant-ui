@@ -32,6 +32,10 @@ export default function AuthDocsPage() {
           href: "/openapi.json",
           label: "OpenAPI security schemes",
         },
+        {
+          href: "/.well-known/oauth-protected-resource",
+          label: "Protected resource metadata",
+        },
       ]}
       sections={[
         {
@@ -81,6 +85,37 @@ export default function AuthDocsPage() {
               upsert/delete, and compatibility index calls within the namespace.
             </span>,
             "The current REST server does not enforce per-operation grants inside one api-key.",
+          ],
+        },
+        {
+          title: "Agent auth discovery metadata",
+          body: (
+            <>
+              <p>
+                Agents can discover the current auth contract through OAuth
+                protected-resource and authorization-server metadata. These
+                files document the existing REST <code>api-key</code> namespace
+                model and Code Indexer bearer-token model without advertising
+                unsupported <code>/agent/auth</code> registration endpoints.
+              </p>
+              <pre>{`/.well-known/oauth-protected-resource
+/.well-known/oauth-authorization-server`}</pre>
+            </>
+          ),
+          items: [
+            <a
+              href="/.well-known/oauth-protected-resource"
+              key="oauth-protected-resource"
+            >
+              OAuth protected resource metadata
+            </a>,
+            <a
+              href="/.well-known/oauth-authorization-server"
+              key="oauth-authorization-server"
+            >
+              OAuth authorization server metadata
+            </a>,
+            "The metadata is descriptive for agent discovery; root REST calls still send api-key rather than OAuth bearer access tokens.",
           ],
         },
         {

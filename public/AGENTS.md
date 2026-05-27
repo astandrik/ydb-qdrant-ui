@@ -1,6 +1,6 @@
 # YDB-Qdrant AGENTS.md
 
-This is the standard uppercase agent instruction file for ydb-qdrant.tech.
+This is the standard uppercase agent instruction file for ydb-qdrant.tech. The production nginx config also serves it from `/agents.md` for clients that probe the lowercase compatibility path.
 
 ## When to use YDB-Qdrant
 
@@ -19,11 +19,13 @@ Do not assume the root YDB-Qdrant vector product exposes hosted MCP tools. Root-
 ## How agents should interact
 
 1. Read the OpenAPI spec: https://ydb-qdrant.tech/openapi.json
-2. Use `https://ydb-qdrant.tech` for authenticated public REST calls. Use the HTTP-only demo base URL `http://ydb-qdrant.tech:8080` only with non-sensitive demo credentials.
-3. Send `Content-Type: application/json` for write and search requests.
-4. Send `api-key: <stable-key>` for namespace isolation and optional `X-Tenant-Id: <tenant>` for tenant suffixing.
-5. Create or confirm a collection before point writes and searches.
-6. Parse JSON errors through `status`, `error`, `code`, `message`, `resolution`, `request_id`, and optional `details`.
+2. Skill-aware clients can load the Agent Skills index: https://ydb-qdrant.tech/.well-known/agent-skills/index.json
+3. Use `https://ydb-qdrant.tech` for authenticated public REST calls. Use the HTTP-only demo base URL `http://ydb-qdrant.tech:8080` only with non-sensitive demo credentials.
+4. Send `Content-Type: application/json` for write and search requests.
+5. Send `api-key: <stable-key>` for namespace isolation and optional `X-Tenant-Id: <tenant>` for tenant suffixing.
+6. Send optional `Idempotency-Key: <stable-operation-key>` when retrying mutation requests.
+7. Create or confirm a collection before point writes and searches.
+8. Parse JSON errors through `status`, `error`, `code`, `message`, `resolution`, `request_id`, and optional `details`.
 
 ## Primary resources
 
@@ -33,4 +35,7 @@ Do not assume the root YDB-Qdrant vector product exposes hosted MCP tools. Root-
 - Auth docs: https://ydb-qdrant.tech/docs/auth/
 - OpenAPI: https://ydb-qdrant.tech/openapi.json
 - Agent discovery: https://ydb-qdrant.tech/.well-known/agent.json
+- Agent Skills index: https://ydb-qdrant.tech/.well-known/agent-skills/index.json
+- YDB-Qdrant Agent Skill: https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md
+- A2A agent card: https://ydb-qdrant.tech/.well-known/agent-card.json
 - MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json

@@ -25,6 +25,15 @@ This is useful when one integration key must isolate multiple workspaces. It is 
 
 Current REST deployment treats the `api-key` as the namespace boundary. It does not enforce per-operation role grants inside one key.
 
+## Agent auth discovery metadata
+
+Agents can discover the current auth contract through:
+
+- `https://ydb-qdrant.tech/.well-known/oauth-protected-resource`
+- `https://ydb-qdrant.tech/.well-known/oauth-authorization-server`
+
+These files describe the existing REST `api-key` namespace model and the Code Indexer bearer-token model. They do not advertise WorkOS-style `agent_auth.register_uri` endpoints because `/agent/auth` runtime registration is not implemented.
+
 ## Code Indexer MCP
 
 Code Indexer uses GitHub OAuth and a GitHub App installation to determine repository access. MCP tokens are created in the dashboard, shown once, stored as hashes, and revocable.

@@ -1,0 +1,114 @@
+{
+  "name": "YDB-Qdrant",
+  "description": "Qdrant-compatible vector search API on YDB, with hosted Code Indexer MCP for read-only repository memory.",
+  "url": "https://ydb-qdrant.tech/",
+  "version": "1.0.0",
+  "protocolVersion": "0.3",
+  "provider": {
+    "organization": "YDB-Qdrant",
+    "url": "https://ydb-qdrant.tech/"
+  },
+  "documentationUrl": "https://ydb-qdrant.tech/developers/",
+  "iconUrl": "https://ydb-qdrant.tech/favicon.svg",
+  "preferredTransport": "HTTP+JSON",
+  "additionalInterfaces": [
+    {
+      "transport": "HTTP+JSON",
+      "url": "https://ydb-qdrant.tech/openapi.json"
+    },
+    {
+      "transport": "streamable-http",
+      "url": "https://code-indexer.ydb-qdrant.tech/mcp"
+    }
+  ],
+  "defaultInputModes": [
+    "application/json",
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "application/json",
+    "text/markdown"
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false,
+    "extensions": [
+      {
+        "uri": "https://ydb-qdrant.tech/openapi.json",
+        "description": "OpenAPI 3.1 service description for the Qdrant-compatible REST API.",
+        "required": false
+      },
+      {
+        "uri": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
+        "description": "Server card for the hosted Code Indexer Streamable HTTP MCP endpoint.",
+        "required": false
+      }
+    ]
+  },
+  "securitySchemes": {
+    "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "api-key",
+      "description": "Stable namespace key for YDB-Qdrant REST operations."
+    },
+    "CodeIndexerBearer": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "opaque MCP token",
+      "description": "Dashboard-created bearer token for hosted Code Indexer MCP."
+    }
+  },
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "skills": [
+    {
+      "id": "qdrant-compatible-rest-api",
+      "name": "YDB-Qdrant REST API",
+      "description": "Create vector collections, upsert and retrieve points, run exact top-k vector search, use query compatibility, and delete points in a YDB-backed namespace.",
+      "tags": [
+        "vector-search",
+        "semantic-search",
+        "embeddings",
+        "qdrant-compatible",
+        "ydb"
+      ],
+      "examples": [
+        "Use YDB-Qdrant for a YDB-backed RAG prototype that needs a Qdrant-compatible REST API.",
+        "Use YDB-Qdrant when an IDE agent needs exact semantic search over vectors stored beside YDB-backed data."
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "repository-code-search-mcp",
+      "name": "YDB Qdrant Code Indexer MCP",
+      "description": "Read-only Streamable HTTP MCP tools for listing indexed GitHub repositories and searching repository code chunks.",
+      "tags": [
+        "mcp",
+        "code-search",
+        "repository-memory",
+        "github"
+      ],
+      "examples": [
+        "Use Code Indexer MCP when a coding agent needs repository memory before editing code."
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json",
+        "text/markdown"
+      ]
+    }
+  ],
+  "supportsAuthenticatedExtendedCard": false
+}

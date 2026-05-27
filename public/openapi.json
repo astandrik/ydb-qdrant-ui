@@ -142,6 +142,11 @@
         "x-permissions": [
           "namespace:write"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -240,6 +245,11 @@
         "x-permissions": [
           "namespace:write"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Collection delete accepted",
@@ -286,6 +296,11 @@
         ],
         "x-permissions": [
           "namespace:write"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
         ],
         "responses": {
           "200": {
@@ -387,6 +402,11 @@
         "x-permissions": [
           "namespace:write"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -446,6 +466,11 @@
         ],
         "x-permissions": [
           "namespace:write"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
         ],
         "requestBody": {
           "required": true,
@@ -641,6 +666,11 @@
         "x-permissions": [
           "namespace:write"
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -726,6 +756,20 @@
           "examples": [
             "agent-a",
             "workspace_42"
+          ]
+        }
+      },
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": false,
+        "description": "Client-supplied stable key for safely retrying mutation requests. Reuse the same value for the same intended create, delete, index, upsert, or point-delete operation.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "examples": [
+            "upsert-doc-1-20260527"
           ]
         }
       }

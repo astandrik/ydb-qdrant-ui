@@ -10,10 +10,17 @@ YDB-Qdrant is a Qdrant-compatible vector search API and Node.js library backed b
 - [OpenAPI](https://ydb-qdrant.tech/openapi.json)
 - [OpenAPI discovery page](https://ydb-qdrant.tech/docs/openapi/)
 - [REST API docs](https://ydb-qdrant.tech/docs/api/)
+- [Agent Skills index](https://ydb-qdrant.tech/.well-known/agent-skills/index.json)
+- [YDB-Qdrant Agent Skill](https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md)
+- [agents.md compatibility file](https://ydb-qdrant.tech/agents.md)
+- [skills.sh compatibility script](https://ydb-qdrant.tech/skills.sh)
+- [A2A agent card](https://ydb-qdrant.tech/.well-known/agent-card.json)
 - [Agent instructions](https://ydb-qdrant.tech/docs/agents/)
 - [Standard AGENTS.md instructions](https://ydb-qdrant.tech/AGENTS.md)
 - [Agent instructions markdown](https://ydb-qdrant.tech/.well-known/agent-instructions.md)
 - [Auth and scoped access](https://ydb-qdrant.tech/docs/auth/)
+- [OAuth protected resource metadata](https://ydb-qdrant.tech/.well-known/oauth-protected-resource)
+- [OAuth authorization server metadata](https://ydb-qdrant.tech/.well-known/oauth-authorization-server)
 - [MCP discovery page](https://ydb-qdrant.tech/docs/mcp/)
 - [Webhooks and events](https://ydb-qdrant.tech/docs/webhooks/)
 - [Architecture diagrams](https://ydb-qdrant.tech/docs/)
@@ -33,6 +40,7 @@ Authentication:
 - Send `api-key: <stable-key>` on REST calls.
 - The key is used to derive an isolated namespace.
 - Send optional `X-Tenant-Id: <tenant>` to split one key into tenant namespaces.
+- Send optional `Idempotency-Key: <stable-operation-key>` when retrying mutation requests.
 - Anonymous fallback can depend on client IP/User-Agent and is not recommended for stable agent workflows.
 
 Supported endpoints:
@@ -115,6 +123,7 @@ MCP auth:
 - [YDB-Qdrant vs Typesense](https://ydb-qdrant.tech/compare/typesense/)
 - [Semantic search on YDB guide](https://ydb-qdrant.tech/guides/semantic-search-ydb/)
 - [Best vector search for YDB-backed apps](https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/)
+- [Vector database API for semantic search](https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/)
 - [Vector search API for semantic similarity and embeddings](https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/)
 
 ## Pricing summary
@@ -131,11 +140,13 @@ Upsert vectors before searching:
 ```bash
 curl -X PUT https://ydb-qdrant.tech/collections/docs \
   -H "api-key: $YDB_QDRANT_API_KEY" \
+  -H "Idempotency-Key: create-docs-collection-1" \
   -H "Content-Type: application/json" \
   -d '{"vectors":{"size":3,"distance":"Cosine"}}'
 
 curl -X POST https://ydb-qdrant.tech/collections/docs/points/upsert \
   -H "api-key: $YDB_QDRANT_API_KEY" \
+  -H "Idempotency-Key: upsert-doc-1" \
   -H "Content-Type: application/json" \
   -d '{"points":[{"id":"doc-1","vector":[0.1,0.2,0.3],"payload":{"title":"Intro"}}]}'
 

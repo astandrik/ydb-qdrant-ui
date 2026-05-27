@@ -9,6 +9,7 @@ const pages = [
   { path: "/en/", priority: 0.9 },
   { path: "/ru/", priority: 0.9 },
   { path: "/developers/", priority: 0.9 },
+  { path: "/agents.md", priority: 0.65 },
   { path: "/pricing/", priority: 0.85 },
   { path: "/docs/", priority: 0.8 },
   { path: "/docs/api/", priority: 0.8 },
@@ -27,6 +28,7 @@ const pages = [
   { path: "/compare/typesense/", priority: 0.65 },
   { path: "/guides/semantic-search-ydb/", priority: 0.75 },
   { path: "/guides/best-vector-search-for-ydb/", priority: 0.75 },
+  { path: "/guides/vector-database-api-semantic-search/", priority: 0.8 },
   {
     path: "/guides/vector-search-api-semantic-similarity-embeddings/",
     priority: 0.75,

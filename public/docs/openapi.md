@@ -4,6 +4,8 @@ Canonical OpenAPI URL: https://ydb-qdrant.tech/openapi.json
 
 YDB-Qdrant publishes an OpenAPI 3.1 specification for its Qdrant-compatible REST subset.
 
+Mutation operations advertise the optional `Idempotency-Key` header so agents can safely retry create, delete, index, upsert, and point-delete requests.
+
 ## Covered operations
 
 - `GET /health`

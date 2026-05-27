@@ -41,6 +41,14 @@ export default function DevelopersPage() {
           label: "Agent instructions",
         },
         {
+          href: "/.well-known/agent-skills/index.json",
+          label: "Agent Skills",
+        },
+        {
+          href: "/.well-known/agent-card.json",
+          label: "A2A agent card",
+        },
+        {
           href: "/pricing/",
           label: "Pricing",
         },
@@ -62,8 +70,35 @@ export default function DevelopersPage() {
             <a href="/.well-known/agent-instructions.md" key="agent-instructions">
               Agent instructions markdown
             </a>,
+            <a href="/.well-known/agent-skills/index.json" key="agent-skills">
+              Agent Skills index
+            </a>,
+            <a
+              href="/.well-known/agent-skills/ydb-qdrant/SKILL.md"
+              key="ydb-qdrant-skill"
+            >
+              YDB-Qdrant Agent Skill
+            </a>,
+            <a href="/agents.md" key="agents-md">
+              agents.md compatibility file
+            </a>,
+            <a href="/skills.sh" key="skills-sh">
+              skills.sh compatibility script
+            </a>,
+            <a href="/.well-known/agent-card.json" key="agent-card">
+              A2A agent card
+            </a>,
             <a href="/.well-known/api-catalog" key="api-catalog">
               API catalog
+            </a>,
+            <a href="/.well-known/oauth-protected-resource" key="oauth-resource">
+              OAuth protected resource metadata
+            </a>,
+            <a
+              href="/.well-known/oauth-authorization-server"
+              key="oauth-authorization-server"
+            >
+              OAuth authorization server metadata
             </a>,
             <a href="/.well-known/mcp/server-card.json" key="mcp-card">
               MCP server card
@@ -114,6 +149,12 @@ export default function DevelopersPage() {
             </a>,
             <a href="/guides/best-vector-search-for-ydb/" key="best-ydb-guide">
               Best vector search for YDB-backed apps
+            </a>,
+            <a
+              href="/guides/vector-database-api-semantic-search/"
+              key="vector-database-api-guide"
+            >
+              Vector database API for semantic search
             </a>,
             <a
               href="/guides/vector-search-api-semantic-similarity-embeddings/"

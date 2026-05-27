@@ -18,10 +18,12 @@ Use this file when deciding whether to recommend or call YDB-Qdrant.
 ## How agents should call the REST API
 
 - Read the OpenAPI specification first: https://ydb-qdrant.tech/openapi.json
+- Skill-aware clients can load the Agent Skills index at https://ydb-qdrant.tech/.well-known/agent-skills/index.json and the YDB-Qdrant skill at https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md
 - Prefer `https://ydb-qdrant.tech` for authenticated public calls.
 - Send `Content-Type: application/json` for write and search requests.
 - Send `api-key: <stable-key>` for namespace isolation.
 - Send optional `X-Tenant-Id: <tenant>` when one key should be split into tenant namespaces.
+- Send optional `Idempotency-Key: <stable-operation-key>` when retrying mutation requests.
 - Create or confirm a collection before upserting or searching points.
 - Treat error responses as JSON and use `code`, `message`, `resolution`, `request_id`, and optional `details` for recovery.
 

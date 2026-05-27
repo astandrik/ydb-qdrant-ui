@@ -1,0 +1,20 @@
+{
+  "issuer": "https://ydb-qdrant.tech",
+  "service_documentation": "https://ydb-qdrant.tech/docs/auth/",
+  "op_policy_uri": "https://ydb-qdrant.tech/code-indexer/privacy/",
+  "scopes_supported": [
+    "namespace:read",
+    "namespace:write",
+    "repositories:read",
+    "code-search:read"
+  ],
+  "response_types_supported": [],
+  "grant_types_supported": [],
+  "token_endpoint_auth_methods_supported": [],
+  "protected_resources": [
+    "https://ydb-qdrant.tech/",
+    "https://code-indexer.ydb-qdrant.tech/mcp"
+  ],
+  "authorization_endpoint": "https://code-indexer.ydb-qdrant.tech/github/oauth/start",
+  "notes": "This metadata documents the current auth surfaces for agents. YDB-Qdrant REST uses api-key namespace auth. Code Indexer users sign in with GitHub OAuth and create bearer MCP tokens in the dashboard. WorkOS-style agent_auth registration endpoints are not advertised because /agent/auth runtime support is not implemented."
+}
