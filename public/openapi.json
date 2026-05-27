@@ -14,7 +14,7 @@
   "servers": [
     {
       "url": "https://ydb-qdrant.tech",
-      "description": "Public HTTPS endpoint"
+      "description": "Public HTTPS API proxy for health, collection, and point routes. The root path serves the static documentation site."
     },
     {
       "url": "http://ydb-qdrant.tech:8080",
@@ -55,7 +55,13 @@
           "Service"
         ],
         "summary": "Get service identity",
-        "description": "Returns the ydb-qdrant service title and runtime version.",
+        "description": "Returns the ydb-qdrant service title and runtime version on self-hosted servers. The public https://ydb-qdrant.tech/ root serves the static website; use GET /health for public smoke tests.",
+        "servers": [
+          {
+            "url": "http://localhost:8080",
+            "description": "Self-hosted local server root"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Service identity",

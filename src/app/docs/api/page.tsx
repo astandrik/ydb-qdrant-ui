@@ -39,9 +39,11 @@ export default function ApiDocsPage() {
           body: (
             <>
               <p>
-                Use <code>https://ydb-qdrant.tech</code> for the public HTTPS
-                endpoint, <code>http://ydb-qdrant.tech:8080</code> for the
-                public demo Qdrant base URL, or{" "}
+                Use <code>https://ydb-qdrant.tech</code> for public HTTPS API
+                routes such as <code>/health</code> and{" "}
+                <code>/collections/...</code>,{" "}
+                <code>http://ydb-qdrant.tech:8080</code> for the public demo
+                Qdrant base URL, or{" "}
                 <code>http://localhost:8080</code> for a self-hosted server.
               </p>
               <pre>{`Content-Type: application/json
@@ -54,7 +56,8 @@ X-Tenant-Id: optional-workspace`}</pre>
           title: "Service endpoints",
           items: [
             <span key="root">
-              <code>GET /</code>: returns service title and version.
+              <code>GET /</code>: returns service title and version on
+              self-hosted servers. The public HTTPS root serves the static site.
             </span>,
             <span key="health">
               <code>GET /health</code>: returns{" "}

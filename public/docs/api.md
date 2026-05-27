@@ -4,7 +4,7 @@ OpenAPI: https://ydb-qdrant.tech/openapi.json
 
 Base URLs:
 
-- `https://ydb-qdrant.tech`
+- `https://ydb-qdrant.tech` for public HTTPS API routes such as `/health` and `/collections/...`; `/` serves the static site.
 - `http://ydb-qdrant.tech:8080`
 - `http://localhost:8080`
 
@@ -16,7 +16,7 @@ Headers:
 
 Endpoints:
 
-- `GET /`: service identity.
+- `GET /`: service identity on self-hosted servers; the public HTTPS root serves the static site.
 - `GET /health`: readiness check.
 - `PUT /collections/{collection}`: create collection.
 - `GET /collections/{collection}`: collection metadata.

@@ -89,6 +89,15 @@ for (const apiPath of requiredPaths) {
 }
 
 assert(
+  openapi.servers?.[0]?.url === "https://ydb-qdrant.tech" &&
+    openapi.servers[0].description?.includes("root path serves the static"),
+  "Public OpenAPI server must document that / is the static site",
+);
+assert(
+  openapi.paths["/"].get?.servers?.[0]?.url === "http://localhost:8080",
+  "GET / must override the public static-site server",
+);
+assert(
   openapi.paths["/collections/{collection}"].put?.security?.some((entry) =>
     Object.hasOwn(entry, "ApiKeyAuth"),
   ),
