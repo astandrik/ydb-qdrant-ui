@@ -6,6 +6,7 @@ import "./VectorDimensionsSection.scss";
 export type ModelRow = {
   provider?: string;
   model: string;
+  href: string;
   dimensions: string;
   useCases: string;
 };
@@ -28,12 +29,14 @@ export type VectorDimensionsSectionBaseProps = {
 
 const ModelCard = ({
   model,
+  href,
   dimensions,
   useCases,
   dimensionsLabel,
   useCasesLabel,
 }: {
   model: string;
+  href: string;
   dimensions: string;
   useCases: string;
   dimensionsLabel: string;
@@ -42,7 +45,14 @@ const ModelCard = ({
   <Card type="container" className="model-card">
     <div>
       <Text className="model-card__model">
-        {model}
+        <Link
+          className="model-card__model-link"
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {model}
+        </Link>
       </Text>
     </div>
     <div>
@@ -110,9 +120,10 @@ export const VectorDimensionsSectionBase = ({
           <h4 style={{ margin: "0 0 16px", fontSize: "16px", color: "var(--acc)" }}>{provider}</h4>
           <div className="grid" style={{ marginTop: 0 }}>
             {models.map((item) => (
-              <ModelCard 
+              <ModelCard
                 key={item.model}
                 model={item.model}
+                href={item.href}
                 dimensions={item.dimensions}
                 useCases={item.useCases}
                 dimensionsLabel={dimensionsLabel}
@@ -126,9 +137,10 @@ export const VectorDimensionsSectionBase = ({
       <h3 style={{ marginBottom: 24, marginTop: 40 }}>{openSourceModelsTitle}</h3>
       <div className="grid" style={{ marginTop: 0, marginBottom: 40 }}>
         {openSourceModelsData.map((item) => (
-          <ModelCard 
+          <ModelCard
             key={item.model}
             model={item.model}
+            href={item.href}
             dimensions={item.dimensions}
             useCases={item.useCases}
             dimensionsLabel={dimensionsLabel}
