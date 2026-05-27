@@ -101,7 +101,7 @@ export const vectorDimensionsSectionEnProps: VectorDimensionsSectionBaseProps =
       {
         model: "voyageai/voyage-4-nano",
         href: "https://huggingface.co/voyageai/voyage-4-nano",
-        dimensions: "2048 (default), 1024, 512, 256",
+        dimensions: "1024 (default), 2048, 512, 256",
         useCases: "Open-weight compact Voyage 4 retrieval model",
       },
       {
@@ -320,7 +320,7 @@ export const vectorDimensionsSectionRuProps: VectorDimensionsSectionBaseProps =
       {
         model: "voyageai/voyage-4-nano",
         href: "https://huggingface.co/voyageai/voyage-4-nano",
-        dimensions: "2048 (по умолчанию), 1024, 512, 256",
+        dimensions: "1024 (по умолчанию), 2048, 512, 256",
         useCases: "Компактная open-weight модель Voyage 4 для ретривала",
       },
       {
