@@ -18,7 +18,7 @@
     },
     {
       "url": "http://ydb-qdrant.tech:8080",
-      "description": "Public demo Qdrant-compatible base URL"
+      "description": "HTTP-only public demo Qdrant-compatible base URL; use only with non-sensitive demo credentials."
     },
     {
       "url": "http://localhost:8080",
@@ -63,7 +63,7 @@
           },
           {
             "url": "http://ydb-qdrant.tech:8080",
-            "description": "Public demo Qdrant-compatible server root"
+            "description": "HTTP-only public demo Qdrant-compatible server root; use only with non-sensitive demo credentials."
           }
         ],
         "responses": {

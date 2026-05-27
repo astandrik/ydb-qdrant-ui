@@ -118,9 +118,25 @@ assert(
     openapi.servers[0].description?.includes("root path serves the static"),
   "Public OpenAPI server must document that / is the static site",
 );
+const publicDemoServer = openapi.servers?.find(
+  (server) => server.url === "http://ydb-qdrant.tech:8080",
+);
+assert(
+  publicDemoServer?.description?.includes("HTTP-only") &&
+    publicDemoServer.description.includes("non-sensitive demo credentials"),
+  "Public demo OpenAPI server must document HTTP-only demo credential limits",
+);
 assert(
   openapi.paths["/"].get?.servers?.[0]?.url === "http://localhost:8080",
   "GET / must override the public static-site server",
+);
+const publicDemoRootServer = openapi.paths["/"].get?.servers?.find(
+  (server) => server.url === "http://ydb-qdrant.tech:8080",
+);
+assert(
+  publicDemoRootServer?.description?.includes("HTTP-only") &&
+    publicDemoRootServer.description.includes("non-sensitive demo credentials"),
+  "GET / public demo server must document HTTP-only demo credential limits",
 );
 assert(
   openapi.paths["/collections/{collection}"].put?.security?.some((entry) =>
