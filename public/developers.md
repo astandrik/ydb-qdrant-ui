@@ -6,7 +6,6 @@
 - Auth and scoped access: https://ydb-qdrant.tech/docs/auth/
 - Agent instructions: https://ydb-qdrant.tech/docs/agents/
 - Standard AGENTS.md instructions: https://ydb-qdrant.tech/AGENTS.md
-- Lowercase agents.md instructions: https://ydb-qdrant.tech/agents.md
 - Agent instructions markdown: https://ydb-qdrant.tech/.well-known/agent-instructions.md
 - Pricing: https://ydb-qdrant.tech/pricing/
 - Webhooks and events: https://ydb-qdrant.tech/docs/webhooks/

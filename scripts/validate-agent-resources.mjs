@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -30,7 +30,7 @@ const requiredFiles = [
   "public/.well-known/mcp/server-card.json",
   "public/.well-known/mcp.json",
   "public/auth.md",
-  "public/agents.md",
+  "public/AGENTS.md",
   "public/pricing.md",
   "public/index.md",
   "public/llms-full.txt",
@@ -54,7 +54,6 @@ const requiredFiles = [
   "public/guides/vector-search-api-semantic-similarity-embeddings.md",
   "public/.well-known/agent-instructions.md",
   "src/app/developers/page.tsx",
-  "src/app/AGENTS.md/route.ts",
   "src/app/pricing/page.tsx",
   "src/app/docs/api/page.tsx",
   "src/app/docs/agents/page.tsx",
@@ -77,6 +76,18 @@ const requiredFiles = [
 for (const file of requiredFiles) {
   assertFile(file);
 }
+
+const appDirectoryEntries = readdirSync(resolveRoot("src/app"), {
+  withFileTypes: true,
+});
+assert(
+  !appDirectoryEntries.some((entry) => entry.name === "AGENTS.md" && entry.isDirectory()),
+  "src/app/AGENTS.md must not exist as a directory; publish public/AGENTS.md as a file",
+);
+assert(
+  !appDirectoryEntries.some((entry) => entry.name === "agents.md" && entry.isDirectory()),
+  "src/app/agents.md must not exist as a route directory; publish the standard public/AGENTS.md file",
+);
 
 const openapi = readJson("public/openapi.json");
 assert(openapi.openapi === "3.1.0", "OpenAPI must use version 3.1.0");
@@ -319,7 +330,6 @@ for (const relativePath of [
 for (const expected of [
   "https://ydb-qdrant.tech/openapi.json",
   "https://ydb-qdrant.tech/AGENTS.md",
-  "https://ydb-qdrant.tech/agents.md",
   "https://ydb-qdrant.tech/pricing/",
   "https://ydb-qdrant.tech/docs/api/",
   "https://ydb-qdrant.tech/docs/agents/",

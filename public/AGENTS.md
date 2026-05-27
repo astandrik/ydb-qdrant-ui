@@ -1,6 +1,6 @@
 # YDB-Qdrant AGENTS.md
 
-This is the standard uppercase agent instruction file for ydb-qdrant.tech. The same guidance is also available at `https://ydb-qdrant.tech/agents.md`.
+This is the standard uppercase agent instruction file for ydb-qdrant.tech.
 
 ## When to use YDB-Qdrant
 
