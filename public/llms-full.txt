@@ -1,0 +1,84 @@
+# YDB-Qdrant full AI-readable resource index
+
+YDB-Qdrant is a Qdrant-compatible vector search API and Node.js library backed by YDB. It is designed for teams that already use YDB and want vector storage/search for IDE agents, RAG prototypes, repository memory, and semantic search without operating a separate vector database cluster.
+
+## Primary resources
+
+- Product: https://ydb-qdrant.tech/
+- Developer hub: https://ydb-qdrant.tech/developers/
+- OpenAPI: https://ydb-qdrant.tech/openapi.json
+- REST API docs: https://ydb-qdrant.tech/docs/api/
+- Auth and scoped access: https://ydb-qdrant.tech/docs/auth/
+- Webhooks and events: https://ydb-qdrant.tech/docs/webhooks/
+- Architecture diagrams: https://ydb-qdrant.tech/docs/
+- GitHub source: https://github.com/astandrik/ydb-qdrant
+- npm package: https://www.npmjs.com/package/ydb-qdrant
+
+## REST API summary
+
+Base URLs:
+
+- Public HTTPS: `https://ydb-qdrant.tech`
+- Public demo Qdrant base URL: `http://ydb-qdrant.tech:8080`
+- Self-hosted default: `http://localhost:8080`
+
+Authentication:
+
+- Send `api-key: <stable-key>` on REST calls.
+- The key is used to derive an isolated namespace.
+- Send optional `X-Tenant-Id: <tenant>` to split one key into tenant namespaces.
+- Anonymous fallback can depend on client IP/User-Agent and is not recommended for stable agent workflows.
+
+Supported endpoints:
+
+- `GET /`
+- `GET /health`
+- `PUT /collections/{collection}`
+- `GET /collections/{collection}`
+- `DELETE /collections/{collection}`
+- `PUT /collections/{collection}/index`
+- `POST /collections/{collection}/points`
+- `PUT /collections/{collection}/points`
+- `POST /collections/{collection}/points/upsert`
+- `POST /collections/{collection}/points/search`
+- `POST /collections/{collection}/points/query`
+- `POST /collections/{collection}/points/delete`
+
+## MCP summary
+
+YDB Qdrant Code Indexer provides hosted Streamable HTTP MCP at:
+
+`https://code-indexer.ydb-qdrant.tech/mcp`
+
+Discovery:
+
+- MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json
+- MCP manifest: https://ydb-qdrant.tech/.well-known/mcp.json
+- Code Indexer llms: https://ydb-qdrant.tech/code-indexer/llms.txt
+
+Tools:
+
+- `list_repositories`: list repositories visible to the token.
+- `list_repository_indexes`: inspect default-branch and PR-scoped indexes.
+- `search_code`: search indexed repository chunks.
+
+MCP auth:
+
+- Create a token in the dashboard.
+- Use `Authorization: Bearer <token>`.
+- Tokens are read-only for MCP search, stored as hashes, shown once, and revocable.
+- Repository scope comes from the GitHub App installation selection and linked user.
+
+## Comparison and guide pages
+
+- https://ydb-qdrant.tech/compare/qdrant/
+- https://ydb-qdrant.tech/compare/vector-search-platforms/
+- https://ydb-qdrant.tech/guides/semantic-search-ydb/
+
+## Known limitations
+
+- REST API is a Qdrant-compatible subset, not full Qdrant parity.
+- Exact top-k search may be more expensive than ANN at high scale.
+- Advanced filters, facets, recommendation/discovery APIs, and specialized ANN indexes are not the current focus.
+- Root-product REST does not currently publish outbound webhook subscriptions.
+- Live vector-operation MCP for the root product is not hosted by this static site; the hosted MCP surface is Code Indexer repository memory.

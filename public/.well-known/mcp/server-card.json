@@ -1,0 +1,55 @@
+{
+  "name": "ydb-qdrant-code-indexer",
+  "title": "YDB Qdrant Code Indexer",
+  "description": "Read-only MCP tools for searching GitHub repositories indexed into YDB-backed Qdrant-compatible vector storage.",
+  "homepage": "https://ydb-qdrant.tech/code-indexer/",
+  "documentation": "https://ydb-qdrant.tech/code-indexer/support/",
+  "provider": {
+    "name": "YDB-Qdrant",
+    "url": "https://ydb-qdrant.tech/"
+  },
+  "transport": {
+    "type": "streamable-http",
+    "url": "https://code-indexer.ydb-qdrant.tech/mcp",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  "authentication": {
+    "type": "bearer",
+    "description": "Create an MCP token in the Code Indexer dashboard. Tokens are shown once, stored as hashes, and revocable.",
+    "docs": "https://ydb-qdrant.tech/docs/auth/"
+  },
+  "tools": [
+    {
+      "name": "list_repositories",
+      "title": "List indexed repositories",
+      "readOnlyHint": true,
+      "description": "Returns repositories available to the MCP token, including owner, repo, repository id, installation id, default branch, status, indexed chunk count, and last indexed SHA/time."
+    },
+    {
+      "name": "list_repository_indexes",
+      "title": "List repository indexes",
+      "readOnlyHint": true,
+      "description": "Returns the default branch index and recent pull request indexes for one repository."
+    },
+    {
+      "name": "search_code",
+      "title": "Search indexed code",
+      "readOnlyHint": true,
+      "description": "Searches indexed GitHub repository code chunks by owner, repository, optional pull request number, query, and top result count."
+    }
+  ],
+  "permissions": [
+    {
+      "name": "repositories:read",
+      "description": "Read repository index metadata for repositories selected during GitHub App installation."
+    },
+    {
+      "name": "code-search:read",
+      "description": "Search indexed code chunks for repositories available to the token."
+    }
+  ],
+  "llms": "https://ydb-qdrant.tech/code-indexer/llms.txt"
+}

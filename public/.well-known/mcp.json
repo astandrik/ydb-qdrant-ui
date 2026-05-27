@@ -1,0 +1,20 @@
+{
+  "servers": [
+    {
+      "name": "ydb-qdrant-code-indexer",
+      "title": "YDB Qdrant Code Indexer",
+      "url": "https://code-indexer.ydb-qdrant.tech/mcp",
+      "transport": "streamable-http",
+      "server_card": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
+      "auth": {
+        "type": "bearer",
+        "docs": "https://ydb-qdrant.tech/docs/auth/"
+      },
+      "tools": [
+        "list_repositories",
+        "list_repository_indexes",
+        "search_code"
+      ]
+    }
+  ]
+}

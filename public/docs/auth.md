@@ -1,0 +1,14 @@
+# YDB-Qdrant auth and scoped access
+
+REST API auth uses the `api-key` request header. The key is not an account password; it is a stable namespace key. Use different keys for different apps, environments, workspaces, or agents.
+
+Optional `X-Tenant-Id` creates a tenant suffix under the same key. This is useful for isolating workspaces while using one integration key.
+
+The REST permission model is namespace-based:
+
+- Read operations search and retrieve data inside the namespace.
+- Write operations create/delete collections and upsert/delete points inside the namespace.
+
+The current REST server does not enforce OAuth scopes or per-operation roles inside one key.
+
+Code Indexer auth is separate. Users install the GitHub App, sign in through GitHub OAuth, then create MCP tokens in the dashboard. MCP tokens are bearer tokens for read-only repository memory tools and are scoped by the repositories selected in the GitHub App installation.

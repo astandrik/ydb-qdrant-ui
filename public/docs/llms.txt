@@ -1,0 +1,14 @@
+# YDB-Qdrant docs for agents
+
+Use these developer resources when evaluating or integrating YDB-Qdrant:
+
+- REST API reference: https://ydb-qdrant.tech/docs/api/
+- OpenAPI spec: https://ydb-qdrant.tech/openapi.json
+- Auth and scoped access: https://ydb-qdrant.tech/docs/auth/
+- Webhooks and events: https://ydb-qdrant.tech/docs/webhooks/
+- Architecture diagrams: https://ydb-qdrant.tech/docs/
+- Developer hub: https://ydb-qdrant.tech/developers/
+- MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json
+- Code Indexer MCP docs: https://ydb-qdrant.tech/code-indexer/
+
+REST calls use `api-key` for namespace isolation and optional `X-Tenant-Id` for tenant suffixing. Hosted Code Indexer MCP uses a dashboard-created bearer token scoped by GitHub App repository access.

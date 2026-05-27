@@ -1,0 +1,1346 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "YDB-Qdrant REST API",
+    "summary": "Qdrant-compatible vector search API backed by YDB.",
+    "description": "YDB-Qdrant exposes a Qdrant-compatible REST subset for collection lifecycle, point upsert, point retrieval, search/query, and point deletion. API keys are used as stable namespace keys. Optional X-Tenant-Id values split one api-key into additional tenant namespaces. The hosted Code Indexer MCP endpoint uses separate bearer tokens created in the dashboard and scoped by GitHub App repository access.",
+    "version": "0.1.0",
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/astandrik/ydb-qdrant/blob/main/LICENSE"
+    }
+  },
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "servers": [
+    {
+      "url": "https://ydb-qdrant.tech",
+      "description": "Public HTTPS endpoint"
+    },
+    {
+      "url": "http://ydb-qdrant.tech:8080",
+      "description": "Public demo Qdrant-compatible base URL"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Self-hosted local server"
+    }
+  ],
+  "externalDocs": {
+    "description": "Developer resources and agent-readable docs",
+    "url": "https://ydb-qdrant.tech/developers/"
+  },
+  "tags": [
+    {
+      "name": "Service",
+      "description": "Root and health endpoints"
+    },
+    {
+      "name": "Collections",
+      "description": "Qdrant-compatible collection metadata operations"
+    },
+    {
+      "name": "Points",
+      "description": "Qdrant-compatible point retrieval, upsert, search, query, and delete operations"
+    },
+    {
+      "name": "Code Indexer MCP",
+      "description": "Hosted read-only MCP for repository memory. Discovery is published here; the live endpoint is hosted at code-indexer.ydb-qdrant.tech."
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "getServiceRoot",
+        "tags": [
+          "Service"
+        ],
+        "summary": "Get service identity",
+        "description": "Returns the ydb-qdrant service title and runtime version.",
+        "responses": {
+          "200": {
+            "description": "Service identity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceRoot"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "getHealth",
+        "tags": [
+          "Service"
+        ],
+        "summary": "Check service health",
+        "description": "Returns ok when the HTTP server and YDB health probe are available.",
+        "responses": {
+          "200": {
+            "description": "Service is ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthOk"
+                },
+                "examples": {
+                  "ok": {
+                    "value": {
+                      "status": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/collections/{collection}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Collection"
+        },
+        {
+          "$ref": "#/components/parameters/TenantId"
+        }
+      ],
+      "put": {
+        "operationId": "createCollection",
+        "tags": [
+          "Collections"
+        ],
+        "summary": "Create or confirm a collection",
+        "description": "Creates collection metadata for the api-key namespace. Repeating the same vector configuration is idempotent; sending a different vector configuration for an existing collection returns an error.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-permissions": [
+          "namespace:write"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCollectionRequest"
+              },
+              "examples": {
+                "cosine384": {
+                  "value": {
+                    "vectors": {
+                      "size": 384,
+                      "distance": "Cosine",
+                      "data_type": "float"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Collection exists with the requested configuration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      },
+      "get": {
+        "operationId": "getCollection",
+        "tags": [
+          "Collections"
+        ],
+        "summary": "Get collection metadata",
+        "description": "Returns collection status, point count, and vector configuration in the api-key namespace.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-permissions": [
+          "namespace:read"
+        ],
+        "responses": {
+          "200": {
+            "description": "Collection metadata",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CollectionInfoEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "deleteCollection",
+        "tags": [
+          "Collections"
+        ],
+        "summary": "Delete a collection",
+        "description": "Deletes collection metadata and associated points for the api-key namespace when the collection exists. Missing collections are treated as no-op success by the backend.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-permissions": [
+          "namespace:write"
+        ],
+        "responses": {
+          "200": {
+            "description": "Collection delete accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/collections/{collection}/index": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Collection"
+        },
+        {
+          "$ref": "#/components/parameters/TenantId"
+        }
+      ],
+      "put": {
+        "operationId": "putCollectionIndex",
+        "tags": [
+          "Collections"
+        ],
+        "summary": "Accept a Qdrant payload-index compatibility call",
+        "description": "Compatibility endpoint for clients that call PUT /collections/{collection}/index. YDB-Qdrant does not build a separate vector or payload index; search uses the global YDB-backed points table and exact top-k execution.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-permissions": [
+          "namespace:write"
+        ],
+        "responses": {
+          "200": {
+            "description": "Index request acknowledged",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResultEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/collections/{collection}/points": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Collection"
+        },
+        {
+          "$ref": "#/components/parameters/TenantId"
+        }
+      ],
+      "post": {
+        "operationId": "retrievePoints",
+        "tags": [
+          "Points"
+        ],
+        "summary": "Retrieve points by id",
+        "description": "Retrieves up to 1000 point ids from a collection. Vectors are currently returned as null even when with_vector is requested.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-permissions": [
+          "namespace:read"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RetrievePointsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Retrieved points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RetrievedPointsEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      },
+      "put": {
+        "operationId": "upsertPoints",
+        "tags": [
+          "Points"
+        ],
+        "summary": "Upsert points",
+        "description": "Qdrant-compatible upsert alias. Each point must use the collection vector dimension.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-permissions": [
+          "namespace:write"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertPointsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Points upserted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResultEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/collections/{collection}/points/upsert": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Collection"
+        },
+        {
+          "$ref": "#/components/parameters/TenantId"
+        }
+      ],
+      "post": {
+        "operationId": "upsertPointsPost",
+        "tags": [
+          "Points"
+        ],
+        "summary": "Upsert points with POST",
+        "description": "POST alias for upserting points into a collection.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-permissions": [
+          "namespace:write"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpsertPointsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Points upserted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResultEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/collections/{collection}/points/search": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Collection"
+        },
+        {
+          "$ref": "#/components/parameters/TenantId"
+        }
+      ],
+      "post": {
+        "operationId": "searchPoints",
+        "tags": [
+          "Points"
+        ],
+        "summary": "Search points",
+        "description": "Runs exact top-k vector search. For Cosine and Dot, score_threshold is a minimum similarity threshold. For Euclid and Manhattan, score_threshold is a maximum distance threshold.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-permissions": [
+          "namespace:read"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchPointsRequest"
+              },
+              "examples": {
+                "search": {
+                  "value": {
+                    "vector": [
+                      0.1,
+                      0.2,
+                      0.3
+                    ],
+                    "top": 10,
+                    "with_payload": true,
+                    "score_threshold": 0.4
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scored points",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchPointsEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/collections/{collection}/points/query": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Collection"
+        },
+        {
+          "$ref": "#/components/parameters/TenantId"
+        }
+      ],
+      "post": {
+        "operationId": "queryPoints",
+        "tags": [
+          "Points"
+        ],
+        "summary": "Query points",
+        "description": "Compatibility endpoint for Qdrant query-style requests. The vector can be supplied as vector, embedding, query.vector, query.nearest.vector, nearest.vector, or the first nested numeric array within the request body.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-permissions": [
+          "namespace:read"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QueryPointsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Query response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryPointsEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/collections/{collection}/points/delete": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/Collection"
+        },
+        {
+          "$ref": "#/components/parameters/TenantId"
+        }
+      ],
+      "post": {
+        "operationId": "deletePoints",
+        "tags": [
+          "Points"
+        ],
+        "summary": "Delete points",
+        "description": "Deletes points by ids, clears all points with an empty filter, or deletes by supported pathSegments.N match filters. Other Qdrant filters are intentionally not supported in this subset.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "x-permissions": [
+          "namespace:write"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeletePointsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Delete request accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateResultEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "api-key",
+        "description": "Stable namespace key for YDB-Qdrant REST operations. The backend derives an isolated user namespace from this key. Optional X-Tenant-Id further scopes the namespace. This is not an OAuth role system.",
+        "x-scopes": [
+          "namespace:read",
+          "namespace:write"
+        ]
+      },
+      "CodeIndexerBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "opaque MCP token",
+        "description": "Dashboard-created token for hosted Code Indexer MCP. Tokens are read-only, stored as hashes, revocable, and scoped by the GitHub App repositories available to the linked user.",
+        "x-scopes": [
+          "repositories:read",
+          "code-search:read"
+        ]
+      }
+    },
+    "parameters": {
+      "Collection": {
+        "name": "collection",
+        "in": "path",
+        "required": true,
+        "description": "Collection name. The backend normalizes names for storage.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "examples": [
+            "documents"
+          ]
+        }
+      },
+      "TenantId": {
+        "name": "X-Tenant-Id",
+        "in": "header",
+        "required": false,
+        "description": "Optional tenant suffix within one api-key namespace. Non-alphanumeric characters are normalized to underscores.",
+        "schema": {
+          "type": "string",
+          "default": "default",
+          "examples": [
+            "agent-a",
+            "workspace_42"
+          ]
+        }
+      }
+    },
+    "responses": {
+      "Error": {
+        "description": "JSON error response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ServiceRoot": {
+        "type": "object",
+        "required": [
+          "title",
+          "version"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "const": "ydb-qdrant"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "HealthOk": {
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok"
+          }
+        }
+      },
+      "QdrantEnvelope": {
+        "type": "object",
+        "required": [
+          "status",
+          "result",
+          "time",
+          "usage"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok"
+          },
+          "result": true,
+          "time": {
+            "type": "number",
+            "minimum": 0
+          },
+          "usage": {
+            "type": "null"
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "error"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "error"
+          },
+          "error": true
+        }
+      },
+      "Distance": {
+        "type": "string",
+        "enum": [
+          "Cosine",
+          "Euclid",
+          "Dot",
+          "Manhattan"
+        ]
+      },
+      "VectorParams": {
+        "type": "object",
+        "required": [
+          "size",
+          "distance"
+        ],
+        "properties": {
+          "size": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "distance": {
+            "$ref": "#/components/schemas/Distance"
+          },
+          "data_type": {
+            "type": "string",
+            "enum": [
+              "float"
+            ],
+            "default": "float"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateCollectionRequest": {
+        "type": "object",
+        "required": [
+          "vectors"
+        ],
+        "properties": {
+          "vectors": {
+            "$ref": "#/components/schemas/VectorParams"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CollectionInfo": {
+        "type": "object",
+        "required": [
+          "status",
+          "points_count",
+          "name",
+          "vectors",
+          "config"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "examples": [
+              "green"
+            ]
+          },
+          "points_count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "name": {
+            "type": "string"
+          },
+          "vectors": {
+            "$ref": "#/components/schemas/VectorParams"
+          },
+          "config": {
+            "type": "object",
+            "required": [
+              "params"
+            ],
+            "properties": {
+              "params": {
+                "type": "object",
+                "required": [
+                  "vectors"
+                ],
+                "properties": {
+                  "vectors": {
+                    "$ref": "#/components/schemas/VectorParams"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "PointId": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          }
+        ]
+      },
+      "Payload": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "PointStruct": {
+        "type": "object",
+        "required": [
+          "id",
+          "vector"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/PointId"
+          },
+          "vector": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 1
+          },
+          "payload": {
+            "$ref": "#/components/schemas/Payload"
+          }
+        },
+        "additionalProperties": true
+      },
+      "UpsertPointsRequest": {
+        "type": "object",
+        "required": [
+          "points"
+        ],
+        "properties": {
+          "points": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PointStruct"
+            },
+            "minItems": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "RetrievePointsRequest": {
+        "type": "object",
+        "required": [
+          "ids"
+        ],
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PointId"
+            },
+            "minItems": 1,
+            "maxItems": 1000
+          },
+          "with_payload": {
+            "type": "boolean",
+            "default": true
+          },
+          "with_vector": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "PathSegmentsCondition": {
+        "type": "object",
+        "required": [
+          "key",
+          "match"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^pathSegments\\.\\d+$"
+          },
+          "match": {
+            "type": "object",
+            "required": [
+              "value"
+            ],
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "PathSegmentsFilter": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "must"
+            ],
+            "properties": {
+              "must": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PathSegmentsCondition"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "should"
+            ],
+            "properties": {
+              "should": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "must"
+                  ],
+                  "properties": {
+                    "must": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/PathSegmentsCondition"
+                      },
+                      "minItems": 1
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "SearchPointsRequest": {
+        "type": "object",
+        "required": [
+          "vector"
+        ],
+        "properties": {
+          "vector": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 1
+          },
+          "top": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "with_payload": {
+            "oneOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "array"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          },
+          "score_threshold": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "filter": {
+            "$ref": "#/components/schemas/PathSegmentsFilter"
+          }
+        },
+        "additionalProperties": true
+      },
+      "QueryPointsRequest": {
+        "type": "object",
+        "description": "Loose query compatibility body. A numeric vector may be supplied directly or nested under query/nearest fields.",
+        "properties": {
+          "vector": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "embedding": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "query": true,
+          "nearest": true,
+          "top": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "with_payload": {
+            "oneOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "array"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          },
+          "score_threshold": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "filter": {
+            "$ref": "#/components/schemas/PathSegmentsFilter"
+          }
+        },
+        "additionalProperties": true
+      },
+      "DeletePointsRequest": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "points"
+            ],
+            "properties": {
+              "points": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PointId"
+                },
+                "minItems": 1
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "filter"
+            ],
+            "properties": {
+              "filter": {
+                "$ref": "#/components/schemas/PathSegmentsFilter"
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "UpdateResult": {
+        "type": "object",
+        "required": [
+          "operation_id",
+          "status"
+        ],
+        "properties": {
+          "operation_id": {
+            "type": "integer",
+            "const": 0
+          },
+          "status": {
+            "type": "string",
+            "const": "completed"
+          }
+        }
+      },
+      "ScoredPoint": {
+        "type": "object",
+        "required": [
+          "id",
+          "version",
+          "score",
+          "payload",
+          "vector",
+          "shard_key",
+          "order_value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer"
+          },
+          "score": {
+            "type": "number"
+          },
+          "payload": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Payload"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "vector": {
+            "type": "null"
+          },
+          "shard_key": {
+            "type": "null"
+          },
+          "order_value": {
+            "type": "null"
+          }
+        }
+      },
+      "RetrievedPoint": {
+        "type": "object",
+        "required": [
+          "id",
+          "version",
+          "payload",
+          "vector",
+          "shard_key",
+          "order_value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer"
+          },
+          "payload": true,
+          "vector": {
+            "type": "null"
+          },
+          "shard_key": {
+            "type": "null"
+          },
+          "order_value": {
+            "type": "null"
+          }
+        }
+      },
+      "BooleanEnvelope": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QdrantEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "boolean"
+              }
+            }
+          }
+        ]
+      },
+      "CollectionInfoEnvelope": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QdrantEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "result": {
+                "$ref": "#/components/schemas/CollectionInfo"
+              }
+            }
+          }
+        ]
+      },
+      "UpdateResultEnvelope": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QdrantEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "result": {
+                "$ref": "#/components/schemas/UpdateResult"
+              }
+            }
+          }
+        ]
+      },
+      "SearchPointsEnvelope": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QdrantEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ScoredPoint"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "QueryPointsEnvelope": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QdrantEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "object",
+                "required": [
+                  "points"
+                ],
+                "properties": {
+                  "points": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ScoredPoint"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "RetrievedPointsEnvelope": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/QdrantEnvelope"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/RetrievedPoint"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "x-agent-resources": {
+    "llms": "https://ydb-qdrant.tech/llms.txt",
+    "llms_full": "https://ydb-qdrant.tech/llms-full.txt",
+    "auth_docs": "https://ydb-qdrant.tech/docs/auth/",
+    "mcp_server_card": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
+    "code_indexer_mcp_endpoint": "https://code-indexer.ydb-qdrant.tech/mcp"
+  }
+}

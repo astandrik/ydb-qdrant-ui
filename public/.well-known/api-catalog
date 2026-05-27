@@ -1,0 +1,49 @@
+{
+  "apis": [
+    {
+      "name": "YDB-Qdrant REST API",
+      "description": "Qdrant-compatible REST API for vector collections, points, search, query, and delete operations backed by YDB.",
+      "url": "https://ydb-qdrant.tech/openapi.json",
+      "documentation": "https://ydb-qdrant.tech/docs/api/",
+      "authentication": "https://ydb-qdrant.tech/docs/auth/",
+      "format": "openapi-3.1"
+    },
+    {
+      "name": "YDB Qdrant Code Indexer MCP",
+      "description": "Hosted Streamable HTTP MCP endpoint for read-only repository memory tools.",
+      "url": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
+      "documentation": "https://ydb-qdrant.tech/code-indexer/",
+      "authentication": "https://ydb-qdrant.tech/docs/auth/",
+      "format": "mcp-server-card"
+    }
+  ],
+  "linkset": [
+    {
+      "anchor": "https://ydb-qdrant.tech/",
+      "service-desc": [
+        {
+          "href": "https://ydb-qdrant.tech/openapi.json",
+          "type": "application/vnd.oai.openapi+json"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://ydb-qdrant.tech/developers/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/docs/api/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/docs/auth/",
+          "type": "text/html"
+        }
+      ]
+    }
+  ]
+}

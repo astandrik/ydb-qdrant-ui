@@ -16,12 +16,26 @@
     padding: var(--spacing-4xl) var(--spacing-xl);
   }
 
+  &__links {
+    display: grid;
+    gap: var(--spacing-md);
+    justify-items: center;
+    margin-bottom: var(--spacing-lg);
+  }
+
   &__nav {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-md);
+    align-items: center;
     justify-content: center;
-    margin-bottom: var(--spacing-lg);
+  }
+
+  &__nav-title {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
   }
 
   &__nav-link {
