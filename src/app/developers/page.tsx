@@ -37,6 +37,10 @@ export default function DevelopersPage() {
           label: "Auth docs",
         },
         {
+          href: "/docs/agents/",
+          label: "Agent instructions",
+        },
+        {
           href: "/pricing/",
           label: "Pricing",
         },
@@ -54,6 +58,9 @@ export default function DevelopersPage() {
             </a>,
             <a href="/.well-known/agent.json" key="agent">
               Agent discovery JSON
+            </a>,
+            <a href="/.well-known/agent-instructions.md" key="agent-instructions">
+              Agent instructions markdown
             </a>,
             <a href="/.well-known/api-catalog" key="api-catalog">
               API catalog
@@ -90,6 +97,9 @@ export default function DevelopersPage() {
             <a href="/docs/auth/" key="auth-docs">
               Auth and scoped access
             </a>,
+            <a href="/docs/agents/" key="agent-docs">
+              Agent instructions and when-to-use guidance
+            </a>,
             <a href="/docs/webhooks/" key="webhooks-docs">
               Webhooks and events
             </a>,
@@ -104,6 +114,12 @@ export default function DevelopersPage() {
             </a>,
             <a href="/guides/best-vector-search-for-ydb/" key="best-ydb-guide">
               Best vector search for YDB-backed apps
+            </a>,
+            <a
+              href="/guides/vector-search-api-semantic-similarity-embeddings/"
+              key="semantic-similarity-guide"
+            >
+              Vector search API for semantic similarity and embeddings
             </a>,
           ],
         },

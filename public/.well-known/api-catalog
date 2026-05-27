@@ -5,6 +5,7 @@
       "description": "Qdrant-compatible REST API for vector collections, points, search, query, and delete operations backed by YDB.",
       "url": "https://ydb-qdrant.tech/openapi.json",
       "documentation": "https://ydb-qdrant.tech/docs/api/",
+      "instructions": "https://ydb-qdrant.tech/docs/agents/",
       "authentication": "https://ydb-qdrant.tech/docs/auth/",
       "format": "openapi-3.1"
     },
@@ -54,6 +55,14 @@
         {
           "href": "https://ydb-qdrant.tech/docs/openapi/",
           "type": "text/html"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/docs/agents/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/agent-instructions.md",
+          "type": "text/markdown"
         },
         {
           "href": "https://ydb-qdrant.tech/docs/mcp/",

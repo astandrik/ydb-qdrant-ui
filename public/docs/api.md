@@ -40,8 +40,28 @@ Error responses use JSON, not HTML:
   "code": "COLLECTION_NOT_FOUND",
   "message": "collection not found",
   "resolution": "Create the collection first, or check the collection name, api-key, and X-Tenant-Id namespace.",
-  "request_id": "req-123"
+  "request_id": "req-123",
+  "details": {
+    "collection": "documents"
+  }
 }
 ```
 
-The `error` field remains a string for Qdrant-compatible clients. Agents should use `code`, `message`, `resolution`, and `request_id` for recovery and support workflows.
+The `error` field remains a string for Qdrant-compatible clients. Agents should use `code`, `message`, `resolution`, `request_id`, and optional `details` for recovery and support workflows.
+
+Error probes:
+
+```bash
+curl -i http://ydb-qdrant.tech:8080/collections/__missing_probe \
+  -H 'api-key: demo-key'
+curl -i -X POST http://ydb-qdrant.tech:8080/collections/__bad_json/points/upsert \
+  -H 'Content-Type: application/json' \
+  -H 'api-key: demo-key' \
+  --data '{bad json'
+curl -i https://ydb-qdrant.tech/api/__unknown_probe
+curl -i https://ydb-qdrant.tech/v1/__unknown_probe
+```
+
+- Missing collections return `COLLECTION_NOT_FOUND`.
+- Invalid JSON returns `VALIDATION_ERROR`.
+- Unknown API-like HTTPS routes return `NOT_FOUND` JSON after the production proxy forwards them to the backend.

@@ -130,13 +130,34 @@ X-Tenant-Id: optional-workspace`}</pre>
   "code": "COLLECTION_NOT_FOUND",
   "message": "collection not found",
   "resolution": "Create the collection first, or check the collection name, api-key, and X-Tenant-Id namespace.",
-  "request_id": "req-123"
+  "request_id": "req-123",
+  "details": {
+    "collection": "documents"
+  }
 }`}</pre>
           ),
           items: [
             "Every API error response is application/json rather than an HTML error page.",
             "The error field remains a string for Qdrant-compatible clients.",
-            "Agents can use code, message, resolution, and request_id for recovery and support workflows.",
+            "Agents can use code, message, resolution, request_id, and optional details for recovery and support workflows.",
+          ],
+        },
+        {
+          title: "Error probes for agents",
+          body: (
+            <pre>{`curl -i http://ydb-qdrant.tech:8080/collections/__missing_probe \\
+  -H 'api-key: demo-key'
+curl -i -X POST http://ydb-qdrant.tech:8080/collections/__bad_json/points/upsert \\
+  -H 'Content-Type: application/json' \\
+  -H 'api-key: demo-key' \\
+  --data '{bad json'
+curl -i https://ydb-qdrant.tech/api/__unknown_probe
+curl -i https://ydb-qdrant.tech/v1/__unknown_probe`}</pre>
+          ),
+          items: [
+            "Missing collections return COLLECTION_NOT_FOUND.",
+            "Invalid JSON returns VALIDATION_ERROR.",
+            "Unknown API-like HTTPS routes return NOT_FOUND JSON after the production proxy forwards them to the backend.",
           ],
         },
         {

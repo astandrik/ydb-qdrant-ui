@@ -36,6 +36,10 @@ export default function OpenApiDocsPage() {
           href: "/docs/auth/",
           label: "Auth docs",
         },
+        {
+          href: "/docs/agents/",
+          label: "Agent instructions",
+        },
       ]}
       sections={[
         {
@@ -49,6 +53,9 @@ export default function OpenApiDocsPage() {
             </a>,
             <a href="/developers/" key="developers">
               https://ydb-qdrant.tech/developers/
+            </a>,
+            <a href="/docs/agents/" key="agent-instructions">
+              https://ydb-qdrant.tech/docs/agents/
             </a>,
           ],
         },

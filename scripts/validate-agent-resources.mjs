@@ -30,12 +30,14 @@ const requiredFiles = [
   "public/.well-known/mcp/server-card.json",
   "public/.well-known/mcp.json",
   "public/auth.md",
+  "public/agents.md",
   "public/pricing.md",
   "public/index.md",
   "public/llms-full.txt",
   "public/docs/llms.txt",
   "public/developers.md",
   "public/docs/api.md",
+  "public/docs/agents.md",
   "public/docs/auth.md",
   "public/docs/openapi.md",
   "public/docs/mcp.md",
@@ -45,11 +47,16 @@ const requiredFiles = [
   "public/compare/databricks-vector-search.md",
   "public/compare/azure-ai-search.md",
   "public/compare/elasticsearch.md",
+  "public/compare/google-cloud-vector-search.md",
+  "public/compare/typesense.md",
   "public/guides/semantic-search-ydb.md",
   "public/guides/best-vector-search-for-ydb.md",
+  "public/guides/vector-search-api-semantic-similarity-embeddings.md",
+  "public/.well-known/agent-instructions.md",
   "src/app/developers/page.tsx",
   "src/app/pricing/page.tsx",
   "src/app/docs/api/page.tsx",
+  "src/app/docs/agents/page.tsx",
   "src/app/docs/auth/page.tsx",
   "src/app/docs/openapi/page.tsx",
   "src/app/docs/mcp/page.tsx",
@@ -59,8 +66,11 @@ const requiredFiles = [
   "src/app/compare/databricks-vector-search/page.tsx",
   "src/app/compare/azure-ai-search/page.tsx",
   "src/app/compare/elasticsearch/page.tsx",
+  "src/app/compare/google-cloud-vector-search/page.tsx",
+  "src/app/compare/typesense/page.tsx",
   "src/app/guides/semantic-search-ydb/page.tsx",
   "src/app/guides/best-vector-search-for-ydb/page.tsx",
+  "src/app/guides/vector-search-api-semantic-similarity-embeddings/page.tsx",
 ];
 
 for (const file of requiredFiles) {
@@ -159,6 +169,21 @@ assert(
   ),
   "ErrorResponse.code must include COLLECTION_NOT_FOUND",
 );
+assert(
+  Object.hasOwn(openapi.components?.schemas?.ErrorResponse?.properties ?? {}, "details"),
+  "ErrorResponse must document optional details",
+);
+for (const [apiPath, pathItem] of Object.entries(openapi.paths)) {
+  for (const [method, operation] of Object.entries(pathItem)) {
+    if (!["get", "post", "put", "delete", "patch", "head", "options"].includes(method)) {
+      continue;
+    }
+    assert(
+      operation.responses?.default?.$ref === "#/components/responses/Error",
+      `OpenAPI ${method.toUpperCase()} ${apiPath} must reference default Error response`,
+    );
+  }
+}
 
 const agent = readJson("public/.well-known/agent.json");
 assert(agent.name === "YDB-Qdrant", "Agent discovery must name YDB-Qdrant");
@@ -174,6 +199,17 @@ assert(
 assert(
   agent.pricing === "https://ydb-qdrant.tech/pricing/",
   "Agent discovery must link pricing",
+);
+assert(
+  agent.agent_instructions ===
+    "https://ydb-qdrant.tech/.well-known/agent-instructions.md",
+  "Agent discovery must link agent instructions",
+);
+assert(
+  agent.protocolVersion === "0.3" &&
+    typeof agent.capabilities === "object" &&
+    Array.isArray(agent.skills),
+  "Agent discovery must include agent-card compatible metadata",
 );
 
 const apiCatalog = readJson("public/.well-known/api-catalog");
@@ -247,8 +283,10 @@ assert(
 );
 for (const expected of [
   "https://ydb-qdrant.tech/openapi.json",
+  "https://ydb-qdrant.tech/agents.md",
   "https://ydb-qdrant.tech/pricing/",
   "https://ydb-qdrant.tech/docs/api/",
+  "https://ydb-qdrant.tech/docs/agents/",
   "https://ydb-qdrant.tech/docs/openapi/",
   "https://ydb-qdrant.tech/docs/auth/",
   "https://ydb-qdrant.tech/docs/mcp/",
@@ -257,7 +295,10 @@ for (const expected of [
   "https://ydb-qdrant.tech/compare/databricks-vector-search/",
   "https://ydb-qdrant.tech/compare/azure-ai-search/",
   "https://ydb-qdrant.tech/compare/elasticsearch/",
+  "https://ydb-qdrant.tech/compare/google-cloud-vector-search/",
+  "https://ydb-qdrant.tech/compare/typesense/",
   "https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/",
+  "https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/",
 ]) {
   assert(llms.includes(expected), `llms.txt missing ${expected}`);
 }

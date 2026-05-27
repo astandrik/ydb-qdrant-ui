@@ -22,5 +22,6 @@ YDB-Qdrant publishes an OpenAPI 3.1 specification for its Qdrant-compatible REST
 
 - Human-readable API docs: https://ydb-qdrant.tech/docs/api/
 - Auth docs: https://ydb-qdrant.tech/docs/auth/
+- Agent instructions: https://ydb-qdrant.tech/docs/agents/
 - API catalog: https://ydb-qdrant.tech/.well-known/api-catalog
 - Developer hub: https://ydb-qdrant.tech/developers/
