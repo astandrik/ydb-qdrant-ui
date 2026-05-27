@@ -109,6 +109,26 @@ assert(
   ),
   "DeletePointsRequest must allow an empty filter object",
 );
+assert(
+  openapi.components?.schemas?.RetrievePointsRequest?.properties?.with_vector?.description?.includes(
+    "returns vector as null",
+  ),
+  "RetrievePointsRequest.with_vector must document the current null-vector response",
+);
+assert(
+  openapi.components?.schemas?.ScoredPoint?.properties?.id?.type === "string" &&
+    openapi.components.schemas.ScoredPoint.properties.id.description?.includes(
+      "Numeric request ids are normalized to strings",
+    ),
+  "ScoredPoint.id must document numeric id normalization",
+);
+assert(
+  openapi.components?.schemas?.RetrievedPoint?.properties?.vector?.type === "null" &&
+    openapi.components.schemas.RetrievedPoint.properties.vector.description?.includes(
+      "Always null",
+    ),
+  "RetrievedPoint.vector must document the current null-vector projection",
+);
 
 const agent = readJson("public/.well-known/agent.json");
 assert(agent.name === "YDB-Qdrant", "Agent discovery must name YDB-Qdrant");
@@ -153,6 +173,21 @@ assert(
 );
 
 const llms = readFileSync(resolveRoot("public/llms.txt"), "utf8");
+const semanticSearchGuide = readFileSync(
+  resolveRoot("public/guides/semantic-search-ydb.md"),
+  "utf8",
+);
+assert(
+  semanticSearchGuide.indexOf("/points/upsert") > -1 &&
+    semanticSearchGuide.indexOf("/points/upsert") <
+      semanticSearchGuide.indexOf("/points/search"),
+  "Semantic search markdown guide must upsert before search",
+);
+const ciWorkflow = readFileSync(resolveRoot(".github/workflows/ci.yml"), "utf8");
+assert(
+  ciWorkflow.includes("npm run validate:agent-resources"),
+  "CI workflow must run validate:agent-resources",
+);
 for (const expected of [
   "https://ydb-qdrant.tech/openapi.json",
   "https://ydb-qdrant.tech/docs/api/",
