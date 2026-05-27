@@ -12,7 +12,7 @@ YDB-Qdrant gives YDB-backed applications a Qdrant-compatible REST API for storin
 
 1. Create a collection with the embedding vector size and distance metric.
 2. Upsert points with id, vector, and payload fields.
-3. Search with a query vector and limit or top value.
+3. Search with a query vector and set `limit` or `top` for the top-k result count.
 4. Inspect structured JSON errors and use resolution hints when a collection, vector shape, or request body is invalid.
 
 ## Example API sequence

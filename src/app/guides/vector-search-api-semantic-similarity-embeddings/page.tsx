@@ -51,7 +51,7 @@ export default function VectorSearchApiSemanticSimilarityGuidePage() {
           items: [
             "Create a collection with the embedding vector size and distance metric.",
             "Upsert points with id, vector, and payload fields.",
-            "Search with a query vector and limit or top value.",
+            "Search with a query vector and set `limit` or `top` for the top-k result count.",
             "Inspect structured JSON errors and use resolution hints when a collection, vector shape, or request body is invalid.",
           ],
         },
