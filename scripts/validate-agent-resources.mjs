@@ -54,6 +54,7 @@ const requiredFiles = [
   "public/guides/vector-search-api-semantic-similarity-embeddings.md",
   "public/.well-known/agent-instructions.md",
   "src/app/developers/page.tsx",
+  "src/app/AGENTS.md/route.ts",
   "src/app/pricing/page.tsx",
   "src/app/docs/api/page.tsx",
   "src/app/docs/agents/page.tsx",
@@ -173,6 +174,10 @@ assert(
   Object.hasOwn(openapi.components?.schemas?.ErrorResponse?.properties ?? {}, "details"),
   "ErrorResponse must document optional details",
 );
+assert(
+  openapi.components?.schemas?.ErrorResponse?.properties?.details?.type === "object",
+  "ErrorResponse.details must be typed as object",
+);
 for (const [apiPath, pathItem] of Object.entries(openapi.paths)) {
   for (const [method, operation] of Object.entries(pathItem)) {
     if (!["get", "post", "put", "delete", "patch", "head", "options"].includes(method)) {
@@ -207,7 +212,9 @@ assert(
 );
 assert(
   agent.protocolVersion === "0.3" &&
-    typeof agent.capabilities === "object" &&
+    Array.isArray(agent.capabilities) &&
+    agent.capabilities.includes("vector-search") &&
+    typeof agent.a2a_capabilities === "object" &&
     Array.isArray(agent.skills),
   "Agent discovery must include agent-card compatible metadata",
 );
@@ -283,6 +290,7 @@ assert(
 );
 for (const expected of [
   "https://ydb-qdrant.tech/openapi.json",
+  "https://ydb-qdrant.tech/AGENTS.md",
   "https://ydb-qdrant.tech/agents.md",
   "https://ydb-qdrant.tech/pricing/",
   "https://ydb-qdrant.tech/docs/api/",

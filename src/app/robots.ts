@@ -16,6 +16,7 @@ export default function robots(): MetadataRoute.Robots {
         "/pricing/",
         "/pricing.md",
         "/auth.md",
+        "/AGENTS.md",
         "/agents.md",
         "/index.md",
         "/docs/llms.txt",

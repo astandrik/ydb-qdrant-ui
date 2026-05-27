@@ -867,6 +867,8 @@
             "description": "Request correlation id returned in the X-Request-Id header."
           },
           "details": {
+            "type": "object",
+            "additionalProperties": true,
             "description": "Optional structured validation or domain-specific details for agent recovery. Shape depends on the error code."
           }
         },

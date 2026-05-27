@@ -51,7 +51,13 @@
       "server_card": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json"
     }
   ],
-  "capabilities": {
+  "capabilities": [
+    "vector-search",
+    "semantic-search",
+    "qdrant-compatible-rest-api",
+    "repository-code-search-mcp"
+  ],
+  "a2a_capabilities": {
     "streaming": false,
     "pushNotifications": false,
     "stateTransitionHistory": false
