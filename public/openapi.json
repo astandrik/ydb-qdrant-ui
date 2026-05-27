@@ -1132,7 +1132,16 @@
             ],
             "properties": {
               "filter": {
-                "$ref": "#/components/schemas/PathSegmentsFilter"
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "maxProperties": 0,
+                    "description": "Empty filter that clears all points in the collection."
+                  },
+                  {
+                    "$ref": "#/components/schemas/PathSegmentsFilter"
+                  }
+                ]
               }
             },
             "additionalProperties": false

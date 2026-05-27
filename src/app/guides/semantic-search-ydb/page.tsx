@@ -38,7 +38,7 @@ export default function SemanticSearchYdbGuidePage() {
           title: "Integration flow",
           items: [
             "Choose an embedding model and record its vector dimension.",
-            "Create a collection with matching vectors.size and distance.",
+            "Create a collection with matching vectors.size and distance. The sample below uses a three-dimensional toy vector so the curl commands stay copy-pasteable.",
             "Upsert document chunks or domain records as points with vector and payload.",
             "Run search/query with a query embedding and a top or limit value.",
             "Use api-key and optional X-Tenant-Id to isolate environments, tenants, workspaces, or agents.",
@@ -50,7 +50,7 @@ export default function SemanticSearchYdbGuidePage() {
             <pre>{`curl -X PUT http://localhost:8080/collections/documents \\
   -H 'Content-Type: application/json' \\
   -H 'api-key: demo-key' \\
-  -d '{"vectors":{"size":1536,"distance":"Cosine","data_type":"float"}}'
+  -d '{"vectors":{"size":3,"distance":"Cosine","data_type":"float"}}'
 
 curl -X POST http://localhost:8080/collections/documents/points/upsert \\
   -H 'Content-Type: application/json' \\

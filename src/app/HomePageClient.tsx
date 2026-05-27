@@ -209,6 +209,6 @@ function HomeContent() {
   );
 }
 
-export default function Home() {
+export default function HomePageClient() {
   return <HomeContent />;
 }

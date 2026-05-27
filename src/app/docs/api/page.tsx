@@ -124,7 +124,7 @@ X-Tenant-Id: optional-workspace`}</pre>
             <pre>{`curl -X PUT http://localhost:8080/collections/documents \\
   -H 'Content-Type: application/json' \\
   -H 'api-key: demo-key' \\
-  -d '{"vectors":{"size":384,"distance":"Cosine","data_type":"float"}}'
+  -d '{"vectors":{"size":3,"distance":"Cosine","data_type":"float"}}'
 
 curl -X POST http://localhost:8080/collections/documents/points/search \\
   -H 'Content-Type: application/json' \\

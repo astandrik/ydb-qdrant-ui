@@ -3,7 +3,7 @@
 Use YDB-Qdrant to add semantic search to an application that already uses YDB.
 
 1. Choose an embedding model and vector dimension.
-2. Create a YDB-Qdrant collection with matching `vectors.size` and `distance`.
+2. Create a YDB-Qdrant collection with matching `vectors.size` and `distance`. The sample uses a three-dimensional toy vector so the curl commands stay copy-pasteable.
 3. Upsert points with ids, vectors, and payload.
 4. Search with a query embedding and `top` or `limit`.
 5. Use `api-key` and optional `X-Tenant-Id` to isolate environments, tenants, or agents.
@@ -14,7 +14,7 @@ Example flow:
 curl -X PUT http://localhost:8080/collections/documents \
   -H 'Content-Type: application/json' \
   -H 'api-key: demo-key' \
-  -d '{"vectors":{"size":1536,"distance":"Cosine","data_type":"float"}}'
+  -d '{"vectors":{"size":3,"distance":"Cosine","data_type":"float"}}'
 
 curl -X POST http://localhost:8080/collections/documents/points/search \
   -H 'Content-Type: application/json' \

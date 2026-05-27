@@ -94,6 +94,12 @@ assert(
   ),
   "Collection create operation must require ApiKeyAuth",
 );
+assert(
+  openapi.components?.schemas?.DeletePointsRequest?.oneOf?.some((variant) =>
+    variant.properties?.filter?.oneOf?.some((filterVariant) => filterVariant.maxProperties === 0),
+  ),
+  "DeletePointsRequest must allow an empty filter object",
+);
 
 const agent = readJson("public/.well-known/agent.json");
 assert(agent.name === "YDB-Qdrant", "Agent discovery must name YDB-Qdrant");
