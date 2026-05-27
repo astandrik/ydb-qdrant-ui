@@ -91,8 +91,20 @@ export default function CompareVectorSearchPlatformsPage() {
             <a href="/compare/elasticsearch/" key="elasticsearch">
               YDB-Qdrant vs Elasticsearch
             </a>,
+            <a href="/compare/google-cloud-vector-search/" key="google-cloud">
+              YDB-Qdrant vs Google Cloud Vector Search
+            </a>,
+            <a href="/compare/typesense/" key="typesense">
+              YDB-Qdrant vs Typesense
+            </a>,
             <a href="/guides/best-vector-search-for-ydb/" key="best-ydb">
               Best vector search for YDB-backed apps
+            </a>,
+            <a
+              href="/guides/vector-search-api-semantic-similarity-embeddings/"
+              key="semantic-similarity"
+            >
+              Vector search API for semantic similarity and embeddings
             </a>,
           ],
         },

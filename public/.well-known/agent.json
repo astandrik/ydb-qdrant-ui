@@ -1,8 +1,17 @@
 {
   "name": "YDB-Qdrant",
   "version": "1.0.0",
+  "protocolVersion": "0.3",
   "description": "Qdrant-compatible vector search API on YDB, with hosted Code Indexer MCP for repository memory.",
   "url": "https://ydb-qdrant.tech/",
+  "defaultInputModes": [
+    "application/json",
+    "text/plain"
+  ],
+  "defaultOutputModes": [
+    "application/json",
+    "text/markdown"
+  ],
   "openapi": "https://ydb-qdrant.tech/openapi.json",
   "api": {
     "type": "openapi",
@@ -17,6 +26,8 @@
     }
   ],
   "docs": "https://ydb-qdrant.tech/developers/",
+  "instructions": "https://ydb-qdrant.tech/docs/agents/",
+  "agent_instructions": "https://ydb-qdrant.tech/.well-known/agent-instructions.md",
   "llms": "https://ydb-qdrant.tech/llms.txt",
   "llms_full": "https://ydb-qdrant.tech/llms-full.txt",
   "auth": "https://ydb-qdrant.tech/docs/auth/",
@@ -46,6 +57,62 @@
     "qdrant-compatible-rest-api",
     "repository-code-search-mcp"
   ],
+  "a2a_capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "capability_tags": [
+    "vector-search",
+    "semantic-search",
+    "qdrant-compatible-rest-api",
+    "repository-code-search-mcp"
+  ],
+  "skills": [
+    {
+      "id": "qdrant-compatible-rest-api",
+      "name": "YDB-Qdrant REST API",
+      "description": "Create vector collections, upsert and retrieve points, run exact top-k vector search, use query compatibility, and delete points in a YDB-backed namespace.",
+      "tags": [
+        "vector-search",
+        "semantic-search",
+        "embeddings",
+        "qdrant-compatible",
+        "ydb"
+      ],
+      "examples": [
+        "Use YDB-Qdrant for a YDB-backed RAG prototype that needs a Qdrant-compatible REST API.",
+        "Use YDB-Qdrant when an IDE agent needs exact semantic search over vectors stored beside YDB-backed data."
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    },
+    {
+      "id": "repository-code-search-mcp",
+      "name": "YDB Qdrant Code Indexer MCP",
+      "description": "Read-only Streamable HTTP MCP tools for listing indexed GitHub repositories and searching repository code chunks.",
+      "tags": [
+        "mcp",
+        "code-search",
+        "repository-memory",
+        "github"
+      ],
+      "examples": [
+        "Use Code Indexer MCP when a coding agent needs repository memory before editing code."
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json",
+        "text/markdown"
+      ]
+    }
+  ],
   "resources": [
     {
       "name": "REST API reference",
@@ -58,6 +125,14 @@
     {
       "name": "OpenAPI discovery page",
       "url": "https://ydb-qdrant.tech/docs/openapi/"
+    },
+    {
+      "name": "Agent instructions",
+      "url": "https://ydb-qdrant.tech/docs/agents/"
+    },
+    {
+      "name": "Agent instructions markdown",
+      "url": "https://ydb-qdrant.tech/.well-known/agent-instructions.md"
     },
     {
       "name": "Auth and scoped access",

@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -30,12 +30,14 @@ const requiredFiles = [
   "public/.well-known/mcp/server-card.json",
   "public/.well-known/mcp.json",
   "public/auth.md",
+  "public/AGENTS.md",
   "public/pricing.md",
   "public/index.md",
   "public/llms-full.txt",
   "public/docs/llms.txt",
   "public/developers.md",
   "public/docs/api.md",
+  "public/docs/agents.md",
   "public/docs/auth.md",
   "public/docs/openapi.md",
   "public/docs/mcp.md",
@@ -45,11 +47,16 @@ const requiredFiles = [
   "public/compare/databricks-vector-search.md",
   "public/compare/azure-ai-search.md",
   "public/compare/elasticsearch.md",
+  "public/compare/google-cloud-vector-search.md",
+  "public/compare/typesense.md",
   "public/guides/semantic-search-ydb.md",
   "public/guides/best-vector-search-for-ydb.md",
+  "public/guides/vector-search-api-semantic-similarity-embeddings.md",
+  "public/.well-known/agent-instructions.md",
   "src/app/developers/page.tsx",
   "src/app/pricing/page.tsx",
   "src/app/docs/api/page.tsx",
+  "src/app/docs/agents/page.tsx",
   "src/app/docs/auth/page.tsx",
   "src/app/docs/openapi/page.tsx",
   "src/app/docs/mcp/page.tsx",
@@ -59,13 +66,28 @@ const requiredFiles = [
   "src/app/compare/databricks-vector-search/page.tsx",
   "src/app/compare/azure-ai-search/page.tsx",
   "src/app/compare/elasticsearch/page.tsx",
+  "src/app/compare/google-cloud-vector-search/page.tsx",
+  "src/app/compare/typesense/page.tsx",
   "src/app/guides/semantic-search-ydb/page.tsx",
   "src/app/guides/best-vector-search-for-ydb/page.tsx",
+  "src/app/guides/vector-search-api-semantic-similarity-embeddings/page.tsx",
 ];
 
 for (const file of requiredFiles) {
   assertFile(file);
 }
+
+const appDirectoryEntries = readdirSync(resolveRoot("src/app"), {
+  withFileTypes: true,
+});
+assert(
+  !appDirectoryEntries.some((entry) => entry.name === "AGENTS.md" && entry.isDirectory()),
+  "src/app/AGENTS.md must not exist as a directory; publish public/AGENTS.md as a file",
+);
+assert(
+  !appDirectoryEntries.some((entry) => entry.name === "agents.md" && entry.isDirectory()),
+  "src/app/agents.md must not exist as a route directory; publish the standard public/AGENTS.md file",
+);
 
 const openapi = readJson("public/openapi.json");
 assert(openapi.openapi === "3.1.0", "OpenAPI must use version 3.1.0");
@@ -107,9 +129,25 @@ assert(
     openapi.servers[0].description?.includes("root path serves the static"),
   "Public OpenAPI server must document that / is the static site",
 );
+const publicDemoServer = openapi.servers?.find(
+  (server) => server.url === "http://ydb-qdrant.tech:8080",
+);
+assert(
+  publicDemoServer?.description?.includes("HTTP-only") &&
+    publicDemoServer.description.includes("non-sensitive demo credentials"),
+  "Public demo OpenAPI server must document HTTP-only demo credential limits",
+);
 assert(
   openapi.paths["/"].get?.servers?.[0]?.url === "http://localhost:8080",
   "GET / must override the public static-site server",
+);
+const publicDemoRootServer = openapi.paths["/"].get?.servers?.find(
+  (server) => server.url === "http://ydb-qdrant.tech:8080",
+);
+assert(
+  publicDemoRootServer?.description?.includes("HTTP-only") &&
+    publicDemoRootServer.description.includes("non-sensitive demo credentials"),
+  "GET / public demo server must document HTTP-only demo credential limits",
 );
 assert(
   openapi.paths["/collections/{collection}"].put?.security?.some((entry) =>
@@ -159,6 +197,25 @@ assert(
   ),
   "ErrorResponse.code must include COLLECTION_NOT_FOUND",
 );
+assert(
+  Object.hasOwn(openapi.components?.schemas?.ErrorResponse?.properties ?? {}, "details"),
+  "ErrorResponse must document optional details",
+);
+assert(
+  openapi.components?.schemas?.ErrorResponse?.properties?.details?.type === "object",
+  "ErrorResponse.details must be typed as object",
+);
+for (const [apiPath, pathItem] of Object.entries(openapi.paths)) {
+  for (const [method, operation] of Object.entries(pathItem)) {
+    if (!["get", "post", "put", "delete", "patch", "head", "options"].includes(method)) {
+      continue;
+    }
+    assert(
+      operation.responses?.default?.$ref === "#/components/responses/Error",
+      `OpenAPI ${method.toUpperCase()} ${apiPath} must reference default Error response`,
+    );
+  }
+}
 
 const agent = readJson("public/.well-known/agent.json");
 assert(agent.name === "YDB-Qdrant", "Agent discovery must name YDB-Qdrant");
@@ -174,6 +231,19 @@ assert(
 assert(
   agent.pricing === "https://ydb-qdrant.tech/pricing/",
   "Agent discovery must link pricing",
+);
+assert(
+  agent.agent_instructions ===
+    "https://ydb-qdrant.tech/.well-known/agent-instructions.md",
+  "Agent discovery must link agent instructions",
+);
+assert(
+  agent.protocolVersion === "0.3" &&
+    Array.isArray(agent.capabilities) &&
+    agent.capabilities.includes("vector-search") &&
+    typeof agent.a2a_capabilities === "object" &&
+    Array.isArray(agent.skills),
+  "Agent discovery must include agent-card compatible metadata",
 );
 
 const apiCatalog = readJson("public/.well-known/api-catalog");
@@ -245,10 +315,31 @@ assert(
     apiDocsPage.indexOf("/points/upsert") < apiDocsPage.indexOf("/points/search"),
   "API docs example must upsert before search",
 );
+for (const relativePath of [
+  "src/app/docs/api/page.tsx",
+  "public/docs/api.md",
+  "src/app/guides/vector-search-api-semantic-similarity-embeddings/page.tsx",
+  "public/guides/vector-search-api-semantic-similarity-embeddings.md",
+]) {
+  const content = readFileSync(resolveRoot(relativePath), "utf8");
+  assert(
+    !/^\s*curl .*http:\/\/ydb-qdrant\.tech:8080/m.test(content),
+    `${relativePath} must use HTTPS for public authenticated curl examples`,
+  );
+}
+for (const relativePath of ["src/app/docs/api/page.tsx", "public/docs/api.md"]) {
+  const content = readFileSync(resolveRoot(relativePath), "utf8");
+  assert(
+    !content.includes("/api/__unknown_probe") && !content.includes("/v1/__unknown_probe"),
+    `${relativePath} must not advertise undocumented /api or /v1 probes`,
+  );
+}
 for (const expected of [
   "https://ydb-qdrant.tech/openapi.json",
+  "https://ydb-qdrant.tech/AGENTS.md",
   "https://ydb-qdrant.tech/pricing/",
   "https://ydb-qdrant.tech/docs/api/",
+  "https://ydb-qdrant.tech/docs/agents/",
   "https://ydb-qdrant.tech/docs/openapi/",
   "https://ydb-qdrant.tech/docs/auth/",
   "https://ydb-qdrant.tech/docs/mcp/",
@@ -257,7 +348,10 @@ for (const expected of [
   "https://ydb-qdrant.tech/compare/databricks-vector-search/",
   "https://ydb-qdrant.tech/compare/azure-ai-search/",
   "https://ydb-qdrant.tech/compare/elasticsearch/",
+  "https://ydb-qdrant.tech/compare/google-cloud-vector-search/",
+  "https://ydb-qdrant.tech/compare/typesense/",
   "https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/",
+  "https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/",
 ]) {
   assert(llms.includes(expected), `llms.txt missing ${expected}`);
 }

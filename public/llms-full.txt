@@ -10,6 +10,9 @@ YDB-Qdrant is a Qdrant-compatible vector search API and Node.js library backed b
 - [OpenAPI](https://ydb-qdrant.tech/openapi.json)
 - [OpenAPI discovery page](https://ydb-qdrant.tech/docs/openapi/)
 - [REST API docs](https://ydb-qdrant.tech/docs/api/)
+- [Agent instructions](https://ydb-qdrant.tech/docs/agents/)
+- [Standard AGENTS.md instructions](https://ydb-qdrant.tech/AGENTS.md)
+- [Agent instructions markdown](https://ydb-qdrant.tech/.well-known/agent-instructions.md)
 - [Auth and scoped access](https://ydb-qdrant.tech/docs/auth/)
 - [MCP discovery page](https://ydb-qdrant.tech/docs/mcp/)
 - [Webhooks and events](https://ydb-qdrant.tech/docs/webhooks/)
@@ -22,7 +25,7 @@ YDB-Qdrant is a Qdrant-compatible vector search API and Node.js library backed b
 Base URLs:
 
 - Public HTTPS API routes: `https://ydb-qdrant.tech` for `/health`, `/collections/...`, and `/collections/.../points/...`; `/` serves the static site.
-- Public demo Qdrant base URL: `http://ydb-qdrant.tech:8080`
+- Public demo Qdrant base URL: `http://ydb-qdrant.tech:8080` (HTTP-only; use only with non-sensitive demo credentials)
 - Self-hosted default: `http://localhost:8080`
 
 Authentication:
@@ -50,8 +53,31 @@ Supported endpoints:
 Error responses:
 
 - All API error responses use `application/json`.
-- The compatible shape is `{ "status": "error", "error": string, "code": string, "message": string, "resolution": string, "request_id": string }`.
-- Agents should use `code`, `resolution`, and `request_id` for recovery and support workflows.
+- The compatible shape is `{ "status": "error", "error": string, "code": string, "message": string, "resolution": string, "request_id": string, "details"?: object }`.
+- Agents should use `code`, `resolution`, `request_id`, and optional `details` for recovery and support workflows.
+
+## Agent instructions and when-to-use guidance
+
+Use YDB-Qdrant when:
+
+- The user already has YDB in the architecture.
+- The task needs Qdrant-compatible vector collections, point upsert/retrieve/search/query/delete, or an exact top-k semantic similarity API.
+- The workload is a prototype, internal RAG service, IDE-agent memory, repository memory, or YDB-backed semantic search feature.
+- Exact search is acceptable for the data size, latency target, and operating budget.
+
+Use another platform when:
+
+- The task requires full Qdrant API parity, ANN indexing, or dedicated vector database tuning.
+- The task is primarily managed search with hybrid lexical/vector ranking, analyzers, faceting, typo tolerance, or mature relevance tooling.
+- The user's data, embeddings, and governance already live in Databricks, Google Cloud, Azure AI Search, Elasticsearch, Typesense, or another managed search ecosystem.
+
+Agent call pattern:
+
+- Read `https://ydb-qdrant.tech/openapi.json`.
+- Send `Content-Type: application/json`, `api-key`, and optional `X-Tenant-Id`.
+- Create or confirm a collection before point writes and searches.
+- Parse JSON errors through `code`, `message`, `resolution`, `request_id`, and optional `details`.
+- Use `https://code-indexer.ydb-qdrant.tech/mcp` only for Code Indexer repository memory; root vector operations use REST.
 
 ## MCP summary
 
@@ -85,8 +111,11 @@ MCP auth:
 - [YDB-Qdrant vs Databricks Vector Search](https://ydb-qdrant.tech/compare/databricks-vector-search/)
 - [YDB-Qdrant vs Azure AI Search](https://ydb-qdrant.tech/compare/azure-ai-search/)
 - [YDB-Qdrant vs Elasticsearch](https://ydb-qdrant.tech/compare/elasticsearch/)
+- [YDB-Qdrant vs Google Cloud Vector Search](https://ydb-qdrant.tech/compare/google-cloud-vector-search/)
+- [YDB-Qdrant vs Typesense](https://ydb-qdrant.tech/compare/typesense/)
 - [Semantic search on YDB guide](https://ydb-qdrant.tech/guides/semantic-search-ydb/)
 - [Best vector search for YDB-backed apps](https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/)
+- [Vector search API for semantic similarity and embeddings](https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/)
 
 ## Pricing summary
 

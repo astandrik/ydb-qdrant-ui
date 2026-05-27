@@ -45,6 +45,8 @@ export default function ApiDocsPage() {
                 <code>http://ydb-qdrant.tech:8080</code> for the public demo
                 Qdrant base URL, or{" "}
                 <code>http://localhost:8080</code> for a self-hosted server.
+                Use the public HTTP demo endpoint only with non-sensitive demo
+                credentials.
               </p>
               <pre>{`Content-Type: application/json
 api-key: my-stable-namespace-key
@@ -130,13 +132,33 @@ X-Tenant-Id: optional-workspace`}</pre>
   "code": "COLLECTION_NOT_FOUND",
   "message": "collection not found",
   "resolution": "Create the collection first, or check the collection name, api-key, and X-Tenant-Id namespace.",
-  "request_id": "req-123"
+  "request_id": "req-123",
+  "details": {
+    "collection": "documents"
+  }
 }`}</pre>
           ),
           items: [
             "Every API error response is application/json rather than an HTML error page.",
             "The error field remains a string for Qdrant-compatible clients.",
-            "Agents can use code, message, resolution, and request_id for recovery and support workflows.",
+            "Agents can use code, message, resolution, request_id, and optional details for recovery and support workflows.",
+          ],
+        },
+        {
+          title: "Error probes for agents",
+          body: (
+            <pre>{`curl -i https://ydb-qdrant.tech/collections/__missing_probe \\
+  -H 'api-key: demo-key'
+
+curl -i -X POST https://ydb-qdrant.tech/collections/__bad_json/points/upsert \\
+  -H 'Content-Type: application/json' \\
+  -H 'api-key: demo-key' \\
+  --data '{bad json'`}</pre>
+          ),
+          items: [
+            "Missing collections return COLLECTION_NOT_FOUND.",
+            "Invalid JSON returns VALIDATION_ERROR.",
+            "Use the documented OpenAPI paths for agent probes.",
           ],
         },
         {

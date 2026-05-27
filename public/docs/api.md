@@ -5,7 +5,7 @@ OpenAPI: https://ydb-qdrant.tech/openapi.json
 Base URLs:
 
 - `https://ydb-qdrant.tech` for public HTTPS API routes such as `/health` and `/collections/...`; `/` serves the static site.
-- `http://ydb-qdrant.tech:8080`
+- `http://ydb-qdrant.tech:8080` for the HTTP-only public demo endpoint; use it only with non-sensitive demo credentials
 - `http://localhost:8080`
 
 Headers:
@@ -40,8 +40,27 @@ Error responses use JSON, not HTML:
   "code": "COLLECTION_NOT_FOUND",
   "message": "collection not found",
   "resolution": "Create the collection first, or check the collection name, api-key, and X-Tenant-Id namespace.",
-  "request_id": "req-123"
+  "request_id": "req-123",
+  "details": {
+    "collection": "documents"
+  }
 }
 ```
 
-The `error` field remains a string for Qdrant-compatible clients. Agents should use `code`, `message`, `resolution`, and `request_id` for recovery and support workflows.
+The `error` field remains a string for Qdrant-compatible clients. Agents should use `code`, `message`, `resolution`, `request_id`, and optional `details` for recovery and support workflows.
+
+Error probes:
+
+```bash
+curl -i https://ydb-qdrant.tech/collections/__missing_probe \
+  -H 'api-key: demo-key'
+
+curl -i -X POST https://ydb-qdrant.tech/collections/__bad_json/points/upsert \
+  -H 'Content-Type: application/json' \
+  -H 'api-key: demo-key' \
+  --data '{bad json'
+```
+
+- Missing collections return `COLLECTION_NOT_FOUND`.
+- Invalid JSON returns `VALIDATION_ERROR`.
+- Use the documented OpenAPI paths for agent probes.

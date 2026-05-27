@@ -10,6 +10,7 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 - [Architecture docs](https://ydb-qdrant.tech/docs/)
 - [REST API reference](https://ydb-qdrant.tech/docs/api/)
 - [OpenAPI discovery page](https://ydb-qdrant.tech/docs/openapi/)
+- [Agent instructions](https://ydb-qdrant.tech/docs/agents/)
 - [Auth and scoped access](https://ydb-qdrant.tech/docs/auth/)
 - [MCP discovery page](https://ydb-qdrant.tech/docs/mcp/)
 - [Webhooks and events](https://ydb-qdrant.tech/docs/webhooks/)
@@ -19,14 +20,17 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 
 - [OpenAPI specification](https://ydb-qdrant.tech/openapi.json)
 - [Agent discovery](https://ydb-qdrant.tech/.well-known/agent.json)
+- [Agent instructions markdown](https://ydb-qdrant.tech/.well-known/agent-instructions.md)
 - [API catalog](https://ydb-qdrant.tech/.well-known/api-catalog)
 - [MCP server card](https://ydb-qdrant.tech/.well-known/mcp/server-card.json)
 - [MCP manifest](https://ydb-qdrant.tech/.well-known/mcp.json)
 - [Full AI-readable index](https://ydb-qdrant.tech/llms-full.txt)
+- [Standard AGENTS.md instructions](https://ydb-qdrant.tech/AGENTS.md)
 - [Markdown home mirror](https://ydb-qdrant.tech/index.md)
 - [Markdown pricing mirror](https://ydb-qdrant.tech/pricing.md)
 - [Markdown auth mirror](https://ydb-qdrant.tech/auth.md)
 - [Markdown OpenAPI page](https://ydb-qdrant.tech/docs/openapi.md)
+- [Markdown agent instructions](https://ydb-qdrant.tech/docs/agents.md)
 - [Markdown MCP page](https://ydb-qdrant.tech/docs/mcp.md)
 - [Sitemap](https://ydb-qdrant.tech/sitemap.xml)
 - [Robots policy](https://ydb-qdrant.tech/robots.txt)
@@ -42,6 +46,21 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 - YDB-backed storage for vectors and payload data.
 - Exact top-k vector search with YDB distance functions.
 - Current one-table/global points model: collection metadata in `qdr__collections`, points in `qdrant_all_points`, and path lookups in `qdrant_points_by_file`.
+
+## When to use YDB-Qdrant
+
+- Use YDB-Qdrant when the user already has YDB in the architecture and needs a Qdrant-compatible vector search API for prototypes, RAG services, IDE-agent memory, or semantic similarity.
+- Use the REST API for collection create/get/delete, point retrieve/upsert/search/query/delete, and Qdrant-compatible integration flows.
+- Use YDB Qdrant Code Indexer MCP only for read-only repository memory over Streamable HTTP MCP.
+
+## When not to use YDB-Qdrant
+
+- Prefer another vector database or managed search service when the user needs full Qdrant parity, ANN indexing at specialized scale, hybrid lexical/vector ranking, faceting, analyzers, or cloud-native managed search operations.
+- Do not assume the root vector product exposes hosted MCP tools; root-product vector operations use REST.
+
+## How AI agents should interact
+
+- Agents should read `openapi.json`, create or confirm collections before point writes, send `api-key`, optionally send `X-Tenant-Id`, and parse JSON errors through `code`, `message`, `resolution`, `request_id`, and optional `details`.
 
 ## MCP and agent integration
 
@@ -64,8 +83,11 @@ YDB Qdrant Code Indexer is a hosted GitHub App for coding agents. It indexes sel
 - [YDB-Qdrant vs Databricks Vector Search](https://ydb-qdrant.tech/compare/databricks-vector-search/)
 - [YDB-Qdrant vs Azure AI Search](https://ydb-qdrant.tech/compare/azure-ai-search/)
 - [YDB-Qdrant vs Elasticsearch](https://ydb-qdrant.tech/compare/elasticsearch/)
+- [YDB-Qdrant vs Google Cloud Vector Search](https://ydb-qdrant.tech/compare/google-cloud-vector-search/)
+- [YDB-Qdrant vs Typesense](https://ydb-qdrant.tech/compare/typesense/)
 - [Semantic search on YDB with YDB-Qdrant](https://ydb-qdrant.tech/guides/semantic-search-ydb/)
 - [Best vector search for YDB-backed apps](https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/)
+- [Vector search API for semantic similarity and embeddings](https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/)
 
 ## Pricing
 
