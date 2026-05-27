@@ -46,6 +46,17 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
 
 - **Static export / hosting**:
   - The repo includes a pre-built `out/` directory from Next.js output, but you should **treat it as generated**. Do not hand-edit files inside `out/`; regenerate via `npm run build` when needed.
+  - Preferred production deploy script: `private/deploy-static.sh`.
+  - The script builds the static export, packs `out/`, uploads it to `astandrik@111.88.152.4`, and atomically switches `/var/www/out`.
+  - `scripts/deploy-static.sh` is an older rsync-style deploy helper; prefer `private/deploy-static.sh` for current production pushes unless the user explicitly asks otherwise.
+
+- **Production nginx assumptions**:
+  - The production nginx config is not tracked in this repository.
+  - The HTTPS server should serve static files from `/var/www/out` with `try_files $uri $uri/ =404` for the generic fallback so static-export directory routes such as `/developers/`, `/compare/qdrant/`, and `/guides/semantic-search-ydb/` work.
+  - Agent-readable markdown files (`*.md`) should be served as `text/markdown`.
+  - `/.well-known/api-catalog` should be served as `application/linkset+json`.
+  - `/.well-known/mcp` should serve the same JSON payload as `/.well-known/mcp.json`.
+  - After changing nginx, run `sudo nginx -t` before reload and keep a timestamped backup of the config.
 
 - **Next.js docs**:
   - Next.js framework docs: `https://nextjs.org/docs`
@@ -67,6 +78,10 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
 
 - **Current state**:
   - No explicit `test` script is defined in `package.json`.
+
+- **Agent resource validation**:
+  - Run `npm run validate:agent-resources` after changing OpenAPI, MCP discovery, `llms*.txt`, markdown mirrors, or agent-facing docs.
+  - CI is expected to run this validation in addition to lint/build checks.
 
 - **When adding tests**:
   - Add a `test` script in `package.json` (e.g., using Jest or Vitest) and document the expected command here.
@@ -144,6 +159,28 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
   - **Utility events**:
     - `demo_url_copy`: public demo URL copied (params: `page`, `area`, `success`).
 
+## Agent-readiness resources
+
+- **Machine-readable public files**:
+  - Keep `public/openapi.json` as the canonical OpenAPI 3.1 spec for the current REST surface.
+  - Keep `public/.well-known/agent.json`, `public/.well-known/api-catalog`, `public/.well-known/mcp.json`, and `public/.well-known/mcp/server-card.json` discoverable and internally consistent.
+  - Keep `public/llms.txt`, `public/llms-full.txt`, `public/docs/llms.txt`, `public/auth.md`, and markdown mirrors for developer/content pages aligned with the HTML pages.
+
+- **MCP scope**:
+  - The hosted MCP endpoint documented by this static site is `https://code-indexer.ydb-qdrant.tech/mcp`.
+  - This repository exposes discovery and documentation for that hosted Code Indexer MCP. It does not implement a runtime MCP server for root-product vector operations.
+  - Do not claim root-product Streamable HTTP MCP support unless a backend/runtime service actually exists.
+
+- **Auth and scoped access claims**:
+  - REST API keys currently scope namespaces; `X-Tenant-Id` further splits tenant namespaces.
+  - Code Indexer MCP tokens are bearer tokens for read-only repository search, scoped by GitHub App installation/repository access.
+  - Do not claim role-based REST permissions, OAuth scopes, webhook subscriptions, or webhook signing unless the backend enforces/supports them.
+
+- **Production verification for agent resources**:
+  - After deploy, verify at least `/openapi.json`, `/.well-known/agent.json`, `/.well-known/api-catalog`, `/.well-known/mcp/server-card.json`, `/.well-known/mcp.json`, `/.well-known/mcp`, `/auth.md`, `/llms-full.txt`, `/developers/`, `/docs/api/`, and `/health`.
+  - Validate JSON bodies by parsing them, not just by checking HTTP 200.
+  - If using orank, prefer `POST https://ora.ai/api/scan` followed by `GET https://ora.ai/api/score/ydb-qdrant.tech`; report API timeouts or cached scores explicitly.
+
 ## Agent-specific guidance
 
 - **General behavior**:
@@ -168,5 +205,4 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
   - Use existing CSS variables from `_variables.scss` (e.g., `var(--spacing-md)`, `var(--acc)`).
   - Use breakpoint mixins from `_mixins.scss` instead of raw media queries.
   - Prefer utility classes from `_utilities.scss` for common patterns (`.section`, `.grid`, `.muted`).
-
 
