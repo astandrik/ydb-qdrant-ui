@@ -1,15 +1,18 @@
 # YDB Qdrant Code Indexer
 
-YDB Qdrant Code Indexer is a hosted GitHub App for coding agents. It indexes selected GitHub repositories into YDB-backed Qdrant-compatible vector storage and exposes searchable project memory through a hosted MCP endpoint.
+YDB Qdrant Code Indexer is a hosted GitHub App for coding agents. It indexes selected GitHub repositories into YDB-backed Qdrant-compatible vector storage and exposes searchable project memory through hosted Streamable HTTP MCP.
 
 ## Pages
 
-- Product page: https://ydb-qdrant.tech/code-indexer/
-- Install GitHub App: https://github.com/apps/ydb-qdrant-code-indexer/installations/new
-- Dashboard: https://ydb-qdrant.tech/code-indexer/dashboard/
-- Privacy: https://ydb-qdrant.tech/code-indexer/privacy/
-- Support: https://ydb-qdrant.tech/code-indexer/support/
-- Status: https://ydb-qdrant.tech/code-indexer/status/
+- [Product page](https://ydb-qdrant.tech/code-indexer/)
+- [Install GitHub App](https://github.com/apps/ydb-qdrant-code-indexer/installations/new)
+- [Dashboard](https://ydb-qdrant.tech/code-indexer/dashboard/)
+- [Privacy](https://ydb-qdrant.tech/code-indexer/privacy/)
+- [Support](https://ydb-qdrant.tech/code-indexer/support/)
+- [Status](https://ydb-qdrant.tech/code-indexer/status/)
+- [Auth and scoped access](https://ydb-qdrant.tech/docs/auth/)
+- [MCP server card](https://ydb-qdrant.tech/.well-known/mcp/server-card.json)
+- [MCP manifest](https://ydb-qdrant.tech/.well-known/mcp.json)
 
 ## What is indexed
 
@@ -24,7 +27,7 @@ The GitHub App receives repository webhooks and refreshes indexed code chunks af
 
 ## Storage and MCP
 
-Code chunks, embeddings, GitHub metadata, and search payloads live in YDB-backed Qdrant-compatible collections. Coding agents use the hosted MCP endpoint at https://code-indexer.ydb-qdrant.tech/mcp to list repositories, inspect repository indexes, and call `search_code` by owner, repository, and natural-language or code-oriented query.
+Code chunks, embeddings, GitHub metadata, and search payloads live in YDB-backed Qdrant-compatible collections. Coding agents use the hosted MCP endpoint at `https://code-indexer.ydb-qdrant.tech/mcp` to list repositories, inspect repository indexes, and call `search_code` by owner, repository, and natural-language or code-oriented query.
 
 Generic MCP configuration:
 
@@ -40,6 +43,12 @@ Generic MCP configuration:
   }
 }
 ```
+
+Hosted MCP exposes three read-only tools:
+
+- `list_repositories`: returns repositories available to the token, including owner, repo id, installation id, default branch, status, indexed chunk count, and last indexed SHA/time.
+- `list_repository_indexes`: returns the default branch index plus recent pull request indexes for one repository.
+- `search_code`: searches indexed chunks with `owner`, `repo`, optional `prNumber`, `query`, and `top`.
 
 ## Permissions and tokens
 

@@ -4,43 +4,61 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 
 ## Core pages
 
-- Main page: https://ydb-qdrant.tech/
-- Architecture docs: https://ydb-qdrant.tech/docs/
-- Code Indexer product: https://ydb-qdrant.tech/code-indexer/
+- [Main page](https://ydb-qdrant.tech/)
+- [Developer hub](https://ydb-qdrant.tech/developers/)
+- [Architecture docs](https://ydb-qdrant.tech/docs/)
+- [REST API reference](https://ydb-qdrant.tech/docs/api/)
+- [Auth and scoped access](https://ydb-qdrant.tech/docs/auth/)
+- [Webhooks and events](https://ydb-qdrant.tech/docs/webhooks/)
+- [Code Indexer product](https://ydb-qdrant.tech/code-indexer/)
 
-## Machine-readable and developer resources
+## Machine-readable resources
 
-- Sitemap: https://ydb-qdrant.tech/sitemap.xml
-- Robots policy: https://ydb-qdrant.tech/robots.txt
-- GitHub repository: https://github.com/astandrik/ydb-qdrant
-- npm package: https://www.npmjs.com/package/ydb-qdrant
+- [OpenAPI specification](https://ydb-qdrant.tech/openapi.json)
+- [Agent discovery](https://ydb-qdrant.tech/.well-known/agent.json)
+- [API catalog](https://ydb-qdrant.tech/.well-known/api-catalog)
+- [MCP server card](https://ydb-qdrant.tech/.well-known/mcp/server-card.json)
+- [MCP manifest](https://ydb-qdrant.tech/.well-known/mcp.json)
+- [Full AI-readable index](https://ydb-qdrant.tech/llms-full.txt)
+- [Markdown home mirror](https://ydb-qdrant.tech/index.md)
+- [Markdown auth mirror](https://ydb-qdrant.tech/auth.md)
+- [Sitemap](https://ydb-qdrant.tech/sitemap.xml)
+- [Robots policy](https://ydb-qdrant.tech/robots.txt)
+- [GitHub repository](https://github.com/astandrik/ydb-qdrant)
+- [npm package](https://www.npmjs.com/package/ydb-qdrant)
 
-## Capabilities
+## REST capabilities
 
-- Qdrant-compatible REST API for common collection, points, search, and query flows.
+- Qdrant-compatible REST API for collection create/get/delete, point retrieve/upsert, point search/query, point delete, and index compatibility calls.
+- Authentication by `api-key` header; the key derives a stable namespace. Optional `X-Tenant-Id` adds a tenant suffix inside the same key namespace.
 - Node.js library mode through the `ydb-qdrant` package.
 - YDB-backed storage for vectors and payload data.
 - Exact top-k vector search with YDB distance functions.
 - Current one-table/global points model: collection metadata in `qdr__collections`, points in `qdrant_all_points`, and path lookups in `qdrant_points_by_file`.
 
+## MCP and agent integration
+
+YDB Qdrant Code Indexer is a hosted GitHub App for coding agents. It indexes selected GitHub repositories into YDB-backed Qdrant-compatible vector storage and exposes searchable project memory through hosted Streamable HTTP MCP.
+
+- [Code Indexer AI-readable page](https://ydb-qdrant.tech/code-indexer/llms.txt)
+- [Install GitHub App](https://github.com/apps/ydb-qdrant-code-indexer/installations/new)
+- [Dashboard](https://ydb-qdrant.tech/code-indexer/dashboard/)
+- [Support](https://ydb-qdrant.tech/code-indexer/support/)
+- [Privacy](https://ydb-qdrant.tech/code-indexer/privacy/)
+- Hosted MCP endpoint: `https://code-indexer.ydb-qdrant.tech/mcp`
+- MCP tools: `list_repositories`, `list_repository_indexes`, `search_code`
+- GitHub permissions are scoped to installed repositories and cover metadata, contents, pull requests, and checks.
+- MCP tokens are created in the dashboard, shown once, stored as hashes, and revocable from the dashboard.
+
+## Evaluation and comparison content
+
+- [YDB-Qdrant vs standalone Qdrant](https://ydb-qdrant.tech/compare/qdrant/)
+- [YDB-Qdrant and managed vector search platforms](https://ydb-qdrant.tech/compare/vector-search-platforms/)
+- [Semantic search on YDB with YDB-Qdrant](https://ydb-qdrant.tech/guides/semantic-search-ydb/)
+
 ## Trade-offs
 
-- Exact search can have different latency and cost characteristics than approximate nearest neighbor indexes, especially at higher throughput or larger collection sizes.
+- Exact search can have different latency and cost characteristics than approximate nearest-neighbor indexes, especially at higher throughput or larger collection sizes.
 - Qdrant API coverage is intentionally partial and may not include the full standalone Qdrant feature set, advanced filters, facets, recommend/discover flows, batch search, or specialized ANN behavior.
 - YDB-Qdrant is a good fit for experiments, prototypes, IDE agents, RAG services, and applications that already use YDB and want Qdrant-compatible vector storage without a separate vector database cluster.
 - Standalone Qdrant or a managed vector database may be better for mature dedicated vector search deployments that need full Qdrant compatibility, specialized ANN indexing, or tightly tuned latency characteristics.
-
-## YDB Qdrant Code Indexer
-
-YDB Qdrant Code Indexer is a separate hosted GitHub App for coding agents. It indexes selected GitHub repositories into YDB-backed Qdrant-compatible vector storage and exposes searchable project memory through hosted MCP.
-
-- Product page: https://ydb-qdrant.tech/code-indexer/
-- AI-readable page: https://ydb-qdrant.tech/code-indexer/llms.txt
-- Install GitHub App: https://github.com/apps/ydb-qdrant-code-indexer/installations/new
-- Dashboard: https://ydb-qdrant.tech/code-indexer/dashboard/
-- Support: https://ydb-qdrant.tech/code-indexer/support/
-- Privacy: https://ydb-qdrant.tech/code-indexer/privacy/
-- Hosted MCP endpoint: https://code-indexer.ydb-qdrant.tech/mcp
-- GitHub permissions are scoped to installed repositories and cover metadata, contents, pull requests, and checks.
-- MCP tokens are created in the dashboard, shown once, stored as hashes, and revocable from the dashboard.
-- Public beta quotas limit repository count, indexed chunks, and daily searches.

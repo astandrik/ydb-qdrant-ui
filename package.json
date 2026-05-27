@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "diagrams": "node scripts/render-diagrams.mjs",
+    "validate:agent-resources": "node scripts/validate-agent-resources.mjs",
     "lint": "eslint .",
     "prepare": "husky"
   },

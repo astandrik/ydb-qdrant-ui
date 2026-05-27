@@ -1,0 +1,137 @@
+@use "../../styles/mixins" as *;
+
+.agent-resource {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--spacing-3xl) var(--spacing-lg);
+
+  @include sm {
+    padding: var(--spacing-5xl) var(--spacing-xl);
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+
+  h1 {
+    max-width: 820px;
+    margin-bottom: var(--spacing-lg);
+    font-size: 42px;
+    line-height: 1.02;
+
+    @include md {
+      font-size: 60px;
+    }
+  }
+
+  h2 {
+    margin-bottom: var(--spacing-md);
+    font-size: 24px;
+    line-height: 1.18;
+  }
+
+  &__hero,
+  &__section,
+  &__panel {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  &__hero {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-2xl);
+  }
+
+  &__eyebrow {
+    margin-bottom: var(--spacing-md);
+    color: #9be5ff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  &__lead,
+  &__body {
+    color: rgba(255, 255, 255, 0.68);
+    line-height: 1.65;
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    code {
+      color: #e9f7ff;
+      font-family: var(--font-mono);
+      font-size: 0.92em;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-2xl);
+  }
+
+  &__section,
+  &__panel {
+    margin-top: var(--spacing-lg);
+    padding: var(--spacing-2xl);
+
+    ul,
+    ol {
+      display: grid;
+      gap: var(--spacing-md);
+      margin: 0;
+      padding-left: var(--spacing-xl);
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.65;
+    }
+
+    li {
+      overflow-wrap: anywhere;
+    }
+
+    a {
+      color: #9be5ff;
+    }
+
+    pre {
+      width: 100%;
+      margin: var(--spacing-lg) 0 0;
+      padding: var(--spacing-lg);
+      overflow-x: auto;
+      border: 1px solid rgba(155, 229, 255, 0.22);
+      border-radius: var(--radius-md);
+      background: rgba(0, 0, 0, 0.28);
+      color: #e9f7ff;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+  }
+
+  &__panel-grid {
+    display: grid;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+
+    @include md {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__panel {
+    margin-top: 0;
+
+    h3 {
+      margin-bottom: var(--spacing-md);
+      font-size: 17px;
+    }
+  }
+}
