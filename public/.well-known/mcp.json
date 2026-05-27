@@ -3,7 +3,9 @@
     {
       "name": "ydb-qdrant-code-indexer",
       "title": "YDB Qdrant Code Indexer",
+      "version": "1.0.0",
       "url": "https://code-indexer.ydb-qdrant.tech/mcp",
+      "serverUrl": "https://code-indexer.ydb-qdrant.tech/mcp",
       "transport": "streamable-http",
       "server_card": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
       "auth": {

@@ -20,6 +20,18 @@
   "linkset": [
     {
       "anchor": "https://ydb-qdrant.tech/",
+      "item": [
+        {
+          "href": "https://ydb-qdrant.tech/openapi.json",
+          "type": "application/vnd.oai.openapi+json",
+          "title": "YDB-Qdrant REST OpenAPI"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
+          "type": "application/json",
+          "title": "YDB Qdrant Code Indexer MCP server card"
+        }
+      ],
       "service-desc": [
         {
           "href": "https://ydb-qdrant.tech/openapi.json",

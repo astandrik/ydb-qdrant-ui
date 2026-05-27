@@ -1,8 +1,21 @@
 {
   "name": "YDB-Qdrant",
+  "version": "1.0.0",
   "description": "Qdrant-compatible vector search API on YDB, with hosted Code Indexer MCP for repository memory.",
   "url": "https://ydb-qdrant.tech/",
   "openapi": "https://ydb-qdrant.tech/openapi.json",
+  "api": {
+    "type": "openapi",
+    "url": "https://ydb-qdrant.tech/openapi.json",
+    "docs": "https://ydb-qdrant.tech/docs/api/"
+  },
+  "apis": [
+    {
+      "type": "openapi",
+      "url": "https://ydb-qdrant.tech/openapi.json",
+      "docs": "https://ydb-qdrant.tech/docs/api/"
+    }
+  ],
   "docs": "https://ydb-qdrant.tech/developers/",
   "llms": "https://ydb-qdrant.tech/llms.txt",
   "llms_full": "https://ydb-qdrant.tech/llms-full.txt",
@@ -14,9 +27,24 @@
     "server_card": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
     "manifest": "https://ydb-qdrant.tech/.well-known/mcp.json",
     "endpoint": "https://code-indexer.ydb-qdrant.tech/mcp",
+    "serverUrl": "https://code-indexer.ydb-qdrant.tech/mcp",
     "transport": "streamable-http",
     "auth": "Bearer token created in the Code Indexer dashboard"
   },
+  "mcpServers": [
+    {
+      "name": "ydb-qdrant-code-indexer",
+      "serverUrl": "https://code-indexer.ydb-qdrant.tech/mcp",
+      "transport": "streamable-http",
+      "server_card": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json"
+    }
+  ],
+  "capabilities": [
+    "vector-search",
+    "semantic-search",
+    "qdrant-compatible-rest-api",
+    "repository-code-search-mcp"
+  ],
   "resources": [
     {
       "name": "REST API reference",

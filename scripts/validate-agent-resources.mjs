@@ -148,11 +148,22 @@ assert(
     apiCatalog.apis.some((api) => api.url === "https://ydb-qdrant.tech/openapi.json"),
   "API catalog must list the public OpenAPI URL",
 );
+assert(
+  apiCatalog.linkset?.[0]?.item?.some(
+    (item) => item.href === "https://ydb-qdrant.tech/openapi.json",
+  ),
+  "API catalog linkset must include OpenAPI item entries",
+);
 
 const mcpCard = readJson("public/.well-known/mcp/server-card.json");
 assert(
   mcpCard.name === "ydb-qdrant-code-indexer",
   "MCP server card must describe Code Indexer",
+);
+assert(mcpCard.version === "1.0.0", "MCP server card must include a version");
+assert(
+  mcpCard.serverUrl === "https://code-indexer.ydb-qdrant.tech/mcp",
+  "MCP server card must expose top-level serverUrl",
 );
 assert(
   mcpCard.transport?.type === "streamable-http",

@@ -1,9 +1,11 @@
 {
   "name": "ydb-qdrant-code-indexer",
   "title": "YDB Qdrant Code Indexer",
+  "version": "1.0.0",
   "description": "Read-only MCP tools for searching GitHub repositories indexed into YDB-backed Qdrant-compatible vector storage.",
   "homepage": "https://ydb-qdrant.tech/code-indexer/",
   "documentation": "https://ydb-qdrant.tech/code-indexer/support/",
+  "serverUrl": "https://code-indexer.ydb-qdrant.tech/mcp",
   "provider": {
     "name": "YDB-Qdrant",
     "url": "https://ydb-qdrant.tech/"
