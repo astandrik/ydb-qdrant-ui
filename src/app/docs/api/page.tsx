@@ -129,6 +129,11 @@ X-Tenant-Id: optional-workspace`}</pre>
   -H 'api-key: demo-key' \\
   -d '{"vectors":{"size":3,"distance":"Cosine","data_type":"float"}}'
 
+curl -X POST http://localhost:8080/collections/documents/points/upsert \\
+  -H 'Content-Type: application/json' \\
+  -H 'api-key: demo-key' \\
+  -d '{"points":[{"id":"doc-1","vector":[0.1,0.2,0.3],"payload":{"title":"Doc 1"}}]}'
+
 curl -X POST http://localhost:8080/collections/documents/points/search \\
   -H 'Content-Type: application/json' \\
   -H 'api-key: demo-key' \\

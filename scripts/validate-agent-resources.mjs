@@ -188,6 +188,12 @@ assert(
   ciWorkflow.includes("npm run validate:agent-resources"),
   "CI workflow must run validate:agent-resources",
 );
+const apiDocsPage = readFileSync(resolveRoot("src/app/docs/api/page.tsx"), "utf8");
+assert(
+  apiDocsPage.indexOf("/points/upsert") > -1 &&
+    apiDocsPage.indexOf("/points/upsert") < apiDocsPage.indexOf("/points/search"),
+  "API docs example must upsert before search",
+);
 for (const expected of [
   "https://ydb-qdrant.tech/openapi.json",
   "https://ydb-qdrant.tech/docs/api/",
