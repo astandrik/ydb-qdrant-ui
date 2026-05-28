@@ -35,9 +35,9 @@ export default function AgentModePage() {
         title={agentModeData.name}
         lead={
           <p>
-            {agentModeData.summary} This page is the human-readable companion
-            for <code>/agent/</code> and{" "}
-            <code>/agent-mode.json</code>.
+            {agentModeData.summary} This page is the human-readable agent-mode
+            view. Use <code>/agent-mode.json</code> for the compact
+            machine-readable JSON version.
           </p>
         }
         actions={[

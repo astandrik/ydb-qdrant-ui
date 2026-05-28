@@ -619,6 +619,11 @@ assert(
     !developersPage.includes("/?mode=agent"),
   "Tracked UI must advertise /agent/ as the canonical static agent mode URL",
 );
+assert(
+  !agentModePage.includes("human-readable companion") &&
+    agentModePage.includes("machine-readable JSON version"),
+  "Agent mode page copy must avoid self-referencing /agent/ as a companion resource",
+);
 for (const expected of [
   "https://ydb-qdrant.tech/agent/",
   "https://ydb-qdrant.tech/agent-mode.json",
