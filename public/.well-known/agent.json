@@ -102,6 +102,8 @@
     "required_for": [
       "create_collection",
       "get_collection",
+      "delete_collection",
+      "put_collection_index",
       "upsert_points",
       "retrieve_points",
       "search_points",

@@ -25,6 +25,7 @@ function readJson(relativePath) {
 }
 
 const requiredFiles = [
+  "AGENTS.md",
   "public/openapi.json",
   "public/.well-known/agent.json",
   "public/.well-known/agent-card.json",
@@ -305,9 +306,14 @@ assert(
     agent.capability_tags.includes("vector-search") &&
     Array.isArray(agent.actions) &&
     agent.actions.some((action) => action.id === "search_points") &&
-    ["get_collection", "retrieve_points", "search_points", "query_points"].every((id) =>
-      agent.auth_model?.required_for?.includes(id),
-    ) &&
+    [
+      "get_collection",
+      "delete_collection",
+      "put_collection_index",
+      "retrieve_points",
+      "search_points",
+      "query_points",
+    ].every((id) => agent.auth_model?.required_for?.includes(id)) &&
     typeof agent.a2a_capabilities === "object" &&
     Array.isArray(agent.skills),
   "Agent discovery must include agent-card compatible metadata",
@@ -375,13 +381,27 @@ assert(
     agentCard.skills.some((skill) => skill.id === "repository-code-search-mcp"),
   "A2A agent card must list REST and Code Indexer MCP skills",
 );
+assert(
+  agentCard.security?.some((entry) => Object.hasOwn(entry, "ApiKeyAuth")) &&
+    agentCard.security?.some((entry) => Object.hasOwn(entry, "CodeIndexerBearer")) &&
+    agentCard.skills
+      .find((skill) => skill.id === "qdrant-compatible-rest-api")
+      ?.security?.some((entry) => Object.hasOwn(entry, "ApiKeyAuth")) &&
+    agentCard.skills
+      .find((skill) => skill.id === "repository-code-search-mcp")
+      ?.security?.some((entry) => Object.hasOwn(entry, "CodeIndexerBearer")),
+  "A2A agent card must advertise REST api-key and MCP bearer auth separately",
+);
 
 const protectedResource = readJson("public/.well-known/oauth-protected-resource");
 assert(
   protectedResource.resource === "https://ydb-qdrant.tech/" &&
-    protectedResource.authorization_servers?.includes("https://ydb-qdrant.tech") &&
-    protectedResource.bearer_methods_supported?.includes("header"),
+    protectedResource.authorization_servers?.includes("https://ydb-qdrant.tech"),
   "OAuth protected resource metadata must describe the public REST resource",
+);
+assert(
+  !Object.hasOwn(protectedResource, "bearer_methods_supported"),
+  "OAuth protected resource metadata must not advertise bearer auth for the REST resource",
 );
 assert(
   !Object.hasOwn(protectedResource, "scopes_supported"),
@@ -482,12 +502,19 @@ assert(
 );
 
 const llms = readFileSync(resolveRoot("public/llms.txt"), "utf8");
+const rootAgentsMd = readFileSync(resolveRoot("AGENTS.md"), "utf8");
 const agentsMd = readFileSync(resolveRoot("public/AGENTS.md"), "utf8");
 const lowercaseAgentsRoute = readFileSync(
   resolveRoot("src/app/agents.md/route.ts"),
   "utf8",
 );
 const skillsScript = readFileSync(resolveRoot("public/skills.sh"), "utf8");
+assert(
+  rootAgentsMd.includes(
+    "/.well-known/oauth-protected-resource` and `/.well-known/oauth-authorization-server` should be served as `application/json`",
+  ),
+  "Root AGENTS.md must document JSON content type for extensionless OAuth metadata",
+);
 assert(
   agentsMd.includes("https://ydb-qdrant.tech/.well-known/agent-skills/index.json") &&
     agentsMd.includes("Idempotency-Key") &&
