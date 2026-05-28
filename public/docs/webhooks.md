@@ -15,3 +15,10 @@ GET/POST https://code-indexer.ydb-qdrant.tech/mcp
 ```
 
 For public hosted clients, use the authenticated MCP endpoint rather than direct internal search APIs.
+
+## Discovery resources
+
+- YDB Qdrant Code Indexer MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json
+- YDB Qdrant Code Indexer Agent Skill: https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md
+- YDB-Qdrant Agent Mode: https://ydb-qdrant.tech/agent/
+- Auth and scoped access: https://ydb-qdrant.tech/docs/auth/

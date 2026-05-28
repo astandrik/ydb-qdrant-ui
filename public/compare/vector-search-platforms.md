@@ -18,6 +18,7 @@ Focused comparisons:
 - YDB-Qdrant vs Azure AI Search: https://ydb-qdrant.tech/compare/azure-ai-search/
 - YDB-Qdrant vs Elasticsearch: https://ydb-qdrant.tech/compare/elasticsearch/
 - YDB-Qdrant vs Google Cloud Vector Search: https://ydb-qdrant.tech/compare/google-cloud-vector-search/
+- YDB-Qdrant vs MongoDB Atlas Vector Search: https://ydb-qdrant.tech/compare/mongodb-atlas-vector-search/
 - YDB-Qdrant vs Typesense: https://ydb-qdrant.tech/compare/typesense/
 - Vector database API for semantic search: https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/
 - Vector search API for semantic similarity and embeddings: https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/

@@ -6,12 +6,18 @@ YDB-Qdrant is a Qdrant-compatible vector search API and Node.js library backed b
 
 - [Product](https://ydb-qdrant.tech/)
 - [Developer hub](https://ydb-qdrant.tech/developers/)
+- [Agent mode](https://ydb-qdrant.tech/agent/)
+- [Agent mode JSON](https://ydb-qdrant.tech/agent-mode.json)
+- [About](https://ydb-qdrant.tech/about/)
+- [Contact](https://ydb-qdrant.tech/contact/)
+- [Privacy](https://ydb-qdrant.tech/privacy/)
 - [Pricing](https://ydb-qdrant.tech/pricing/)
 - [OpenAPI](https://ydb-qdrant.tech/openapi.json)
 - [OpenAPI discovery page](https://ydb-qdrant.tech/docs/openapi/)
 - [REST API docs](https://ydb-qdrant.tech/docs/api/)
 - [Agent Skills index](https://ydb-qdrant.tech/.well-known/agent-skills/index.json)
 - [YDB-Qdrant Agent Skill](https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md)
+- [YDB Qdrant Code Indexer Agent Skill](https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md)
 - [agents.md compatibility file](https://ydb-qdrant.tech/agents.md)
 - [skills.sh compatibility script](https://ydb-qdrant.tech/skills.sh)
 - [A2A agent card](https://ydb-qdrant.tech/.well-known/agent-card.json)
@@ -39,6 +45,7 @@ Authentication:
 - Send `api-key: <stable-key>` on REST calls.
 - The key is used to derive an isolated namespace.
 - Send optional `X-Tenant-Id: <tenant>` to split one key into tenant namespaces.
+- Send optional `YDB-Qdrant-API-Version: 2026-05-28` to pin the documented REST contract.
 - Send optional `Idempotency-Key: <stable-operation-key>` when retrying mutation requests.
 - Anonymous fallback can depend on client IP/User-Agent and is not recommended for stable agent workflows.
 
@@ -82,6 +89,7 @@ Agent call pattern:
 
 - Read `https://ydb-qdrant.tech/openapi.json`.
 - Send `Content-Type: application/json`, `api-key`, and optional `X-Tenant-Id`.
+- Send `YDB-Qdrant-API-Version: 2026-05-28` when the generated client needs the current public contract pinned.
 - Create or confirm a collection before point writes and searches.
 - Parse JSON errors through `code`, `message`, `resolution`, `request_id`, and optional `details`.
 - Use `https://code-indexer.ydb-qdrant.tech/mcp` only for Code Indexer repository memory; root vector operations use REST.
@@ -119,6 +127,7 @@ MCP auth:
 - [YDB-Qdrant vs Azure AI Search](https://ydb-qdrant.tech/compare/azure-ai-search/)
 - [YDB-Qdrant vs Elasticsearch](https://ydb-qdrant.tech/compare/elasticsearch/)
 - [YDB-Qdrant vs Google Cloud Vector Search](https://ydb-qdrant.tech/compare/google-cloud-vector-search/)
+- [YDB-Qdrant vs MongoDB Atlas Vector Search](https://ydb-qdrant.tech/compare/mongodb-atlas-vector-search/)
 - [YDB-Qdrant vs Typesense](https://ydb-qdrant.tech/compare/typesense/)
 - [Semantic search on YDB guide](https://ydb-qdrant.tech/guides/semantic-search-ydb/)
 - [Best vector search for YDB-backed apps](https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/)

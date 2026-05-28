@@ -13,7 +13,14 @@ Headers:
 - `Content-Type: application/json` for write/search requests.
 - `api-key: <stable-key>` for namespace isolation.
 - Optional `X-Tenant-Id: <tenant>` for tenant suffixing.
+- Optional `YDB-Qdrant-API-Version: 2026-05-28` for pinning the documented REST contract.
 - Optional `Idempotency-Key: <stable-mutation-key>` for retrying create, delete, index, upsert, and point-delete mutation requests.
+
+## API versioning and deprecation policy
+
+YDB-Qdrant uses header-based API versioning instead of a `/v1` URL prefix. The current documented value is `2026-05-28`.
+
+Backward-incompatible public REST API changes will be documented in OpenAPI and docs with at least 90 days of notice when the hosted API is affected. Deprecated fields or endpoints remain documented during the notice window with migration guidance. Do not probe `/v1` routes for version discovery; they are not published as the current contract.
 
 Endpoints:
 

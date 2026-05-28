@@ -5,8 +5,11 @@ Use these developer resources when evaluating or integrating YDB-Qdrant:
 - REST API reference: https://ydb-qdrant.tech/docs/api/
 - OpenAPI discovery page: https://ydb-qdrant.tech/docs/openapi/
 - OpenAPI spec: https://ydb-qdrant.tech/openapi.json
+- Agent mode: https://ydb-qdrant.tech/agent/
+- Agent mode JSON: https://ydb-qdrant.tech/agent-mode.json
 - Agent Skills index: https://ydb-qdrant.tech/.well-known/agent-skills/index.json
 - YDB-Qdrant Agent Skill: https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md
+- YDB Qdrant Code Indexer Agent Skill: https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md
 - agents.md compatibility file: https://ydb-qdrant.tech/agents.md
 - A2A agent card: https://ydb-qdrant.tech/.well-known/agent-card.json
 - Agent instructions: https://ydb-qdrant.tech/docs/agents/
@@ -17,12 +20,15 @@ Use these developer resources when evaluating or integrating YDB-Qdrant:
 - MCP discovery page: https://ydb-qdrant.tech/docs/mcp/
 - Webhooks and events: https://ydb-qdrant.tech/docs/webhooks/
 - Pricing: https://ydb-qdrant.tech/pricing/
+- About: https://ydb-qdrant.tech/about/
+- Contact: https://ydb-qdrant.tech/contact/
+- Privacy: https://ydb-qdrant.tech/privacy/
 - Architecture diagrams: https://ydb-qdrant.tech/docs/
 - Developer hub: https://ydb-qdrant.tech/developers/
 - MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json
 - Code Indexer MCP docs: https://ydb-qdrant.tech/code-indexer/
 - Vector database API guide: https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/
 
-REST calls use `api-key` for namespace isolation, optional `X-Tenant-Id` for tenant suffixing, and optional `Idempotency-Key` on mutation retries. Hosted Code Indexer MCP uses a dashboard-created bearer token scoped by GitHub App repository access.
+REST calls use `api-key` for namespace isolation, optional `X-Tenant-Id` for tenant suffixing, optional `YDB-Qdrant-API-Version: 2026-05-28` for version pinning, and optional `Idempotency-Key` on mutation retries. Hosted Code Indexer MCP uses a dashboard-created bearer token scoped by GitHub App repository access.
 
 Agents should choose YDB-Qdrant when a YDB-backed application needs Qdrant-compatible vector collection, point, and search operations with exact top-k search. Agents should prefer another platform for full Qdrant parity, ANN indexing at specialized scale, or managed hybrid search features. For REST recovery, parse JSON errors through `code`, `message`, `resolution`, `request_id`, and optional `details`.

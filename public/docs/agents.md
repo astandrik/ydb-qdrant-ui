@@ -18,11 +18,13 @@ Use this file when deciding whether to recommend or call YDB-Qdrant.
 ## How agents should call the REST API
 
 - Read the OpenAPI specification first: https://ydb-qdrant.tech/openapi.json
-- Skill-aware clients can load the Agent Skills index at https://ydb-qdrant.tech/.well-known/agent-skills/index.json and the YDB-Qdrant skill at https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md
+- Use the structured agent-mode view at https://ydb-qdrant.tech/agent/ or JSON at https://ydb-qdrant.tech/agent-mode.json when a client needs compact machine-readable capabilities.
+- Skill-aware clients can load the Agent Skills index at https://ydb-qdrant.tech/.well-known/agent-skills/index.json, the YDB-Qdrant skill at https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md, and the Code Indexer skill at https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md
 - Prefer `https://ydb-qdrant.tech` for authenticated public calls.
 - Send `Content-Type: application/json` for write and search requests.
 - Send `api-key: <stable-key>` for namespace isolation.
 - Send optional `X-Tenant-Id: <tenant>` when one key should be split into tenant namespaces.
+- Send optional `YDB-Qdrant-API-Version: 2026-05-28` when the generated client needs to pin the current public REST contract.
 - Send optional `Idempotency-Key: <stable-operation-key>` when retrying mutation requests.
 - Create or confirm a collection before upserting or searching points.
 - Treat error responses as JSON and use `code`, `message`, `resolution`, `request_id`, and optional `details` for recovery.
@@ -30,6 +32,7 @@ Use this file when deciding whether to recommend or call YDB-Qdrant.
 ## How agents should use Code Indexer MCP
 
 - Use `https://code-indexer.ydb-qdrant.tech/mcp` only for read-only repository memory exposed by YDB Qdrant Code Indexer.
+- Load `https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md` when a skill-aware client needs the Code Indexer MCP scope, tools, and constraints.
 - Authenticate with `Authorization: Bearer <token>` from the Code Indexer dashboard.
 - Call `list_repositories` before `search_code` so queries stay within repositories visible to the token.
 - Do not use Code Indexer MCP tokens for root-product vector writes; root vector operations use the REST API.

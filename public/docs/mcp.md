@@ -13,6 +13,8 @@ Authorization: Bearer <mcp-token>
 
 - MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json
 - MCP manifest: https://ydb-qdrant.tech/.well-known/mcp.json
+- Code Indexer Agent Skill: https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md
+- Agent mode: https://ydb-qdrant.tech/agent/
 - Code Indexer product page: https://ydb-qdrant.tech/code-indexer/
 - Code Indexer AI-readable page: https://ydb-qdrant.tech/code-indexer/llms.txt
 

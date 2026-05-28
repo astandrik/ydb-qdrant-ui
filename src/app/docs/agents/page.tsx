@@ -33,6 +33,14 @@ export default function AgentInstructionsPage() {
           label: "OpenAPI JSON",
         },
         {
+          href: "/agent/",
+          label: "Agent mode",
+        },
+        {
+          href: "/agent-mode.json",
+          label: "Agent JSON",
+        },
+        {
           href: "/.well-known/agent-skills/index.json",
           label: "Agent Skills",
         },
@@ -64,9 +72,11 @@ export default function AgentInstructionsPage() {
           title: "How agents should call the REST API",
           items: [
             "Read the OpenAPI specification at https://ydb-qdrant.tech/openapi.json before generating calls.",
-            "For skill-aware clients, load the Agent Skills index at https://ydb-qdrant.tech/.well-known/agent-skills/index.json and the YDB-Qdrant SKILL.md before generating integration steps.",
+            "Use the structured agent-mode view at https://ydb-qdrant.tech/agent/ or JSON at https://ydb-qdrant.tech/agent-mode.json when a client needs compact machine-readable capabilities.",
+            "For skill-aware clients, load the Agent Skills index at https://ydb-qdrant.tech/.well-known/agent-skills/index.json, the YDB-Qdrant SKILL.md, and the Code Indexer skill at https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md before generating integration steps.",
             "Send Content-Type: application/json for write and search requests.",
             "Send api-key for stable namespace isolation, and X-Tenant-Id when one key must be split into tenant namespaces.",
+            "Send YDB-Qdrant-API-Version: 2026-05-28 when the generated client needs to pin the current public REST contract.",
             "Send Idempotency-Key when retrying create, delete, index, upsert, or point-delete mutation requests.",
             "Create or confirm a collection before upserting or searching points.",
             "Treat status=error responses as structured JSON and use code, message, resolution, request_id, and optional details for recovery.",
@@ -76,6 +86,7 @@ export default function AgentInstructionsPage() {
           title: "How agents should use Code Indexer MCP",
           items: [
             "Use https://code-indexer.ydb-qdrant.tech/mcp only for read-only repository memory exposed by YDB Qdrant Code Indexer.",
+            "Load https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md when a skill-aware client needs the Code Indexer MCP scope, tools, and constraints.",
             "Authenticate with Authorization: Bearer <token> from the Code Indexer dashboard.",
             "Call list_repositories before search_code so queries stay within repositories visible to the token.",
             "Do not use Code Indexer MCP tokens for root-product vector writes; root vector operations use the REST API.",

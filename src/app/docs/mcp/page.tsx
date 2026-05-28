@@ -59,6 +59,15 @@ Authorization: Bearer <mcp-token>`}</pre>
             <a href="/.well-known/mcp.json" key="manifest">
               YDB-Qdrant MCP manifest
             </a>,
+            <a
+              href="/.well-known/agent-skills/code-indexer/SKILL.md"
+              key="code-indexer-skill"
+            >
+              YDB Qdrant Code Indexer Agent Skill
+            </a>,
+            <a href="/agent/" key="agent-mode">
+              YDB-Qdrant Agent Mode
+            </a>,
             <a href="/code-indexer/llms.txt" key="llms">
               Code Indexer AI-readable page
             </a>,

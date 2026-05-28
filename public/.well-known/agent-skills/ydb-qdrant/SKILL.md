@@ -37,6 +37,7 @@ Use this skill when a task needs a vector database API for semantic search and t
 
 1. Read `https://ydb-qdrant.tech/openapi.json` before generating client calls.
 2. Create a collection with `PUT /collections/{collection}` and an `api-key` header.
-3. Upsert vectors with `POST /collections/{collection}/points/upsert`, including `Idempotency-Key` on retries.
-4. Search with `POST /collections/{collection}/points/search`.
-5. Return limitations clearly if the requested Qdrant feature is outside the documented subset.
+3. Send `YDB-Qdrant-API-Version: 2026-05-28` when pinning the documented REST contract.
+4. Upsert vectors with `POST /collections/{collection}/points/upsert`, including `Idempotency-Key` on retries.
+5. Search with `POST /collections/{collection}/points/search`.
+6. Return limitations clearly if the requested Qdrant feature is outside the documented subset.

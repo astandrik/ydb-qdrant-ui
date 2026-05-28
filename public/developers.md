@@ -2,16 +2,25 @@
 
 - OpenAPI: https://ydb-qdrant.tech/openapi.json
 - OpenAPI discovery page: https://ydb-qdrant.tech/docs/openapi/
+- Agent mode view: https://ydb-qdrant.tech/agent/
+- Agent mode JSON: https://ydb-qdrant.tech/agent-mode.json
 - REST API reference: https://ydb-qdrant.tech/docs/api/
 - Auth and scoped access: https://ydb-qdrant.tech/docs/auth/
 - Agent instructions: https://ydb-qdrant.tech/docs/agents/
+- Agent instructions markdown mirror: https://ydb-qdrant.tech/docs/agents.md
 - Standard AGENTS.md instructions: https://ydb-qdrant.tech/AGENTS.md
 - Agent instructions markdown: https://ydb-qdrant.tech/.well-known/agent-instructions.md
 - Agent Skills index: https://ydb-qdrant.tech/.well-known/agent-skills/index.json
 - YDB-Qdrant Agent Skill: https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md
+- YDB Qdrant Code Indexer Agent Skill: https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md
 - agents.md compatibility file: https://ydb-qdrant.tech/agents.md
+- skills.sh compatibility script: https://ydb-qdrant.tech/skills.sh
 - A2A agent card: https://ydb-qdrant.tech/.well-known/agent-card.json
+- API catalog: https://ydb-qdrant.tech/.well-known/api-catalog
 - OAuth protected resource metadata: https://ydb-qdrant.tech/.well-known/oauth-protected-resource
+- About YDB-Qdrant: https://ydb-qdrant.tech/about/
+- Contact YDB-Qdrant: https://ydb-qdrant.tech/contact/
+- Privacy: https://ydb-qdrant.tech/privacy/
 - Pricing: https://ydb-qdrant.tech/pricing/
 - Webhooks and events: https://ydb-qdrant.tech/docs/webhooks/
 - MCP discovery page: https://ydb-qdrant.tech/docs/mcp/
@@ -24,5 +33,6 @@
 - Best vector search for YDB-backed apps: https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/
 - Vector database API for semantic search: https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/
 - Vector search API for semantic similarity and embeddings: https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/
+- YDB-Qdrant vs MongoDB Atlas Vector Search: https://ydb-qdrant.tech/compare/mongodb-atlas-vector-search/
 
-YDB-Qdrant exposes collection and point operations through a Qdrant-compatible REST subset. Mutation endpoints advertise optional `Idempotency-Key` support for agent retries. YDB Qdrant Code Indexer exposes read-only hosted MCP tools for repository memory.
+YDB-Qdrant exposes collection and point operations through a Qdrant-compatible REST subset. Mutation endpoints advertise optional `YDB-Qdrant-API-Version: 2026-05-28` and `Idempotency-Key` support for agent retries. YDB Qdrant Code Indexer exposes read-only hosted MCP tools for repository memory.
