@@ -33,6 +33,10 @@ export default function AgentInstructionsPage() {
           label: "OpenAPI JSON",
         },
         {
+          href: "/.well-known/agent-skills/index.json",
+          label: "Agent Skills",
+        },
+        {
           href: "/docs/api/",
           label: "REST API docs",
         },
@@ -60,8 +64,10 @@ export default function AgentInstructionsPage() {
           title: "How agents should call the REST API",
           items: [
             "Read the OpenAPI specification at https://ydb-qdrant.tech/openapi.json before generating calls.",
+            "For skill-aware clients, load the Agent Skills index at https://ydb-qdrant.tech/.well-known/agent-skills/index.json and the YDB-Qdrant SKILL.md before generating integration steps.",
             "Send Content-Type: application/json for write and search requests.",
             "Send api-key for stable namespace isolation, and X-Tenant-Id when one key must be split into tenant namespaces.",
+            "Send Idempotency-Key when retrying create, delete, index, upsert, or point-delete mutation requests.",
             "Create or confirm a collection before upserting or searching points.",
             "Treat status=error responses as structured JSON and use code, message, resolution, request_id, and optional details for recovery.",
           ],

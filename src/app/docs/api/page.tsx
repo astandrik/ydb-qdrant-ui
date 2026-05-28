@@ -50,9 +50,13 @@ export default function ApiDocsPage() {
               </p>
               <pre>{`Content-Type: application/json
 api-key: my-stable-namespace-key
-X-Tenant-Id: optional-workspace`}</pre>
+X-Tenant-Id: optional-workspace
+Idempotency-Key: stable-mutation-key`}</pre>
             </>
           ),
+          items: [
+            "Use Idempotency-Key when an agent or client may retry create, delete, index, upsert, or point-delete mutation requests.",
+          ],
         },
         {
           title: "Service endpoints",
@@ -75,7 +79,8 @@ X-Tenant-Id: optional-workspace`}</pre>
               <code>PUT /collections/{"{collection}"}</code>: create or confirm
               a collection with <code>vectors.size</code>,{" "}
               <code>vectors.distance</code>, and optional{" "}
-              <code>vectors.data_type</code>.
+              <code>vectors.data_type</code>. Supports{" "}
+              <code>Idempotency-Key</code>.
             </span>,
             <span key="get">
               <code>GET /collections/{"{collection}"}</code>: return status,
@@ -83,12 +88,13 @@ X-Tenant-Id: optional-workspace`}</pre>
             </span>,
             <span key="delete">
               <code>DELETE /collections/{"{collection}"}</code>: delete a
-              collection and associated points for the namespace.
+              collection and associated points for the namespace. Supports{" "}
+              <code>Idempotency-Key</code>.
             </span>,
             <span key="index">
               <code>PUT /collections/{"{collection}"}/index</code>: acknowledge
               Qdrant payload-index compatibility calls without building a
-              separate index.
+              separate index. Supports <code>Idempotency-Key</code>.
             </span>,
           ],
         },
@@ -101,11 +107,11 @@ X-Tenant-Id: optional-workspace`}</pre>
             </span>,
             <span key="upsert-put">
               <code>PUT /collections/{"{collection}"}/points</code>: upsert
-              points.
+              points. Supports <code>Idempotency-Key</code>.
             </span>,
             <span key="upsert-post">
               <code>POST /collections/{"{collection}"}/points/upsert</code>:
-              upsert points with POST.
+              upsert points with POST. Supports <code>Idempotency-Key</code>.
             </span>,
             <span key="search">
               <code>POST /collections/{"{collection}"}/points/search</code>:
@@ -119,7 +125,8 @@ X-Tenant-Id: optional-workspace`}</pre>
             <span key="delete">
               <code>POST /collections/{"{collection}"}/points/delete</code>:
               delete by ids, empty filter, or supported{" "}
-              <code>pathSegments.N</code> filters.
+              <code>pathSegments.N</code> filters. Supports{" "}
+              <code>Idempotency-Key</code>.
             </span>,
           ],
         },
@@ -172,6 +179,7 @@ curl -i -X POST https://ydb-qdrant.tech/collections/__bad_json/points/upsert \\
 curl -X POST http://localhost:8080/collections/documents/points/upsert \\
   -H 'Content-Type: application/json' \\
   -H 'api-key: demo-key' \\
+  -H 'Idempotency-Key: upsert-doc-1' \\
   -d '{"points":[{"id":"doc-1","vector":[0.1,0.2,0.3],"payload":{"title":"Doc 1"}}]}'
 
 curl -X POST http://localhost:8080/collections/documents/points/search \\

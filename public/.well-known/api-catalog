@@ -16,6 +16,22 @@
       "documentation": "https://ydb-qdrant.tech/code-indexer/",
       "authentication": "https://ydb-qdrant.tech/docs/auth/",
       "format": "mcp-server-card"
+    },
+    {
+      "name": "YDB-Qdrant A2A Agent Card",
+      "description": "Agent-to-Agent discovery card describing YDB-Qdrant REST and Code Indexer MCP capabilities.",
+      "url": "https://ydb-qdrant.tech/.well-known/agent-card.json",
+      "documentation": "https://ydb-qdrant.tech/developers/",
+      "authentication": "https://ydb-qdrant.tech/docs/auth/",
+      "format": "a2a-agent-card"
+    },
+    {
+      "name": "YDB-Qdrant Agent Skills",
+      "description": "agentskills.io discovery index and SKILL.md instructions for agent use of YDB-Qdrant.",
+      "url": "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
+      "documentation": "https://ydb-qdrant.tech/agents.md",
+      "authentication": "https://ydb-qdrant.tech/docs/auth/",
+      "format": "agent-skills-0.2"
     }
   ],
   "linkset": [
@@ -31,6 +47,21 @@
           "href": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
           "type": "application/json",
           "title": "YDB Qdrant Code Indexer MCP server card"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/agent-card.json",
+          "type": "application/json",
+          "title": "YDB-Qdrant A2A agent card"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
+          "type": "application/json",
+          "title": "YDB-Qdrant Agent Skills index"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/oauth-protected-resource",
+          "type": "application/json",
+          "title": "YDB-Qdrant OAuth protected resource metadata"
         }
       ],
       "service-desc": [
@@ -40,6 +71,18 @@
         },
         {
           "href": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/agent-card.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/oauth-protected-resource",
           "type": "application/json"
         }
       ],
@@ -62,6 +105,14 @@
         },
         {
           "href": "https://ydb-qdrant.tech/.well-known/agent-instructions.md",
+          "type": "text/markdown"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/agents.md",
+          "type": "text/markdown"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md",
           "type": "text/markdown"
         },
         {

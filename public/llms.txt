@@ -1,5 +1,13 @@
 # YDB-Qdrant
 
+Description: YDB-Qdrant is a Qdrant-compatible vector search API and Node.js library backed by YDB.
+
+Primary use cases: semantic search, RAG prototypes, IDE-agent memory, repository memory, and YDB-backed applications that want vector storage without operating a separate vector database cluster.
+
+Constraints: YDB-Qdrant is a focused Qdrant-compatible REST subset with exact top-k search. Use another platform when full Qdrant parity, ANN indexing at specialized scale, managed hybrid search, faceting, analyzers, or mature search relevance tooling are required.
+
+## Product overview
+
 YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can run as an HTTP server for Qdrant REST clients or as a Node.js library through `createYdbQdrantClient`, storing collection metadata and vector points in YDB while using exact top-k search over YDB-backed data.
 
 ## Core pages
@@ -20,8 +28,14 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 
 - [OpenAPI specification](https://ydb-qdrant.tech/openapi.json)
 - [Agent discovery](https://ydb-qdrant.tech/.well-known/agent.json)
+- [Agent Skills index](https://ydb-qdrant.tech/.well-known/agent-skills/index.json)
+- [YDB-Qdrant Agent Skill](https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md)
+- [agents.md compatibility file](https://ydb-qdrant.tech/agents.md)
+- [skills.sh compatibility script](https://ydb-qdrant.tech/skills.sh)
+- [A2A agent card](https://ydb-qdrant.tech/.well-known/agent-card.json)
 - [Agent instructions markdown](https://ydb-qdrant.tech/.well-known/agent-instructions.md)
 - [API catalog](https://ydb-qdrant.tech/.well-known/api-catalog)
+- [OAuth protected resource metadata](https://ydb-qdrant.tech/.well-known/oauth-protected-resource)
 - [MCP server card](https://ydb-qdrant.tech/.well-known/mcp/server-card.json)
 - [MCP manifest](https://ydb-qdrant.tech/.well-known/mcp.json)
 - [Full AI-readable index](https://ydb-qdrant.tech/llms-full.txt)
@@ -60,7 +74,7 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 
 ## How AI agents should interact
 
-- Agents should read `openapi.json`, create or confirm collections before point writes, send `api-key`, optionally send `X-Tenant-Id`, and parse JSON errors through `code`, `message`, `resolution`, `request_id`, and optional `details`.
+- Agents should read `openapi.json`, create or confirm collections before point writes, send `api-key`, optionally send `X-Tenant-Id`, use `Idempotency-Key` when retrying mutation requests, and parse JSON errors through `code`, `message`, `resolution`, `request_id`, and optional `details`.
 
 ## MCP and agent integration
 
@@ -87,6 +101,7 @@ YDB Qdrant Code Indexer is a hosted GitHub App for coding agents. It indexes sel
 - [YDB-Qdrant vs Typesense](https://ydb-qdrant.tech/compare/typesense/)
 - [Semantic search on YDB with YDB-Qdrant](https://ydb-qdrant.tech/guides/semantic-search-ydb/)
 - [Best vector search for YDB-backed apps](https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/)
+- [Vector database API for semantic search](https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/)
 - [Vector search API for semantic similarity and embeddings](https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/)
 
 ## Pricing

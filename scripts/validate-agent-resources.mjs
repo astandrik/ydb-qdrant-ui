@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -24,13 +25,17 @@ function readJson(relativePath) {
 }
 
 const requiredFiles = [
+  "AGENTS.md",
   "public/openapi.json",
   "public/.well-known/agent.json",
+  "public/.well-known/agent-card.json",
   "public/.well-known/api-catalog",
+  "public/.well-known/oauth-protected-resource",
   "public/.well-known/mcp/server-card.json",
   "public/.well-known/mcp.json",
   "public/auth.md",
   "public/AGENTS.md",
+  "public/skills.sh",
   "public/pricing.md",
   "public/index.md",
   "public/llms-full.txt",
@@ -51,8 +56,12 @@ const requiredFiles = [
   "public/compare/typesense.md",
   "public/guides/semantic-search-ydb.md",
   "public/guides/best-vector-search-for-ydb.md",
+  "public/guides/vector-database-api-semantic-search.md",
   "public/guides/vector-search-api-semantic-similarity-embeddings.md",
   "public/.well-known/agent-instructions.md",
+  "public/.well-known/agent-skills/index.json",
+  "public/.well-known/agent-skills/ydb-qdrant/SKILL.md",
+  "src/app/agents.md/route.ts",
   "src/app/developers/page.tsx",
   "src/app/pricing/page.tsx",
   "src/app/docs/api/page.tsx",
@@ -70,12 +79,18 @@ const requiredFiles = [
   "src/app/compare/typesense/page.tsx",
   "src/app/guides/semantic-search-ydb/page.tsx",
   "src/app/guides/best-vector-search-for-ydb/page.tsx",
+  "src/app/guides/vector-database-api-semantic-search/page.tsx",
   "src/app/guides/vector-search-api-semantic-similarity-embeddings/page.tsx",
 ];
 
 for (const file of requiredFiles) {
   assertFile(file);
 }
+
+assert(
+  !existsSync(resolveRoot("public/.well-known/oauth-authorization-server")),
+  "OAuth authorization server metadata must not be published until a real REST OAuth authorization server exists",
+);
 
 const appDirectoryEntries = readdirSync(resolveRoot("src/app"), {
   withFileTypes: true,
@@ -85,8 +100,8 @@ assert(
   "src/app/AGENTS.md must not exist as a directory; publish public/AGENTS.md as a file",
 );
 assert(
-  !appDirectoryEntries.some((entry) => entry.name === "agents.md" && entry.isDirectory()),
-  "src/app/agents.md must not exist as a route directory; publish the standard public/AGENTS.md file",
+  appDirectoryEntries.some((entry) => entry.name === "agents.md" && entry.isDirectory()),
+  "src/app/agents.md route directory must serve lowercase /agents.md for static export",
 );
 
 const openapi = readJson("public/openapi.json");
@@ -107,6 +122,17 @@ assert(
   openapi.components?.securitySchemes?.CodeIndexerBearer?.scheme === "bearer",
   "OpenAPI must define CodeIndexerBearer bearer security",
 );
+assert(
+  !Object.hasOwn(openapi.components.securitySchemes.ApiKeyAuth, "x-scopes") &&
+    !Object.hasOwn(openapi.components.securitySchemes.CodeIndexerBearer, "x-scopes"),
+  "OpenAPI security schemes must not advertise unsupported OAuth-like scopes",
+);
+assert(
+  openapi.components?.parameters?.IdempotencyKey?.name === "Idempotency-Key" &&
+    openapi.components.parameters.IdempotencyKey.in === "header" &&
+    openapi.components.parameters.IdempotencyKey.required === false,
+  "OpenAPI must define reusable optional Idempotency-Key header parameter",
+);
 
 const requiredPaths = [
   "/",
@@ -122,6 +148,36 @@ const requiredPaths = [
 
 for (const apiPath of requiredPaths) {
   assert(openapi.paths?.[apiPath], `OpenAPI missing path ${apiPath}`);
+}
+
+const idempotentMutationOperations = [
+  ["put", "/collections/{collection}"],
+  ["delete", "/collections/{collection}"],
+  ["put", "/collections/{collection}/index"],
+  ["put", "/collections/{collection}/points"],
+  ["post", "/collections/{collection}/points/upsert"],
+  ["post", "/collections/{collection}/points/delete"],
+];
+
+for (const [method, apiPath] of idempotentMutationOperations) {
+  assert(
+    openapi.paths?.[apiPath]?.[method]?.parameters?.some(
+      (parameter) => parameter.$ref === "#/components/parameters/IdempotencyKey",
+    ),
+    `OpenAPI ${method.toUpperCase()} ${apiPath} must advertise Idempotency-Key`,
+  );
+}
+
+for (const [apiPath, pathItem] of Object.entries(openapi.paths)) {
+  for (const [method, operation] of Object.entries(pathItem)) {
+    if (!["get", "post", "put", "delete", "patch", "head", "options"].includes(method)) {
+      continue;
+    }
+    assert(
+      !Object.hasOwn(operation, "x-permissions"),
+      `OpenAPI ${method.toUpperCase()} ${apiPath} must not advertise unsupported per-operation permissions`,
+    );
+  }
 }
 
 assert(
@@ -229,6 +285,10 @@ assert(
   "Agent discovery must link the MCP server card",
 );
 assert(
+  agent.agent_card === "https://ydb-qdrant.tech/.well-known/agent-card.json",
+  "Agent discovery must link the A2A agent card",
+);
+assert(
   agent.pricing === "https://ydb-qdrant.tech/pricing/",
   "Agent discovery must link pricing",
 );
@@ -239,11 +299,124 @@ assert(
 );
 assert(
   agent.protocolVersion === "0.3" &&
-    Array.isArray(agent.capabilities) &&
-    agent.capabilities.includes("vector-search") &&
+    agent.awp_version === "0.2" &&
+    agent.domain === "ydb-qdrant.tech" &&
+    agent.protocols?.openapi?.endpoint === "https://ydb-qdrant.tech/openapi.json" &&
+    agent.protocols?.mcp?.endpoint === "https://code-indexer.ydb-qdrant.tech/mcp" &&
+    typeof agent.capabilities === "object" &&
+    agent.capabilities.vectorSearch === true &&
+    agent.capabilities.idempotency === true &&
+    Array.isArray(agent.capability_tags) &&
+    agent.capability_tags.includes("vector-search") &&
+    Array.isArray(agent.actions) &&
+    agent.actions.some((action) => action.id === "search_points") &&
+    [
+      "get_collection",
+      "delete_collection",
+      "put_collection_index",
+      "retrieve_points",
+      "search_points",
+      "query_points",
+    ].every((id) => agent.auth_model?.required_for?.includes(id)) &&
     typeof agent.a2a_capabilities === "object" &&
     Array.isArray(agent.skills),
   "Agent discovery must include agent-card compatible metadata",
+);
+
+const agentSkillsIndex = readJson("public/.well-known/agent-skills/index.json");
+const ydbQdrantSkillPath =
+  "public/.well-known/agent-skills/ydb-qdrant/SKILL.md";
+const ydbQdrantSkill = readFileSync(resolveRoot(ydbQdrantSkillPath), "utf8");
+const ydbQdrantSkillDigest = `sha256:${createHash("sha256")
+  .update(readFileSync(resolveRoot(ydbQdrantSkillPath)))
+  .digest("hex")}`;
+assert(
+  agent.agent_skills ===
+    "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
+  "Agent discovery must link the Agent Skills index",
+);
+assert(
+  agentSkillsIndex.$schema ===
+    "https://schemas.agentskills.io/discovery/0.2.0/schema.json" &&
+    agentSkillsIndex.skills?.some(
+      (skill) =>
+        skill.name === "ydb-qdrant" &&
+        skill.type === "skill-md" &&
+        skill.url === "/.well-known/agent-skills/ydb-qdrant/SKILL.md" &&
+        skill.digest === ydbQdrantSkillDigest,
+    ),
+  "Agent Skills index must describe the YDB-Qdrant SKILL.md with a valid digest",
+);
+assert(
+  ydbQdrantSkill.includes("name: ydb-qdrant") &&
+    ydbQdrantSkill.includes("Idempotency-Key") &&
+    ydbQdrantSkill.includes("https://ydb-qdrant.tech/openapi.json") &&
+    ydbQdrantSkill.includes("Do not assume root-product vector mutations"),
+  "YDB-Qdrant Agent Skill must describe capabilities, constraints, and links",
+);
+
+const agentCard = readJson("public/.well-known/agent-card.json");
+assert(agentCard.name === "YDB-Qdrant", "A2A agent card must name YDB-Qdrant");
+assert(
+  agentCard.url === "https://ydb-qdrant.tech/" &&
+    agentCard.protocolVersion &&
+    Array.isArray(agentCard.defaultInputModes) &&
+    Array.isArray(agentCard.defaultOutputModes) &&
+    agentCard.supportedInterfaces?.some(
+      (agentInterface) =>
+        agentInterface.url === "https://ydb-qdrant.tech/openapi.json" &&
+        agentInterface.protocolBinding === "https://spec.openapis.org/oas/3.1" &&
+        agentInterface.protocolVersion === "3.1.0",
+    ) &&
+    agentCard.supportedInterfaces?.some(
+      (agentInterface) =>
+        agentInterface.url === "https://code-indexer.ydb-qdrant.tech/mcp" &&
+        agentInterface.protocolBinding ===
+          "https://modelcontextprotocol.io/specification/2025-06-18" &&
+        agentInterface.protocolVersion === "2025-06-18",
+    ) &&
+    !Object.hasOwn(agentCard, "additionalInterfaces") &&
+    typeof agentCard.capabilities === "object" &&
+    Array.isArray(agentCard.skills),
+  "A2A agent card must include required AgentCard fields",
+);
+assert(
+  agentCard.skills.some((skill) => skill.id === "qdrant-compatible-rest-api") &&
+    agentCard.skills.some((skill) => skill.id === "repository-code-search-mcp"),
+  "A2A agent card must list REST and Code Indexer MCP skills",
+);
+assert(
+  agentCard.security?.some((entry) => Object.hasOwn(entry, "ApiKeyAuth")) &&
+    agentCard.security?.some((entry) => Object.hasOwn(entry, "CodeIndexerBearer")) &&
+    agentCard.skills
+      .find((skill) => skill.id === "qdrant-compatible-rest-api")
+      ?.security?.some((entry) => Object.hasOwn(entry, "ApiKeyAuth")) &&
+    agentCard.skills
+      .find((skill) => skill.id === "repository-code-search-mcp")
+      ?.security?.some((entry) => Object.hasOwn(entry, "CodeIndexerBearer")),
+  "A2A agent card must advertise REST api-key and MCP bearer auth separately",
+);
+
+const protectedResource = readJson("public/.well-known/oauth-protected-resource");
+assert(
+  protectedResource.resource === "https://ydb-qdrant.tech/",
+  "OAuth protected resource metadata must describe the public REST resource",
+);
+assert(
+  !Object.hasOwn(protectedResource, "authorization_servers"),
+  "OAuth protected resource metadata must not advertise OAuth authorization servers for api-key REST auth",
+);
+assert(
+  !Object.hasOwn(protectedResource, "bearer_methods_supported"),
+  "OAuth protected resource metadata must not advertise bearer auth for the REST resource",
+);
+assert(
+  !Object.hasOwn(protectedResource, "scopes_supported"),
+  "OAuth protected resource metadata must not advertise unsupported OAuth scopes",
+);
+assert(
+  !Object.hasOwn(protectedResource, "agent_auth"),
+  "OAuth protected resource metadata must not advertise unsupported agent_auth endpoints",
 );
 
 const apiCatalog = readJson("public/.well-known/api-catalog");
@@ -257,6 +430,19 @@ assert(
     (item) => item.href === "https://ydb-qdrant.tech/openapi.json",
   ),
   "API catalog linkset must include OpenAPI item entries",
+);
+assert(
+  apiCatalog.linkset?.[0]?.item?.some(
+    (item) => item.href === "https://ydb-qdrant.tech/.well-known/agent-card.json",
+  ),
+  "API catalog linkset must include A2A agent card item entries",
+);
+assert(
+  apiCatalog.linkset?.[0]?.item?.some(
+    (item) =>
+      item.href === "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
+  ),
+  "API catalog linkset must include Agent Skills index item entries",
 );
 assert(
   apiCatalog.linkset?.[0]?.["service-doc"]?.some(
@@ -286,6 +472,9 @@ assert(
 
 const mcpManifest = readJson("public/.well-known/mcp.json");
 assert(
+  mcpManifest.serverUrl === "https://code-indexer.ydb-qdrant.tech/mcp" &&
+    mcpManifest.mcpServers?.["ydb-qdrant-code-indexer"]?.url ===
+      "https://code-indexer.ydb-qdrant.tech/mcp" &&
   Array.isArray(mcpManifest.servers) &&
     mcpManifest.servers.some(
       (server) => server.url === "https://code-indexer.ydb-qdrant.tech/mcp",
@@ -294,6 +483,35 @@ assert(
 );
 
 const llms = readFileSync(resolveRoot("public/llms.txt"), "utf8");
+const rootAgentsMd = readFileSync(resolveRoot("AGENTS.md"), "utf8");
+const agentsMd = readFileSync(resolveRoot("public/AGENTS.md"), "utf8");
+const lowercaseAgentsRoute = readFileSync(
+  resolveRoot("src/app/agents.md/route.ts"),
+  "utf8",
+);
+const skillsScript = readFileSync(resolveRoot("public/skills.sh"), "utf8");
+assert(
+  rootAgentsMd.includes(
+    "/.well-known/oauth-protected-resource` should be served as `application/json`",
+  ),
+  "Root AGENTS.md must document JSON content type for extensionless OAuth metadata",
+);
+assert(
+  agentsMd.includes("https://ydb-qdrant.tech/.well-known/agent-skills/index.json") &&
+    agentsMd.includes("Idempotency-Key") &&
+    agentsMd.includes("static-export route also serves `/agents.md`"),
+  "public/AGENTS.md must document Agent Skills, Idempotency-Key, and lowercase static-export compatibility",
+);
+assert(
+  lowercaseAgentsRoute.includes("text/markdown; charset=utf-8") &&
+    lowercaseAgentsRoute.includes("static-export route also serves") &&
+    lowercaseAgentsRoute.includes("https://ydb-qdrant.tech/.well-known/agent-skills/index.json"),
+  "src/app/agents.md route must serve lowercase markdown compatibility content",
+);
+assert(
+  skillsScript.includes('base_url="${base_url%/}"'),
+  "skills.sh must normalize a trailing slash from the provided base URL",
+);
 const semanticSearchGuide = readFileSync(
   resolveRoot("public/guides/semantic-search-ydb.md"),
   "utf8",
@@ -337,6 +555,8 @@ for (const relativePath of ["src/app/docs/api/page.tsx", "public/docs/api.md"]) 
 for (const expected of [
   "https://ydb-qdrant.tech/openapi.json",
   "https://ydb-qdrant.tech/AGENTS.md",
+  "https://ydb-qdrant.tech/agents.md",
+  "https://ydb-qdrant.tech/skills.sh",
   "https://ydb-qdrant.tech/pricing/",
   "https://ydb-qdrant.tech/docs/api/",
   "https://ydb-qdrant.tech/docs/agents/",
@@ -345,12 +565,17 @@ for (const expected of [
   "https://ydb-qdrant.tech/docs/mcp/",
   "https://ydb-qdrant.tech/docs/webhooks/",
   "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
+  "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
+  "https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md",
+  "https://ydb-qdrant.tech/.well-known/agent-card.json",
+  "https://ydb-qdrant.tech/.well-known/oauth-protected-resource",
   "https://ydb-qdrant.tech/compare/databricks-vector-search/",
   "https://ydb-qdrant.tech/compare/azure-ai-search/",
   "https://ydb-qdrant.tech/compare/elasticsearch/",
   "https://ydb-qdrant.tech/compare/google-cloud-vector-search/",
   "https://ydb-qdrant.tech/compare/typesense/",
   "https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/",
+  "https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/",
   "https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/",
 ]) {
   assert(llms.includes(expected), `llms.txt missing ${expected}`);

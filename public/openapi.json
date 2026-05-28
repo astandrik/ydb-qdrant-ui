@@ -139,8 +139,10 @@
             "ApiKeyAuth": []
           }
         ],
-        "x-permissions": [
-          "namespace:write"
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
         ],
         "requestBody": {
           "required": true,
@@ -197,9 +199,6 @@
             "ApiKeyAuth": []
           }
         ],
-        "x-permissions": [
-          "namespace:read"
-        ],
         "responses": {
           "200": {
             "description": "Collection metadata",
@@ -237,8 +236,10 @@
             "ApiKeyAuth": []
           }
         ],
-        "x-permissions": [
-          "namespace:write"
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
         ],
         "responses": {
           "200": {
@@ -284,8 +285,10 @@
             "ApiKeyAuth": []
           }
         ],
-        "x-permissions": [
-          "namespace:write"
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
         ],
         "responses": {
           "200": {
@@ -334,9 +337,6 @@
             "ApiKeyAuth": []
           }
         ],
-        "x-permissions": [
-          "namespace:read"
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -384,8 +384,10 @@
             "ApiKeyAuth": []
           }
         ],
-        "x-permissions": [
-          "namespace:write"
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
         ],
         "requestBody": {
           "required": true,
@@ -444,8 +446,10 @@
             "ApiKeyAuth": []
           }
         ],
-        "x-permissions": [
-          "namespace:write"
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
         ],
         "requestBody": {
           "required": true,
@@ -503,9 +507,6 @@
           {
             "ApiKeyAuth": []
           }
-        ],
-        "x-permissions": [
-          "namespace:read"
         ],
         "requestBody": {
           "required": true,
@@ -578,9 +579,6 @@
             "ApiKeyAuth": []
           }
         ],
-        "x-permissions": [
-          "namespace:read"
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -638,8 +636,10 @@
             "ApiKeyAuth": []
           }
         ],
-        "x-permissions": [
-          "namespace:write"
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          }
         ],
         "requestBody": {
           "required": true,
@@ -684,21 +684,13 @@
         "type": "apiKey",
         "in": "header",
         "name": "api-key",
-        "description": "Stable namespace key for YDB-Qdrant REST operations. The backend derives an isolated user namespace from this key. Optional X-Tenant-Id further scopes the namespace. This is not an OAuth role system.",
-        "x-scopes": [
-          "namespace:read",
-          "namespace:write"
-        ]
+        "description": "Stable namespace key for YDB-Qdrant REST operations. The backend derives an isolated user namespace from this key. Optional X-Tenant-Id further scopes the namespace. This is not an OAuth role system."
       },
       "CodeIndexerBearer": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "opaque MCP token",
-        "description": "Dashboard-created token for hosted Code Indexer MCP. Tokens are read-only, stored as hashes, revocable, and scoped by the GitHub App repositories available to the linked user.",
-        "x-scopes": [
-          "repositories:read",
-          "code-search:read"
-        ]
+        "description": "Dashboard-created token for hosted Code Indexer MCP. Tokens are read-only, stored as hashes, revocable, and scoped by the GitHub App repositories available to the linked user."
       }
     },
     "parameters": {
@@ -726,6 +718,20 @@
           "examples": [
             "agent-a",
             "workspace_42"
+          ]
+        }
+      },
+      "IdempotencyKey": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": false,
+        "description": "Client-supplied stable key for safely retrying mutation requests. Reuse the same value for the same intended create, delete, index, upsert, or point-delete operation.",
+        "schema": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255,
+          "examples": [
+            "upsert-doc-1-20260527"
           ]
         }
       }

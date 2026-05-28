@@ -55,6 +55,7 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
   - The HTTPS server should serve static files from `/var/www/out` with `try_files $uri $uri/ =404` for the generic fallback so static-export directory routes such as `/developers/`, `/compare/qdrant/`, and `/guides/semantic-search-ydb/` work.
   - Agent-readable markdown files (`*.md`) should be served as `text/markdown`.
   - `/.well-known/api-catalog` should be served as `application/linkset+json`.
+  - `/.well-known/oauth-protected-resource` should be served as `application/json`.
   - `/.well-known/mcp` should serve the same JSON payload as `/.well-known/mcp.json`.
   - After changing nginx, run `sudo nginx -t` before reload and keep a timestamped backup of the config.
 
@@ -205,4 +206,3 @@ Reference for this file format and intent: see the AGENTS.md spec at `https://ag
   - Use existing CSS variables from `_variables.scss` (e.g., `var(--spacing-md)`, `var(--acc)`).
   - Use breakpoint mixins from `_mixins.scss` instead of raw media queries.
   - Prefer utility classes from `_utilities.scss` for common patterns (`.section`, `.grid`, `.muted`).
-

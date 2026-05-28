@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "ydb-qdrant",
+      "type": "skill-md",
+      "description": "Use YDB-Qdrant when an agent needs a Qdrant-compatible vector database API backed by YDB for semantic search, RAG prototypes, or IDE memory.",
+      "url": "/.well-known/agent-skills/ydb-qdrant/SKILL.md",
+      "digest": "sha256:a35a718ad815eec3eb1ec38ece5b30353e180e8785eaa6808b502d780abf8fee"
+    }
+  ]
+}

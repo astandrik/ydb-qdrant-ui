@@ -32,6 +32,10 @@ export default function AuthDocsPage() {
           href: "/openapi.json",
           label: "OpenAPI security schemes",
         },
+        {
+          href: "/.well-known/oauth-protected-resource",
+          label: "Protected resource metadata",
+        },
       ]}
       sections={[
         {
@@ -70,17 +74,42 @@ export default function AuthDocsPage() {
           ],
         },
         {
-          title: "Practical REST permissions",
+          title: "Practical REST access model",
           items: [
             <span key="read">
-              <code>namespace:read</code>: collection metadata, point retrieval,
+              Read operations cover collection metadata, point retrieval,
               search, and query within the namespace.
             </span>,
             <span key="write">
-              <code>namespace:write</code>: collection create/delete, point
+              Write operations cover collection create/delete, point
               upsert/delete, and compatibility index calls within the namespace.
             </span>,
-            "The current REST server does not enforce per-operation grants inside one api-key.",
+            "The current REST server does not enforce OAuth scopes or per-operation grants inside one api-key.",
+          ],
+        },
+        {
+          title: "Agent auth discovery metadata",
+          body: (
+            <>
+              <p>
+                Agents can discover the current auth contract through OAuth
+                protected-resource metadata. This file documents the existing
+                REST <code>api-key</code> namespace model. It intentionally
+                omits <code>authorization_servers</code> and{" "}
+                <code>scopes_supported</code> because the REST backend does not
+                accept OAuth access tokens or enforce OAuth scopes.
+              </p>
+              <pre>{`/.well-known/oauth-protected-resource`}</pre>
+            </>
+          ),
+          items: [
+            <a
+              href="/.well-known/oauth-protected-resource"
+              key="oauth-protected-resource"
+            >
+              OAuth protected resource metadata
+            </a>,
+            "Root REST calls still send api-key rather than OAuth bearer access tokens.",
           ],
         },
         {

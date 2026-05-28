@@ -11,9 +11,13 @@ Key links:
 - OpenAPI discovery page: https://ydb-qdrant.tech/docs/openapi/
 - API docs: https://ydb-qdrant.tech/docs/api/
 - Auth docs: https://ydb-qdrant.tech/docs/auth/
+- Agent Skills index: https://ydb-qdrant.tech/.well-known/agent-skills/index.json
+- YDB-Qdrant Agent Skill: https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md
+- A2A agent card: https://ydb-qdrant.tech/.well-known/agent-card.json
 - MCP discovery page: https://ydb-qdrant.tech/docs/mcp/
 - MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json
 - Best vector search for YDB-backed apps: https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/
+- Vector database API for semantic search: https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/
 - GitHub: https://github.com/astandrik/ydb-qdrant
 - npm: https://www.npmjs.com/package/ydb-qdrant
 

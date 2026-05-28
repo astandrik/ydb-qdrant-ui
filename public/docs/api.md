@@ -13,21 +13,22 @@ Headers:
 - `Content-Type: application/json` for write/search requests.
 - `api-key: <stable-key>` for namespace isolation.
 - Optional `X-Tenant-Id: <tenant>` for tenant suffixing.
+- Optional `Idempotency-Key: <stable-mutation-key>` for retrying create, delete, index, upsert, and point-delete mutation requests.
 
 Endpoints:
 
 - `GET /`: service identity on self-hosted servers; the public HTTPS root serves the static site.
 - `GET /health`: readiness check.
-- `PUT /collections/{collection}`: create collection.
+- `PUT /collections/{collection}`: create collection. Supports `Idempotency-Key`.
 - `GET /collections/{collection}`: collection metadata.
-- `DELETE /collections/{collection}`: delete collection.
-- `PUT /collections/{collection}/index`: Qdrant compatibility no-op for index creation.
+- `DELETE /collections/{collection}`: delete collection. Supports `Idempotency-Key`.
+- `PUT /collections/{collection}/index`: Qdrant compatibility no-op for index creation. Supports `Idempotency-Key`.
 - `POST /collections/{collection}/points`: retrieve points by ids.
-- `PUT /collections/{collection}/points`: upsert points.
-- `POST /collections/{collection}/points/upsert`: upsert points.
+- `PUT /collections/{collection}/points`: upsert points. Supports `Idempotency-Key`.
+- `POST /collections/{collection}/points/upsert`: upsert points. Supports `Idempotency-Key`.
 - `POST /collections/{collection}/points/search`: exact top-k vector search.
 - `POST /collections/{collection}/points/query`: Qdrant query compatibility search.
-- `POST /collections/{collection}/points/delete`: delete by ids, empty filter, or supported `pathSegments.N` filters.
+- `POST /collections/{collection}/points/delete`: delete by ids, empty filter, or supported `pathSegments.N` filters. Supports `Idempotency-Key`.
 
 Response envelopes use Qdrant-style `{ "status": "ok", "result": ..., "time": number, "usage": null }`.
 

@@ -101,6 +101,12 @@ export default function CompareVectorSearchPlatformsPage() {
               Best vector search for YDB-backed apps
             </a>,
             <a
+              href="/guides/vector-database-api-semantic-search/"
+              key="vector-database-api"
+            >
+              Vector database API for semantic search
+            </a>,
+            <a
               href="/guides/vector-search-api-semantic-similarity-embeddings/"
               key="semantic-similarity"
             >

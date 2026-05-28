@@ -1,9 +1,27 @@
 {
   "name": "YDB-Qdrant",
   "version": "1.0.0",
+  "awp_version": "0.2",
+  "domain": "ydb-qdrant.tech",
   "protocolVersion": "0.3",
+  "intent": "YDB-Qdrant provides a Qdrant-compatible vector search API on YDB for semantic search, RAG prototypes, IDE-agent memory, and a hosted Code Indexer MCP for read-only repository memory.",
   "description": "Qdrant-compatible vector search API on YDB, with hosted Code Indexer MCP for repository memory.",
   "url": "https://ydb-qdrant.tech/",
+  "protocols": {
+    "openapi": {
+      "version": "3.1",
+      "endpoint": "https://ydb-qdrant.tech/openapi.json"
+    },
+    "mcp": {
+      "version": "2025-06-18",
+      "endpoint": "https://code-indexer.ydb-qdrant.tech/mcp",
+      "transport": "streamable-http"
+    },
+    "a2a": {
+      "version": "0.3",
+      "endpoint": "https://ydb-qdrant.tech/.well-known/agent-card.json"
+    }
+  },
   "defaultInputModes": [
     "application/json",
     "text/plain"
@@ -28,9 +46,12 @@
   "docs": "https://ydb-qdrant.tech/developers/",
   "instructions": "https://ydb-qdrant.tech/docs/agents/",
   "agent_instructions": "https://ydb-qdrant.tech/.well-known/agent-instructions.md",
+  "agent_skills": "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
+  "agent_card": "https://ydb-qdrant.tech/.well-known/agent-card.json",
   "llms": "https://ydb-qdrant.tech/llms.txt",
   "llms_full": "https://ydb-qdrant.tech/llms-full.txt",
   "auth": "https://ydb-qdrant.tech/docs/auth/",
+  "oauth_protected_resource": "https://ydb-qdrant.tech/.well-known/oauth-protected-resource",
   "pricing": "https://ydb-qdrant.tech/pricing/",
   "support": "https://ydb-qdrant.tech/code-indexer/support/",
   "repository": "https://github.com/astandrik/ydb-qdrant",
@@ -51,12 +72,16 @@
       "server_card": "https://ydb-qdrant.tech/.well-known/mcp/server-card.json"
     }
   ],
-  "capabilities": [
-    "vector-search",
-    "semantic-search",
-    "qdrant-compatible-rest-api",
-    "repository-code-search-mcp"
-  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false,
+    "idempotency": true,
+    "vectorSearch": true,
+    "semanticSearch": true,
+    "qdrantCompatibleRestApi": true,
+    "repositoryCodeSearchMcp": true
+  },
   "a2a_capabilities": {
     "streaming": false,
     "pushNotifications": false,
@@ -68,6 +93,62 @@
     "qdrant-compatible-rest-api",
     "repository-code-search-mcp"
   ],
+  "auth_model": {
+    "type": "api_key",
+    "header": "api-key",
+    "tenant_header": "X-Tenant-Id",
+    "docs": "https://ydb-qdrant.tech/docs/auth/",
+    "required_for": [
+      "create_collection",
+      "get_collection",
+      "delete_collection",
+      "put_collection_index",
+      "upsert_points",
+      "retrieve_points",
+      "search_points",
+      "query_points",
+      "delete_points"
+    ],
+    "optional_for": [
+      "health"
+    ]
+  },
+  "actions": [
+    {
+      "id": "create_collection",
+      "description": "Create or confirm a YDB-backed Qdrant-compatible vector collection.",
+      "endpoint": "/collections/{collection}",
+      "method": "PUT",
+      "auth_required": true,
+      "idempotency_key_supported": true
+    },
+    {
+      "id": "upsert_points",
+      "description": "Upsert embedding vectors and payloads into a collection.",
+      "endpoint": "/collections/{collection}/points/upsert",
+      "method": "POST",
+      "auth_required": true,
+      "idempotency_key_supported": true
+    },
+    {
+      "id": "search_points",
+      "description": "Run exact top-k semantic search with a query vector.",
+      "endpoint": "/collections/{collection}/points/search",
+      "method": "POST",
+      "auth_required": true
+    },
+    {
+      "id": "search_code",
+      "description": "Search indexed GitHub repository code chunks through hosted Code Indexer MCP.",
+      "via": "mcp",
+      "operation": "search_code",
+      "auth_required": true
+    }
+  ],
+  "agent_status": {
+    "operational": true,
+    "status_endpoint": "/health"
+  },
   "skills": [
     {
       "id": "qdrant-compatible-rest-api",
@@ -135,8 +216,28 @@
       "url": "https://ydb-qdrant.tech/.well-known/agent-instructions.md"
     },
     {
+      "name": "Agent Skills index",
+      "url": "https://ydb-qdrant.tech/.well-known/agent-skills/index.json"
+    },
+    {
+      "name": "YDB-Qdrant Agent Skill",
+      "url": "https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md"
+    },
+    {
+      "name": "agents.md compatibility file",
+      "url": "https://ydb-qdrant.tech/agents.md"
+    },
+    {
+      "name": "A2A agent card",
+      "url": "https://ydb-qdrant.tech/.well-known/agent-card.json"
+    },
+    {
       "name": "Auth and scoped access",
       "url": "https://ydb-qdrant.tech/docs/auth/"
+    },
+    {
+      "name": "OAuth protected resource metadata",
+      "url": "https://ydb-qdrant.tech/.well-known/oauth-protected-resource"
     },
     {
       "name": "Pricing",

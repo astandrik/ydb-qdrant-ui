@@ -26,6 +26,7 @@ curl -X PUT https://ydb-qdrant.tech/collections/docs \
 curl -X POST https://ydb-qdrant.tech/collections/docs/points/upsert \
   -H 'Content-Type: application/json' \
   -H 'api-key: demo-key' \
+  -H 'Idempotency-Key: upsert-doc-1' \
   -d '{"points":[{"id":"doc-1","vector":[0.1,0.2,0.3],"payload":{"title":"Intro"}}]}'
 
 curl -X POST https://ydb-qdrant.tech/collections/docs/points/search \
