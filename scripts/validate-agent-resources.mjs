@@ -61,6 +61,7 @@ const requiredFiles = [
   "public/.well-known/agent-instructions.md",
   "public/.well-known/agent-skills/index.json",
   "public/.well-known/agent-skills/ydb-qdrant/SKILL.md",
+  "src/app/agents.md/route.ts",
   "src/app/developers/page.tsx",
   "src/app/pricing/page.tsx",
   "src/app/docs/api/page.tsx",
@@ -94,8 +95,8 @@ assert(
   "src/app/AGENTS.md must not exist as a directory; publish public/AGENTS.md as a file",
 );
 assert(
-  !appDirectoryEntries.some((entry) => entry.name === "agents.md" && entry.isDirectory()),
-  "src/app/agents.md must not exist as a route directory; publish the standard public/AGENTS.md file",
+  appDirectoryEntries.some((entry) => entry.name === "agents.md" && entry.isDirectory()),
+  "src/app/agents.md route directory must serve lowercase /agents.md for static export",
 );
 
 const openapi = readJson("public/openapi.json");
@@ -115,6 +116,11 @@ assert(
 assert(
   openapi.components?.securitySchemes?.CodeIndexerBearer?.scheme === "bearer",
   "OpenAPI must define CodeIndexerBearer bearer security",
+);
+assert(
+  !Object.hasOwn(openapi.components.securitySchemes.ApiKeyAuth, "x-scopes") &&
+    !Object.hasOwn(openapi.components.securitySchemes.CodeIndexerBearer, "x-scopes"),
+  "OpenAPI security schemes must not advertise unsupported OAuth-like scopes",
 );
 assert(
   openapi.components?.parameters?.IdempotencyKey?.name === "Idempotency-Key" &&
@@ -155,6 +161,18 @@ for (const [method, apiPath] of idempotentMutationOperations) {
     ),
     `OpenAPI ${method.toUpperCase()} ${apiPath} must advertise Idempotency-Key`,
   );
+}
+
+for (const [apiPath, pathItem] of Object.entries(openapi.paths)) {
+  for (const [method, operation] of Object.entries(pathItem)) {
+    if (!["get", "post", "put", "delete", "patch", "head", "options"].includes(method)) {
+      continue;
+    }
+    assert(
+      !Object.hasOwn(operation, "x-permissions"),
+      `OpenAPI ${method.toUpperCase()} ${apiPath} must not advertise unsupported per-operation permissions`,
+    );
+  }
 }
 
 assert(
@@ -287,6 +305,9 @@ assert(
     agent.capability_tags.includes("vector-search") &&
     Array.isArray(agent.actions) &&
     agent.actions.some((action) => action.id === "search_points") &&
+    ["get_collection", "retrieve_points", "search_points", "query_points"].every((id) =>
+      agent.auth_model?.required_for?.includes(id),
+    ) &&
     typeof agent.a2a_capabilities === "object" &&
     Array.isArray(agent.skills),
   "Agent discovery must include agent-card compatible metadata",
@@ -331,6 +352,20 @@ assert(
     agentCard.protocolVersion &&
     Array.isArray(agentCard.defaultInputModes) &&
     Array.isArray(agentCard.defaultOutputModes) &&
+    agentCard.supportedInterfaces?.some(
+      (agentInterface) =>
+        agentInterface.url === "https://ydb-qdrant.tech/openapi.json" &&
+        agentInterface.protocolBinding === "https://spec.openapis.org/oas/3.1" &&
+        agentInterface.protocolVersion === "3.1.0",
+    ) &&
+    agentCard.supportedInterfaces?.some(
+      (agentInterface) =>
+        agentInterface.url === "https://code-indexer.ydb-qdrant.tech/mcp" &&
+        agentInterface.protocolBinding ===
+          "https://modelcontextprotocol.io/specification/2025-06-18" &&
+        agentInterface.protocolVersion === "2025-06-18",
+    ) &&
+    !Object.hasOwn(agentCard, "additionalInterfaces") &&
     typeof agentCard.capabilities === "object" &&
     Array.isArray(agentCard.skills),
   "A2A agent card must include required AgentCard fields",
@@ -345,10 +380,12 @@ const protectedResource = readJson("public/.well-known/oauth-protected-resource"
 assert(
   protectedResource.resource === "https://ydb-qdrant.tech/" &&
     protectedResource.authorization_servers?.includes("https://ydb-qdrant.tech") &&
-    protectedResource.scopes_supported?.includes("namespace:read") &&
-    protectedResource.scopes_supported?.includes("namespace:write") &&
     protectedResource.bearer_methods_supported?.includes("header"),
   "OAuth protected resource metadata must describe the public REST resource",
+);
+assert(
+  !Object.hasOwn(protectedResource, "scopes_supported"),
+  "OAuth protected resource metadata must not advertise unsupported OAuth scopes",
 );
 assert(
   !Object.hasOwn(protectedResource, "agent_auth"),
@@ -369,6 +406,17 @@ assert(
   !Object.hasOwn(authorizationServer, "agent_auth"),
   "OAuth authorization server metadata must not advertise unsupported agent_auth endpoints",
 );
+for (const unsupportedField of [
+  "scopes_supported",
+  "response_types_supported",
+  "grant_types_supported",
+  "token_endpoint_auth_methods_supported",
+]) {
+  assert(
+    !Object.hasOwn(authorizationServer, unsupportedField),
+    `OAuth authorization server metadata must not advertise unsupported ${unsupportedField}`,
+  );
+}
 
 const apiCatalog = readJson("public/.well-known/api-catalog");
 assert(
@@ -435,11 +483,26 @@ assert(
 
 const llms = readFileSync(resolveRoot("public/llms.txt"), "utf8");
 const agentsMd = readFileSync(resolveRoot("public/AGENTS.md"), "utf8");
+const lowercaseAgentsRoute = readFileSync(
+  resolveRoot("src/app/agents.md/route.ts"),
+  "utf8",
+);
+const skillsScript = readFileSync(resolveRoot("public/skills.sh"), "utf8");
 assert(
   agentsMd.includes("https://ydb-qdrant.tech/.well-known/agent-skills/index.json") &&
     agentsMd.includes("Idempotency-Key") &&
-    agentsMd.includes("production nginx config also serves it from `/agents.md`"),
-  "public/AGENTS.md must document Agent Skills, Idempotency-Key, and lowercase nginx compatibility",
+    agentsMd.includes("static-export route also serves `/agents.md`"),
+  "public/AGENTS.md must document Agent Skills, Idempotency-Key, and lowercase static-export compatibility",
+);
+assert(
+  lowercaseAgentsRoute.includes("text/markdown; charset=utf-8") &&
+    lowercaseAgentsRoute.includes("static-export route also serves") &&
+    lowercaseAgentsRoute.includes("https://ydb-qdrant.tech/.well-known/agent-skills/index.json"),
+  "src/app/agents.md route must serve lowercase markdown compatibility content",
+);
+assert(
+  skillsScript.includes('base_url="${base_url%/}"'),
+  "skills.sh must normalize a trailing slash from the provided base URL",
 );
 const semanticSearchGuide = readFileSync(
   resolveRoot("public/guides/semantic-search-ydb.md"),

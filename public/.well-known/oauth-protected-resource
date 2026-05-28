@@ -6,16 +6,10 @@
   "authorization_servers": [
     "https://ydb-qdrant.tech"
   ],
-  "scopes_supported": [
-    "namespace:read",
-    "namespace:write",
-    "repositories:read",
-    "code-search:read"
-  ],
   "bearer_methods_supported": [
     "header"
   ],
   "api_key_header": "api-key",
   "tenant_header": "X-Tenant-Id",
-  "notes": "The root YDB-Qdrant REST API currently uses the api-key header as a namespace key, not OAuth bearer tokens. Code Indexer MCP uses dashboard-created bearer tokens scoped by GitHub App repository access."
+  "notes": "The root YDB-Qdrant REST API currently uses the api-key header as a namespace key, not OAuth bearer tokens or OAuth scopes. Code Indexer MCP uses dashboard-created bearer tokens scoped by GitHub App repository access."
 }

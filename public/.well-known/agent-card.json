@@ -11,14 +11,16 @@
   "documentationUrl": "https://ydb-qdrant.tech/developers/",
   "iconUrl": "https://ydb-qdrant.tech/favicon.svg",
   "preferredTransport": "HTTP+JSON",
-  "additionalInterfaces": [
+  "supportedInterfaces": [
     {
-      "transport": "HTTP+JSON",
-      "url": "https://ydb-qdrant.tech/openapi.json"
+      "url": "https://ydb-qdrant.tech/openapi.json",
+      "protocolBinding": "https://spec.openapis.org/oas/3.1",
+      "protocolVersion": "3.1.0"
     },
     {
-      "transport": "streamable-http",
-      "url": "https://code-indexer.ydb-qdrant.tech/mcp"
+      "url": "https://code-indexer.ydb-qdrant.tech/mcp",
+      "protocolBinding": "https://modelcontextprotocol.io/specification/2025-06-18",
+      "protocolVersion": "2025-06-18"
     }
   ],
   "defaultInputModes": [

@@ -2,6 +2,7 @@
 set -eu
 
 base_url="${1:-https://ydb-qdrant.tech}"
+base_url="${base_url%/}"
 
 printf '%s\n' "YDB-Qdrant agent skill discovery"
 printf '%s\n' "${base_url}/.well-known/agent-skills/index.json"

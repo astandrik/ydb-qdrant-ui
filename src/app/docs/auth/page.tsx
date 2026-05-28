@@ -74,17 +74,17 @@ export default function AuthDocsPage() {
           ],
         },
         {
-          title: "Practical REST permissions",
+          title: "Practical REST access model",
           items: [
             <span key="read">
-              <code>namespace:read</code>: collection metadata, point retrieval,
+              Read operations cover collection metadata, point retrieval,
               search, and query within the namespace.
             </span>,
             <span key="write">
-              <code>namespace:write</code>: collection create/delete, point
+              Write operations cover collection create/delete, point
               upsert/delete, and compatibility index calls within the namespace.
             </span>,
-            "The current REST server does not enforce per-operation grants inside one api-key.",
+            "The current REST server does not enforce OAuth scopes or per-operation grants inside one api-key.",
           ],
         },
         {
@@ -95,8 +95,10 @@ export default function AuthDocsPage() {
                 Agents can discover the current auth contract through OAuth
                 protected-resource and authorization-server metadata. These
                 files document the existing REST <code>api-key</code> namespace
-                model and Code Indexer bearer-token model without advertising
-                unsupported <code>/agent/auth</code> registration endpoints.
+                model and Code Indexer bearer-token model. They omit{" "}
+                <code>scopes_supported</code> because the REST backend does not
+                enforce OAuth scopes, and they do not advertise unsupported{" "}
+                <code>/agent/auth</code> registration endpoints.
               </p>
               <pre>{`/.well-known/oauth-protected-resource
 /.well-known/oauth-authorization-server`}</pre>

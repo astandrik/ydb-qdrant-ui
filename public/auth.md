@@ -18,12 +18,12 @@ X-Tenant-Id: workspace-42
 
 This is useful when one integration key must isolate multiple workspaces. It is not OAuth and it is not a role-based permission system.
 
-## Practical REST permission model
+## Practical REST access model
 
-- `namespace:read`: collection metadata, point retrieval, search, and query within the namespace.
-- `namespace:write`: collection create/delete, point upsert/delete, and compatibility index calls within the namespace.
+- Read operations cover collection metadata, point retrieval, search, and query within the namespace.
+- Write operations cover collection create/delete, point upsert/delete, and compatibility index calls within the namespace.
 
-Current REST deployment treats the `api-key` as the namespace boundary. It does not enforce per-operation role grants inside one key.
+Current REST deployment treats the `api-key` as the namespace boundary. It does not enforce OAuth scopes or per-operation role grants inside one key.
 
 ## Agent auth discovery metadata
 
@@ -32,7 +32,7 @@ Agents can discover the current auth contract through:
 - `https://ydb-qdrant.tech/.well-known/oauth-protected-resource`
 - `https://ydb-qdrant.tech/.well-known/oauth-authorization-server`
 
-These files describe the existing REST `api-key` namespace model and the Code Indexer bearer-token model. They do not advertise WorkOS-style `agent_auth.register_uri` endpoints because `/agent/auth` runtime registration is not implemented.
+These files describe the existing REST `api-key` namespace model and the Code Indexer bearer-token model. They intentionally omit `scopes_supported` because the REST backend does not enforce OAuth scopes. They do not advertise WorkOS-style `agent_auth.register_uri` endpoints because `/agent/auth` runtime registration is not implemented.
 
 ## Code Indexer MCP
 
