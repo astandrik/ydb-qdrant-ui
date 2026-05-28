@@ -4,6 +4,8 @@ REST API auth uses the `api-key` request header. The key is not an account passw
 
 Optional `X-Tenant-Id` creates a tenant suffix under the same key. This is useful for isolating workspaces while using one integration key.
 
+Optional `YDB-Qdrant-API-Version: 2026-05-28` pins the current documented REST API contract. Optional `Idempotency-Key` should be reused when retrying the same intended mutation. Neither header grants access; authorization still comes from `api-key` for REST and bearer tokens for Code Indexer MCP.
+
 The REST permission model is namespace-based:
 
 - Read operations search and retrieve data inside the namespace.

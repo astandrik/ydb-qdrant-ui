@@ -94,6 +94,9 @@ export default function CompareVectorSearchPlatformsPage() {
             <a href="/compare/google-cloud-vector-search/" key="google-cloud">
               YDB-Qdrant vs Google Cloud Vector Search
             </a>,
+            <a href="/compare/mongodb-atlas-vector-search/" key="mongodb">
+              YDB-Qdrant vs MongoDB Atlas Vector Search
+            </a>,
             <a href="/compare/typesense/" key="typesense">
               YDB-Qdrant vs Typesense
             </a>,

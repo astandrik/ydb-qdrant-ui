@@ -13,6 +13,9 @@ export default function Footer() {
           <a href="/developers/" className="footer__nav-link">
             Hub
           </a>
+          <a href="/agent/" className="footer__nav-link">
+            Agent mode
+          </a>
           <a href="/docs/api/" className="footer__nav-link">
             API
           </a>
@@ -27,6 +30,18 @@ export default function Footer() {
           </a>
           <a href="/openapi.json" className="footer__nav-link">
             OpenAPI
+          </a>
+        </nav>
+        <nav className="footer__nav" aria-label="Trust links">
+          <span className="footer__nav-title">Trust</span>
+          <a href="/about/" className="footer__nav-link">
+            About
+          </a>
+          <a href="/contact/" className="footer__nav-link">
+            Contact
+          </a>
+          <a href="/privacy/" className="footer__nav-link">
+            Privacy
           </a>
         </nav>
         <nav className="footer__nav" aria-label="Code Indexer links">

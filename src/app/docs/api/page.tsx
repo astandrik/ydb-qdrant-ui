@@ -51,11 +51,34 @@ export default function ApiDocsPage() {
               <pre>{`Content-Type: application/json
 api-key: my-stable-namespace-key
 X-Tenant-Id: optional-workspace
+YDB-Qdrant-API-Version: 2026-05-28
 Idempotency-Key: stable-mutation-key`}</pre>
             </>
           ),
           items: [
+            "YDB-Qdrant-API-Version is optional. Send 2026-05-28 when an agent or generated client needs to pin the documented REST contract.",
             "Use Idempotency-Key when an agent or client may retry create, delete, index, upsert, or point-delete mutation requests.",
+          ],
+        },
+        {
+          title: "API versioning and deprecation policy",
+          body: (
+            <p>
+              YDB-Qdrant uses header-based API versioning instead of a{" "}
+              <code>/v1</code> URL prefix. The current documented value is{" "}
+              <code>2026-05-28</code>. Backward-incompatible public REST changes
+              will be documented in OpenAPI and docs with at least 90 days of
+              notice when the hosted API is affected.
+            </p>
+          ),
+          items: [
+            <span key="header">
+              Header: <code>YDB-Qdrant-API-Version: 2026-05-28</code>
+            </span>,
+            <span key="openapi">
+              OpenAPI lifecycle metadata: <code>x-api-lifecycle</code>
+            </span>,
+            "Do not probe /v1 routes for version discovery; they are not published as the current contract.",
           ],
         },
         {

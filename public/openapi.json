@@ -11,6 +11,11 @@
     }
   },
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "x-api-lifecycle": {
+    "current_version": "2026-05-28",
+    "versioning": "Header-based API versioning. Clients may send YDB-Qdrant-API-Version with the documented date value to pin the current REST contract. URL path versioning such as /v1 is not published today.",
+    "deprecation_policy": "Backward-incompatible REST API changes will be documented in the OpenAPI description and public docs with at least 90 days of notice when the public hosted API is affected. Deprecated fields or endpoints will remain documented during the notice window with migration guidance."
+  },
   "servers": [
     {
       "url": "https://ydb-qdrant.tech",
@@ -49,6 +54,11 @@
   ],
   "paths": {
     "/": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/ApiVersion"
+        }
+      ],
       "get": {
         "operationId": "getServiceRoot",
         "tags": [
@@ -84,6 +94,11 @@
       }
     },
     "/health": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/ApiVersion"
+        }
+      ],
       "get": {
         "operationId": "getHealth",
         "tags": [
@@ -125,6 +140,9 @@
         },
         {
           "$ref": "#/components/parameters/TenantId"
+        },
+        {
+          "$ref": "#/components/parameters/ApiVersion"
         }
       ],
       "put": {
@@ -271,6 +289,9 @@
         },
         {
           "$ref": "#/components/parameters/TenantId"
+        },
+        {
+          "$ref": "#/components/parameters/ApiVersion"
         }
       ],
       "put": {
@@ -323,6 +344,9 @@
         },
         {
           "$ref": "#/components/parameters/TenantId"
+        },
+        {
+          "$ref": "#/components/parameters/ApiVersion"
         }
       ],
       "post": {
@@ -432,6 +456,9 @@
         },
         {
           "$ref": "#/components/parameters/TenantId"
+        },
+        {
+          "$ref": "#/components/parameters/ApiVersion"
         }
       ],
       "post": {
@@ -494,6 +521,9 @@
         },
         {
           "$ref": "#/components/parameters/TenantId"
+        },
+        {
+          "$ref": "#/components/parameters/ApiVersion"
         }
       ],
       "post": {
@@ -565,6 +595,9 @@
         },
         {
           "$ref": "#/components/parameters/TenantId"
+        },
+        {
+          "$ref": "#/components/parameters/ApiVersion"
         }
       ],
       "post": {
@@ -622,6 +655,9 @@
         },
         {
           "$ref": "#/components/parameters/TenantId"
+        },
+        {
+          "$ref": "#/components/parameters/ApiVersion"
         }
       ],
       "post": {
@@ -718,6 +754,21 @@
           "examples": [
             "agent-a",
             "workspace_42"
+          ]
+        }
+      },
+      "ApiVersion": {
+        "name": "YDB-Qdrant-API-Version",
+        "in": "header",
+        "required": false,
+        "description": "Optional API contract version pin. Current documented version is 2026-05-28. Omit the header to use the current public contract.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "2026-05-28"
+          ],
+          "examples": [
+            "2026-05-28"
           ]
         }
       },

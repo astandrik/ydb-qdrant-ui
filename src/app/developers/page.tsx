@@ -29,6 +29,14 @@ export default function DevelopersPage() {
           view: "action",
         },
         {
+          href: "/agent/",
+          label: "Agent mode",
+        },
+        {
+          href: "/agent-mode.json",
+          label: "Agent JSON",
+        },
+        {
           href: "/docs/api/",
           label: "REST API docs",
         },
@@ -61,6 +69,12 @@ export default function DevelopersPage() {
         {
           title: "Machine-readable resources",
           items: [
+            <a href="/agent/" key="agent-mode">
+              YDB-Qdrant Agent Mode view
+            </a>,
+            <a href="/agent-mode.json" key="agent-mode-json">
+              YDB-Qdrant Agent Mode JSON
+            </a>,
             <a href="/openapi.json" key="openapi">
               OpenAPI specification
             </a>,
@@ -78,6 +92,12 @@ export default function DevelopersPage() {
               key="ydb-qdrant-skill"
             >
               YDB-Qdrant Agent Skill
+            </a>,
+            <a
+              href="/.well-known/agent-skills/code-indexer/SKILL.md"
+              key="code-indexer-skill"
+            >
+              YDB Qdrant Code Indexer Agent Skill
             </a>,
             <a href="/agents.md" key="agents-md">
               agents.md compatibility file
@@ -120,6 +140,15 @@ export default function DevelopersPage() {
         {
           title: "Human-readable docs",
           items: [
+            <a href="/about/" key="about">
+              About YDB-Qdrant
+            </a>,
+            <a href="/contact/" key="contact">
+              Contact YDB-Qdrant
+            </a>,
+            <a href="/privacy/" key="privacy">
+              YDB-Qdrant privacy
+            </a>,
             <a href="/docs/api/" key="api-docs">
               REST API reference
             </a>,
@@ -156,6 +185,43 @@ export default function DevelopersPage() {
             >
               Vector search API for semantic similarity and embeddings
             </a>,
+            <a
+              href="/compare/mongodb-atlas-vector-search/"
+              key="mongodb-comparison"
+            >
+              YDB-Qdrant vs MongoDB Atlas Vector Search
+            </a>,
+          ],
+        },
+        {
+          title: "Predictable URLs by resource name",
+          body: (
+            <p>
+              Search engines and AI agents can discover YDB-Qdrant developer
+              resources by stable names and direct URLs rather than navigating a
+              JavaScript app.
+            </p>
+          ),
+          items: [
+            <span key="api">
+              YDB-Qdrant API docs: <code>/docs/api/</code>
+            </span>,
+            <span key="openapi">
+              YDB-Qdrant OpenAPI spec: <code>/openapi.json</code>
+            </span>,
+            <span key="auth">
+              YDB-Qdrant auth docs: <code>/docs/auth/</code>
+            </span>,
+            <span key="mcp">
+              YDB-Qdrant MCP discovery: <code>/docs/mcp/</code>
+            </span>,
+            <span key="skills">
+              YDB-Qdrant Agent Skills:{" "}
+              <code>/.well-known/agent-skills/index.json</code>
+            </span>,
+            <span key="mode">
+              YDB-Qdrant Agent Mode: <code>/agent/</code>
+            </span>,
           ],
         },
         {

@@ -21,19 +21,24 @@ YDB-Qdrant gives YDB-backed applications a Qdrant-compatible REST API for storin
 curl -X PUT https://ydb-qdrant.tech/collections/docs \
   -H 'Content-Type: application/json' \
   -H 'api-key: demo-key' \
+  -H 'YDB-Qdrant-API-Version: 2026-05-28' \
   -d '{"vectors":{"size":3,"distance":"Cosine","data_type":"float"}}'
 
 curl -X POST https://ydb-qdrant.tech/collections/docs/points/upsert \
   -H 'Content-Type: application/json' \
   -H 'api-key: demo-key' \
+  -H 'YDB-Qdrant-API-Version: 2026-05-28' \
   -H 'Idempotency-Key: upsert-doc-1' \
   -d '{"points":[{"id":"doc-1","vector":[0.1,0.2,0.3],"payload":{"title":"Intro"}}]}'
 
 curl -X POST https://ydb-qdrant.tech/collections/docs/points/search \
   -H 'Content-Type: application/json' \
   -H 'api-key: demo-key' \
+  -H 'YDB-Qdrant-API-Version: 2026-05-28' \
   -d '{"vector":[0.1,0.2,0.3],"limit":5,"with_payload":true}'
 ```
+
+Agents may omit `YDB-Qdrant-API-Version`, but sending `2026-05-28` pins the current documented REST contract.
 
 ## When another platform is better
 

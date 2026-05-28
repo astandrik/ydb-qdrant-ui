@@ -24,8 +24,25 @@ function readJson(relativePath) {
   return JSON.parse(readFileSync(resolveRoot(relativePath), "utf8"));
 }
 
+const validatorSource = readFileSync(
+  resolveRoot("scripts/validate-agent-resources.mjs"),
+  "utf8",
+);
+for (const forbiddenReference of [
+  ["private", "deploy-static.sh"].join("/"),
+  ["deploy", "Script", "Path"].join(""),
+  ["PUBLIC", "PROXY", "HOST"].join("_"),
+  ["REMOTE", "APP", "HOST"].join("_"),
+]) {
+  assert(
+    !validatorSource.includes(forbiddenReference),
+    "Agent resource validator must not depend on ignored deploy scripts",
+  );
+}
+
 const requiredFiles = [
   "AGENTS.md",
+  "SKILL.md",
   "public/openapi.json",
   "public/.well-known/agent.json",
   "public/.well-known/agent-card.json",
@@ -33,6 +50,9 @@ const requiredFiles = [
   "public/.well-known/oauth-protected-resource",
   "public/.well-known/mcp/server-card.json",
   "public/.well-known/mcp.json",
+  "public/about.md",
+  "public/contact.md",
+  "public/privacy.md",
   "public/auth.md",
   "public/AGENTS.md",
   "public/skills.sh",
@@ -53,6 +73,7 @@ const requiredFiles = [
   "public/compare/azure-ai-search.md",
   "public/compare/elasticsearch.md",
   "public/compare/google-cloud-vector-search.md",
+  "public/compare/mongodb-atlas-vector-search.md",
   "public/compare/typesense.md",
   "public/guides/semantic-search-ydb.md",
   "public/guides/best-vector-search-for-ydb.md",
@@ -61,6 +82,13 @@ const requiredFiles = [
   "public/.well-known/agent-instructions.md",
   "public/.well-known/agent-skills/index.json",
   "public/.well-known/agent-skills/ydb-qdrant/SKILL.md",
+  "public/.well-known/agent-skills/code-indexer/SKILL.md",
+  "src/shared/agentModeData.ts",
+  "src/app/agent/page.tsx",
+  "src/app/agent-mode.json/route.ts",
+  "src/app/about/page.tsx",
+  "src/app/contact/page.tsx",
+  "src/app/privacy/page.tsx",
   "src/app/agents.md/route.ts",
   "src/app/developers/page.tsx",
   "src/app/pricing/page.tsx",
@@ -76,6 +104,7 @@ const requiredFiles = [
   "src/app/compare/azure-ai-search/page.tsx",
   "src/app/compare/elasticsearch/page.tsx",
   "src/app/compare/google-cloud-vector-search/page.tsx",
+  "src/app/compare/mongodb-atlas-vector-search/page.tsx",
   "src/app/compare/typesense/page.tsx",
   "src/app/guides/semantic-search-ydb/page.tsx",
   "src/app/guides/best-vector-search-for-ydb/page.tsx",
@@ -133,6 +162,19 @@ assert(
     openapi.components.parameters.IdempotencyKey.required === false,
   "OpenAPI must define reusable optional Idempotency-Key header parameter",
 );
+assert(
+  openapi.components?.parameters?.ApiVersion?.name === "YDB-Qdrant-API-Version" &&
+    openapi.components.parameters.ApiVersion.in === "header" &&
+    openapi.components.parameters.ApiVersion.required === false &&
+    openapi.components.parameters.ApiVersion.schema?.enum?.includes("2026-05-28"),
+  "OpenAPI must define reusable optional YDB-Qdrant-API-Version header parameter",
+);
+assert(
+  openapi["x-api-lifecycle"]?.current_version === "2026-05-28" &&
+    openapi["x-api-lifecycle"]?.versioning?.includes("YDB-Qdrant-API-Version") &&
+    openapi["x-api-lifecycle"]?.deprecation_policy?.includes("90 days"),
+  "OpenAPI must document API versioning and deprecation policy",
+);
 
 const requiredPaths = [
   "/",
@@ -148,6 +190,12 @@ const requiredPaths = [
 
 for (const apiPath of requiredPaths) {
   assert(openapi.paths?.[apiPath], `OpenAPI missing path ${apiPath}`);
+  assert(
+    openapi.paths[apiPath].parameters?.some(
+      (parameter) => parameter.$ref === "#/components/parameters/ApiVersion",
+    ),
+    `OpenAPI ${apiPath} must advertise YDB-Qdrant-API-Version`,
+  );
 }
 
 const idempotentMutationOperations = [
@@ -326,9 +374,15 @@ assert(
 const agentSkillsIndex = readJson("public/.well-known/agent-skills/index.json");
 const ydbQdrantSkillPath =
   "public/.well-known/agent-skills/ydb-qdrant/SKILL.md";
+const codeIndexerSkillPath =
+  "public/.well-known/agent-skills/code-indexer/SKILL.md";
 const ydbQdrantSkill = readFileSync(resolveRoot(ydbQdrantSkillPath), "utf8");
+const codeIndexerSkill = readFileSync(resolveRoot(codeIndexerSkillPath), "utf8");
 const ydbQdrantSkillDigest = `sha256:${createHash("sha256")
   .update(readFileSync(resolveRoot(ydbQdrantSkillPath)))
+  .digest("hex")}`;
+const codeIndexerSkillDigest = `sha256:${createHash("sha256")
+  .update(readFileSync(resolveRoot(codeIndexerSkillPath)))
   .digest("hex")}`;
 assert(
   agent.agent_skills ===
@@ -348,11 +402,28 @@ assert(
   "Agent Skills index must describe the YDB-Qdrant SKILL.md with a valid digest",
 );
 assert(
+  agentSkillsIndex.skills?.some(
+    (skill) =>
+      skill.name === "ydb-qdrant-code-indexer" &&
+      skill.type === "skill-md" &&
+      skill.url === "/.well-known/agent-skills/code-indexer/SKILL.md" &&
+      skill.digest === codeIndexerSkillDigest,
+  ),
+  "Agent Skills index must describe the Code Indexer SKILL.md with a valid digest",
+);
+assert(
   ydbQdrantSkill.includes("name: ydb-qdrant") &&
     ydbQdrantSkill.includes("Idempotency-Key") &&
     ydbQdrantSkill.includes("https://ydb-qdrant.tech/openapi.json") &&
     ydbQdrantSkill.includes("Do not assume root-product vector mutations"),
   "YDB-Qdrant Agent Skill must describe capabilities, constraints, and links",
+);
+assert(
+  codeIndexerSkill.includes("name: ydb-qdrant-code-indexer") &&
+    codeIndexerSkill.includes("https://code-indexer.ydb-qdrant.tech/mcp") &&
+    codeIndexerSkill.includes("search_code") &&
+    codeIndexerSkill.includes("read-only repository memory"),
+  "Code Indexer Agent Skill must describe MCP endpoint, tools, and read-only scope",
 );
 
 const agentCard = readJson("public/.well-known/agent-card.json");
@@ -484,12 +555,27 @@ assert(
 
 const llms = readFileSync(resolveRoot("public/llms.txt"), "utf8");
 const rootAgentsMd = readFileSync(resolveRoot("AGENTS.md"), "utf8");
+const rootSkill = readFileSync(resolveRoot("SKILL.md"), "utf8");
 const agentsMd = readFileSync(resolveRoot("public/AGENTS.md"), "utf8");
 const lowercaseAgentsRoute = readFileSync(
   resolveRoot("src/app/agents.md/route.ts"),
   "utf8",
 );
 const skillsScript = readFileSync(resolveRoot("public/skills.sh"), "utf8");
+const robotsRoute = readFileSync(resolveRoot("src/app/robots.ts"), "utf8");
+const agentModeData = readFileSync(resolveRoot("src/shared/agentModeData.ts"), "utf8");
+const agentModePage = readFileSync(resolveRoot("src/app/agent/page.tsx"), "utf8");
+const developersPage = readFileSync(resolveRoot("src/app/developers/page.tsx"), "utf8");
+const docsAgentsPage = readFileSync(resolveRoot("src/app/docs/agents/page.tsx"), "utf8");
+const docsAgentsMarkdown = readFileSync(resolveRoot("public/docs/agents.md"), "utf8");
+const developersMarkdown = readFileSync(resolveRoot("public/developers.md"), "utf8");
+assert(
+  rootSkill.includes("name: ydb-qdrant") &&
+    rootSkill.includes("npx skills add") &&
+    rootSkill.includes("YDB-Qdrant-API-Version") &&
+    rootSkill.includes("https://ydb-qdrant.tech/agent/"),
+  "Root SKILL.md must describe official skill publication and versioned agent resources",
+);
 assert(
   rootAgentsMd.includes(
     "/.well-known/oauth-protected-resource` should be served as `application/json`",
@@ -512,6 +598,54 @@ assert(
   skillsScript.includes('base_url="${base_url%/}"'),
   "skills.sh must normalize a trailing slash from the provided base URL",
 );
+assert(
+  robotsRoute.includes("ChatGPT-User") &&
+    robotsRoute.includes("OAI-SearchBot") &&
+    robotsRoute.includes("GPTBot") &&
+    robotsRoute.includes("CCBot") &&
+    robotsRoute.includes("ByteSpider") &&
+    robotsRoute.includes("Google-Extended"),
+  "robots.ts must explicitly differentiate AI search agents and training crawlers",
+);
+assert(
+  agentModeData.includes("YDB-Qdrant Agent Mode") &&
+    agentModeData.includes("YDB-Qdrant-API-Version") &&
+    agentModeData.includes("https://ydb-qdrant.tech/openapi.json") &&
+    agentModeData.includes("https://code-indexer.ydb-qdrant.tech/mcp"),
+  "Agent mode data must expose key API, auth, and MCP capabilities",
+);
+assert(
+  !agentModePage.includes("/?mode=agent") &&
+    !developersPage.includes("/?mode=agent"),
+  "Tracked UI must advertise /agent/ as the canonical static agent mode URL",
+);
+assert(
+  !agentModePage.includes("human-readable companion") &&
+    agentModePage.includes("machine-readable JSON version"),
+  "Agent mode page copy must avoid self-referencing /agent/ as a companion resource",
+);
+for (const expected of [
+  "https://ydb-qdrant.tech/agent/",
+  "https://ydb-qdrant.tech/agent-mode.json",
+  "YDB-Qdrant-API-Version",
+  "https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md",
+]) {
+  assert(
+    docsAgentsPage.includes(expected) && docsAgentsMarkdown.includes(expected),
+    `Agent docs page and markdown mirror must include ${expected}`,
+  );
+}
+for (const expected of [
+  "https://ydb-qdrant.tech/agent/",
+  "https://ydb-qdrant.tech/agent-mode.json",
+  "https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md",
+  "https://ydb-qdrant.tech/about/",
+  "https://ydb-qdrant.tech/contact/",
+  "https://ydb-qdrant.tech/privacy/",
+  "https://ydb-qdrant.tech/compare/mongodb-atlas-vector-search/",
+]) {
+  assert(developersMarkdown.includes(expected), `public/developers.md missing ${expected}`);
+}
 const semanticSearchGuide = readFileSync(
   resolveRoot("public/guides/semantic-search-ydb.md"),
   "utf8",
@@ -521,6 +655,14 @@ assert(
     semanticSearchGuide.indexOf("/points/upsert") <
       semanticSearchGuide.indexOf("/points/search"),
   "Semantic search markdown guide must upsert before search",
+);
+const semanticSimilarityGuidePage = readFileSync(
+  resolveRoot("src/app/guides/vector-search-api-semantic-similarity-embeddings/page.tsx"),
+  "utf8",
+);
+assert(
+  !semanticSimilarityGuidePage.includes('"@type": "FAQPage"'),
+  "Semantic similarity guide must not publish FAQPage JSON-LD without a visible FAQ section",
 );
 const ciWorkflow = readFileSync(resolveRoot(".github/workflows/ci.yml"), "utf8");
 assert(
@@ -553,6 +695,14 @@ for (const relativePath of ["src/app/docs/api/page.tsx", "public/docs/api.md"]) 
   );
 }
 for (const expected of [
+  "https://ydb-qdrant.tech/agent/",
+  "https://ydb-qdrant.tech/agent-mode.json",
+  "https://ydb-qdrant.tech/about/",
+  "https://ydb-qdrant.tech/about.md",
+  "https://ydb-qdrant.tech/contact/",
+  "https://ydb-qdrant.tech/contact.md",
+  "https://ydb-qdrant.tech/privacy/",
+  "https://ydb-qdrant.tech/privacy.md",
   "https://ydb-qdrant.tech/openapi.json",
   "https://ydb-qdrant.tech/AGENTS.md",
   "https://ydb-qdrant.tech/agents.md",
@@ -567,18 +717,29 @@ for (const expected of [
   "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
   "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
   "https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md",
+  "https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md",
   "https://ydb-qdrant.tech/.well-known/agent-card.json",
   "https://ydb-qdrant.tech/.well-known/oauth-protected-resource",
   "https://ydb-qdrant.tech/compare/databricks-vector-search/",
   "https://ydb-qdrant.tech/compare/azure-ai-search/",
   "https://ydb-qdrant.tech/compare/elasticsearch/",
   "https://ydb-qdrant.tech/compare/google-cloud-vector-search/",
+  "https://ydb-qdrant.tech/compare/mongodb-atlas-vector-search/",
   "https://ydb-qdrant.tech/compare/typesense/",
   "https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/",
   "https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/",
   "https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/",
 ]) {
   assert(llms.includes(expected), `llms.txt missing ${expected}`);
+}
+
+for (const relativePath of [
+  "public/about.md",
+  "public/contact.md",
+  "public/privacy.md",
+]) {
+  const content = readFileSync(resolveRoot(relativePath), "utf8");
+  assert(content.length >= 500, `${relativePath} must contain at least 500 chars`);
 }
 
 console.log("Agent resources validated.");

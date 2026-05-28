@@ -32,6 +32,14 @@
       "documentation": "https://ydb-qdrant.tech/agents.md",
       "authentication": "https://ydb-qdrant.tech/docs/auth/",
       "format": "agent-skills-0.2"
+    },
+    {
+      "name": "YDB-Qdrant Agent Mode",
+      "description": "Structured machine-readable view of YDB-Qdrant API endpoints, authentication, capabilities, limits, and resources.",
+      "url": "https://ydb-qdrant.tech/agent-mode.json",
+      "documentation": "https://ydb-qdrant.tech/agent/",
+      "authentication": "https://ydb-qdrant.tech/docs/auth/",
+      "format": "agent-mode-json"
     }
   ],
   "linkset": [
@@ -59,6 +67,11 @@
           "title": "YDB-Qdrant Agent Skills index"
         },
         {
+          "href": "https://ydb-qdrant.tech/agent-mode.json",
+          "type": "application/json",
+          "title": "YDB-Qdrant Agent Mode JSON"
+        },
+        {
           "href": "https://ydb-qdrant.tech/.well-known/oauth-protected-resource",
           "type": "application/json",
           "title": "YDB-Qdrant OAuth protected resource metadata"
@@ -79,6 +92,10 @@
         },
         {
           "href": "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/agent-mode.json",
           "type": "application/json"
         },
         {
@@ -114,6 +131,26 @@
         {
           "href": "https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md",
           "type": "text/markdown"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md",
+          "type": "text/markdown"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/agent/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/about/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/contact/",
+          "type": "text/html"
+        },
+        {
+          "href": "https://ydb-qdrant.tech/privacy/",
+          "type": "text/html"
         },
         {
           "href": "https://ydb-qdrant.tech/docs/mcp/",

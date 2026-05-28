@@ -23,13 +23,16 @@ Do not assume the root YDB-Qdrant vector product exposes hosted MCP tools. Root-
 3. Use `https://ydb-qdrant.tech` for authenticated public REST calls. Use the HTTP-only demo base URL `http://ydb-qdrant.tech:8080` only with non-sensitive demo credentials.
 4. Send `Content-Type: application/json` for write and search requests.
 5. Send `api-key: <stable-key>` for namespace isolation and optional `X-Tenant-Id: <tenant>` for tenant suffixing.
-6. Send optional `Idempotency-Key: <stable-operation-key>` when retrying mutation requests.
-7. Create or confirm a collection before point writes and searches.
-8. Parse JSON errors through `status`, `error`, `code`, `message`, `resolution`, `request_id`, and optional `details`.
+6. Send optional `YDB-Qdrant-API-Version: 2026-05-28` to pin the current documented REST contract.
+7. Send optional `Idempotency-Key: <stable-operation-key>` when retrying mutation requests.
+8. Create or confirm a collection before point writes and searches.
+9. Parse JSON errors through `status`, `error`, `code`, `message`, `resolution`, `request_id`, and optional `details`.
 
 ## Primary resources
 
 - Developer hub: https://ydb-qdrant.tech/developers/
+- Agent mode: https://ydb-qdrant.tech/agent/
+- Agent mode JSON: https://ydb-qdrant.tech/agent-mode.json
 - REST API docs: https://ydb-qdrant.tech/docs/api/
 - Agent instructions: https://ydb-qdrant.tech/docs/agents/
 - Auth docs: https://ydb-qdrant.tech/docs/auth/
@@ -37,5 +40,6 @@ Do not assume the root YDB-Qdrant vector product exposes hosted MCP tools. Root-
 - Agent discovery: https://ydb-qdrant.tech/.well-known/agent.json
 - Agent Skills index: https://ydb-qdrant.tech/.well-known/agent-skills/index.json
 - YDB-Qdrant Agent Skill: https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md
+- YDB Qdrant Code Indexer Agent Skill: https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md
 - A2A agent card: https://ydb-qdrant.tech/.well-known/agent-card.json
 - MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json

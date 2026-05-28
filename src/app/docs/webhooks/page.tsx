@@ -64,6 +64,26 @@ export default function WebhooksDocsPage() {
             "The MCP server card is published at /.well-known/mcp/server-card.json.",
           ],
         },
+        {
+          title: "Discovery by name",
+          items: [
+            <a href="/.well-known/mcp/server-card.json" key="mcp-card">
+              YDB Qdrant Code Indexer MCP server card
+            </a>,
+            <a
+              href="/.well-known/agent-skills/code-indexer/SKILL.md"
+              key="skill"
+            >
+              YDB Qdrant Code Indexer Agent Skill
+            </a>,
+            <a href="/agent/" key="agent-mode">
+              YDB-Qdrant Agent Mode
+            </a>,
+            <a href="/docs/auth/" key="auth">
+              Auth and scoped access
+            </a>,
+          ],
+        },
       ]}
     />
   );

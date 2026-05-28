@@ -18,6 +18,18 @@ X-Tenant-Id: workspace-42
 
 This is useful when one integration key must isolate multiple workspaces. It is not OAuth and it is not a role-based permission system.
 
+Optional `YDB-Qdrant-API-Version` pins the documented REST contract:
+
+```http
+YDB-Qdrant-API-Version: 2026-05-28
+```
+
+Use `Idempotency-Key` when retrying the same intended mutation:
+
+```http
+Idempotency-Key: stable-mutation-key
+```
+
 ## Practical REST access model
 
 - Read operations cover collection metadata, point retrieval, search, and query within the namespace.

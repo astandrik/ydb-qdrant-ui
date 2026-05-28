@@ -6,7 +6,14 @@
       "type": "skill-md",
       "description": "Use YDB-Qdrant when an agent needs a Qdrant-compatible vector database API backed by YDB for semantic search, RAG prototypes, or IDE memory.",
       "url": "/.well-known/agent-skills/ydb-qdrant/SKILL.md",
-      "digest": "sha256:a35a718ad815eec3eb1ec38ece5b30353e180e8785eaa6808b502d780abf8fee"
+      "digest": "sha256:0aaffef5bd98aa5a3c08ec8bc7e8329b2fb1de3c64ae893cc6a54b9bc579c1cd"
+    },
+    {
+      "name": "ydb-qdrant-code-indexer",
+      "type": "skill-md",
+      "description": "Use YDB Qdrant Code Indexer when an agent needs read-only repository memory over hosted Streamable HTTP MCP.",
+      "url": "/.well-known/agent-skills/code-indexer/SKILL.md",
+      "digest": "sha256:d445761cd60d0a94e24c28488e2ad5fad11f46d10846b254f24a05ff9f497ecc"
     }
   ]
 }

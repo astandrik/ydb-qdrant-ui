@@ -57,6 +57,18 @@ export default function AuthDocsPage() {
           ],
         },
         {
+          title: "Version and retry headers",
+          body: (
+            <pre>{`YDB-Qdrant-API-Version: 2026-05-28
+Idempotency-Key: stable-mutation-key`}</pre>
+          ),
+          items: [
+            "YDB-Qdrant-API-Version is optional and pins the current documented REST API contract.",
+            "Idempotency-Key is optional and should be reused when retrying the same intended mutation.",
+            "Neither header grants access; authorization still comes from api-key for REST and bearer tokens for Code Indexer MCP.",
+          ],
+        },
+        {
           title: "Optional tenant suffix",
           body: (
             <>

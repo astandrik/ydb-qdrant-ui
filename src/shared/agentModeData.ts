@@ -1,0 +1,121 @@
+export const AGENT_MODE_VERSION = "2026-05-28";
+
+export const agentModeData = {
+  name: "YDB-Qdrant Agent Mode",
+  product: "YDB-Qdrant",
+  domain: "ydb-qdrant.tech",
+  url: "https://ydb-qdrant.tech/agent/",
+  generated_at: AGENT_MODE_VERSION,
+  summary:
+    "YDB-Qdrant is a Qdrant-compatible vector search REST API and Node.js library backed by YDB. Use it for semantic search, RAG prototypes, IDE-agent memory, and YDB-backed applications that need vector storage without a separate vector database cluster.",
+  api: {
+    type: "openapi",
+    openapi: "https://ydb-qdrant.tech/openapi.json",
+    docs: "https://ydb-qdrant.tech/docs/api/",
+    version_header: "YDB-Qdrant-API-Version",
+    current_version: AGENT_MODE_VERSION,
+    base_urls: [
+      {
+        url: "https://ydb-qdrant.tech",
+        use: "Public HTTPS API proxy for health, collection, and point routes.",
+      },
+      {
+        url: "http://ydb-qdrant.tech:8080",
+        use: "HTTP-only public demo Qdrant-compatible base URL. Use only with non-sensitive demo credentials.",
+      },
+      {
+        url: "http://localhost:8080",
+        use: "Self-hosted local server.",
+      },
+    ],
+    endpoints: [
+      "GET /health",
+      "PUT /collections/{collection}",
+      "GET /collections/{collection}",
+      "DELETE /collections/{collection}",
+      "PUT /collections/{collection}/index",
+      "POST /collections/{collection}/points",
+      "PUT /collections/{collection}/points",
+      "POST /collections/{collection}/points/upsert",
+      "POST /collections/{collection}/points/search",
+      "POST /collections/{collection}/points/query",
+      "POST /collections/{collection}/points/delete",
+    ],
+  },
+  authentication: {
+    rest: {
+      scheme: "api-key header",
+      header: "api-key",
+      tenant_header: "X-Tenant-Id",
+      docs: "https://ydb-qdrant.tech/docs/auth/",
+      retry_header: "Idempotency-Key",
+      notes: [
+        "api-key defines the namespace boundary for collections and points.",
+        "X-Tenant-Id optionally splits one api-key into workspace or tenant namespaces.",
+        "YDB-Qdrant-API-Version can pin the current documented REST contract.",
+        "Idempotency-Key should be reused for the same intended mutation when an agent retries.",
+      ],
+    },
+    mcp: {
+      scheme: "Bearer token",
+      endpoint: "https://code-indexer.ydb-qdrant.tech/mcp",
+      docs: "https://ydb-qdrant.tech/docs/mcp/",
+      notes: [
+        "Hosted MCP is for YDB Qdrant Code Indexer read-only repository memory.",
+        "MCP tokens are created in the dashboard and scoped by GitHub App repository access.",
+        "The root vector REST product does not expose hosted MCP vector mutation tools.",
+      ],
+    },
+  },
+  capabilities: [
+    "Qdrant-compatible REST subset for collection lifecycle and point operations.",
+    "Exact top-k vector search over YDB-backed data.",
+    "Node.js library mode through the ydb-qdrant package.",
+    "Hosted Code Indexer MCP for read-only repository search.",
+    "Agent-readable OpenAPI, llms.txt, agent card, API catalog, and skill files.",
+  ],
+  limits: [
+    "Not full Qdrant parity.",
+    "No root-product hosted MCP server for vector mutations.",
+    "No OAuth scopes or role-based REST permissions are currently enforced.",
+    "Use another search platform when you need mature hybrid lexical/vector search, faceting, analyzers, or specialized ANN indexing at production scale.",
+  ],
+  resources: {
+    developers: "https://ydb-qdrant.tech/developers/",
+    llms: "https://ydb-qdrant.tech/llms.txt",
+    llms_full: "https://ydb-qdrant.tech/llms-full.txt",
+    agent_json: "https://ydb-qdrant.tech/.well-known/agent.json",
+    agent_card: "https://ydb-qdrant.tech/.well-known/agent-card.json",
+    agent_skills: "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
+    mcp_card: "https://ydb-qdrant.tech/.well-known/mcp/server-card.json",
+    api_catalog: "https://ydb-qdrant.tech/.well-known/api-catalog",
+    pricing: "https://ydb-qdrant.tech/pricing/",
+    about: "https://ydb-qdrant.tech/about/",
+    contact: "https://ydb-qdrant.tech/contact/",
+    privacy: "https://ydb-qdrant.tech/privacy/",
+  },
+  recommended_agent_flow: [
+    "Read https://ydb-qdrant.tech/openapi.json before generating calls.",
+    "Send api-key on REST requests and optionally X-Tenant-Id for workspace isolation.",
+    "Send YDB-Qdrant-API-Version: 2026-05-28 when pinning the current documented contract.",
+    "Create or confirm a collection before point writes.",
+    "Use Idempotency-Key on retried mutation requests.",
+    "Search with POST /collections/{collection}/points/search.",
+    "Use Code Indexer MCP only for read-only repository memory.",
+  ],
+} as const;
+
+export const agentModeJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "YDB-Qdrant",
+  alternateName: "YDB-Qdrant Agent Mode",
+  url: agentModeData.url,
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Self-hosted Node.js service or hosted public demo",
+  description: agentModeData.summary,
+  codeRepository: "https://github.com/astandrik/ydb-qdrant",
+  softwareVersion: AGENT_MODE_VERSION,
+  featureList: agentModeData.capabilities,
+  sameAs: Object.values(agentModeData.resources),
+};

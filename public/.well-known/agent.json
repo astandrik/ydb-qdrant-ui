@@ -34,19 +34,25 @@
   "api": {
     "type": "openapi",
     "url": "https://ydb-qdrant.tech/openapi.json",
-    "docs": "https://ydb-qdrant.tech/docs/api/"
+    "docs": "https://ydb-qdrant.tech/docs/api/",
+    "version_header": "YDB-Qdrant-API-Version",
+    "current_version": "2026-05-28"
   },
   "apis": [
     {
       "type": "openapi",
       "url": "https://ydb-qdrant.tech/openapi.json",
-      "docs": "https://ydb-qdrant.tech/docs/api/"
+      "docs": "https://ydb-qdrant.tech/docs/api/",
+      "version_header": "YDB-Qdrant-API-Version",
+      "current_version": "2026-05-28"
     }
   ],
   "docs": "https://ydb-qdrant.tech/developers/",
   "instructions": "https://ydb-qdrant.tech/docs/agents/",
   "agent_instructions": "https://ydb-qdrant.tech/.well-known/agent-instructions.md",
   "agent_skills": "https://ydb-qdrant.tech/.well-known/agent-skills/index.json",
+  "agent_mode": "https://ydb-qdrant.tech/agent/",
+  "agent_mode_json": "https://ydb-qdrant.tech/agent-mode.json",
   "agent_card": "https://ydb-qdrant.tech/.well-known/agent-card.json",
   "llms": "https://ydb-qdrant.tech/llms.txt",
   "llms_full": "https://ydb-qdrant.tech/llms-full.txt",
@@ -224,6 +230,18 @@
       "url": "https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md"
     },
     {
+      "name": "YDB Qdrant Code Indexer Agent Skill",
+      "url": "https://ydb-qdrant.tech/.well-known/agent-skills/code-indexer/SKILL.md"
+    },
+    {
+      "name": "Agent mode",
+      "url": "https://ydb-qdrant.tech/agent/"
+    },
+    {
+      "name": "Agent mode JSON",
+      "url": "https://ydb-qdrant.tech/agent-mode.json"
+    },
+    {
       "name": "agents.md compatibility file",
       "url": "https://ydb-qdrant.tech/agents.md"
     },
@@ -254,6 +272,18 @@
     {
       "name": "MCP discovery page",
       "url": "https://ydb-qdrant.tech/docs/mcp/"
+    },
+    {
+      "name": "About",
+      "url": "https://ydb-qdrant.tech/about/"
+    },
+    {
+      "name": "Contact",
+      "url": "https://ydb-qdrant.tech/contact/"
+    },
+    {
+      "name": "Privacy",
+      "url": "https://ydb-qdrant.tech/privacy/"
     }
   ]
 }
