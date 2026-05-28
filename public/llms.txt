@@ -36,7 +36,6 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 - [Agent instructions markdown](https://ydb-qdrant.tech/.well-known/agent-instructions.md)
 - [API catalog](https://ydb-qdrant.tech/.well-known/api-catalog)
 - [OAuth protected resource metadata](https://ydb-qdrant.tech/.well-known/oauth-protected-resource)
-- [OAuth authorization server metadata](https://ydb-qdrant.tech/.well-known/oauth-authorization-server)
 - [MCP server card](https://ydb-qdrant.tech/.well-known/mcp/server-card.json)
 - [MCP manifest](https://ydb-qdrant.tech/.well-known/mcp.json)
 - [Full AI-readable index](https://ydb-qdrant.tech/llms-full.txt)

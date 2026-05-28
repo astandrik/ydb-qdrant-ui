@@ -20,7 +20,6 @@ YDB-Qdrant is a Qdrant-compatible vector search API and Node.js library backed b
 - [Agent instructions markdown](https://ydb-qdrant.tech/.well-known/agent-instructions.md)
 - [Auth and scoped access](https://ydb-qdrant.tech/docs/auth/)
 - [OAuth protected resource metadata](https://ydb-qdrant.tech/.well-known/oauth-protected-resource)
-- [OAuth authorization server metadata](https://ydb-qdrant.tech/.well-known/oauth-authorization-server)
 - [MCP discovery page](https://ydb-qdrant.tech/docs/mcp/)
 - [Webhooks and events](https://ydb-qdrant.tech/docs/webhooks/)
 - [Architecture diagrams](https://ydb-qdrant.tech/docs/)

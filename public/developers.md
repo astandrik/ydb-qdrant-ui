@@ -12,7 +12,6 @@
 - agents.md compatibility file: https://ydb-qdrant.tech/agents.md
 - A2A agent card: https://ydb-qdrant.tech/.well-known/agent-card.json
 - OAuth protected resource metadata: https://ydb-qdrant.tech/.well-known/oauth-protected-resource
-- OAuth authorization server metadata: https://ydb-qdrant.tech/.well-known/oauth-authorization-server
 - Pricing: https://ydb-qdrant.tech/pricing/
 - Webhooks and events: https://ydb-qdrant.tech/docs/webhooks/
 - MCP discovery page: https://ydb-qdrant.tech/docs/mcp/

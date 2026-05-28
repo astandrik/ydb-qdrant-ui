@@ -62,11 +62,6 @@
           "href": "https://ydb-qdrant.tech/.well-known/oauth-protected-resource",
           "type": "application/json",
           "title": "YDB-Qdrant OAuth protected resource metadata"
-        },
-        {
-          "href": "https://ydb-qdrant.tech/.well-known/oauth-authorization-server",
-          "type": "application/json",
-          "title": "YDB-Qdrant OAuth authorization server metadata"
         }
       ],
       "service-desc": [
@@ -88,10 +83,6 @@
         },
         {
           "href": "https://ydb-qdrant.tech/.well-known/oauth-protected-resource",
-          "type": "application/json"
-        },
-        {
-          "href": "https://ydb-qdrant.tech/.well-known/oauth-authorization-server",
           "type": "application/json"
         }
       ],

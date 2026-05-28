@@ -94,12 +94,6 @@ export default function DevelopersPage() {
             <a href="/.well-known/oauth-protected-resource" key="oauth-resource">
               OAuth protected resource metadata
             </a>,
-            <a
-              href="/.well-known/oauth-authorization-server"
-              key="oauth-authorization-server"
-            >
-              OAuth authorization server metadata
-            </a>,
             <a href="/.well-known/mcp/server-card.json" key="mcp-card">
               MCP server card
             </a>,

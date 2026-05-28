@@ -42,7 +42,6 @@ export default function robots(): MetadataRoute.Robots {
         "/.well-known/agent-skills/ydb-qdrant/SKILL.md",
         "/.well-known/api-catalog",
         "/.well-known/oauth-protected-resource",
-        "/.well-known/oauth-authorization-server",
         "/.well-known/mcp.json",
         "/.well-known/mcp/server-card.json",
       ],

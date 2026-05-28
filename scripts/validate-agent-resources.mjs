@@ -31,7 +31,6 @@ const requiredFiles = [
   "public/.well-known/agent-card.json",
   "public/.well-known/api-catalog",
   "public/.well-known/oauth-protected-resource",
-  "public/.well-known/oauth-authorization-server",
   "public/.well-known/mcp/server-card.json",
   "public/.well-known/mcp.json",
   "public/auth.md",
@@ -87,6 +86,11 @@ const requiredFiles = [
 for (const file of requiredFiles) {
   assertFile(file);
 }
+
+assert(
+  !existsSync(resolveRoot("public/.well-known/oauth-authorization-server")),
+  "OAuth authorization server metadata must not be published until a real REST OAuth authorization server exists",
+);
 
 const appDirectoryEntries = readdirSync(resolveRoot("src/app"), {
   withFileTypes: true,
@@ -395,9 +399,12 @@ assert(
 
 const protectedResource = readJson("public/.well-known/oauth-protected-resource");
 assert(
-  protectedResource.resource === "https://ydb-qdrant.tech/" &&
-    protectedResource.authorization_servers?.includes("https://ydb-qdrant.tech"),
+  protectedResource.resource === "https://ydb-qdrant.tech/",
   "OAuth protected resource metadata must describe the public REST resource",
+);
+assert(
+  !Object.hasOwn(protectedResource, "authorization_servers"),
+  "OAuth protected resource metadata must not advertise OAuth authorization servers for api-key REST auth",
 );
 assert(
   !Object.hasOwn(protectedResource, "bearer_methods_supported"),
@@ -411,32 +418,6 @@ assert(
   !Object.hasOwn(protectedResource, "agent_auth"),
   "OAuth protected resource metadata must not advertise unsupported agent_auth endpoints",
 );
-
-const authorizationServer = readJson(
-  "public/.well-known/oauth-authorization-server",
-);
-assert(
-  authorizationServer.issuer === "https://ydb-qdrant.tech" &&
-    authorizationServer.protected_resources?.includes("https://ydb-qdrant.tech/") &&
-    authorizationServer.service_documentation ===
-      "https://ydb-qdrant.tech/docs/auth/",
-  "OAuth authorization server metadata must cross-link the REST resource and auth docs",
-);
-assert(
-  !Object.hasOwn(authorizationServer, "agent_auth"),
-  "OAuth authorization server metadata must not advertise unsupported agent_auth endpoints",
-);
-for (const unsupportedField of [
-  "scopes_supported",
-  "response_types_supported",
-  "grant_types_supported",
-  "token_endpoint_auth_methods_supported",
-]) {
-  assert(
-    !Object.hasOwn(authorizationServer, unsupportedField),
-    `OAuth authorization server metadata must not advertise unsupported ${unsupportedField}`,
-  );
-}
 
 const apiCatalog = readJson("public/.well-known/api-catalog");
 assert(
@@ -511,7 +492,7 @@ const lowercaseAgentsRoute = readFileSync(
 const skillsScript = readFileSync(resolveRoot("public/skills.sh"), "utf8");
 assert(
   rootAgentsMd.includes(
-    "/.well-known/oauth-protected-resource` and `/.well-known/oauth-authorization-server` should be served as `application/json`",
+    "/.well-known/oauth-protected-resource` should be served as `application/json`",
   ),
   "Root AGENTS.md must document JSON content type for extensionless OAuth metadata",
 );
@@ -588,7 +569,6 @@ for (const expected of [
   "https://ydb-qdrant.tech/.well-known/agent-skills/ydb-qdrant/SKILL.md",
   "https://ydb-qdrant.tech/.well-known/agent-card.json",
   "https://ydb-qdrant.tech/.well-known/oauth-protected-resource",
-  "https://ydb-qdrant.tech/.well-known/oauth-authorization-server",
   "https://ydb-qdrant.tech/compare/databricks-vector-search/",
   "https://ydb-qdrant.tech/compare/azure-ai-search/",
   "https://ydb-qdrant.tech/compare/elasticsearch/",

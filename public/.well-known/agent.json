@@ -52,7 +52,6 @@
   "llms_full": "https://ydb-qdrant.tech/llms-full.txt",
   "auth": "https://ydb-qdrant.tech/docs/auth/",
   "oauth_protected_resource": "https://ydb-qdrant.tech/.well-known/oauth-protected-resource",
-  "oauth_authorization_server": "https://ydb-qdrant.tech/.well-known/oauth-authorization-server",
   "pricing": "https://ydb-qdrant.tech/pricing/",
   "support": "https://ydb-qdrant.tech/code-indexer/support/",
   "repository": "https://github.com/astandrik/ydb-qdrant",
@@ -239,10 +238,6 @@
     {
       "name": "OAuth protected resource metadata",
       "url": "https://ydb-qdrant.tech/.well-known/oauth-protected-resource"
-    },
-    {
-      "name": "OAuth authorization server metadata",
-      "url": "https://ydb-qdrant.tech/.well-known/oauth-authorization-server"
     },
     {
       "name": "Pricing",

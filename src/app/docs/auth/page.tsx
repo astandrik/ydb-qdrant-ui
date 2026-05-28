@@ -93,15 +93,13 @@ export default function AuthDocsPage() {
             <>
               <p>
                 Agents can discover the current auth contract through OAuth
-                protected-resource and authorization-server metadata. These
-                files document the existing REST <code>api-key</code> namespace
-                model and Code Indexer bearer-token model. They omit{" "}
+                protected-resource metadata. This file documents the existing
+                REST <code>api-key</code> namespace model. It intentionally
+                omits <code>authorization_servers</code> and{" "}
                 <code>scopes_supported</code> because the REST backend does not
-                enforce OAuth scopes, and they do not advertise unsupported{" "}
-                <code>/agent/auth</code> registration endpoints.
+                accept OAuth access tokens or enforce OAuth scopes.
               </p>
-              <pre>{`/.well-known/oauth-protected-resource
-/.well-known/oauth-authorization-server`}</pre>
+              <pre>{`/.well-known/oauth-protected-resource`}</pre>
             </>
           ),
           items: [
@@ -111,13 +109,7 @@ export default function AuthDocsPage() {
             >
               OAuth protected resource metadata
             </a>,
-            <a
-              href="/.well-known/oauth-authorization-server"
-              key="oauth-authorization-server"
-            >
-              OAuth authorization server metadata
-            </a>,
-            "The metadata is descriptive for agent discovery; root REST calls still send api-key rather than OAuth bearer access tokens.",
+            "Root REST calls still send api-key rather than OAuth bearer access tokens.",
           ],
         },
         {

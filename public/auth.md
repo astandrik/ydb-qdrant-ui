@@ -27,12 +27,11 @@ Current REST deployment treats the `api-key` as the namespace boundary. It does 
 
 ## Agent auth discovery metadata
 
-Agents can discover the current auth contract through:
+Agents can discover the current REST auth contract through:
 
 - `https://ydb-qdrant.tech/.well-known/oauth-protected-resource`
-- `https://ydb-qdrant.tech/.well-known/oauth-authorization-server`
 
-These files describe the existing REST `api-key` namespace model and the Code Indexer bearer-token model. They intentionally omit `scopes_supported` because the REST backend does not enforce OAuth scopes. They do not advertise WorkOS-style `agent_auth.register_uri` endpoints because `/agent/auth` runtime registration is not implemented.
+This file describes the existing REST `api-key` namespace model. It intentionally omits `authorization_servers` and `scopes_supported` because the REST backend does not accept OAuth access tokens or enforce OAuth scopes. It does not advertise WorkOS-style `agent_auth.register_uri` endpoints because `/agent/auth` runtime registration is not implemented.
 
 ## Code Indexer MCP
 
