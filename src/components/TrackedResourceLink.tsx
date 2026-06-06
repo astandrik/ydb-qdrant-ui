@@ -18,11 +18,15 @@ export function TrackedResourceLink({
   page,
   source,
 }: TrackedResourceLinkProps) {
+  const accessibleLabel = `${label} (opens in a new tab)`;
+
   return (
     <a
+      aria-label={accessibleLabel}
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      title={accessibleLabel}
       onClick={() =>
         trackGoal("source_link_click", {
           href,
