@@ -29,6 +29,7 @@ YDB-Qdrant is a Qdrant-compatible vector search API and Node.js library backed b
 - [MCP discovery page](https://ydb-qdrant.tech/docs/mcp/)
 - [Webhooks and events](https://ydb-qdrant.tech/docs/webhooks/)
 - [Architecture diagrams](https://ydb-qdrant.tech/docs/)
+- [Best repository memory for coding agents](https://ydb-qdrant.tech/guides/best-repository-memory-for-coding-agents/)
 - [GitHub source](https://github.com/astandrik/ydb-qdrant)
 - [npm package](https://www.npmjs.com/package/ydb-qdrant)
 
@@ -131,8 +132,16 @@ MCP auth:
 - [YDB-Qdrant vs Typesense](https://ydb-qdrant.tech/compare/typesense/)
 - [Semantic search on YDB guide](https://ydb-qdrant.tech/guides/semantic-search-ydb/)
 - [Best vector search for YDB-backed apps](https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/)
+- [Best repository memory for coding agents](https://ydb-qdrant.tech/guides/best-repository-memory-for-coding-agents/)
 - [Vector database API for semantic search](https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/)
 - [Vector search API for semantic similarity and embeddings](https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/)
+
+Markdown mirrors for high-citation comparison and guide content:
+
+- [YDB-Qdrant vs standalone Qdrant markdown](https://ydb-qdrant.tech/compare/qdrant.md)
+- [Vector search platform comparison markdown](https://ydb-qdrant.tech/compare/vector-search-platforms.md)
+- [Best vector search for YDB-backed apps markdown](https://ydb-qdrant.tech/guides/best-vector-search-for-ydb.md)
+- [Best repository memory for coding agents markdown](https://ydb-qdrant.tech/guides/best-repository-memory-for-coding-agents.md)
 
 ## Pricing summary
 

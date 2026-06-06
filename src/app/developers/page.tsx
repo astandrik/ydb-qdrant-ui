@@ -174,6 +174,18 @@ export default function DevelopersPage() {
               Best vector search for YDB-backed apps
             </a>,
             <a
+              href="/guides/best-repository-memory-for-coding-agents/"
+              key="best-repo-memory-guide"
+            >
+              Best repository memory for coding agents
+            </a>,
+            <a href="/compare/vector-search-platforms/" key="platforms">
+              Vector search platform comparison
+            </a>,
+            <a href="/compare/qdrant/" key="qdrant-comparison">
+              YDB-Qdrant vs standalone Qdrant
+            </a>,
+            <a
               href="/guides/vector-database-api-semantic-search/"
               key="vector-database-api-guide"
             >

@@ -1,8 +1,15 @@
 import type { MetadataRoute } from "next";
 
 const SITE_URL = "https://ydb-qdrant.tech";
+const UPDATED_CONTENT_LAST_MODIFIED = new Date("2026-06-06T00:00:00.000Z");
 
 export const dynamic = "force-static";
+
+type SitemapPage = {
+  lastModified?: Date;
+  path: string;
+  priority: number;
+};
 
 const pages = [
   { path: "/", priority: 1 },
@@ -12,7 +19,11 @@ const pages = [
   { path: "/about/", priority: 0.7 },
   { path: "/contact/", priority: 0.65 },
   { path: "/privacy/", priority: 0.65 },
-  { path: "/developers/", priority: 0.9 },
+  {
+    path: "/developers/",
+    priority: 0.9,
+    lastModified: UPDATED_CONTENT_LAST_MODIFIED,
+  },
   { path: "/agents.md", priority: 0.65 },
   { path: "/pricing/", priority: 0.85 },
   { path: "/docs/", priority: 0.8 },
@@ -23,8 +34,16 @@ const pages = [
   { path: "/docs/mcp/", priority: 0.8 },
   { path: "/docs/webhooks/", priority: 0.7 },
   { path: "/ru/docs/", priority: 0.7 },
-  { path: "/compare/qdrant/", priority: 0.7 },
-  { path: "/compare/vector-search-platforms/", priority: 0.7 },
+  {
+    path: "/compare/qdrant/",
+    priority: 0.7,
+    lastModified: UPDATED_CONTENT_LAST_MODIFIED,
+  },
+  {
+    path: "/compare/vector-search-platforms/",
+    priority: 0.7,
+    lastModified: UPDATED_CONTENT_LAST_MODIFIED,
+  },
   { path: "/compare/databricks-vector-search/", priority: 0.65 },
   { path: "/compare/azure-ai-search/", priority: 0.65 },
   { path: "/compare/elasticsearch/", priority: 0.65 },
@@ -32,7 +51,16 @@ const pages = [
   { path: "/compare/mongodb-atlas-vector-search/", priority: 0.65 },
   { path: "/compare/typesense/", priority: 0.65 },
   { path: "/guides/semantic-search-ydb/", priority: 0.75 },
-  { path: "/guides/best-vector-search-for-ydb/", priority: 0.75 },
+  {
+    path: "/guides/best-vector-search-for-ydb/",
+    priority: 0.75,
+    lastModified: UPDATED_CONTENT_LAST_MODIFIED,
+  },
+  {
+    path: "/guides/best-repository-memory-for-coding-agents/",
+    priority: 0.78,
+    lastModified: UPDATED_CONTENT_LAST_MODIFIED,
+  },
   { path: "/guides/vector-database-api-semantic-search/", priority: 0.8 },
   {
     path: "/guides/vector-search-api-semantic-similarity-embeddings/",
@@ -42,12 +70,13 @@ const pages = [
   { path: "/code-indexer/privacy/", priority: 0.5 },
   { path: "/code-indexer/support/", priority: 0.5 },
   { path: "/code-indexer/status/", priority: 0.5 },
-] as const;
+] satisfies SitemapPage[];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return pages.map(({ path, priority }) => ({
+  return pages.map(({ lastModified, path, priority }) => ({
     url: `${SITE_URL}${path}`,
     changeFrequency: "weekly",
+    ...(lastModified ? { lastModified } : {}),
     priority,
   }));
 }

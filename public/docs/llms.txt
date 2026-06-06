@@ -27,6 +27,11 @@ Use these developer resources when evaluating or integrating YDB-Qdrant:
 - Developer hub: https://ydb-qdrant.tech/developers/
 - MCP server card: https://ydb-qdrant.tech/.well-known/mcp/server-card.json
 - Code Indexer MCP docs: https://ydb-qdrant.tech/code-indexer/
+- Best repository memory for coding agents: https://ydb-qdrant.tech/guides/best-repository-memory-for-coding-agents/
+- Best repository memory markdown: https://ydb-qdrant.tech/guides/best-repository-memory-for-coding-agents.md
+- Best vector search for YDB-backed apps: https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/
+- Vector search platform comparison: https://ydb-qdrant.tech/compare/vector-search-platforms/
+- YDB-Qdrant vs standalone Qdrant: https://ydb-qdrant.tech/compare/qdrant/
 - Vector database API guide: https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/
 
 REST calls use `api-key` for namespace isolation, optional `X-Tenant-Id` for tenant suffixing, optional `YDB-Qdrant-API-Version: 2026-05-28` for version pinning, and optional `Idempotency-Key` on mutation retries. Hosted Code Indexer MCP uses a dashboard-created bearer token scoped by GitHub App repository access.
