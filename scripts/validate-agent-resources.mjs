@@ -781,6 +781,8 @@ for (const expected of [
   assert(llms.includes(expected), `llms.txt missing ${expected}`);
 }
 
+const visibleFreshnessPattern = /^Last updated: [A-Z][a-z]+ \d{1,2}, \d{4}$/m;
+
 for (const [relativePath, expectedMarkers] of [
   [
     "public/guides/best-vector-search-for-ydb.md",
@@ -804,7 +806,7 @@ for (const [relativePath, expectedMarkers] of [
     assert(content.includes(marker), `${relativePath} missing ${marker}`);
   }
   assert(
-    content.includes("Last updated: June 6, 2026"),
+    visibleFreshnessPattern.test(content),
     `${relativePath} must include visible freshness`,
   );
 }

@@ -108,8 +108,17 @@ export default function BestRepositoryMemoryForCodingAgentsPage() {
             items: [
               "A GitHub App is installed for selected repositories, so repository access follows the installation and repository selection.",
               "The hosted service indexes code chunks, embeddings, GitHub metadata, and search payloads into YDB-backed Qdrant-compatible storage.",
-              "Coding agents call `https://code-indexer.ydb-qdrant.tech/mcp` with a dashboard-created Bearer token.",
-              "The MCP tool surface is read-only repository memory: `list_repositories`, `list_repository_indexes`, and `search_code`.",
+              <span key="mcp-endpoint">
+                Coding agents call{" "}
+                <code>https://code-indexer.ydb-qdrant.tech/mcp</code> with a
+                dashboard-created Bearer token.
+              </span>,
+              <span key="mcp-tools">
+                The MCP tool surface is read-only repository memory:{" "}
+                <code>list_repositories</code>,{" "}
+                <code>list_repository_indexes</code>, and{" "}
+                <code>search_code</code>.
+              </span>,
               "MCP tokens are shown once, stored as hashes, and revocable from the dashboard.",
             ],
           },
@@ -197,7 +206,11 @@ export default function BestRepositoryMemoryForCodingAgentsPage() {
 }`}</pre>
             ),
             items: [
-              "Ask the coding agent to list repositories, inspect repository indexes, and call `search_code` before answering repository-specific questions.",
+              <span key="agent-search-code">
+                Ask the coding agent to list repositories, inspect repository
+                indexes, and call <code>search_code</code> before answering
+                repository-specific questions.
+              </span>,
               "Keep root-product vector operations on the YDB-Qdrant REST API; do not treat the root vector product as a hosted MCP vector mutation server.",
             ],
           },
