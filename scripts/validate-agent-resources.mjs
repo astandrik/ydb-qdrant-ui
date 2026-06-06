@@ -708,8 +708,11 @@ const trackedLink = readFileSync(
   "utf8",
 );
 assert(
-  trackedLink.includes('"use client"') && trackedLink.includes("source_link_click"),
-  "TrackedResourceLink must track source link clicks on the client",
+  trackedLink.includes('"use client"') &&
+    trackedLink.includes("source_link_click") &&
+    trackedLink.includes("resolvedLabel") &&
+    trackedLink.includes("typeof children === \"string\""),
+  "TrackedResourceLink must track source link clicks on the client using visible text when available",
 );
 const ciWorkflow = readFileSync(resolveRoot(".github/workflows/ci.yml"), "utf8");
 assert(

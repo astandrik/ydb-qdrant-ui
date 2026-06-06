@@ -18,7 +18,12 @@ export function TrackedResourceLink({
   page,
   source,
 }: TrackedResourceLinkProps) {
-  const accessibleLabel = `${label} (opens in a new tab)`;
+  const textChildren =
+    typeof children === "string" || typeof children === "number"
+      ? String(children).trim()
+      : "";
+  const resolvedLabel = textChildren || label;
+  const accessibleLabel = `${resolvedLabel} (opens in a new tab)`;
 
   return (
     <a
@@ -30,7 +35,7 @@ export function TrackedResourceLink({
       onClick={() =>
         trackGoal("source_link_click", {
           href,
-          label,
+          label: resolvedLabel,
           page,
           source,
         })
