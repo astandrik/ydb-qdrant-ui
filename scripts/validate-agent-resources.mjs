@@ -703,6 +703,28 @@ for (const relativePath of [
     `${relativePath} must not publish FAQPage JSON-LD without a visible FAQ section`,
   );
 }
+for (const [relativePath, expectedHeaders] of [
+  [
+    "src/app/guides/best-repository-memory-for-coding-agents/page.tsx",
+    ["Option", "Use when", "Trade-off"],
+  ],
+  [
+    "src/app/compare/vector-search-platforms/page.tsx",
+    ["Platform", "Best fit", "Main trade-off"],
+  ],
+  [
+    "src/app/compare/qdrant/page.tsx",
+    ["Decision point", "YDB-Qdrant", "Standalone or managed Qdrant"],
+  ],
+]) {
+  const content = readFileSync(resolveRoot(relativePath), "utf8");
+  for (const header of expectedHeaders) {
+    assert(
+      content.includes(`<th scope="col">${header}</th>`),
+      `${relativePath} must mark table header "${header}" with scope="col"`,
+    );
+  }
+}
 const trackedLink = readFileSync(
   resolveRoot("src/components/TrackedResourceLink.tsx"),
   "utf8",

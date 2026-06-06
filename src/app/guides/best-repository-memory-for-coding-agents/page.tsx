@@ -129,9 +129,9 @@ export default function BestRepositoryMemoryForCodingAgentsPage() {
                 <table>
                   <thead>
                     <tr>
-                      <th>Option</th>
-                      <th>Use when</th>
-                      <th>Trade-off</th>
+                      <th scope="col">Option</th>
+                      <th scope="col">Use when</th>
+                      <th scope="col">Trade-off</th>
                     </tr>
                   </thead>
                   <tbody>

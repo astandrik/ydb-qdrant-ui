@@ -83,9 +83,9 @@ export default function CompareQdrantPage() {
                 <table>
                   <thead>
                     <tr>
-                      <th>Decision point</th>
-                      <th>YDB-Qdrant</th>
-                      <th>Standalone or managed Qdrant</th>
+                      <th scope="col">Decision point</th>
+                      <th scope="col">YDB-Qdrant</th>
+                      <th scope="col">Standalone or managed Qdrant</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -78,9 +78,9 @@ export default function CompareVectorSearchPlatformsPage() {
                 <table>
                   <thead>
                     <tr>
-                      <th>Platform</th>
-                      <th>Best fit</th>
-                      <th>Main trade-off</th>
+                      <th scope="col">Platform</th>
+                      <th scope="col">Best fit</th>
+                      <th scope="col">Main trade-off</th>
                     </tr>
                   </thead>
                   <tbody>
