@@ -11,6 +11,7 @@ type Action = {
 export type AgentResourceSection = {
   body?: ReactNode;
   items?: ReactNode[];
+  listType?: "ordered" | "unordered";
   title: string;
 };
 
@@ -21,6 +22,7 @@ type AgentResourcePageProps = {
   lead: ReactNode;
   sections: AgentResourceSection[];
   title: string;
+  updatedAt?: string;
 };
 
 export function AgentResourcePage({
@@ -30,12 +32,16 @@ export function AgentResourcePage({
   lead,
   sections,
   title,
+  updatedAt,
 }: AgentResourcePageProps) {
   return (
     <main className="agent-resource">
       <section className="agent-resource__hero">
         <p className="agent-resource__eyebrow">{eyebrow}</p>
         <h1>{title}</h1>
+        {updatedAt && (
+          <p className="agent-resource__updated">Last updated: {updatedAt}</p>
+        )}
         <div className="agent-resource__lead">{lead}</div>
         {actions.length > 0 && (
           <div className="agent-resource__actions">
@@ -67,13 +73,20 @@ export function AgentResourcePage({
           {section.body && (
             <div className="agent-resource__body">{section.body}</div>
           )}
-          {section.items && (
-            <ul>
-              {section.items.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
-          )}
+          {section.items &&
+            (section.listType === "ordered" ? (
+              <ol>
+                {section.items.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ol>
+            ) : (
+              <ul>
+                {section.items.map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            ))}
         </section>
       ))}
     </main>

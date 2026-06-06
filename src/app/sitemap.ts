@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 const SITE_URL = "https://ydb-qdrant.tech";
+const CONTENT_LAST_MODIFIED = new Date("2026-06-06T00:00:00.000Z");
 
 export const dynamic = "force-static";
 
@@ -33,6 +34,7 @@ const pages = [
   { path: "/compare/typesense/", priority: 0.65 },
   { path: "/guides/semantic-search-ydb/", priority: 0.75 },
   { path: "/guides/best-vector-search-for-ydb/", priority: 0.75 },
+  { path: "/guides/best-repository-memory-for-coding-agents/", priority: 0.78 },
   { path: "/guides/vector-database-api-semantic-search/", priority: 0.8 },
   {
     path: "/guides/vector-search-api-semantic-similarity-embeddings/",
@@ -48,6 +50,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return pages.map(({ path, priority }) => ({
     url: `${SITE_URL}${path}`,
     changeFrequency: "weekly",
+    lastModified: CONTENT_LAST_MODIFIED,
     priority,
   }));
 }

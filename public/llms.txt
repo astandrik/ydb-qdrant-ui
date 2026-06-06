@@ -55,6 +55,7 @@ YDB-Qdrant is a Qdrant-compatible vector search API built on top of YDB. It can 
 - [Markdown OpenAPI page](https://ydb-qdrant.tech/docs/openapi.md)
 - [Markdown agent instructions](https://ydb-qdrant.tech/docs/agents.md)
 - [Markdown MCP page](https://ydb-qdrant.tech/docs/mcp.md)
+- [Best repository memory guide markdown](https://ydb-qdrant.tech/guides/best-repository-memory-for-coding-agents.md)
 - [Sitemap](https://ydb-qdrant.tech/sitemap.xml)
 - [Robots policy](https://ydb-qdrant.tech/robots.txt)
 - [GitHub repository](https://github.com/astandrik/ydb-qdrant)
@@ -111,6 +112,7 @@ YDB Qdrant Code Indexer is a hosted GitHub App for coding agents. It indexes sel
 - [YDB-Qdrant vs Typesense](https://ydb-qdrant.tech/compare/typesense/)
 - [Semantic search on YDB with YDB-Qdrant](https://ydb-qdrant.tech/guides/semantic-search-ydb/)
 - [Best vector search for YDB-backed apps](https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/)
+- [Best repository memory for coding agents](https://ydb-qdrant.tech/guides/best-repository-memory-for-coding-agents/)
 - [Vector database API for semantic search](https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/)
 - [Vector search API for semantic similarity and embeddings](https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/)
 

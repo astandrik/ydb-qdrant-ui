@@ -71,6 +71,12 @@
     }
   }
 
+  &__updated {
+    margin-bottom: var(--spacing-lg);
+    color: rgba(255, 255, 255, 0.54);
+    font-size: 13px;
+  }
+
   &__actions {
     display: flex;
     flex-wrap: wrap;
@@ -114,6 +120,33 @@
       font-size: 12px;
       line-height: 1.6;
     }
+  }
+
+  &__table-wrap {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  th,
+  td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    color: #e9f7ff;
+    font-weight: 600;
   }
 
   &__panel-grid {

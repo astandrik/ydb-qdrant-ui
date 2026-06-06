@@ -31,6 +31,10 @@
 - GitHub repository: https://github.com/astandrik/ydb-qdrant
 - npm package: https://www.npmjs.com/package/ydb-qdrant
 - Best vector search for YDB-backed apps: https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/
+- Best repository memory for coding agents: https://ydb-qdrant.tech/guides/best-repository-memory-for-coding-agents/
+- Best repository memory markdown: https://ydb-qdrant.tech/guides/best-repository-memory-for-coding-agents.md
+- Vector search platform comparison: https://ydb-qdrant.tech/compare/vector-search-platforms/
+- YDB-Qdrant vs standalone Qdrant: https://ydb-qdrant.tech/compare/qdrant/
 - Vector database API for semantic search: https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/
 - Vector search API for semantic similarity and embeddings: https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/
 - YDB-Qdrant vs MongoDB Atlas Vector Search: https://ydb-qdrant.tech/compare/mongodb-atlas-vector-search/

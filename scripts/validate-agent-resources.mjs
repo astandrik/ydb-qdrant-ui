@@ -77,6 +77,7 @@ const requiredFiles = [
   "public/compare/typesense.md",
   "public/guides/semantic-search-ydb.md",
   "public/guides/best-vector-search-for-ydb.md",
+  "public/guides/best-repository-memory-for-coding-agents.md",
   "public/guides/vector-database-api-semantic-search.md",
   "public/guides/vector-search-api-semantic-similarity-embeddings.md",
   "public/.well-known/agent-instructions.md",
@@ -108,6 +109,7 @@ const requiredFiles = [
   "src/app/compare/typesense/page.tsx",
   "src/app/guides/semantic-search-ydb/page.tsx",
   "src/app/guides/best-vector-search-for-ydb/page.tsx",
+  "src/app/guides/best-repository-memory-for-coding-agents/page.tsx",
   "src/app/guides/vector-database-api-semantic-search/page.tsx",
   "src/app/guides/vector-search-api-semantic-similarity-embeddings/page.tsx",
 ];
@@ -563,8 +565,13 @@ const lowercaseAgentsRoute = readFileSync(
 );
 const skillsScript = readFileSync(resolveRoot("public/skills.sh"), "utf8");
 const robotsRoute = readFileSync(resolveRoot("src/app/robots.ts"), "utf8");
+const sitemapRoute = readFileSync(resolveRoot("src/app/sitemap.ts"), "utf8");
 const agentModeData = readFileSync(resolveRoot("src/shared/agentModeData.ts"), "utf8");
 const agentModePage = readFileSync(resolveRoot("src/app/agent/page.tsx"), "utf8");
+const agentResourcePage = readFileSync(
+  resolveRoot("src/components/AgentResourcePage/AgentResourcePage.tsx"),
+  "utf8",
+);
 const developersPage = readFileSync(resolveRoot("src/app/developers/page.tsx"), "utf8");
 const docsAgentsPage = readFileSync(resolveRoot("src/app/docs/agents/page.tsx"), "utf8");
 const docsAgentsMarkdown = readFileSync(resolveRoot("public/docs/agents.md"), "utf8");
@@ -608,6 +615,16 @@ assert(
   "robots.ts must explicitly differentiate AI search agents and training crawlers",
 );
 assert(
+  robotsRoute.includes("/guides/best-repository-memory-for-coding-agents/") &&
+    robotsRoute.includes("/guides/best-repository-memory-for-coding-agents.md"),
+  "robots.ts must allow the repository memory guide and markdown mirror",
+);
+assert(
+  sitemapRoute.includes("/guides/best-repository-memory-for-coding-agents/") &&
+    sitemapRoute.includes("lastModified"),
+  "sitemap.ts must list the repository memory guide and publish lastModified values",
+);
+assert(
   agentModeData.includes("YDB-Qdrant Agent Mode") &&
     agentModeData.includes("YDB-Qdrant-API-Version") &&
     agentModeData.includes("https://ydb-qdrant.tech/openapi.json") &&
@@ -618,6 +635,10 @@ assert(
   !agentModePage.includes("/?mode=agent") &&
     !developersPage.includes("/?mode=agent"),
   "Tracked UI must advertise /agent/ as the canonical static agent mode URL",
+);
+assert(
+  agentResourcePage.includes("updatedAt") && agentResourcePage.includes("Last updated:"),
+  "AgentResourcePage must support visible freshness metadata",
 );
 assert(
   !agentModePage.includes("human-readable companion") &&
@@ -663,6 +684,32 @@ const semanticSimilarityGuidePage = readFileSync(
 assert(
   !semanticSimilarityGuidePage.includes('"@type": "FAQPage"'),
   "Semantic similarity guide must not publish FAQPage JSON-LD without a visible FAQ section",
+);
+for (const relativePath of [
+  "src/app/guides/best-vector-search-for-ydb/page.tsx",
+  "src/app/guides/best-repository-memory-for-coding-agents/page.tsx",
+  "src/app/compare/vector-search-platforms/page.tsx",
+  "src/app/compare/qdrant/page.tsx",
+]) {
+  const content = readFileSync(resolveRoot(relativePath), "utf8");
+  assert(
+    content.includes('"@type": "Article"') &&
+      content.includes("dateModified") &&
+      content.includes("mainEntityOfPage"),
+    `${relativePath} must publish Article JSON-LD with dateModified and mainEntityOfPage`,
+  );
+  assert(
+    !content.includes('"@type": "FAQPage"'),
+    `${relativePath} must not publish FAQPage JSON-LD without a visible FAQ section`,
+  );
+}
+const trackedLink = readFileSync(
+  resolveRoot("src/components/TrackedResourceLink.tsx"),
+  "utf8",
+);
+assert(
+  trackedLink.includes('"use client"') && trackedLink.includes("source_link_click"),
+  "TrackedResourceLink must track source link clicks on the client",
 );
 const ciWorkflow = readFileSync(resolveRoot(".github/workflows/ci.yml"), "utf8");
 assert(
@@ -727,10 +774,39 @@ for (const expected of [
   "https://ydb-qdrant.tech/compare/mongodb-atlas-vector-search/",
   "https://ydb-qdrant.tech/compare/typesense/",
   "https://ydb-qdrant.tech/guides/best-vector-search-for-ydb/",
+  "https://ydb-qdrant.tech/guides/best-repository-memory-for-coding-agents/",
   "https://ydb-qdrant.tech/guides/vector-database-api-semantic-search/",
   "https://ydb-qdrant.tech/guides/vector-search-api-semantic-similarity-embeddings/",
 ]) {
   assert(llms.includes(expected), `llms.txt missing ${expected}`);
+}
+
+for (const [relativePath, expectedMarkers] of [
+  [
+    "public/guides/best-vector-search-for-ydb.md",
+    ["YDB-Qdrant", "Qdrant", "Azure AI Search", "Elasticsearch", "Typesense"],
+  ],
+  [
+    "public/compare/vector-search-platforms.md",
+    ["YDB-Qdrant", "Databricks Vector Search", "MongoDB Atlas Vector Search"],
+  ],
+  [
+    "public/compare/qdrant.md",
+    ["exact top-k", "standalone Qdrant", "managed Qdrant"],
+  ],
+  [
+    "public/guides/best-repository-memory-for-coding-agents.md",
+    ["Code Indexer", "hosted MCP", "GitHub App", "MCP tokens"],
+  ],
+]) {
+  const content = readFileSync(resolveRoot(relativePath), "utf8");
+  for (const marker of expectedMarkers) {
+    assert(content.includes(marker), `${relativePath} missing ${marker}`);
+  }
+  assert(
+    content.includes("Last updated: June 6, 2026"),
+    `${relativePath} must include visible freshness`,
+  );
 }
 
 for (const relativePath of [
