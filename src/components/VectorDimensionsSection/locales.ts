@@ -14,6 +14,12 @@ const YANDEX_AI_STUDIO_EMBEDDINGS_DOCS_RU =
   "https://aistudio.yandex.ru/docs/ru/ai-studio/concepts/embeddings.html";
 const YANDEX_AI_STUDIO_EMBEDDINGS_V2_DOCS =
   YANDEX_AI_STUDIO_EMBEDDINGS_DOCS_RU;
+const YANDEX_AI_STUDIO_PLATFORM =
+  "https://aistudio.yandex.cloud/platform/";
+const YANDEX_AI_STUDIO_MODEL_GALLERY_EN =
+  "https://aistudio.yandex.ru/en/model-gallery";
+const YANDEX_AI_STUDIO_MODEL_GALLERY_RU =
+  "https://aistudio.yandex.ru/ru/model-gallery";
 const YANDEX_CLOUD_CONSOLE = "https://console.yandex.cloud/";
 const HUGGINGFACE_SENTENCE_TRANSFORMERS =
   "https://huggingface.co/sentence-transformers";
@@ -238,6 +244,14 @@ export const vectorDimensionsSectionEnProps: VectorDimensionsSectionBaseProps =
       {
         label: "Yandex AI Studio Text Embeddings v2 (RU docs)",
         href: YANDEX_AI_STUDIO_EMBEDDINGS_V2_DOCS,
+      },
+      {
+        label: "Open Yandex AI Studio",
+        href: YANDEX_AI_STUDIO_PLATFORM,
+      },
+      {
+        label: "Yandex AI Studio Model Gallery",
+        href: YANDEX_AI_STUDIO_MODEL_GALLERY_EN,
       },
       {
         label: "Yandex Cloud Console",
@@ -485,6 +499,14 @@ export const vectorDimensionsSectionRuProps: VectorDimensionsSectionBaseProps =
       {
         label: "Векторизация текста в Yandex AI Studio",
         href: YANDEX_AI_STUDIO_EMBEDDINGS_DOCS_RU,
+      },
+      {
+        label: "Открыть Yandex AI Studio",
+        href: YANDEX_AI_STUDIO_PLATFORM,
+      },
+      {
+        label: "Model Gallery Yandex AI Studio",
+        href: YANDEX_AI_STUDIO_MODEL_GALLERY_RU,
       },
       {
         label: "Консоль Yandex Cloud",
