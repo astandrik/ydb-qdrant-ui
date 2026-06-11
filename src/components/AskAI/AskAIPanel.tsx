@@ -107,6 +107,8 @@ function AskAIProviderIcon({ provider }: { provider: AskAIProviderId }) {
       return <SiPerplexity aria-hidden="true" size={22} />;
     case "claude":
       return <SiClaude aria-hidden="true" size={22} />;
+    case "deepseek":
+      return <DeepSeekMark aria-hidden="true" width={22} height={22} />;
     case "google-ai-mode":
       return <SiGooglegemini aria-hidden="true" size={22} />;
     case "grok":
@@ -114,6 +116,24 @@ function AskAIProviderIcon({ provider }: { provider: AskAIProviderId }) {
     default:
       return null;
   }
+}
+
+function DeepSeekMark(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" focusable="false" {...props}>
+      <path
+        d="M12 3.5c4.69 0 8.5 3.39 8.5 7.58 0 4.18-3.81 7.57-8.5 7.57-.72 0-1.43-.08-2.1-.24L5.2 20.3l1.17-3.63C4.61 15.28 3.5 13.29 3.5 11.08 3.5 6.89 7.31 3.5 12 3.5Z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+      <path
+        fill="currentColor"
+        d="M8.7 8.5h3.05c2.34 0 3.88 1.46 3.88 3.49 0 2.05-1.54 3.51-3.88 3.51H8.7v-7Zm2.05 1.73v3.54h1c1.13 0 1.82-.7 1.82-1.78 0-1.06-.69-1.76-1.82-1.76h-1Z"
+      />
+    </svg>
+  );
 }
 
 function GrokMark(props: SVGProps<SVGSVGElement>) {

@@ -2,6 +2,7 @@ export type AskAIProviderId =
   | "chatgpt"
   | "perplexity"
   | "claude"
+  | "deepseek"
   | "google-ai-mode"
   | "grok";
 
@@ -38,6 +39,12 @@ export const ASK_AI_PROVIDERS: AskAIProvider[] = [
     label: "Claude",
     tone: "coral",
     urlPrefix: "https://claude.ai/new?q=",
+  },
+  {
+    id: "deepseek",
+    label: "DeepSeek",
+    tone: "white",
+    urlPrefix: "https://chat.deepseek.com/?q=",
   },
   {
     id: "google-ai-mode",
