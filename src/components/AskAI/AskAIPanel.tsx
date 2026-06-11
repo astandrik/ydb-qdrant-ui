@@ -15,6 +15,7 @@ import { trackGoal } from "@/shared/utils/metricsManager";
 import {
   ASK_AI_PROVIDERS_BY_ID,
   buildAskAIProviderLinks,
+  type AskAIProviderLink,
   type AskAIProviderId,
 } from "@/components/AskAI/ask-ai-links";
 import "./AskAIPanel.scss";
@@ -47,15 +48,28 @@ export function AskAIPanel({
   const titleId = useId();
   const links = useMemo(() => buildAskAIProviderLinks(prompt), [prompt]);
 
-  const trackClick = useCallback((provider: AskAIProviderId) => {
+  const trackClick = useCallback((link: AskAIProviderLink) => {
     trackGoal("ask_ai_click", {
       product: productId,
       page,
-      provider,
+      provider: link.id,
       prompt_variant: promptVariant,
+      prefill_mode: link.prefillMode,
       ...(contextId ? { context_id: contextId } : {}),
     });
   }, [contextId, page, productId, promptVariant]);
+
+  const handleProviderClick = useCallback((link: AskAIProviderLink) => {
+    trackClick(link);
+
+    if (link.prefillMode !== "clipboard") {
+      return;
+    }
+
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      void navigator.clipboard.writeText(prompt).catch(() => undefined);
+    }
+  }, [prompt, trackClick]);
 
   return (
     <Card
@@ -86,7 +100,7 @@ export function AskAIPanel({
                     productName,
                   )}
                   title={link.label}
-                  onClick={() => trackClick(link.id)}
+                  onClick={() => handleProviderClick(link)}
                 >
                   <AskAIProviderIcon provider={link.id} />
                   <span className="ask-ai-panel__link-text">{link.label}</span>
