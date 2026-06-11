@@ -8,6 +8,19 @@ const GOOGLE_EMBEDDINGS_DOCS =
 const VOYAGE_EMBEDDINGS_DOCS = "https://docs.voyageai.com/docs/embeddings";
 const AMAZON_TITAN_EMBEDDINGS_DOCS =
   "https://docs.aws.amazon.com/bedrock/latest/userguide/titan-embedding-models.html";
+const YANDEX_AI_STUDIO_EMBEDDINGS_DOCS_EN =
+  "https://aistudio.yandex.ru/docs/en/ai-studio/concepts/embeddings.html";
+const YANDEX_AI_STUDIO_EMBEDDINGS_DOCS_RU =
+  "https://aistudio.yandex.ru/docs/ru/ai-studio/concepts/embeddings.html";
+const YANDEX_AI_STUDIO_EMBEDDINGS_V2_DOCS =
+  YANDEX_AI_STUDIO_EMBEDDINGS_DOCS_RU;
+const YANDEX_AI_STUDIO_PLATFORM =
+  "https://aistudio.yandex.cloud/platform/";
+const YANDEX_AI_STUDIO_MODEL_GALLERY_EN =
+  "https://aistudio.yandex.ru/en/model-gallery";
+const YANDEX_AI_STUDIO_MODEL_GALLERY_RU =
+  "https://aistudio.yandex.ru/ru/model-gallery";
+const YANDEX_CLOUD_CONSOLE = "https://console.yandex.cloud/";
 const HUGGINGFACE_SENTENCE_TRANSFORMERS =
   "https://huggingface.co/sentence-transformers";
 
@@ -95,7 +108,33 @@ export const vectorDimensionsSectionEnProps: VectorDimensionsSectionBaseProps =
         dimensions: "1024 (default), 512, 256",
         useCases: "RAG, document search, classification on Bedrock",
       },
+      {
+        provider: "Yandex Cloud AI Studio",
+        model: "Yandex Text Embeddings v2 doc / query",
+        href: YANDEX_AI_STUDIO_EMBEDDINGS_V2_DOCS,
+        dimensions: "128, 256 (default), 512, 768",
+        useCases: "Document and query embeddings for RAG and semantic search",
+      },
+      {
+        provider: "Yandex Cloud AI Studio",
+        model: "text-search-doc / text-search-query",
+        href: YANDEX_AI_STUDIO_EMBEDDINGS_DOCS_EN,
+        dimensions: "256",
+        useCases: "v1 document and short-query vectorization",
+      },
     ],
+    providerActions: {
+      "Yandex Cloud AI Studio": [
+        {
+          label: "Open AI Studio",
+          href: YANDEX_AI_STUDIO_PLATFORM,
+        },
+        {
+          label: "Model Gallery",
+          href: YANDEX_AI_STUDIO_MODEL_GALLERY_EN,
+        },
+      ],
+    },
     openSourceModelsTitle: "Open-source / Open-weight Models (Hugging Face)",
     openSourceModelsData: [
       {
@@ -215,6 +254,22 @@ export const vectorDimensionsSectionEnProps: VectorDimensionsSectionBaseProps =
         href: AMAZON_TITAN_EMBEDDINGS_DOCS,
       },
       {
+        label: "Yandex AI Studio Text Embeddings v2 (RU docs)",
+        href: YANDEX_AI_STUDIO_EMBEDDINGS_V2_DOCS,
+      },
+      {
+        label: "Open Yandex AI Studio",
+        href: YANDEX_AI_STUDIO_PLATFORM,
+      },
+      {
+        label: "Yandex AI Studio Model Gallery",
+        href: YANDEX_AI_STUDIO_MODEL_GALLERY_EN,
+      },
+      {
+        label: "Yandex Cloud Console",
+        href: YANDEX_CLOUD_CONSOLE,
+      },
+      {
         label: "Hugging Face Sentence Transformers",
         href: HUGGINGFACE_SENTENCE_TRANSFORMERS,
       },
@@ -314,7 +369,35 @@ export const vectorDimensionsSectionRuProps: VectorDimensionsSectionBaseProps =
         dimensions: "1024 (по умолчанию), 512, 256",
         useCases: "RAG, поиск по документам, классификация в Bedrock",
       },
+      {
+        provider: "Yandex Cloud AI Studio",
+        model: "Yandex Text Embeddings v2 doc / query",
+        href: YANDEX_AI_STUDIO_EMBEDDINGS_DOCS_RU,
+        dimensions: "128, 256 (по умолчанию), 512, 768",
+        useCases:
+          "Векторизация документов и поисковых запросов для RAG и семантического поиска",
+      },
+      {
+        provider: "Yandex Cloud AI Studio",
+        model: "text-search-doc / text-search-query",
+        href: YANDEX_AI_STUDIO_EMBEDDINGS_DOCS_RU,
+        dimensions: "256",
+        useCases:
+          "v1-модели для больших исходных текстов и коротких поисковых запросов",
+      },
     ],
+    providerActions: {
+      "Yandex Cloud AI Studio": [
+        {
+          label: "Открыть AI Studio",
+          href: YANDEX_AI_STUDIO_PLATFORM,
+        },
+        {
+          label: "Model Gallery",
+          href: YANDEX_AI_STUDIO_MODEL_GALLERY_RU,
+        },
+      ],
+    },
     openSourceModelsTitle: "Open-source / open-weight модели (Hugging Face)",
     openSourceModelsData: [
       {
@@ -436,6 +519,22 @@ export const vectorDimensionsSectionRuProps: VectorDimensionsSectionBaseProps =
       {
         label: "Amazon Titan Text Embeddings",
         href: AMAZON_TITAN_EMBEDDINGS_DOCS,
+      },
+      {
+        label: "Векторизация текста в Yandex AI Studio",
+        href: YANDEX_AI_STUDIO_EMBEDDINGS_DOCS_RU,
+      },
+      {
+        label: "Открыть Yandex AI Studio",
+        href: YANDEX_AI_STUDIO_PLATFORM,
+      },
+      {
+        label: "Model Gallery Yandex AI Studio",
+        href: YANDEX_AI_STUDIO_MODEL_GALLERY_RU,
+      },
+      {
+        label: "Консоль Yandex Cloud",
+        href: YANDEX_CLOUD_CONSOLE,
       },
       {
         label: "Hugging Face Sentence Transformers",
