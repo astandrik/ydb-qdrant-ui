@@ -3,6 +3,30 @@
 // Block: .model-card
 // =============================================================================
 
+.vector-dimensions {
+  &__provider-group {
+    margin-bottom: 32px;
+  }
+
+  &__provider-title {
+    margin: 0 0 var(--spacing-xs);
+    color: var(--acc);
+    font-size: 16px;
+  }
+
+  &__provider-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__provider-action {
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
 .model-card {
   height: 100%;
   padding: var(--spacing-lg);

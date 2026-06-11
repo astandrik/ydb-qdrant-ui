@@ -11,17 +11,23 @@ export type ModelRow = {
   useCases: string;
 };
 
+export type VectorDimensionsLink = {
+  label: string;
+  href: string;
+};
+
 export type VectorDimensionsSectionBaseProps = {
   title: string;
   description: string;
   commercialModelsTitle: string;
   commercialModelsData: ModelRow[];
+  providerActions?: Record<string, VectorDimensionsLink[]>;
   openSourceModelsTitle: string;
   openSourceModelsData: ModelRow[];
   choosingDimensionsTitle: string;
   choosingDimensionsItems: { title: string; description: string }[];
   referencesTitle: string;
-  references: { label: string; href: string }[];
+  references: VectorDimensionsLink[];
   dimensionsLabel: string;
   useCasesLabel: string;
   anchorAriaLabel: string;
@@ -79,6 +85,7 @@ export const VectorDimensionsSectionBase = ({
   description,
   commercialModelsTitle,
   commercialModelsData,
+  providerActions = {},
   openSourceModelsTitle,
   openSourceModelsData,
   choosingDimensionsTitle,
@@ -115,24 +122,43 @@ export const VectorDimensionsSectionBase = ({
 
       <h3 style={{ marginBottom: 24 }}>{commercialModelsTitle}</h3>
       
-      {Object.entries(commercialGroups).map(([provider, models]) => (
-        <div key={provider} style={{ marginBottom: 32 }}>
-          <h4 style={{ margin: "0 0 16px", fontSize: "16px", color: "var(--acc)" }}>{provider}</h4>
-          <div className="grid" style={{ marginTop: 0 }}>
-            {models.map((item) => (
-              <ModelCard
-                key={item.model}
-                model={item.model}
-                href={item.href}
-                dimensions={item.dimensions}
-                useCases={item.useCases}
-                dimensionsLabel={dimensionsLabel}
-                useCasesLabel={useCasesLabel}
-              />
-            ))}
+      {Object.entries(commercialGroups).map(([provider, models]) => {
+        const actions = providerActions[provider] ?? [];
+
+        return (
+          <div className="vector-dimensions__provider-group" key={provider}>
+            <h4 className="vector-dimensions__provider-title">{provider}</h4>
+            {actions.length > 0 ? (
+              <div className="vector-dimensions__provider-actions">
+                {actions.map((action) => (
+                  <Link
+                    className="vector-dimensions__provider-action"
+                    href={action.href}
+                    key={action.href}
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    {action.label}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+            <div className="grid" style={{ marginTop: 0 }}>
+              {models.map((item) => (
+                <ModelCard
+                  key={item.model}
+                  model={item.model}
+                  href={item.href}
+                  dimensions={item.dimensions}
+                  useCases={item.useCases}
+                  dimensionsLabel={dimensionsLabel}
+                  useCasesLabel={useCasesLabel}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       <h3 style={{ marginBottom: 24, marginTop: 40 }}>{openSourceModelsTitle}</h3>
       <div className="grid" style={{ marginTop: 0, marginBottom: 40 }}>

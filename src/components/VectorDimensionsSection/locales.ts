@@ -123,6 +123,18 @@ export const vectorDimensionsSectionEnProps: VectorDimensionsSectionBaseProps =
         useCases: "v1 document and short-query vectorization",
       },
     ],
+    providerActions: {
+      "Yandex Cloud AI Studio": [
+        {
+          label: "Open AI Studio",
+          href: YANDEX_AI_STUDIO_PLATFORM,
+        },
+        {
+          label: "Model Gallery",
+          href: YANDEX_AI_STUDIO_MODEL_GALLERY_EN,
+        },
+      ],
+    },
     openSourceModelsTitle: "Open-source / Open-weight Models (Hugging Face)",
     openSourceModelsData: [
       {
@@ -374,6 +386,18 @@ export const vectorDimensionsSectionRuProps: VectorDimensionsSectionBaseProps =
           "v1-модели для больших исходных текстов и коротких поисковых запросов",
       },
     ],
+    providerActions: {
+      "Yandex Cloud AI Studio": [
+        {
+          label: "Открыть AI Studio",
+          href: YANDEX_AI_STUDIO_PLATFORM,
+        },
+        {
+          label: "Model Gallery",
+          href: YANDEX_AI_STUDIO_MODEL_GALLERY_RU,
+        },
+      ],
+    },
     openSourceModelsTitle: "Open-source / open-weight модели (Hugging Face)",
     openSourceModelsData: [
       {
